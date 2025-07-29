@@ -5,7 +5,7 @@ import { createBrowserRouter } from "react-router";
 import { NotFoundPage } from "@/pages/404";
 import { AuthPage } from "@/pages/auth";
 import { HomePage } from "@/pages/home";
-import { ResetPasswordPage } from "@/pages/reset-password";
+import { ResetPasswordLayout } from "@/pages/reset-password";
 
 import {
   AuthLayout,
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: AppRoute.RESET_PASSWORD,
-        element: <ResetPasswordPage />,
+        element: <ResetPasswordLayout />,
         children: [
           { path: "email", element: <EmailEntryForm /> },
           { path: "code", element: <CodeVerifyForm /> },

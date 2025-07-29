@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/sha
 import { Outlet } from "react-router";
 import { useStepMeta } from "../model/useStepMeta";
 
-export const ResetPasswordPage = () => {
+export const ResetPasswordLayout = () => {
   const { description, title } = useStepMeta();
 
   return (
