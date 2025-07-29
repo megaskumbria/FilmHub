@@ -1,17 +1,16 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui";
-import { Outlet, useMatch } from "react-router";
+import { Outlet } from "react-router";
+import { useStepMeta } from "../model/useStepMeta";
 
 export const ResetPasswordPage = () => {
-  // const { renderStep, description, title } = useResetPassword();
-  const match = useMatch("/auth/reset-password/:step");
-  const step = match?.params.step;
+  const { description, title } = useStepMeta();
 
   return (
     <div className="h-screen w-full flex items-center justify-center">
       <Card className="max-w-md w-full">
         <CardHeader>
-          <CardTitle>{step}</CardTitle>
-          <CardDescription></CardDescription>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
           <Outlet />
