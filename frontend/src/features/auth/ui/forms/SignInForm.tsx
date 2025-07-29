@@ -67,7 +67,7 @@ export function SignInForm() {
         <Separator orientation="horizontal" />
 
         <Link
-          to={"/auth/reset-password"}
+          to={"/auth/reset-password/email"}
           className="text-sm cursor-pointer text-center hover:opacity-50 transition-opacity"
         >
           Забыли пароль?

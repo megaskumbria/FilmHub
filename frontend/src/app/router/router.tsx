@@ -7,7 +7,13 @@ import { AuthPage } from "@/pages/auth";
 import { HomePage } from "@/pages/home";
 import { ResetPasswordPage } from "@/pages/reset-password";
 
-import { AuthLayout, AuthProvider } from "@/features/auth";
+import {
+  AuthLayout,
+  AuthProvider,
+  CodeVerifyForm,
+  ConfirmPasswordForm,
+  EmailEntryForm,
+} from "@/features/auth";
 import { PrivateRoute } from "./PrivateRoute";
 // import { MoviePage } from "@/pages/movie/ui/MoviePage";
 
@@ -23,6 +29,11 @@ export const router = createBrowserRouter([
       {
         path: AppRoute.RESET_PASSWORD,
         element: <ResetPasswordPage />,
+        children: [
+          { path: "email", element: <EmailEntryForm /> },
+          { path: "code", element: <CodeVerifyForm /> },
+          { path: "new-password", element: <ConfirmPasswordForm /> },
+        ],
       },
     ],
   },

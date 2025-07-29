@@ -3,14 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { codeVerifyFormSchema, type CodeVerifyFormSchema } from "../../model";
 
-interface CodeVerifyFormProps {
-  onSuccess: () => void;
-}
-
-export const CodeVerifyForm = ({ onSuccess }: CodeVerifyFormProps) => {
+export const CodeVerifyForm = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
   const form = useForm<CodeVerifyFormSchema>({
     resolver: zodResolver(codeVerifyFormSchema),
     defaultValues: {
@@ -22,7 +21,7 @@ export const CodeVerifyForm = ({ onSuccess }: CodeVerifyFormProps) => {
 
   const onSubmit = (data: CodeVerifyFormSchema) => {
     console.log(data);
-    onSuccess();
+    navigate("/auth/reset-password/new-password");
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

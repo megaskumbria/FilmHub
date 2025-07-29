@@ -2,14 +2,13 @@ import { Button, Form, FormControl, FormField, FormItem, FormMessage, Input } fr
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { confirmPasswordSchema, type ConfirmPasswordSchema } from "../../model";
 
-interface ConfirmPasswordFormProps {
-  onSuccess: () => void;
-}
-
-export const ConfirmPasswordForm = ({ onSuccess }: ConfirmPasswordFormProps) => {
+export const ConfirmPasswordForm = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
   const form = useForm<ConfirmPasswordSchema>({
     resolver: zodResolver(confirmPasswordSchema),
     defaultValues: {
@@ -20,7 +19,7 @@ export const ConfirmPasswordForm = ({ onSuccess }: ConfirmPasswordFormProps) => 
 
   const onSubmit = (data: ConfirmPasswordSchema) => {
     console.log(data);
-    onSuccess();
+    navigate("/");
   };
 
   return (

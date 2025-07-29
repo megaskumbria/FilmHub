@@ -2,14 +2,13 @@ import { Button, Form, FormControl, FormField, FormItem, FormMessage, Input } fr
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { emailEntryFormSchema, type EmailEntryFormSchema } from "../../model";
 
-interface EmailEntryFormProps {
-  onSuccess: () => void;
-}
-
-export const EmailEntryForm = ({ onSuccess }: EmailEntryFormProps) => {
+export const EmailEntryForm = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
   const form = useForm<EmailEntryFormSchema>({
     resolver: zodResolver(emailEntryFormSchema),
     defaultValues: {
@@ -19,7 +18,7 @@ export const EmailEntryForm = ({ onSuccess }: EmailEntryFormProps) => {
 
   const onSubmit = (data: EmailEntryFormSchema) => {
     console.log(data);
-    onSuccess();
+    navigate("/auth/reset-password/code");
   };
 
   return (

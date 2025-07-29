@@ -17,11 +17,11 @@ export const useResetPassword = () => {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <EmailEntryForm onSuccess={() => setStep(1)} />;
+        return <EmailEntryForm /* onSuccess={() => setStep(1)}*/ />;
       case 1:
-        return <CodeVerifyForm onSuccess={() => setStep(2)} />;
+        return <CodeVerifyForm /* onSuccess={() => setStep(2)}*/ />;
       case 2:
-        return <ConfirmPasswordForm onSuccess={() => navigate("/")} />;
+        return <ConfirmPasswordForm /* onSuccess={() => navigate("/")}*/ />;
       default:
         return null;
     }
