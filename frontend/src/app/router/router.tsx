@@ -1,10 +1,13 @@
 import { AppShell } from "@/app/AppShell";
-import { AuthLayout, AuthProvider } from "@/features/auth";
-import { NotFoundPage } from "@/pages/404";
-import { AuthPage, ResetPasswordPage } from "@/pages/auth";
-import { HomePage } from "@/pages/home";
 import { AppRoute } from "@/shared/config";
 import { createBrowserRouter } from "react-router";
+
+import { NotFoundPage } from "@/pages/404";
+import { AuthPage } from "@/pages/auth";
+import { HomePage } from "@/pages/home";
+import { ResetPasswordPage } from "@/pages/reset-password";
+
+import { AuthLayout, AuthProvider } from "@/features/auth";
 import { PrivateRoute } from "./PrivateRoute";
 // import { MoviePage } from "@/pages/movie/ui/MoviePage";
 

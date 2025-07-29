@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui";
 import { useResetPassword } from "../model/useResetPassword";
 
-export const ResetPassword = () => {
+export const ResetPasswordPage = () => {
   const { renderStep, description, title } = useResetPassword();
 
   return (
