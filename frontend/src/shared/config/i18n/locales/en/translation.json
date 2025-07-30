@@ -19,7 +19,11 @@
         "title": "Set a new password",
         "description": "Minimum 6 characters. Confirm the password."
       }
-    }
+    },
+  "action-menu": {
+    "share": "Share",
+    "edit": "Rename",
+    "delete": "Delete"
   },
   "settings": {
     "nav": {
