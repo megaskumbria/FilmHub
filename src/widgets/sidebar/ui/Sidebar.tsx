@@ -1,16 +1,21 @@
-import { useTranslation } from "react-i18next";
-import { Accordion, AccordionContent, AccordionItem, Separator } from "@/shared/ui";
+import { useTranslations } from "next-intl";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Separator,
+} from "@/shared/ui";
 
 import { ChevronDown } from "lucide-react";
 import { AddCategory } from "./AddCategory";
 import { UserCollections } from "./UserCollections";
-import { AccordionTrigger } from "@radix-ui/react-accordion";
 import { StoryLevel } from "./StoryLevel";
 
 // TODO: попытаться переделать используя Sidebar компонент из shadcn
 
 export const Sidebar = () => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <aside className="h-full flex flex-col gap-4 border-r border-r-primary py-6 px-4 max-w-[288px]">

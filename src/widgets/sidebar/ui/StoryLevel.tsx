@@ -1,10 +1,12 @@
+"use client";
+
 import { Button } from "@/shared/ui";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { flagModel, FlagBage } from "@/entities/flag";
 
 export function StoryLevel() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const flags = flagModel.getAllFlags();
 

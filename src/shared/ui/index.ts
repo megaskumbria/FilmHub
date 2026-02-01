@@ -12,3 +12,4 @@ export * from "./popover";
 export * from "./dropdown-menu";
 export * from "./dialog";
 export * from "./avatar";
+export * from "./accordion";

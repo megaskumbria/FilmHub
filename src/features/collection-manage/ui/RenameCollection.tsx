@@ -1,3 +1,4 @@
+"use client";
 import type { Collection } from "@/entities/collection/model";
 import { Form, FormControl, FormField, FormItem, FormMessage, Input } from "@/shared/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,7 +34,7 @@ export const RenameCollection = ({ col, onSuccess, renameCollection }: RenameCol
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={void form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"

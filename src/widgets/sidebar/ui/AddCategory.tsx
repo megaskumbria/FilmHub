@@ -1,9 +1,11 @@
+"use client";
+
 import { Plus } from "lucide-react";
 import { Input, Button } from "@/shared/ui";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export function AddCategory() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <div className="flex justify-between items-center gap-3">

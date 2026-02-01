@@ -1,6 +1,6 @@
 import { type Collection } from "@/entities/collection/model";
 import { ActionsMenu } from "@/features/collection-manage";
-import { NavLink } from "react-router";
+import Link from "next/link";
 
 interface NavItemProps {
   collection: Collection;
@@ -15,9 +15,9 @@ export const NavItem = ({ collection, onEdit, onDelete }: NavItemProps) => {
 
   return (
     <>
-      <NavLink to="/" title={collection.name} className="block max-w-[180px] truncate">
+      <Link href="/" title={collection.name} className="block max-w-[180px] truncate">
         {collection.name}
-      </NavLink>
+      </Link>
       <ActionsMenu onDelete={handleDelete} onEdit={onEdit} />
     </>
   );

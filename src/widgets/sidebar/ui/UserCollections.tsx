@@ -1,3 +1,5 @@
+"use client";
+
 import { collectionModel } from "@/entities/collection";
 import { type Collection } from "@/entities/collection/model";
 
@@ -7,8 +9,8 @@ import { Button } from "@/shared/ui";
 import { NavItem } from "./NavItem";
 
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export function UserCollections() {
   const { mockCollections, addCollection, removeCollection, renameCollection } = collectionModel;
@@ -18,7 +20,7 @@ export function UserCollections() {
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState(false);
 
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   // Оч не красиво, но работает
   const onAddCollection = (name: string) => {
@@ -49,10 +51,10 @@ export function UserCollections() {
       <nav>
         <ul className="flex flex-col gap-2">
           <li className="p-2 cursor-pointer text-base">
-            <NavLink to="/">{t("All movies")}</NavLink>
+            <Link href="/">{t("All movies")}</Link>
           </li>
           <li className="p-2 cursor-pointer text-base">
-            <NavLink to="/">{t("Favourites")}</NavLink>
+            <Link href="/">{t("Favourites")}</Link>
           </li>
           {collections.map((col) => (
             <li

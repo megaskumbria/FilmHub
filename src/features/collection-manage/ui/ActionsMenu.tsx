@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/ui";
 import { Edit2, MoreVerticalIcon, ShareIcon, Trash2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface ActionsMenuProps {
   onDelete: () => void;
@@ -14,7 +16,7 @@ interface ActionsMenuProps {
 }
 
 export const ActionsMenu = ({ onDelete, onEdit }: ActionsMenuProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <DropdownMenu>
