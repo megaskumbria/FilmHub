@@ -1,21 +1,23 @@
 import { Button } from "@/shared/ui";
-import { UserSettings } from "@/widgets/user-settings";
-import { Flag, Folder, User } from "lucide-react";
+import { Flag, Folder, LucideIcon, User } from "lucide-react";
 
-import { useTranslations } from "next-intl";
+interface UserActionsButton {
+  icon: LucideIcon;
+  text: string;
+}
 
-const userActionsButtons: { icon: React.ReactNode; text: string }[] = [
+const userActionsButtons: UserActionsButton[] = [
   {
-    icon: <User size={18} />,
-    text: "YourProfile",
+    icon: User,
+    text: "Статистика",
   },
   {
-    icon: <Folder size={18} />,
-    text: "YourCollections",
+    icon: Folder,
+    text: "Достижения (soon)",
   },
   {
-    icon: <Flag size={18} />,
-    text: "YourFlags",
+    icon: Flag,
+    text: "Мой профиль",
   },
   // {
   //   icon: <Settings size={18} />,
@@ -24,22 +26,16 @@ const userActionsButtons: { icon: React.ReactNode; text: string }[] = [
 ];
 
 export const UserActions = () => {
-  const t = useTranslations("UserMenu");
-
   return (
     <ul className="flex flex-col gap-2">
       {userActionsButtons.map((item, index) => (
         <li className="flex gap-1" key={index}>
-          {/* TODO: эти кнопки должны стать навигационными ссылка */}
-          <Button>
-            {item.icon}
-            <span>{t(item.text)}</span>
+          <Button className="w-full justify-start border-0 bg-transparent text-[#e5e5e5]">
+            <item.icon size={18} />
+            <span>{item.text}</span>
           </Button>
         </li>
       ))}
-      <li>
-        <UserSettings />
-      </li>
     </ul>
   );
 };

@@ -18,7 +18,12 @@ export const ThemeToggle = () => {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <Button onClick={() => setTheme(isDark ? "light" : "dark")} variant="outline" size="icon">
+    <Button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      variant="outline"
+      size="icon"
+      className="border-0 bg-[#2C2C2C] text-[#e5e5e5]"
+    >
       {isDark ?
         <Sun size={20} />
       : <Moon size={20} />}

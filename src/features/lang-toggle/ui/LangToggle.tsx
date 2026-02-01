@@ -24,7 +24,7 @@ export const LangToggle = () => {
   return (
     <Button
       onClick={handleToggleLang}
-      className="p-2.5! h-[38px] w-[38px] text-white flex items-center justify-center"
+      className="h-9 w-9 shrink-0 border-0 bg-[#2C2C2C] text-[#e5e5e5]"
     >
       {detectedLanguage}
     </Button>

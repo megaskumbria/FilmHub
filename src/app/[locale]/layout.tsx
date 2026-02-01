@@ -4,7 +4,6 @@ import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Inter } from "next/font/google";
 import { Header } from "@/widgets";
-import { SidebarProvider } from "@/shared/ui/sidebar";
 import { ThemeProvider } from "next-themes";
 
 const inter = Inter({
@@ -34,7 +33,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             disableTransitionOnChange
           >
             {/* <SidebarProvider> */}
-            <div className="min-h-dvh flex flex-col">
+            <div className="min-h-dvh flex flex-col bg-[#1A1A1A] text-[#e5e5e5]">
               <Header />
               {/* <Sidebar /> */}
 
