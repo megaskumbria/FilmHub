@@ -1,11 +1,10 @@
-import { Button } from "@/shared/ui";
 import { useTransition } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
+import { Button } from "@/shared/ui";
 
-// TODO: вынести этот компонент... куда-нибудь?
-
-export function LangToggler() {
+export const LangToggle = () => {
   const [, startTransition] = useTransition();
   const router = useRouter();
   const pathname = usePathname();
@@ -30,4 +29,4 @@ export function LangToggler() {
       {detectedLanguage}
     </Button>
   );
-}
+};

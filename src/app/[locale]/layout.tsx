@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { Inter } from "next/font/google";
 import { Header } from "@/widgets";
 import { SidebarProvider } from "@/shared/ui/sidebar";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -23,15 +24,24 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const locale = (await params).locale;
 
   return (
-    <html lang={locale} className={inter.variable}>
-      <body>
+    <html lang={locale} className={inter.variable} suppressHydrationWarning>
+      <body className="min-h-dvh bg-background text-foreground antialiased">
         <NextIntlClientProvider messages={messages}>
-          <SidebarProvider>
-            <Header />
-            {/* <Sidebar /> */}
+          <ThemeProvider
+            attribute="data-theme"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {/* <SidebarProvider> */}
+            <div className="min-h-dvh flex flex-col">
+              <Header />
+              {/* <Sidebar /> */}
 
-            {children}
-          </SidebarProvider>
+              <main className="flex-1">{children}</main>
+            </div>
+            {/* </SidebarProvider> */}
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>
