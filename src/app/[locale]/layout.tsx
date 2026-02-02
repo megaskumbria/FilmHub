@@ -4,7 +4,7 @@ import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Inter } from "next/font/google";
 import { Header } from "@/widgets";
-import { ThemeProvider } from "next-themes";
+// import { ThemeProvider } from "next-themes";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -24,23 +24,22 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
 
   return (
     <html lang={locale} className={inter.variable} suppressHydrationWarning>
-      <body className="min-h-dvh bg-background text-foreground antialiased">
+      <body>
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
+          {/* <ThemeProvider
             attribute="data-theme"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-          >
-            {/* <SidebarProvider> */}
-            <div className="min-h-dvh flex flex-col bg-[#1A1A1A] text-[#e5e5e5]">
-              <Header />
-              {/* <Sidebar /> */}
+          > */}
+          {/* <SidebarProvider> */}
+          <Header />
+          {/* <Sidebar /> */}
 
-              <main className="flex-1">{children}</main>
-            </div>
-            {/* </SidebarProvider> */}
-          </ThemeProvider>
+          {children}
+
+          {/* </SidebarProvider> */}
+          {/* </ThemeProvider> */}
         </NextIntlClientProvider>
       </body>
     </html>

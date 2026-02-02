@@ -9,10 +9,10 @@ import { Button } from "@/shared/ui";
 
 export const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#2C2C2C] bg-[#1A1A1A]">
+    <header className="sticky top-0 z-50 w-full bg-background border-b border-border">
       <div className="mx-auto flex h-14 w-full items-center justify-between gap-3 px-4">
         <nav className="flex min-w-0 items-center gap-4">
-          <Link href="/" className="shrink-0 text-base font-semibold tracking-tight text-[#e5e5e5]">
+          <Link href="/" className="shrink-0 text-base font-semibold tracking-tight text-primary">
             FilmHub
           </Link>
 
@@ -20,7 +20,7 @@ export const Header = () => {
             <li>
               <Link
                 href="/"
-                className="inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-[#a3a3a3]"
+                className="inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted-foreground"
               >
                 Главная
               </Link>
@@ -33,7 +33,7 @@ export const Header = () => {
 
           <Button
             variant="secondary"
-            className="hidden sm:inline-flex bg-[#2C2C2C] text-[#e5e5e5] border-0"
+            className="hidden sm:inline-flex bg-secondary text-secondary-foreground border-0"
           >
             <span>Мои коллекции</span>
           </Button>

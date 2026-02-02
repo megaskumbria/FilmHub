@@ -9,7 +9,7 @@ import {
   AvatarFallback,
 } from "@/shared/ui";
 import { UserActions } from "./UserActions";
-import { ThemeToggle, LangToggle } from "@/features";
+import { LangToggle } from "@/features";
 
 export const UserMenu = () => {
   return (
@@ -22,23 +22,20 @@ export const UserMenu = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        className="flex flex-col gap-2 border-[#2C2C2C] bg-[#282828] text-[#e5e5e5] shadow-none"
+        className="flex flex-col gap-2 border-border bg-card text-card-foreground shadow-none"
         align="end"
         sideOffset={5}
       >
         <section className="flex flex-col justify-start items-start">
           <div className="text-2xl font-medium">Arnold</div>
-          <div className="text-sm text-[#a3a3a3]">callme@tonight.uwu</div>
+          <div className="text-sm text-muted-foreground">callme@tonight.uwu</div>
         </section>
 
-        <div className="flex items-center gap-1">
-          <ThemeToggle />
-          <LangToggle />
-        </div>
+        <LangToggle />
 
-        <Separator decorative orientation="horizontal" className="bg-[#2C2C2C]" />
+        <Separator decorative orientation="horizontal" />
         <UserActions />
-        <Separator decorative orientation="horizontal" className="bg-[#2C2C2C]" />
+        <Separator decorative orientation="horizontal" />
       </PopoverContent>
     </Popover>
   );
