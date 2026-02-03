@@ -5,7 +5,7 @@ import { UserMenu } from "@/widgets";
 
 import Link from "next/link";
 import { Button } from "@/shared/ui";
-import { Search } from "lucide-react";
+import { SearchMovieDrawer } from "@/widgets";
 
 export const Header = () => {
   return (
@@ -26,12 +26,7 @@ export const Header = () => {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            className="size-9 border-border/80 bg-secondary/50 text-muted-foreground hover:border-accent/40 hover:bg-accent/10 transition-colors"
-          >
-            <Search className="size-4 text-primary" />
-          </Button>
+          <SearchMovieDrawer />
 
           <Button className="bg-accent hover:bg-accent/80 text-secondary-foreground border-0">
             Мои коллекции
