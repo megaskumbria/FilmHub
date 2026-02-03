@@ -14,8 +14,8 @@
     --popover: #202938;
 
     /* Primary */
-    --primary: #9b56f0;
-    --primary-foreground: #fafafa;
+    --primary: #fafafa;
+    /* --primary-foreground: #fafafa; */
     --primary-hover: #8d4ed9;
 
     /* Secondary */
@@ -63,7 +63,7 @@
   --color-popover: var(--popover);
 
   --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
+  /* --color-primary-foreground: var(--primary-foreground); */
 
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--foreground);
@@ -85,6 +85,7 @@
 @layer base {
   html {
     @apply bg-background text-foreground;
+    font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   }
 }
 

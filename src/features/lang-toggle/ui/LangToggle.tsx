@@ -1,8 +1,13 @@
+"use client";
+
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 import { Button } from "@/shared/ui";
+import { cn } from "@/lib/utils";
+
+type Lang = "Ru" | "En";
 
 export const LangToggle = () => {
   const [, startTransition] = useTransition();
@@ -10,23 +15,24 @@ export const LangToggle = () => {
   const pathname = usePathname();
   const locale = useLocale();
 
-  const detectedLanguage = locale === "ru" ? "En" : "Ru";
-
-  const handleToggleLang = () => {
-    const newLocale = detectedLanguage.toLowerCase();
-    const newPath = pathname.replace(/^\/(ru|en)/, `/${newLocale}`);
+  const switchTo = (lang: Lang) => {
+    const newPath = pathname.replace(/^\/(ru|en)/, `/${lang}`);
 
     startTransition(() => {
       router.replace(newPath);
     });
   };
 
+  const detectedLanguage = locale === "ru" ? "En" : "Ru";
+
   return (
     <Button
-      onClick={handleToggleLang}
-      className="h-9 w-9 shrink-0 border-0 bg-[#2C2C2C] text-[#e5e5e5]"
+      onClick={() => switchTo(detectedLanguage)}
+      className="h-auto font-medium text-sm transition-colors p-0 justify-start w-fit"
     >
-      {detectedLanguage}
+      <span className={cn(locale === "ru" ? "text-foreground" : "text-muted")}>RU</span>
+      <div className="mx-1 size-1 rounded-full bg-muted/50"></div>
+      <span className={cn(locale === "en" ? "text-foreground" : "text-muted")}>EN</span>
     </Button>
   );
 };

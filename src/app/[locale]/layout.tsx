@@ -2,14 +2,14 @@ import "@/app/styles/globals.css";
 import { ReactNode } from "react";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
-import { Inter } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { Header } from "@/widgets";
 // import { ThemeProvider } from "next-themes";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "700"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -23,7 +23,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const locale = (await params).locale;
 
   return (
-    <html lang={locale} className={inter.variable} suppressHydrationWarning>
+    <html lang={locale} className={manrope.variable} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider messages={messages}>
           {/* <ThemeProvider
