@@ -1,5 +1,5 @@
 import { Button } from "@/shared/ui";
-import { IMovieCardData } from "@/widgets/TEST/ui/MovieCard";
+import { IMovieCardData } from "@/shared/model/movies";
 import Image from "next/image";
 import { Plus } from "lucide-react";
 
