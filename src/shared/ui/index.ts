@@ -14,3 +14,5 @@ export * from "./dialog";
 export * from "./avatar";
 export * from "./accordion";
 export * from "./drawer";
+export * from "./select";
+export * from "./tabs";

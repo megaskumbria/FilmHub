@@ -13,10 +13,30 @@ import {
 import { mockMovies, IMovieCardData } from "@/shared/model/movies";
 import { Search } from "lucide-react";
 import { InteractiveMovieCard } from "@/widgets/interactive-movie-card";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export const SearchMovieDrawer = () => {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const navigateToMovieSearch = (e: globalThis.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      router.push("/movie-search");
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!open) return;
+
+    window.addEventListener("keydown", navigateToMovieSearch);
+
+    return () => window.removeEventListener("keydown", navigateToMovieSearch);
+  }, [open]);
+
   return (
-    <Drawer direction="top">
+    <Drawer direction="top" onOpenChange={setOpen} open={open}>
       <DrawerTrigger asChild>
         <Button
           variant="outline"
@@ -34,7 +54,10 @@ export const SearchMovieDrawer = () => {
 
         <DrawerHeader className="px-6 pb-4 pt-2 items-center">
           <div className="relative max-w-[1000px] w-full">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted" />
+            <Search
+              className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted cursor-pointer"
+              onClick={() => router.push("/movie-search")}
+            />
             <Input variant="accent" placeholder="Поиск фильмов..." className="w-full h-11 pl-10" />
           </div>
         </DrawerHeader>

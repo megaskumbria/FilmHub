@@ -47,6 +47,8 @@
     /* Extras */
     --gold: #f59e0b;
     --neutral: #1f2937;
+    --surface-elevated: #18181b;
+    --surface-subtle: #0f0f11;
 
     /* Scrollbar */
     --scrollbar: #4a3280;
@@ -82,6 +84,8 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-gold: var(--gold);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-subtle: var(--surface-subtle);
 }
 
 @layer base {

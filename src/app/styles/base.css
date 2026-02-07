@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  margin: 0;
 }
 
 h1,
@@ -27,7 +26,6 @@ ol {
   background: none;
   cursor: pointer;
 }
-
 input,
 textarea {
   border: none;

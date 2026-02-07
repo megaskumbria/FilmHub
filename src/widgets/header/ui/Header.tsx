@@ -23,6 +23,10 @@ export const Header = () => {
           <Link href="/" className="text-base font-medium text-primary">
             Главная
           </Link>
+
+          <Link href="/movie-search" className="text-base font-medium text-primary">
+            Фильмы
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">
