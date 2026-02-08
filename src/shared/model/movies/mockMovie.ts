@@ -1,75 +1,93 @@
 export interface IMovieCardData {
+  id: number;
   imgUrl: string;
   title: string;
   genres: string[];
   description: string;
   yearOfRelease: number;
   rating: number;
+  durationMinutes: number;
 }
 
 export const mockMovies: IMovieCardData[] = [
   {
+    id: 1,
     imgUrl: "/images/mock-movie-6.jpg",
     title: "Последний дом слева",
     genres: ["ужасы", "триллер"],
     description: `Семейная пара с дочерью отправляется отдохнуть в загородный дом. Их спокойные выходные превращаются в кошмар, когда дочь знакомится с парнем, члены его криминальной семьи проникают в дом, и насилие приводит к кровавой мести родителей.`,
     yearOfRelease: 2009,
     rating: 6.5,
+    durationMinutes: 110,
   },
   {
+    id: 2,
     imgUrl: "/images/mock-movie-5.webp",
     title: "Майнкрафт фильм",
     genres: ["фэнтези", "приключения"],
     description: `Группа неудачников попадает через портал в кубический мир Minecraft. Им предстоит объединиться с экпертами, включая Стива, и отправиться в эпическое приключение, чтобы спасти мир от погибели.`,
     yearOfRelease: 2025,
     rating: 7.0,
+    durationMinutes: 108,
   },
   {
+    id: 3,
     imgUrl: "/images/mock-movie-1.jpg",
     title: "Астрал",
     genres: ["ужасы", "триллер"],
     description: `Семья переезжает в новый дом, где их старший сын внезапно впадает в кому. Вскоре родители сталкиваются с паранормальными явлениями, и начинаются события, угрожающие их жизни и психике.`,
     yearOfRelease: 2010,
     rating: 6.8,
+    durationMinutes: 103,
   },
   {
+    id: 4,
     imgUrl: "/images/mock-movie-8.webp",
     title: "1 + 1",
     genres: ["драма", "комедия"],
     description: `История необычной дружбы между парализованным аристократом и его сиделкой, происходящая во Франции. Фильм о доверии, преодолении и жизни с чувством юмора.`,
     yearOfRelease: 2011,
     rating: 8.4,
+    durationMinutes: 112,
   },
   {
+    id: 5,
     imgUrl: "/images/mock-movie-4.jpg",
     title: "Властелин конец: Две крепости",
     genres: ["фэнтези", "приключения"],
     description: `Эпическая битва народов Средиземья продолжается. Фродо и Сэм преодолевают опасности Мордора, а остальные герои сражаются в густых лесах и в крепостях за судьбу мира.`,
     yearOfRelease: 2002,
     rating: 8.7,
+    durationMinutes: 179,
   },
   {
+    id: 6,
     imgUrl: "/images/mock-movie-7.webp",
     title: "Титаник",
     genres: ["мелодрама", "драма", "катастрофа", "катастрофа"],
     description: `История любви между аристократкой и бедным художником на борту "непотопляемого" лайнера, чьи мечты разбиваются в ночь судьбоносной катастрофы.`,
     yearOfRelease: 1997,
     rating: 7.8,
+    durationMinutes: 194,
   },
   {
+    id: 7,
     imgUrl: "/images/mock-movie-3.webp",
     title: "Зелёная комната",
     genres: ["триллер", "криминал"],
     description: `Панк‑группа становится свидетелем жестокого убийства в отдалённом клубе. Они заперты в "зелёной комнате" — дыни издевательств и смертельной опасности — без шанса на спасение.`,
     yearOfRelease: 2015,
     rating: 7.0,
+    durationMinutes: 95,
   },
   {
+    id: 8,
     imgUrl: "/images/mock-movie-2.webp",
     title: "Платформа",
     genres: ["фантастика", "триллер", "ужасы"],
     description: `Антиутопический фильм: заключённые живут в многоэтажной башне, где платформа с едой опускается этаж за этажом. Чем ниже уровень, тем страшнее конкуренция за пищу и выживание.`,
     yearOfRelease: 2019,
     rating: 7.9,
+    durationMinutes: 94,
   },
 ];

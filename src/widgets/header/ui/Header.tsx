@@ -1,7 +1,7 @@
 "use client";
 
 // FIXME: нельзя использовать модули, которые находятся на одном уровне
-import { UserMenu } from "@/widgets";
+import { AuthModal, UserMenu } from "@/widgets";
 
 import Link from "next/link";
 import { Button } from "@/shared/ui";
@@ -27,6 +27,10 @@ export const Header = () => {
           <Link href="/movie-search" className="text-base font-medium text-primary">
             Фильмы
           </Link>
+
+          <AuthModal>
+            <Button variant="outline">Войти / Регистрация</Button>
+          </AuthModal>
         </nav>
 
         <div className="flex items-center gap-2">

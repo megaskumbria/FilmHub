@@ -1,4 +1,5 @@
 // Экспортируются только внешние компоненты, которые используются в папках других слоёв
+export { AuthModal } from "./auth-modal";
 export { Header } from "./header";
 export { Sidebar } from "./sidebar";
 export { UserMenu } from "./user-menu";

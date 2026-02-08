@@ -16,9 +16,10 @@ import {
   TabsTrigger,
 } from "@/shared/ui";
 import { mockMovies } from "@/shared/model/movies";
-import { Filter, Plus, Film, Calendar, ArrowUpDown, RotateCcw } from "lucide-react";
+import { Filter, Plus, Film, Calendar, ArrowUpDown, RotateCcw, Search, X } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const tabs = [
   {
@@ -88,6 +89,8 @@ export default function MovieSearchPage() {
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const hasActiveFilters = selectedGenre || selectedYear || selectedSort;
 
@@ -99,19 +102,62 @@ export default function MovieSearchPage() {
 
   return (
     <div className="max-w-[1640px] w-full mx-auto p-4">
-      <section className="flex justify-between items-center mb-8">
+      {/* Поиск сверху, компактный */}
+      <section className="mb-5">
+        <div className="relative max-w-2xl">
+          <motion.div
+            className="absolute inset-0 rounded-lg bg-linear-to-r from-accent/15 to-accent/5 blur-xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isSearchFocused ? 1 : 0 }}
+            transition={{ duration: 0.25 }}
+          />
+          <div className="relative flex items-center">
+            <Search
+              className="absolute left-3 size-4 text-muted transition-colors pointer-events-none"
+              style={{ color: isSearchFocused ? "hsl(var(--accent))" : undefined }}
+            />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
+              placeholder="Поиск фильмов, сериалов..."
+              className="w-full h-10 pl-9 pr-9 rounded-lg bg-secondary/60 border border-border/50 focus:border-accent/50 focus:bg-secondary text-foreground text-sm placeholder:text-muted transition-all duration-200 outline-none"
+            />
+            <AnimatePresence>
+              {searchQuery && (
+                <motion.button
+                  type="button"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center transition-colors group"
+                >
+                  <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </section>
+
+      {/* Табы и фильтры в одну строку, одна высота */}
+      <section className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-fit">
-          <TabsList className="relative h-16 items-center justify-center rounded-2xl bg-secondary/60 p-1.5 border border-border/50 gap-1">
+          <TabsList className="relative h-10 items-center justify-center rounded-lg bg-secondary/60 p-1 border border-border/50 gap-0.5">
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                className="cursor-pointer relative z-10 rounded-xl px-6 py-3.5 text-sm font-semibold transition-colors duration-200 data-[state=active]:text-accent-foreground data-[state=inactive]:text-muted hover:text-foreground"
+                className="cursor-pointer relative z-10 rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200 data-[state=active]:text-accent-foreground data-[state=inactive]:text-muted hover:text-foreground"
               >
                 {activeTab === tab.value && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-0 rounded-xl bg-linear-to-br from-accent to-accent/80 shadow-lg shadow-accent/30"
+                    className="absolute inset-0 rounded-md bg-linear-to-br from-accent to-accent/80 shadow-md shadow-accent/20"
                     transition={{
                       type: "spring",
                       stiffness: 380,
@@ -128,14 +174,14 @@ export default function MovieSearchPage() {
         <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
           <PopoverTrigger asChild>
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button className="relative h-11 px-5 rounded-xl bg-secondary/60 border border-border/50 hover:bg-secondary hover:border-accent/30 shadow-md hover:shadow-accent/10 transition-all duration-300">
+              <Button className="relative h-10 px-4 rounded-lg bg-secondary/60 border border-border/50 hover:bg-secondary hover:border-accent/30 shadow-sm hover:shadow-accent/10 transition-all duration-300 text-sm font-medium">
                 <motion.div
                   animate={{ rotate: isFilterOpen ? 90 : 0 }}
                   transition={{ duration: 0.3 }}
                 >
                   <Filter className="size-4" />
                 </motion.div>
-                <span className="font-semibold">Фильтры</span>
+                <span>Фильтры</span>
                 <AnimatePresence>
                   {hasActiveFilters && (
                     <motion.div
@@ -290,11 +336,11 @@ export default function MovieSearchPage() {
       </section>
 
       <ul className="grid grid-cols-5 gap-4">
-        {mockMovies.map((movie, index) => {
-          const { imgUrl, title, genres, description, yearOfRelease, rating } = movie;
+        {mockMovies.map((movie) => {
+          const { id, imgUrl, title, genres, description, yearOfRelease, rating } = movie;
 
           return (
-            <li key={index}>
+            <Link href={`/movies/${id}`} key={id}>
               <article className="group relative flex flex-col rounded-2xl overflow-hidden border border-border/50 bg-surface-elevated shadow-lg transition-all duration-300 hover:border-accent/40 hover:shadow-accent/10 hover:shadow-2xl hover:translate-y-[-2px]">
                 {/* Обложка */}
                 <div className="relative aspect-2/3 overflow-hidden bg-surface-subtle">
@@ -329,7 +375,9 @@ export default function MovieSearchPage() {
                     </div>
                     <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-accent/15 border border-accent/30">
                       <span className="text-xs font-bold text-accent">★</span>
-                      <span className="text-xs font-semibold text-accent">{(parseFloat(rating) * 1.15).toFixed(1)}</span>
+                      <span className="text-xs font-semibold text-accent">
+                        {(Number(rating) * 1.15).toFixed(1)}
+                      </span>
                     </div>
                   </div>
 
@@ -359,7 +407,7 @@ export default function MovieSearchPage() {
                   </p>
                 </div>
               </article>
-            </li>
+            </Link>
           );
         })}
       </ul>
