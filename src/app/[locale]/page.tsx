@@ -1,4 +1,4 @@
-import { MovieCard } from "@/widgets/TEST/ui/MovieCard";
+import { MovieCard } from "@/widgets";
 
 export default function Home() {
   return (

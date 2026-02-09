@@ -5,3 +5,4 @@ export { Sidebar } from "./sidebar";
 export { UserMenu } from "./user-menu";
 export { SearchMovieDrawer } from "./search-movies-drawer";
 export { InteractiveMovieCard } from "./interactive-movie-card";
+export { MovieCard } from "./movie-card";
