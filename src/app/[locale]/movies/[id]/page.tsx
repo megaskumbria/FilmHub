@@ -29,7 +29,7 @@ export default function MoviePage() {
         {/* Inset shadow vignette */}
         <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.6)]" />
         {/* Bottom to top gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
       </div>
 
       {/* Content area */}
