@@ -6,6 +6,7 @@ import { AuthModal, UserMenu } from "@/widgets";
 import Link from "next/link";
 import { Button } from "@/shared/ui";
 import { SearchMovieDrawer } from "@/widgets";
+// import { LogoSvg } from "@/shared/assets/LogoSvg";
 
 export const Header = () => {
   return (
@@ -16,8 +17,9 @@ export const Header = () => {
             href="/"
             className="shrink-0 text-2xl flex items-baseline gap-0.5 font-bold tracking-tight transition-colors hover:opacity-90"
           >
-            <span className="text-primary">Film</span>
-            <span className="text-accent">Hub</span>
+            {/* <span className="text-primary">Film</span>
+            <span className="text-accent">Hub</span> */}
+            {/* <Image src="/Logo.webp" alt="Logo" width={100} height={100} /> */}
           </Link>
 
           <Link href="/" className="text-base font-medium text-primary">

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "obsidian": "#0a0a0a",
+                        "charcoal": "#171717",
+                        "slate-edge": "#262626",
+                        "emerald-accent": "#10b981",
+                        "zinc-muted": "#737373",
+                        "zinc-light": "#e5e5e5",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+        }
+        .popover-glow {
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 20px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+            font-size: 20px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex items-center justify-center p-4">
+<div class="fixed inset-0 z-0 opacity-10 pointer-events-none">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_#171717_0%,_transparent_100%)]"></div>
+<div class="grid grid-cols-4 gap-px bg-white/5 h-full w-full">
+<div class="bg-black"></div>
+<div class="bg-black"></div>
+<div class="bg-black"></div>
+<div class="bg-black"></div>
+</div>
+</div>
+<div class="relative z-10 w-full max-w-[290px] bg-obsidian border border-slate-edge rounded-lg popover-glow overflow-hidden flex flex-col">
+<div class="p-6 pb-4 flex flex-col items-center text-center relative">
+<button class="absolute top-4 right-4 text-zinc-muted hover:text-emerald-accent transition-colors">
+<span class="material-symbols-outlined !text-[18px]">language</span>
+</button>
+<div class="w-16 h-16 rounded-full bg-charcoal border border-slate-edge flex items-center justify-center mb-4 relative">
+<span class="material-symbols-outlined text-zinc-muted !text-[32px]">account_circle</span>
+<div class="absolute bottom-1 right-1 w-2.5 h-2.5 bg-emerald-accent rounded-full border-2 border-obsidian"></div>
+</div>
+<div class="space-y-0.5">
+<h3 class="text-zinc-light font-medium text-base tracking-tight">Arnold Vane</h3>
+<p class="text-zinc-muted text-[11px] uppercase tracking-[0.1em]">Professional Tier</p>
+</div>
+</div>
+<div class="h-px bg-gradient-to-r from-transparent via-slate-edge to-transparent mx-4"></div>
+<nav class="flex flex-col p-2 gap-0.5">
+<a class="flex items-center space-x-3 px-3 h-11 rounded hover:bg-white/[0.03] text-zinc-muted hover:text-zinc-light transition-all group" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[13px] font-medium">Profile</span>
+</a>
+<a class="flex items-center justify-between px-3 h-11 rounded bg-emerald-accent/[0.04] border border-emerald-accent/10 text-emerald-accent transition-all" href="#">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="text-[13px] font-semibold">Analytics</span>
+</div>
+<span class="text-[10px] bg-emerald-accent/10 px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">Live</span>
+</a>
+<div class="flex items-center space-x-3 px-3 h-11 rounded text-zinc-muted/40 cursor-not-allowed">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span class="text-[13px] font-medium">Milestones</span>
+</div>
+<a class="flex items-center space-x-3 px-3 h-11 rounded hover:bg-white/[0.03] text-zinc-muted hover:text-zinc-light transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[13px] font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-2 bg-charcoal/50 border-t border-slate-edge p-2">
+<button class="flex items-center space-x-3 w-full px-3 h-10 rounded text-zinc-muted hover:text-white transition-colors">
+<span class="material-symbols-outlined !text-[18px]">logout</span>
+<span class="text-[12px] font-medium tracking-wide">Sign Out</span>
+</button>
+</div>
+</div>
+<div class="fixed bottom-8 text-center w-full pointer-events-none">
+<p class="text-zinc-muted text-[10px] font-light uppercase tracking-[0.4em] opacity-50">Streamline Console — 2.0.4</p>
+</div>
+
+</body></html>

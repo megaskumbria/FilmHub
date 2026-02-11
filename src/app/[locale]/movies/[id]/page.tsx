@@ -22,83 +22,73 @@ export default function MoviePage() {
   const { imgUrl, title, genres, description, yearOfRelease, rating, durationMinutes } = movie;
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Full-screen cover */}
+    <div className="relative h-screen w-full overflow-hidden">
+      {/* Background poster with overlay */}
       <div className="absolute inset-0">
-        <Image src={imgUrl} alt={title} fill className="object-cover" priority sizes="100vw" />
-        {/* Shadows around perimeter — gradient overlays */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            boxShadow:
-              "inset 0 0 120px 60px rgba(9,9,11,0.85), inset 0 0 240px 80px rgba(9,9,11,0.5)",
-          }}
-        />
-        <div
-          className="absolute inset-0 pointer-events-none bg-linear-to-t from-background via-background/70 via-40% to-transparent"
-          aria-hidden
-        />
+        <Image src={imgUrl} alt={title} fill className="object-cover" priority />
+        {/* Inset shadow vignette */}
+        <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.6)]" />
+        {/* Bottom to top gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
       </div>
 
-      {/* CTA content — bottom-aligned */}
-      <div className="relative z-10 flex flex-col justify-end min-h-screen">
-        <div className="max-w-[1640px] w-full mx-auto px-4 sm:px-6 pb-16 pt-32 sm:pb-20 sm:pt-36">
-          <div className="max-w-2xl">
-            {/* Meta row: rating, year, duration */}
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gold/20 border border-gold/40 backdrop-blur-sm">
-                <Star className="size-4 text-gold fill-gold" />
-                <span className="text-sm font-bold text-gold">{rating}</span>
-              </div>
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/80 border border-border/60 backdrop-blur-sm">
-                <Calendar className="size-4 text-muted" />
-                <span className="text-sm font-semibold text-foreground">{yearOfRelease}</span>
-              </div>
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/80 border border-border/60 backdrop-blur-sm">
-                <Clock className="size-4 text-muted" />
-                <span className="text-sm font-semibold text-foreground">
-                  {formatDuration(durationMinutes)}
-                </span>
-              </div>
+      {/* Content area */}
+      <div className="relative h-full flex items-end">
+        <div className="w-full max-w-2xl p-8 pb-16 space-y-6">
+          {/* Metadata badges */}
+          <div className="flex flex-wrap gap-3">
+            {/* Rating badge */}
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/20 backdrop-blur-md border border-amber-500/50 shadow-lg shadow-amber-500/20">
+              <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <span className="text-amber-100 font-semibold">{rating}</span>
             </div>
 
-            {/* Title */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-3 drop-shadow-lg">
-              {title}
-            </h1>
+            {/* Year badge */}
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+              <Calendar className="w-4 h-4 text-white/80" />
+              <span className="text-white/90 font-medium">{yearOfRelease}</span>
+            </div>
 
-            {/* Genres */}
-            <ul className="flex flex-wrap gap-2 mb-4">
-              {genres.map((genre, idx) => (
-                <li
-                  key={idx}
-                  className="rounded-md bg-accent/20 border border-accent/40 px-2.5 py-1 text-xs font-medium text-accent-foreground backdrop-blur-sm"
-                >
-                  {genre}
-                </li>
-              ))}
-            </ul>
+            {/* Duration badge */}
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+              <Clock className="w-4 h-4 text-white/80" />
+              <span className="text-white/90 font-medium">{formatDuration(durationMinutes)}</span>
+            </div>
+          </div>
 
-            {/* Description */}
-            <p className="text-base sm:text-lg text-muted leading-relaxed mb-8 max-w-xl drop-shadow-md">
-              {description}
-            </p>
+          {/* Title */}
+          <h1 className="text-5xl font-bold text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+            {title}
+          </h1>
 
-            {/* Buttons */}
-            <div className="flex flex-wrap gap-3">
-              <Button className="h-11 px-5 rounded-xl bg-accent text-accent-foreground font-semibold hover:bg-accent/90 shadow-lg shadow-accent/25 border-0 transition-all hover:scale-[1.02] active:scale-[0.98]">
-                <Plus className="size-5" />
-                Добавить в коллекцию
-              </Button>
-
-              <Button
-                variant="secondary"
-                className="h-11 px-5 rounded-xl bg-secondary/90 backdrop-blur-sm border border-border text-foreground font-semibold hover:bg-secondary hover:border-accent/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
+          {/* Genres */}
+          <div className="flex flex-wrap gap-2">
+            {genres.map((genre) => (
+              <span
+                key={genre}
+                className="px-3 py-1 text-sm font-medium rounded-full bg-blue-500/30 backdrop-blur-sm border border-blue-400/50 text-blue-100 shadow-lg"
               >
-                <Link2 className="size-5" />
-                Сгенерировать ссылку на просмотр
-              </Button>
-            </div>
+                {genre}
+              </span>
+            ))}
+          </div>
+
+          {/* Description */}
+          <p className="text-white/70 text-lg leading-relaxed line-clamp-3 drop-shadow-md">
+            {description}
+          </p>
+
+          {/* Action buttons */}
+          <div className="flex gap-4 pt-2">
+            <Button className="flex items-center gap-2 px-6 py-3 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-xl shadow-blue-600/40 backdrop-blur-md border border-blue-500/50 transition-all duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/60">
+              <Plus className="w-5 h-5" />
+              Добавить в коллекцию
+            </Button>
+
+            <Button className="flex items-center gap-2 px-6 py-3 text-base font-semibold bg-white/10 hover:bg-white/20 text-white rounded-lg shadow-lg backdrop-blur-md border border-white/30 transition-all duration-200 hover:scale-105 hover:border-white/50">
+              <Link2 className="w-5 h-5" />
+              Сгенерировать ссылку
+            </Button>
           </div>
         </div>
       </div>
