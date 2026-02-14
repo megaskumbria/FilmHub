@@ -619,7 +619,7 @@ export default function Home() {
 
         <div className="max-w-[290px]">
           <h2 className="text-lg font-bold text-center">
-            CTO внутри (hover), флаги снаружи (коллекционная)
+            CTO внутри (hover), флаги снаружи + категории (коллекционная)
           </h2>
 
           <article className="max-h-fit h-auto max-w-[290px] border border-border rounded-xl">
@@ -628,6 +628,93 @@ export default function Home() {
                 fill
                 className="object-cover rounded-xl border-b-0 transition-transform duration-300 ease-out group-hover:scale-110"
                 src="/images/mock-movie-6.jpg"
+                alt="movieCard"
+              />
+
+              <span className="absolute top-[10px] left-[10px] flex items-center gap-1 bg-emerald-600 rounded-lg text-white text-xs font-bold py-1 px-1.5 shadow-lg z-20">
+                <Star className="size-3.5 fill-white" />
+                8.2
+              </span>
+
+              <Button className="border border-border/60 absolute top-2 right-2 size-8 rounded-full bg-background/80 text-foreground hover:bg-accent shadow-md transition-colors z-20">
+                <Plus className="size-4" />
+              </Button>
+
+              {/* Overlay с информацией при hover */}
+              <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none group-hover:pointer-events-auto">
+                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="max-w-[200px] font-bold text-white text-base line-clamp-2 leading-tight">
+                      Властелин колец: Возвращение короля
+                    </h3>
+                    <span className="text-white/90 font-semibold text-sm ml-2 shrink-0">2002</span>
+                  </div>
+
+                  <div className="flex gap-1.5 mb-3">
+                    {["ужасы", "триллер", "драма", "фантастика"].map((genre, index) => (
+                      <span
+                        className="items-center rounded-full bg-white/15 border border-white/25 px-2 py-1 text-[11px] font-medium text-white/90"
+                        key={index}
+                      >
+                        {genre}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3">
+              <div className="flex flex-wrap gap-2">
+                {flagsData.map((flagData) => {
+                  const { flagItems, category } = flagData;
+
+                  return flagItems
+                    .filter((FlagItem) => FlagItem.isUsed)
+                    .map((FlagItem: IFlagItem, index: number) => {
+                      const { id, flagName, color, bg } = FlagItem;
+
+                      return (
+                        <div key={index + id} className="flex flex-col gap-1">
+                          <h4 className="text-[10px] font-extrabold text-zinc-muted uppercase tracking-widest drop-shadow-sm">
+                            {category}
+                          </h4>
+
+                          <span
+                            className="px-2 py-1 text-xs font-semibold rounded-md border backdrop-blur-sm saturate-150 w-fit"
+                            title={category}
+                            style={{
+                              color,
+                              backgroundColor: bg,
+                              // backgroundColor: `color-mix(in srgb, ${bg} 85%, rgba(0, 0, 0, 0.7))`,
+                              borderColor: color,
+                              textShadow: "0 1px 2px rgba(0, 0, 0, 0.8)",
+                            }}
+                          >
+                            {flagName}
+                          </span>
+                        </div>
+                      );
+                    });
+                })}
+              </div>
+            </div>
+          </article>
+        </div>
+
+        {/* ============================================================================================== */}
+
+        <div className="max-w-[290px]">
+          <h2 className="text-lg font-bold text-center">
+            CTO внутри (hover), флаги внутри + категории (коллекционная)
+          </h2>
+
+          <article className="max-h-fit h-auto max-w-[290px] border border-border rounded-xl">
+            <div className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl">
+              <Image
+                fill
+                className="object-cover rounded-xl border-b-0 transition-transform duration-300 ease-out group-hover:scale-110"
+                src="/images/mock-movie-9.webp"
                 alt="movieCard"
               />
 
