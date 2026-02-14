@@ -3,10 +3,25 @@ import { Plus, Star } from "lucide-react";
 import Image from "next/image";
 import { flagsData } from "@/shared/model/flags";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
+import { mockMovies } from "@/shared/model/movies";
+import { MovieCard } from "@/widgets/movie-card";
 
 export default function Home() {
   return (
     <>
+      <div className="grid grid-cols-4 gap-4 justify-center p-4">
+        {mockMovies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            layout={{
+              poster: ["rating"],
+              body: ["title", "genres", "description"],
+            }}
+          />
+        ))}
+      </div>
+
       <ul className="list-disc list-inside px-3 mb-4">
         <li>Поиск - В поиске нет карточек с флагами</li>
         <li>Коллекционная - В коллекционной есть карточки с флагами</li>
