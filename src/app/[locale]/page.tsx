@@ -15,8 +15,11 @@ export default function Home() {
             key={movie.id}
             movie={movie}
             layout={{
-              poster: ["rating"],
-              body: ["title", "genres", "description"],
+              poster: ["rating", "flags"],
+              body: [],
+              // body: ["title", "genres", "description"],
+              hover: ["title", "genres", "description"],
+              // hover: [],
             }}
           />
         ))}
@@ -27,8 +30,8 @@ export default function Home() {
         <li>Коллекционная - В коллекционной есть карточки с флагами</li>
       </ul>
 
-      <div className="grid grid-cols-4 gap-4 justify-center p-4">
-        <div className="max-w-[290px]">
+      {/* <div className="grid grid-cols-4 gap-4 justify-center p-4"> */}
+      {/* <div className="max-w-[290px]">
           <h2 className="text-lg font-bold text-center">CTO снаружи (поиск)</h2>
 
           <article className="max-h-fit h-auto max-w-[290px] border border-border rounded-xl">
@@ -80,11 +83,11 @@ export default function Home() {
               </p>
             </div>
           </article>
-        </div>
+        </div> */}
 
-        {/* ============================================================================================== */}
+      {/* ============================================================================================== */}
 
-        <div className="max-w-[290px]">
+      {/* <div className="max-w-[290px]">
           <h2 className="text-lg font-bold text-center">CTO внутри (поиск)</h2>
 
           <article className="group max-h-fit h-auto max-w-[290px] border border-border rounded-xl cursor-pointer">
@@ -108,7 +111,7 @@ export default function Home() {
               </Button>
 
               {/* Overlay с информацией при hover */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none group-hover:pointer-events-auto">
+      {/* <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none group-hover:pointer-events-auto">
                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="max-w-[200px] font-bold text-white text-base line-clamp-2 leading-tight">
@@ -130,9 +133,9 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </article>
-        </div>
-      </div>
+          </article> */}
+      {/* </div>  */}
+      {/* </div> */}
 
       {/* ============================================================================================== */}
 

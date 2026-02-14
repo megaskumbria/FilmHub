@@ -1,12 +1,17 @@
 import { IMovieCardData } from "@/shared/model/movies";
 import { Rating, Flags, Title, Genres, Description } from "@/widgets/movie-card";
 
+interface BlocksRegistryProps {
+  movie: IMovieCardData;
+  hoverHeight?: number;
+}
+
 export const blocksRegistry = {
-  rating: (movie: IMovieCardData) => <Rating rating={movie.rating} />,
-  flags: () => <Flags />,
-  title: (movie: IMovieCardData) => (
+  rating: ({ movie }: BlocksRegistryProps) => <Rating rating={movie.rating} />,
+  flags: ({ hoverHeight }: BlocksRegistryProps) => <Flags hoverHeight={hoverHeight} />,
+  title: ({ movie }: BlocksRegistryProps) => (
     <Title title={movie.title} yearOfRelease={movie.yearOfRelease} />
   ),
-  genres: (movie: IMovieCardData) => <Genres genres={movie.genres} />,
-  description: (movie: IMovieCardData) => <Description description={movie.description} />,
+  genres: ({ movie }: BlocksRegistryProps) => <Genres genres={movie.genres} />,
+  description: ({ movie }: BlocksRegistryProps) => <Description description={movie.description} />,
 };

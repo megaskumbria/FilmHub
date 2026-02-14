@@ -3,9 +3,19 @@
 import { flagsData } from "@/shared/model/flags";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
 
-export const Flags = () => {
+interface FlagsProps {
+  hoverHeight?: number;
+}
+
+export const Flags = ({ hoverHeight }: FlagsProps) => {
+  console.log("hoverHeight", hoverHeight);
   return (
-    <div className="absolute bottom-0 left-2 right-2 flex flex-wrap gap-1.5 mb-2">
+    <div
+      className="absolute bottom-0 left-2 right-2 flex flex-wrap gap-1.5 mb-2 z-20 translate-y-0 group-hover:-translate-y-[110px] transition-transform duration-300 ease-out"
+      style={{
+        transform: `translateY(-${hoverHeight}px)`,
+      }}
+    >
       {flagsData.map((flagData) => {
         const { flagItems, category } = flagData;
 
