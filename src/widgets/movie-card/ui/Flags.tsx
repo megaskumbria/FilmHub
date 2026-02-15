@@ -5,15 +5,15 @@ import { IFlagItem } from "@/shared/model/flags/mockFlags";
 
 interface FlagsProps {
   hoverHeight?: number;
+  hasHover?: boolean;
 }
 
-export const Flags = ({ hoverHeight }: FlagsProps) => {
-  console.log("hoverHeight", hoverHeight);
+export const Flags = ({ hoverHeight, hasHover }: FlagsProps) => {
   return (
     <div
-      className="absolute bottom-0 left-2 right-2 flex flex-wrap gap-1.5 mb-2 z-20 translate-y-0 group-hover:-translate-y-[110px] transition-transform duration-300 ease-out"
+      className="absolute bottom-0 left-2 right-2 flex flex-wrap gap-1.5 mb-2 z-20 translate-y-0 transition-transform duration-300 ease-out"
       style={{
-        transform: `translateY(-${hoverHeight}px)`,
+        transform: hasHover ? `translateY(-${hoverHeight}px)` : "translateY(0)",
       }}
     >
       {flagsData.map((flagData) => {

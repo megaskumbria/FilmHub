@@ -15,11 +15,11 @@ export default function Home() {
             key={movie.id}
             movie={movie}
             layout={{
-              poster: ["rating", "flags"],
-              body: [],
-              // body: ["title", "genres", "description"],
-              hover: ["title", "genres", "description"],
-              // hover: [],
+              poster: ["rating"],
+              // body: [],
+              body: ["genres", "description"],
+              // hover: ["title", "genres", "description"],
+              hover: ["title", "flags"],
             }}
           />
         ))}
