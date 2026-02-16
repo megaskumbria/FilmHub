@@ -7,6 +7,7 @@ import { Plus } from "lucide-react";
 import { IMovieCardData } from "@/shared/model/movies";
 import { Fragment } from "react/jsx-runtime";
 import { useRef, useState } from "react";
+import { BlockPlacement } from "../model/blocksRegistry";
 
 type BlockKey = keyof typeof blocksRegistry;
 
@@ -50,14 +51,14 @@ export const MovieCard = ({ movie, layout }: MovieCardProps) => {
           className="h-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
         />
 
-        {renderBlocks({ keys: poster, movie, hoverHeight, hasHover })}
+        {renderBlocks({ keys: poster, movie, hoverHeight, hasHover, placement: "poster" })}
 
-        <div
-          ref={hoverContentRef}
-          className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none group-hover:pointer-events-auto"
-        >
-          <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out">
-            {renderBlocks({ keys: hover, movie, hoverHeight })}
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out group-hover:pointer-events-auto">
+          <div
+            ref={hoverContentRef}
+            className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out"
+          >
+            {renderBlocks({ keys: hover, movie, hoverHeight, placement: "hover" })}
           </div>
         </div>
 
@@ -66,7 +67,9 @@ export const MovieCard = ({ movie, layout }: MovieCardProps) => {
         </Button>
       </div>
 
-      {body.length > 0 && <div className="p-3">{renderBlocks({ keys: body, movie })}</div>}
+      {body.length > 0 && (
+        <div className="p-3">{renderBlocks({ keys: body, movie, placement: "body" })}</div>
+      )}
     </article>
   );
 };
@@ -76,11 +79,12 @@ interface RenderBlocksProps {
   movie: IMovieCardData;
   hoverHeight?: number;
   hasHover?: boolean;
+  placement?: BlockPlacement;
 }
 
-const renderBlocks = ({ keys, movie, hoverHeight, hasHover }: RenderBlocksProps) => {
+const renderBlocks = ({ keys, movie, hoverHeight, hasHover, placement }: RenderBlocksProps) => {
   return keys.map((key) => {
     const block = blocksRegistry[key];
-    return <Fragment key={key}>{block({ movie, hoverHeight, hasHover })}</Fragment>;
+    return <Fragment key={key}>{block({ movie, hoverHeight, hasHover, placement })}</Fragment>;
   });
 };

@@ -2,19 +2,21 @@
 
 import { flagsData } from "@/shared/model/flags";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
+import { BlockPlacement } from "../model/blocksRegistry";
 
 interface FlagsProps {
   hoverHeight?: number;
   hasHover?: boolean;
+  placement?: BlockPlacement;
 }
 
-export const Flags = ({ hoverHeight, hasHover }: FlagsProps) => {
+export const Flags = ({ hoverHeight = 0, hasHover, placement = "poster" }: FlagsProps) => {
+  const isPoster = placement === "poster";
+
   return (
     <div
       className="absolute bottom-0 left-2 right-2 flex flex-wrap gap-1.5 mb-2 z-20 translate-y-0 transition-transform duration-300 ease-out"
-      style={{
-        transform: hasHover ? `translateY(-${hoverHeight}px)` : "translateY(0)",
-      }}
+      style={{ transform: isPoster && hasHover ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {flagsData.map((flagData) => {
         const { flagItems, category } = flagData;

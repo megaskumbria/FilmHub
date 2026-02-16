@@ -5,4 +5,4 @@ export { Title } from "./ui/Title";
 export { Genres } from "./ui/Genres";
 export { Description } from "./ui/Description";
 
-export { blocksRegistry } from "./model/blocksRegistry";
+export { blocksRegistry, type BlockPlacement } from "./model/blocksRegistry";
