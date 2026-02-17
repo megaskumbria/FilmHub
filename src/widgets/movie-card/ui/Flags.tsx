@@ -15,7 +15,7 @@ export const Flags = ({ hoverHeight = 0, hasHover, placement = "poster" }: Flags
 
   return (
     <div
-      className="absolute bottom-0 left-2 right-2 flex flex-wrap gap-1.5 mb-2 z-20 translate-y-0 transition-transform duration-300 ease-out"
+      className="flex flex-wrap gap-1.5 mb-2 translate-y-0 transition-transform duration-300 ease-out"
       style={{ transform: isPoster && hasHover ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {flagsData.map((flagData) => {

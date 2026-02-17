@@ -51,14 +51,16 @@ export const MovieCard = ({ movie, layout }: MovieCardProps) => {
           className="h-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
         />
 
-        {renderBlocks({ keys: poster, movie, hoverHeight, hasHover, placement: "poster" })}
+        <div className="absolute inset-0 flex flex-col justify-end p-3 z-20">
+          {renderBlocks({ keys: poster, movie, hoverHeight, hasHover, placement: "poster" })}
+        </div>
 
-        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out group-hover:pointer-events-auto">
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
           <div
             ref={hoverContentRef}
-            className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out"
+            className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out z-20"
           >
-            {renderBlocks({ keys: hover, movie, hoverHeight, placement: "hover" })}
+            {renderBlocks({ keys: hover, movie, hoverHeight })}
           </div>
         </div>
 
@@ -67,9 +69,7 @@ export const MovieCard = ({ movie, layout }: MovieCardProps) => {
         </Button>
       </div>
 
-      {body.length > 0 && (
-        <div className="p-3">{renderBlocks({ keys: body, movie, placement: "body" })}</div>
-      )}
+      {body.length > 0 && <div className="p-3">{renderBlocks({ keys: body, movie })}</div>}
     </article>
   );
 };
