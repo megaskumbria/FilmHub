@@ -60,7 +60,7 @@ export const MovieCard = ({ movie, layout }: MovieCardProps) => {
             ref={hoverContentRef}
             className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out z-20"
           >
-            {renderBlocks({ keys: hover, movie, hoverHeight })}
+            {renderBlocks({ keys: hover, movie, hoverHeight, hasHover, placement: "hover" })}
           </div>
         </div>
 

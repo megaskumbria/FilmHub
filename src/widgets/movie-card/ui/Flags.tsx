@@ -3,20 +3,27 @@
 import { flagsData } from "@/shared/model/flags";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
 import { BlockPlacement } from "../model/blocksRegistry";
+import { Flag, FlagWithCategory } from "@/widgets/movie-card";
 
 interface FlagsProps {
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
+  showCategories?: boolean;
 }
 
-export const Flags = ({ hoverHeight = 0, hasHover, placement = "poster" }: FlagsProps) => {
-  const isPoster = placement === "poster";
+export const Flags = ({
+  hoverHeight = 0,
+  hasHover,
+  placement,
+  showCategories = true,
+}: FlagsProps) => {
+  const shouldLift = placement === "poster" && hasHover;
 
   return (
     <div
       className="flex flex-wrap gap-1.5 mb-2 translate-y-0 transition-transform duration-300 ease-out"
-      style={{ transform: isPoster && hasHover ? `translateY(-${hoverHeight}px)` : undefined }}
+      style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {flagsData.map((flagData) => {
         const { flagItems, category } = flagData;
@@ -24,23 +31,12 @@ export const Flags = ({ hoverHeight = 0, hasHover, placement = "poster" }: Flags
         return flagItems
           .filter((FlagItem) => FlagItem.isUsed)
           .map((FlagItem: IFlagItem, index: number) => {
-            const { id, flagName, color, bg } = FlagItem;
+            const { id } = FlagItem;
 
             return (
-              <span
-                key={index + id}
-                className="px-2 py-1 text-xs font-semibold rounded-md border backdrop-blur-sm saturate-150"
-                title={category}
-                style={{
-                  color,
-                  backgroundColor: bg,
-                  // backgroundColor: `color-mix(in srgb, ${bg} 85%, rgba(0, 0, 0, 0.7))`,
-                  borderColor: color,
-                  textShadow: "0 1px 2px rgba(0, 0, 0, 0.8)",
-                }}
-              >
-                {flagName}
-              </span>
+              <FlagWithCategory key={index + id} category={category} showCategory={showCategories}>
+                <Flag flagItem={FlagItem} category={category} />
+              </FlagWithCategory>
             );
           });
       })}

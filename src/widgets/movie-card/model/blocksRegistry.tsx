@@ -12,12 +12,36 @@ interface BlocksRegistryProps {
 
 export const blocksRegistry = {
   rating: ({ movie }: BlocksRegistryProps) => <Rating rating={movie.rating} />,
+
   flags: ({ hoverHeight, hasHover, placement }: BlocksRegistryProps) => (
     <Flags hoverHeight={hoverHeight} hasHover={hasHover} placement={placement} />
   ),
-  title: ({ movie }: BlocksRegistryProps) => (
-    <Title title={movie.title} yearOfRelease={movie.yearOfRelease} />
+
+  title: ({ movie, hoverHeight, hasHover, placement }: BlocksRegistryProps) => (
+    <Title
+      title={movie.title}
+      yearOfRelease={movie.yearOfRelease}
+      hoverHeight={hoverHeight}
+      hasHover={hasHover}
+      placement={placement}
+    />
   ),
-  genres: ({ movie }: BlocksRegistryProps) => <Genres genres={movie.genres} />,
-  description: ({ movie }: BlocksRegistryProps) => <Description description={movie.description} />,
+
+  genres: ({ movie, hoverHeight, hasHover, placement }: BlocksRegistryProps) => (
+    <Genres
+      genres={movie.genres}
+      hoverHeight={hoverHeight}
+      hasHover={hasHover}
+      placement={placement}
+    />
+  ),
+
+  description: ({ movie, hoverHeight, hasHover, placement }: BlocksRegistryProps) => (
+    <Description
+      description={movie.description}
+      hoverHeight={hoverHeight}
+      hasHover={hasHover}
+      placement={placement}
+    />
+  ),
 };
