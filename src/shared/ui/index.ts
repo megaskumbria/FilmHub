@@ -3,6 +3,7 @@ export * from "./tooltip";
 export * from "./skeleton";
 export * from "./sheet";
 export * from "./separator";
+export * from "./label";
 export * from "./input";
 export * from "./button";
 export * from "./form";
