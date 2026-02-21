@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Film, ImageIcon, Star } from "lucide-react";
+import { Film, Image, Upload, Dice5 } from "lucide-react";
 import {
   Dialog,
   DialogTrigger,
@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
   AccordionContent,
   Separator,
+  Button,
 } from "@/shared/ui";
 import { Label } from "@/shared/ui/label";
 import { ReactNode } from "react";
@@ -66,14 +67,14 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
   const getCount = (zone: ZoneKey) => Object.values(checked[zone]).filter(Boolean).length;
 
   return (
-    <Dialog>
+    <Dialog open={true}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent
         className="w-full max-w-[960px] sm:max-w-[960px] h-[680px] p-0 gap-0 overflow-hidden bg-background border-border"
         showCloseButton
       >
-        <div className="flex h-full">
+        <div className="flex h-full overflow-hidden">
           {/* Sidebar */}
           <aside className="w-56 shrink-0 flex flex-col border-r border-border bg-surface-subtle">
             <DialogHeader className="px-5 pt-5 pb-4">
@@ -105,11 +106,11 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
           </aside>
 
           {/* Content */}
-          <main className="flex flex-1 min-w-0 overflow-hidden h-full">
+          <main className="flex-1 min-w-0 overflow-hidden h-full grid grid-cols-[18rem_1fr] grid-rows-[100%]">
             {activeMenu === "movie-card" && (
               <>
                 {/* Zones panel */}
-                <section className="w-72 shrink-0 flex flex-col border-r border-border overflow-y-auto bg-surface h-full">
+                <section className="flex flex-col border-r border-border overflow-y-auto bg-surface min-h-0">
                   <div className="px-5 pt-5 pb-4">
                     <h3 className="text-xs font-semibold text-zinc-muted tracking-widest uppercase">
                       Зоны карточки
@@ -168,7 +169,7 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
                 </section>
 
                 {/* Preview */}
-                <section className="relative flex flex-1 flex-col items-center justify-center bg-obsidian p-8 gap-7 min-w-0 overflow-hidden h-full">
+                <section className="relative flex flex-col items-center justify-center bg-obsidian p-8 gap-7 overflow-hidden min-h-0">
                   {/* Subtle dot grid background */}
                   <div
                     className="absolute inset-0 opacity-[0.03]"
@@ -184,41 +185,62 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
                     Превью
                   </p>
 
-                  <div className="relative w-[230px] aspect-2/3 rounded-xl border border-white/8 bg-zinc-900 flex items-center justify-center overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/5">
-                    {/* Poster zone — background */}
-                    <div className="absolute inset-0 bg-linear-to-br from-zinc-800/60 via-zinc-900/80 to-zinc-950" />
-                    <ImageIcon className="size-12 text-white/10 relative z-10" />
+                  <article className="flex flex-col group cursor-pointer">
+                    <div className="relative w-[230px] aspect-2/3 rounded-xl border border-white/8 bg-zinc-900 flex items-center justify-center overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/5">
+                      {/* Poster zone — background */}
+                      <div className="absolute inset-0 bg-linear-to-br from-zinc-800/60 via-zinc-900/80 to-zinc-950" />
 
-                    {/* Hover zone overlay mock */}
-                    <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-accent/5 to-transparent" />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10 px-4">
+                        <div className="relative flex items-center justify-center size-14 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-300">
+                          <Image className="size-6 text-white/50 group-hover:hidden transition-opacity" />
+                          <Upload className="size-6 text-accent hidden group-hover:block transition-opacity" />
+                        </div>
 
-                    {/* Body gradient */}
-                    <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/40 to-transparent" />
-
-                    {/* Body zone content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2.5">
-                      <div className="h-3 w-4/5 rounded-sm bg-white/70" />
-                      <div className="space-y-1.5">
-                        <div className="h-2 w-full rounded-sm bg-white/20" />
-                        <div className="h-2 w-3/5 rounded-sm bg-white/15" />
+                        <div className="flex flex-col items-center gap-1">
+                          <span className="text-[11px] font-medium text-white/70 group-hover:text-white/90 text-center leading-tight transition-colors duration-200">
+                            Загрузите постер
+                          </span>
+                          <span className="text-[9px] text-white/30 group-hover:text-white/50 text-center transition-colors duration-200">
+                            или перетащите файл
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex gap-1.5 pt-0.5">
-                        <div className="h-5 w-14 rounded bg-accent/30 border border-accent/25" />
-                        <div className="h-5 w-11 rounded bg-accent/30 border border-accent/25" />
+
+                      {/* Hover zone overlay mock */}
+                      <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-accent/5 to-transparent" />
+
+                      {/* Body gradient */}
+                      <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/40 to-transparent" />
+
+                      {/* POSTER zone label */}
+                      <div className="absolute top-3 left-3">
+                        <span className="text-[8px] font-bold tracking-wider text-blue-400/70 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20 uppercase">
+                          poster
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1.5 pt-0.5">
-                        <Star className="size-3 fill-gold text-gold" />
-                        <div className="h-2 w-8 rounded-sm bg-gold/50" />
+
+                      <div className="absolute bottom-3 left-3">
+                        <span className="text-[8px] font-bold tracking-wider text-accent/70 bg-accent/10 px-1.5 py-0.5 rounded border border-accent/20 uppercase">
+                          hover
+                        </span>
                       </div>
                     </div>
 
-                    {/* POSTER zone label */}
-                    <div className="absolute top-3 left-3">
-                      <span className="text-[8px] font-bold tracking-wider text-blue-400/70 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20 uppercase">
-                        poster
-                      </span>
+                    {/* Body zone block */}
+                    <div className="relative mt-1.5 h-20 w-[230px] rounded-xl border border-white/8 bg-zinc-900 overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/5 p-3.5">
+                      <div className="absolute inset-0 bg-linear-to-br from-zinc-800/60 via-zinc-900/80 to-zinc-950" />
+                      <div className="relative z-10 flex items-center justify-between mb-3">
+                        <span className="text-[8px] font-bold tracking-wider text-emerald-accent/80 bg-emerald-accent/10 px-1.5 py-0.5 rounded border border-emerald-accent/20 uppercase">
+                          body
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  </article>
+
+                  <Button className="relative flex items-center gap-2 px-4 py-2 rounded-full bg-white/4 border border-white/8 text-white/50 hover:bg-accent/10 hover:border-accent/25 hover:text-accent/90 transition-all duration-200 hover:scale-105 active:scale-95 group/btn">
+                    <Dice5 className="size-3.5 group-hover/btn:rotate-180 transition-transform duration-500" />
+                    <span className="text-[11px] font-medium tracking-wide">Случайный постер</span>
+                  </Button>
 
                   {/* Zone legend */}
                   <div className="relative flex items-center gap-4">
@@ -232,7 +254,7 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
                     ))}
                   </div>
 
-                  <p className="relative text-[11px] text-zinc-muted/40 text-center max-w-[190px] leading-relaxed">
+                  <p className="relative text-xs text-zinc-muted/40 text-center max-w-[190px] leading-relaxed">
                     Настройте видимость блоков в каждой зоне карточки
                   </p>
                 </section>
