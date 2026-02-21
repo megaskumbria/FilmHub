@@ -110,12 +110,13 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
             {activeMenu === "movie-card" && (
               <>
                 {/* Zones panel */}
-                <section className="flex flex-col border-r border-border overflow-y-auto bg-surface min-h-0">
+                <section className="flex flex-col border-r border-border overflow-y-auto bg-surface min-h-0 drawer-scroll">
                   <div className="px-5 pt-5 pb-4">
                     <h3 className="text-xs font-semibold text-zinc-muted tracking-widest uppercase">
                       Зоны карточки
                     </h3>
                   </div>
+
                   <Separator />
 
                   <Accordion
@@ -127,7 +128,7 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
                       const count = getCount(key);
                       return (
                         <AccordionItem key={key} value={key} className="border-border">
-                          <AccordionTrigger className="text-xs font-bold tracking-widest text-zinc-muted hover:no-underline hover:text-foreground px-1 py-3.5">
+                          <AccordionTrigger className="cursor-pointer text-xs font-bold tracking-widest text-zinc-muted hover:no-underline hover:text-foreground px-1 py-3.5 [&>svg]:size-3 [&>svg]:text-zinc-muted/50 [&>svg]:translate-y-0 hover:[&>svg]:text-foreground [&>svg]:transition-colors">
                             <div className="flex items-center gap-2 flex-1 min-w-0">
                               <span className={`size-1.5 rounded-full shrink-0 ${dotClass}`} />
                               <span>{label}</span>
@@ -150,7 +151,7 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
                                     id={`${key}-${block.id}`}
                                     checked={!!checked[key][block.id]}
                                     onCheckedChange={() => toggle(key, block.id)}
-                                    className="size-4 border-zinc-muted/40 bg-surface data-[state=checked]:bg-accent data-[state=checked]:border-accent pointer-events-none"
+                                    className="pointer-events-none"
                                   />
                                   <Label
                                     htmlFor={`${key}-${block.id}`}
