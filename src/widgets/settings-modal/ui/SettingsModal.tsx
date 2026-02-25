@@ -240,7 +240,7 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
 
                   <Button className="relative flex items-center gap-2 px-4 py-2 rounded-full bg-white/4 border border-white/8 text-white/50 hover:bg-accent/10 hover:border-accent/25 hover:text-accent/90 transition-all duration-200 hover:scale-105 active:scale-95 group/btn">
                     <Dice5 className="size-3.5 group-hover/btn:rotate-180 transition-transform duration-500" />
-                    <span className="text-[11px] font-medium tracking-wide">Случайный постер</span>
+                    <span className="text-[11px] font-med ium tracking-wide">Случайный постер</span>
                   </Button>
 
                   {/* Zone legend */}
