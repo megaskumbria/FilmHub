@@ -10,9 +10,10 @@ export default function Home() {
             key={movie.id}
             movie={movie}
             layout={{
-              poster: ["rating", "title", "genres", "description"],
+              // poster: ["rating", "title", "genres", "description"],
+              poster: [],
               body: [],
-              hover: ["flags"],
+              hover: [],
             }}
           />
         ))}

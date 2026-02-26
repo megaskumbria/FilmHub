@@ -8,3 +8,5 @@ alwaysApply: true
 - Always use the Button and Input components (these files exist in the project).
 - Use shadcn components in your layout; if there are any components you want to use that are missing, let me know which package to install.
 - Use the cn function in classNames to avoid unnecessary ternary conditions.
+- Не пиши тернарные условия в стилях className. Используй base + conditional. Пример: activeMenu === key && "bg-accent/10 activeMenu !== key && "text-zinc-muted"
+- If you use a button and its direct child is text, wrap the text in a <span> and apply text styles to that <span>.

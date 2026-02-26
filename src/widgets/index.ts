@@ -7,3 +7,4 @@ export { SearchMovieDrawer } from "./search-movies-drawer";
 export { InteractiveMovieCard } from "./interactive-movie-card";
 export { MovieCard } from "./movie-card";
 export { SettingsModal } from "./settings-modal";
+export { CardSettings } from "./movie-card-settings";
