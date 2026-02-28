@@ -4,7 +4,11 @@ const BLOCKS: IZoneBlock[] = [
   { id: "title", label: "Название" },
   { id: "description", label: "Описание" },
   { id: "genres", label: "Жанры" },
-  { id: "flags", label: "Флаги" },
+  {
+    id: "flags",
+    label: "Флаги",
+    subOptions: [{ id: "showCategories", label: "Категории", storeKey: "showCategories" }],
+  },
   { id: "rating", label: "Рейтинг" },
 ];
 
@@ -25,6 +29,15 @@ export const ZONES: IZones[] = [
     key: "body",
     label: "BODY",
     dotClass: "bg-emerald-accent",
-    blocks: BLOCKS,
+    blocks: [
+      { id: "title", label: "Название" },
+      { id: "description", label: "Описание" },
+      { id: "genres", label: "Жанры" },
+      {
+        id: "flags",
+        label: "Флаги",
+        subOptions: [{ id: "showCategories", label: "Категории", storeKey: "showCategories" }],
+      },
+    ],
   },
 ];

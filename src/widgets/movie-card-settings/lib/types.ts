@@ -1,8 +1,15 @@
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 
+export interface IZoneBlockSubOption {
+  id: string;
+  label: string;
+  storeKey: string;
+}
+
 export interface IZoneBlock {
   id: BlockKey;
   label: string;
+  subOptions?: IZoneBlockSubOption[];
 }
 
 export interface IZones {

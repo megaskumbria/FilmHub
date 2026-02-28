@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Manrope } from "next/font/google";
 import { Header } from "@/widgets";
+import { TooltipProvider } from "@/shared/ui/tooltip";
 // import { ThemeProvider } from "next-themes";
 
 const manrope = Manrope({
@@ -33,13 +34,15 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             disableTransitionOnChange
           > */}
           {/* <SidebarProvider> */}
-          <Header />
-          {/* <Sidebar /> */}
+          <TooltipProvider>
+            <Header />
+            {/* <Sidebar /> */}
 
-          {children}
+            {children}
 
-          {/* </SidebarProvider> */}
-          {/* </ThemeProvider> */}
+            {/* </SidebarProvider> */}
+            {/* </ThemeProvider> */}
+          </TooltipProvider>
         </NextIntlClientProvider>
       </body>
     </html>
