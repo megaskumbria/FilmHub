@@ -10,15 +10,23 @@ import {
   Label,
 } from "@/shared/ui";
 import { ZONES } from "../model/zones";
-import { BLOCKS } from "../model/blocks";
-import { SelectedSettings, ZoneKey } from "../lib/types";
+import { ZoneKey } from "../lib/types";
+import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { MOVIE_CARD_LAYOUT_KEY } from "@/shared/storages/storage-keys";
 
-interface ZonesPanelProps {
-  checked: SelectedSettings;
-  handleChecked: (zone: ZoneKey, blockId: string) => void;
-}
+export const ZonesPanel = () => {
+  const { layout, setLayout } = useMovieCardLayout();
 
-export const ZonesPanel = ({ checked, handleChecked }: ZonesPanelProps) => {
+  const handleChecked = (zone: ZoneKey, blockId: string, checked: boolean) => {
+    const newLayout = {
+      ...layout,
+      [zone]: checked ? [...layout[zone], blockId] : layout[zone].filter((id) => id !== blockId),
+    };
+
+    localStorage.setItem(MOVIE_CARD_LAYOUT_KEY, JSON.stringify(newLayout));
+    setLayout(newLayout);
+  };
+
   return (
     <section className="flex flex-col border-r border-border overflow-y-auto bg-surface min-h-0 drawer-scroll">
       <div className="px-5 pt-5 pb-4">
@@ -30,7 +38,7 @@ export const ZonesPanel = ({ checked, handleChecked }: ZonesPanelProps) => {
       <Separator />
 
       <Accordion type="multiple" defaultValue={["poster", "hover", "body"]} className="px-4 py-1">
-        {ZONES.map(({ key, label, dotClass }) => {
+        {ZONES.map(({ key, label, dotClass, blocks }) => {
           return (
             <AccordionItem key={key} value={key} className="border-border">
               <AccordionTrigger className="cursor-pointer text-xs font-bold tracking-widest text-zinc-muted hover:no-underline hover:text-foreground px-1 py-3.5 [&>svg]:size-3 [&>svg]:text-zinc-muted/50 [&>svg]:translate-y-0 hover:[&>svg]:text-foreground [&>svg]:transition-colors">
@@ -42,24 +50,19 @@ export const ZonesPanel = ({ checked, handleChecked }: ZonesPanelProps) => {
 
               <AccordionContent>
                 <div className="flex flex-col gap-2.5 px-1 pb-3">
-                  {BLOCKS.map((block) => (
-                    <div
+                  {blocks.map((block) => (
+                    <Label
                       key={block.id}
-                      onClick={() => handleChecked(key, block.id)}
-                      className="flex items-center gap-3 px-2 py-1.5 rounded-md cursor-pointer hover:bg-surface-subtle transition-colors group/row"
+                      htmlFor={`${key}-${block.id}`}
+                      className="flex items-center gap-3 px-2 py-1.5 rounded-md cursor-pointer hover:bg-surface-subtle transition-colors group/row text-sm text-zinc-muted group-hover/row:text-foreground font-normal"
                     >
                       <Checkbox
                         id={`${key}-${block.id}`}
-                        onCheckedChange={() => handleChecked(key, block.id)}
-                        className="pointer-events-none"
+                        checked={layout[key].includes(block.id)}
+                        onCheckedChange={(checked) => handleChecked(key, block.id, !!checked)}
                       />
-                      <Label
-                        htmlFor={`${key}-${block.id}`}
-                        className="text-sm text-zinc-muted cursor-pointer group-hover/row:text-foreground transition-colors font-normal pointer-events-none"
-                      >
-                        {block.label}
-                      </Label>
-                    </div>
+                      {block.label}
+                    </Label>
                   ))}
                 </div>
               </AccordionContent>

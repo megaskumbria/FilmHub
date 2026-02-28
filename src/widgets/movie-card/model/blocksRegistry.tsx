@@ -1,3 +1,5 @@
+"use client";
+
 import { IMovieCardData } from "@/shared/model/movies";
 import { Rating, Flags, Title, Genres, Description } from "@/widgets/movie-card";
 

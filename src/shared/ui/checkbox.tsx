@@ -14,7 +14,7 @@ function Checkbox({ className, ...props }: React.ComponentProps<typeof CheckboxP
         "peer size-4 shrink-0 rounded-[4px] border border-zinc-muted/40 bg-surface outline-none overflow-hidden",
         "data-[state=checked]:bg-success data-[state=checked]:border-success",
         "focus-visible:ring-2 focus-visible:ring-success/40 focus-visible:border-success",
-        "disabled:cursor-not-allowed disabled:opacity-50",
+        "disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer",
         className,
       )}
       {...props}

@@ -8,14 +8,8 @@ import { IMovieCardData } from "@/shared/model/movies";
 import { Fragment } from "react/jsx-runtime";
 import { useRef, useState } from "react";
 import { BlockPlacement } from "../model/blocksRegistry";
-
-type BlockKey = keyof typeof blocksRegistry;
-
-type Layout = {
-  poster: BlockKey[];
-  body: BlockKey[];
-  hover: BlockKey[];
-};
+import type { Layout } from "@/shared/model/stores/movie-card-layout";
+import { BlockKey } from "@/shared/types/movie-card-blocks";
 
 interface MovieCardProps {
   movie: IMovieCardData;

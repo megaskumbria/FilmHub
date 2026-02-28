@@ -5,20 +5,12 @@ import { ZONES } from "../model/zones";
 import { Button } from "@/shared/ui";
 import { ChangeEvent, useRef, useState } from "react";
 import { MovieCard } from "@/widgets/movie-card";
-import { IMovieCardData } from "@/shared/model/movies";
-
-const mockMovie: IMovieCardData = {
-  id: 1,
-  imgUrl: "",
-  title: "Последний дом слева",
-  genres: ["ужасы", "триллер"],
-  description: `Семейная пара с дочерью отправляется отдохнуть в загородный дом. Их спокойные выходные превращаются в кошмар, когда дочь знакомится с парнем, члены его криминальной семьи проникают в дом, и насилие приводит к кровавой мести родителей.`,
-  yearOfRelease: 2009,
-  rating: 6.5,
-  durationMinutes: 110,
-};
+import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { mockMovies } from "@/shared/model/movies";
 
 export const CardPreview = () => {
+  const { layout } = useMovieCardLayout();
+
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -60,13 +52,9 @@ export const CardPreview = () => {
         {preview && (
           <div className="relative w-[230px] aspect-2/3 rounded-xl overflow-hidden">
             <MovieCard
-              key={mockMovie.id}
-              movie={{ ...mockMovie, imgUrl: preview }}
-              layout={{
-                poster: [],
-                body: [],
-                hover: [],
-              }}
+              key={mockMovies[0].id}
+              movie={{ ...mockMovies[0], imgUrl: preview }}
+              layout={layout}
             />
           </div>
         )}

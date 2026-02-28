@@ -20,6 +20,7 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
       <DialogContent
         className="w-full max-w-[960px] sm:max-w-[960px] h-[680px] p-0 gap-0 overflow-hidden bg-background border-border"
         showCloseButton
+        aria-describedby={undefined}
       >
         <div className="flex h-full overflow-hidden">
           <SidebarSettingsModal activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
