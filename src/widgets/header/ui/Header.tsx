@@ -1,11 +1,8 @@
 "use client";
 
-// FIXME: нельзя использовать модули, которые находятся на одном уровне
-import { AuthModal, UserMenu } from "@/widgets";
-
 import Link from "next/link";
 import { Button } from "@/shared/ui";
-import { SearchMovieDrawer } from "@/widgets";
+import { SearchMovieDrawer, AuthModal, UserMenu } from "@/widgets";
 // import { LogoSvg } from "@/shared/assets/LogoSvg";
 
 export const Header = () => {
@@ -31,7 +28,7 @@ export const Header = () => {
           </Link>
 
           <AuthModal>
-            <Button variant="outline">Войти / Регистрация</Button>
+            <Button variant="outline">Рега (триггер кнопка)</Button>
           </AuthModal>
         </nav>
 

@@ -40,7 +40,7 @@ export const SearchMovieDrawer = () => {
       <DrawerTrigger asChild>
         <Button
           variant="outline"
-          className="rounded-sm size-9 border-border/80 bg-secondary/50 text-muted-foreground hover:border-accent/40 hover:bg-accent/10 transition-colors"
+          className="flex justify-center rounded-sm size-9 border-border/80 bg-secondary/50 text-muted-foreground hover:border-accent/40 hover:bg-accent/10 transition-colors"
         >
           <Search className="size-4 text-primary" />
         </Button>
