@@ -46,10 +46,12 @@ function TooltipContent({
       >
         {children}
         <TooltipPrimitive.Arrow
-          className="fill-accent z-50 translate-y-[-2px] before:absolute before:border before:border-accent before:w-1 translate-x-[-1.1px]"
+          className="fill-accent z-50  before:absolute before:border before:border-accent before:w-1 "
           width={12}
           height={8}
         />
+        {/* <TooltipPrimitive.Arrow className="size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px] data-[side=inline-end]:top-1/2! data-[side=inline-end]:-left-1 data-[side=inline-end]:-translate-y-1/2 data-[side=inline-start]:top-1/2! data-[side=inline-start]:-right-1 data-[side=inline-start]:-translate-y-1/2 bg-foreground fill-foreground z-50 data-[side=bottom]:top-1 data-[side=left]:top-1/2! data-[side=left]:-right-1 data-[side=left]:-translate-y-1/2 data-[side=right]:top-1/2! data-[side=right]:-left-1 data-[side=right]:-translate-y-1/2 data-[side=top]:-bottom-2.5" /> */}
+        {/* </TooltipPrimitive.Popup> */}
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   );

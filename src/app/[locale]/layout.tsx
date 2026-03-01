@@ -6,6 +6,7 @@ import { Manrope } from "next/font/google";
 import { Header } from "@/widgets";
 import { TooltipProvider } from "@/shared/ui/tooltip";
 // import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/shared/ui/sonner";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -43,6 +44,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             {/* </SidebarProvider> */}
             {/* </ThemeProvider> */}
           </TooltipProvider>
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -8,15 +8,16 @@ import { IMovieCardData } from "@/shared/model/movies";
 import { Fragment } from "react/jsx-runtime";
 import { useRef, useState } from "react";
 import { BlockPlacement } from "../model/blocksRegistry";
-import type { Layout } from "@/shared/model/stores/movie-card-layout";
+import type { BlockOptions, Layout } from "@/shared/model/stores/movie-card-layout";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 
 interface MovieCardProps {
   movie: IMovieCardData;
   layout: Layout;
+  blockOptions: BlockOptions;
 }
 
-export const MovieCard = ({ movie, layout }: MovieCardProps) => {
+export const MovieCard = ({ movie, layout, blockOptions }: MovieCardProps) => {
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
@@ -45,16 +46,30 @@ export const MovieCard = ({ movie, layout }: MovieCardProps) => {
           className="h-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
         />
 
-        <div className="absolute inset-0 flex flex-col justify-end p-3 z-20">
-          {renderBlocks({ keys: poster, movie, hoverHeight, hasHover, placement: "poster" })}
+        <div className="absolute inset-0 flex flex-col gap-1.5 justify-end p-3 z-20">
+          {renderBlocks({
+            keys: poster,
+            movie,
+            hoverHeight,
+            hasHover,
+            placement: "poster",
+            blockOptions,
+          })}
         </div>
 
         <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
           <div
             ref={hoverContentRef}
-            className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out z-20"
+            className="flex flex-col gap-1.5 absolute bottom-0 left-0 right-0 p-3 pt-0 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out z-20"
           >
-            {renderBlocks({ keys: hover, movie, hoverHeight, hasHover, placement: "hover" })}
+            {renderBlocks({
+              keys: hover,
+              movie,
+              hoverHeight,
+              hasHover,
+              placement: "hover",
+              blockOptions,
+            })}
           </div>
         </div>
 
@@ -63,7 +78,11 @@ export const MovieCard = ({ movie, layout }: MovieCardProps) => {
         </Button>
       </div>
 
-      {body.length > 0 && <div className="p-3">{renderBlocks({ keys: body, movie })}</div>}
+      {body.length > 0 && (
+        <div className="p-3 flex flex-col gap-1.5">
+          {renderBlocks({ keys: body, movie, blockOptions, placement: "body" })}
+        </div>
+      )}
     </article>
   );
 };
@@ -74,11 +93,32 @@ interface RenderBlocksProps {
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
+  blockOptions?: BlockOptions;
 }
 
-const renderBlocks = ({ keys, movie, hoverHeight, hasHover, placement }: RenderBlocksProps) => {
+const renderBlocks = ({
+  keys,
+  movie,
+  hoverHeight,
+  hasHover,
+  placement,
+  blockOptions,
+}: RenderBlocksProps) => {
   return keys.map((key) => {
     const block = blocksRegistry[key];
-    return <Fragment key={key}>{block({ movie, hoverHeight, hasHover, placement })}</Fragment>;
+
+    const options = placement ? blockOptions?.[placement]?.[key] : undefined;
+
+    return (
+      <Fragment key={key}>
+        {block({
+          movie,
+          hoverHeight,
+          hasHover,
+          placement,
+          options,
+        })}
+      </Fragment>
+    );
   });
 };

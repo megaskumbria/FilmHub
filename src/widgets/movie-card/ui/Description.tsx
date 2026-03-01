@@ -19,7 +19,7 @@ export const Description = ({
 
   return (
     <p
-      className="text-sm relative line-clamp-3 overflow-hidden max-h-[60px] translate-y-0 transition-transform duration-300 ease-out"
+      className="text-xs relative line-clamp-3 overflow-hidden max-h-[60px] translate-y-0 transition-transform text-justify duration-300 ease-out"
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {description}

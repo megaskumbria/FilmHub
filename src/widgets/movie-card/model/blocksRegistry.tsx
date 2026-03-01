@@ -10,13 +10,19 @@ interface BlocksRegistryProps {
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
+  options?: Record<string, boolean>;
 }
 
 export const blocksRegistry = {
   rating: ({ movie }: BlocksRegistryProps) => <Rating rating={movie.rating} />,
 
-  flags: ({ hoverHeight, hasHover, placement }: BlocksRegistryProps) => (
-    <Flags hoverHeight={hoverHeight} hasHover={hasHover} placement={placement} />
+  flags: ({ hoverHeight, hasHover, placement, options }: BlocksRegistryProps) => (
+    <Flags
+      hoverHeight={hoverHeight}
+      hasHover={hasHover}
+      placement={placement}
+      showCategories={options?.showCategories}
+    />
   ),
 
   title: ({ movie, hoverHeight, hasHover, placement }: BlocksRegistryProps) => (

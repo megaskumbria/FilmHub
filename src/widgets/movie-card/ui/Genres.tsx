@@ -19,7 +19,7 @@ export const Genres = ({
 
   return (
     <div
-      className="flex gap-1 mb-3 overflow-ellipsis overflow-hidden translate-y-0 transition-transform duration-300 ease-out"
+      className="flex gap-1 overflow-ellipsis overflow-hidden translate-y-0 transition-transform duration-300 ease-out"
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {genres.map((genre, index) => (

@@ -5,13 +5,13 @@ import { MovieCard } from "@/widgets/movie-card";
 import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
 
 export default function Home() {
-  const { layout } = useMovieCardLayout();
+  const { layout, blockOptions } = useMovieCardLayout();
 
   return (
     <>
       <div className="grid grid-cols-4 gap-4 justify-center p-4">
         {mockMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} layout={layout} />
+          <MovieCard key={movie.id} movie={movie} layout={layout} blockOptions={blockOptions} />
         ))}
       </div>
 

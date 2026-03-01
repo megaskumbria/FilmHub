@@ -12,16 +12,18 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
+  Button,
 } from "@/shared/ui";
 import { ZONES } from "../model/zones";
 import { ZoneKey } from "../lib/types";
-import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { useMovieCardLayout, defaultLayout } from "@/shared/model/stores/movie-card-layout";
 import { MOVIE_CARD_LAYOUT_KEY } from "@/shared/storages/storage-keys";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, RotateCcw } from "lucide-react";
+import { toast } from "sonner";
 
 export const ZonesPanel = () => {
-  const { layout, setLayout } = useMovieCardLayout();
+  const { layout, setLayout, blockOptions, setBlockOption } = useMovieCardLayout();
 
   const handleChecked = (zone: ZoneKey, blockId: string, checked: boolean) => {
     const newLayout = { ...layout };
@@ -38,6 +40,11 @@ export const ZonesPanel = () => {
     setLayout(newLayout);
   };
 
+  const handleReset = () => {
+    setLayout(defaultLayout);
+    toast.success("Настройки сброшены к значениям по умолчанию", { position: "bottom-left" });
+  };
+
   return (
     <section className="flex flex-col border-r border-border bg-surface min-h-0 ">
       <div className="flex items-center justify-between px-5 pt-5 pb-4">
@@ -45,14 +52,31 @@ export const ZonesPanel = () => {
           Зоны карточки
         </h3>
 
-        <Tooltip>
-          <TooltipTrigger className="text-zinc-muted hover:text-accent transition-colors shrink-0">
-            <HelpCircle className="size-4" />
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="text-sm">Блок может быть активен только в одной зоне.</p>
-          </TooltipContent>
-        </Tooltip>
+        <div className="flex items-center gap-1.5">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={handleReset}
+                size="icon-xs"
+                className="text-zinc-muted hover:text-accent p-0 transition-colors flex justify-center items-center"
+              >
+                <RotateCcw className="size-3.5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-sm">Сбросить к значениям по умолчанию</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger className="w-6! flex justify-center items-center h-6 text-zinc-muted hover:text-accent transition-colors shrink-0">
+              <HelpCircle className="size-4" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-sm">Блок может быть активен только в одной зоне.</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
       </div>
 
       <Separator />
@@ -105,7 +129,10 @@ export const ZonesPanel = () => {
                                 <Switch
                                   id={`${key}-${block.id}-${opt.id}`}
                                   size="sm"
-                                  defaultChecked
+                                  checked={blockOptions?.[key]?.[block.id]?.[opt.storeKey] ?? true}
+                                  onCheckedChange={(checked) =>
+                                    setBlockOption(key, block.id, opt.storeKey, checked)
+                                  }
                                 />
                               </Label>
                             ))}

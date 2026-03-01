@@ -22,7 +22,7 @@ export const Flags = ({
 
   return (
     <div
-      className="flex flex-wrap gap-1.5 mb-2 translate-y-0 transition-transform duration-300 ease-out"
+      className="flex flex-wrap gap-1.5 translate-y-0 transition-transform duration-300 ease-out"
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {flagsData.map((flagData) => {
