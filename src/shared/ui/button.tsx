@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const buttonVariants = cva("cursor-pointer", {
+const buttonVariants = cva("cursor-pointer flex items-center", {
   variants: {
     variant: {
       transparent: "bg-transparent hover:bg-transparent focus:ring-0 focus:ring-offset-0",

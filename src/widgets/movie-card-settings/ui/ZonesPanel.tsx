@@ -52,7 +52,7 @@ export const ZonesPanel = () => {
           Зоны карточки
         </h3>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 max-h-3">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -63,15 +63,17 @@ export const ZonesPanel = () => {
                 <RotateCcw className="size-3.5" />
               </Button>
             </TooltipTrigger>
+
             <TooltipContent>
               <p className="text-sm">Сбросить к значениям по умолчанию</p>
             </TooltipContent>
           </Tooltip>
 
           <Tooltip>
-            <TooltipTrigger className="w-6! flex justify-center items-center h-6 text-zinc-muted hover:text-accent transition-colors shrink-0">
+            <TooltipTrigger className="w-6! flex justify-center p-0 items-center text-zinc-muted hover:text-accent transition-colors shrink-0">
               <HelpCircle className="size-4" />
             </TooltipTrigger>
+
             <TooltipContent>
               <p className="text-sm">Блок может быть активен только в одной зоне.</p>
             </TooltipContent>

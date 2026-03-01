@@ -14,7 +14,7 @@ export const SettingsModal = ({ children }: SettingsModalProps) => {
   const [activeMenu, setActiveMenu] = useState<MenuKey>("movie-card");
 
   return (
-    <Dialog open={true}>
+    <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent

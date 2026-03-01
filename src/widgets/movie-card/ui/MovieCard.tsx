@@ -15,9 +15,15 @@ interface MovieCardProps {
   movie: IMovieCardData;
   layout: Layout;
   blockOptions: BlockOptions;
+  shouldShowAddButton?: boolean;
 }
 
-export const MovieCard = ({ movie, layout, blockOptions }: MovieCardProps) => {
+export const MovieCard = ({
+  movie,
+  layout,
+  blockOptions,
+  shouldShowAddButton = true,
+}: MovieCardProps) => {
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,9 +79,11 @@ export const MovieCard = ({ movie, layout, blockOptions }: MovieCardProps) => {
           </div>
         </div>
 
-        <Button className="border flex items-center justify-center border-border/60 absolute top-2 right-2 size-8 rounded-full bg-background/80 text-foreground hover:bg-accent shadow-md transition-colors z-20">
-          <Plus className="size-4" />
-        </Button>
+        {shouldShowAddButton && (
+          <Button className="border flex items-center justify-center border-border/60 absolute top-2 right-2 size-8 rounded-full bg-background/80 text-foreground hover:bg-accent shadow-md transition-colors z-20">
+            <Plus className="size-4" />
+          </Button>
+        )}
       </div>
 
       {body.length > 0 && (

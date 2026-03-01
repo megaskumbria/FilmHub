@@ -96,6 +96,7 @@ export const CardPreview = () => {
               movie={{ ...mockMovies[0], imgUrl: preview }}
               layout={layout}
               blockOptions={blockOptions}
+              shouldShowAddButton={false}
             />
 
             <DragOverlay visible={isWindowDragOver} />
@@ -105,7 +106,6 @@ export const CardPreview = () => {
         {!preview && (
           <div className="relative" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
             <MovieCardPlaceholder />
-
             <DragOverlay visible={isWindowDragOver} />
           </div>
         )}

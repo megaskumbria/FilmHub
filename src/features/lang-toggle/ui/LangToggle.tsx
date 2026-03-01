@@ -28,7 +28,7 @@ export const LangToggle = () => {
   return (
     <Button
       onClick={() => switchTo(detectedLanguage)}
-      className="h-auto font-medium text-sm transition-colors p-0 justify-start w-fit"
+      className="flex items-center h-auto font-medium text-sm transition-colors p-0 justify-start w-fit"
     >
       <span className={cn(locale === "ru" ? "text-foreground" : "text-muted")}>RU</span>
       <div className="mx-1 size-1 rounded-full bg-muted/50"></div>

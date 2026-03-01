@@ -38,7 +38,7 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           <SearchMovieDrawer />
 
-          <Button className="bg-accent hover:bg-accent/80 text-secondary-foreground border-0">
+          <Button className="rounded-sm p-1.5 bg-accent hover:bg-accent/80 text-secondary-foreground border-0 transition-colors">
             Мои коллекции
           </Button>
 

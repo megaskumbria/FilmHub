@@ -32,7 +32,7 @@ export const SidebarSettingsModal = ({ activeMenu, setActiveMenu }: SidebarSetti
               activeMenu === key
                 && "bg-accent/10 text-accent border border-accent/20 hover:bg-accent/10",
               activeMenu !== key
-                && "text-zinc-muted hover:bg-secondary hover:text-foreground border border-transparent",
+                && "text-zinc-muted hover:bg-border/50 hover:text-zinc-light border border-transparent",
             )}
           >
             {activeMenu === key && (

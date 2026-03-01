@@ -46,7 +46,7 @@ export const UserMenu = () => {
 
         <Button
           size="sm"
-          className="group px-1 h-10 w-full justify-start gap-3 rounded-xl text-destructive transition-colors hover:bg-destructive/10"
+          className="flex items-center group px-1 h-10 w-full justify-start gap-3 rounded-xl text-destructive transition-colors hover:bg-destructive/10"
         >
           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-destructive/15 text-destructive/80 transition-colors ">
             <LogOut size={16} strokeWidth={2} />
