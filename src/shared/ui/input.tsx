@@ -18,6 +18,8 @@ const inputVariants = cva(
           "border-transparent shadow-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         accent:
           "bg-secondary/50 border-border/60 text-foreground placeholder:text-muted focus-visible:border-accent/60 focus-visible:ring-accent/20 transition-all",
+        neutral:
+          "rounded-lg bg-graphite border-border/40 placeholder:text-zinc-muted focus-visible:border-accent/50 focus-visible:ring-accent/20 focus-visible:ring-[3px] transition-all",
       },
       inputSize: {
         sm: "h-8 px-2.5 py-1 text-sm",

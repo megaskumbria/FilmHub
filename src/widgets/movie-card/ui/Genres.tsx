@@ -24,7 +24,7 @@ export const Genres = ({
     >
       {genres.map((genre, index) => (
         <span
-          className="inline-flex items-center whitespace-nowrap rounded-full border border-border/80 bg-linear-to-b from-slate-edge to-surface-subtle p-1.5 text-[11px] font-medium leading-none tracking-wide text-zinc-light shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ring-1 ring-white/5"
+          className="bg-white/5 border border-white/5 inline-flex items-center whitespace-nowrap rounded-full px-2 py-1.5 text-xs font-medium leading-none tracking-wide text-muted"
           key={index}
         >
           {genre}

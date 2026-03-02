@@ -21,14 +21,14 @@ export const Title = ({
 
   return (
     <div
-      className="flex justify-between mb-2 translate-y-0 transition-transform duration-300 ease-out"
+      className="flex justify-between items-center mb-2 translate-y-0 transition-transform duration-300 ease-out"
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       <h3 className="max-w-[200px] overflow-ellipsis whitespace-nowrap overflow-hidden font-semibold text-foreground">
         {title}
       </h3>
 
-      <span>{yearOfRelease}</span>
+      <span className="text-sm font-medium text-muted">{yearOfRelease}</span>
     </div>
   );
 };
