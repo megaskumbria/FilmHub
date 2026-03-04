@@ -12,13 +12,16 @@ import {
 } from "@/shared/ui";
 import { mockMovies, IMovieCardData } from "@/shared/model/movies";
 import { Search } from "lucide-react";
-import { InteractiveMovieCard } from "@/widgets/interactive-movie-card";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { MovieCard } from "@/widgets/movie-card";
+import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
 
 export const SearchMovieDrawer = () => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  const { layout } = useMovieCardLayout();
 
   const navigateToMovieSearch = (e: globalThis.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -66,7 +69,16 @@ export const SearchMovieDrawer = () => {
           <div className="flex justify-center">
             <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-[1000px] w-full">
               {mockMovies.map((movie: IMovieCardData, index) => (
-                <InteractiveMovieCard key={index} movie={movie} />
+                <MovieCard
+                  key={index}
+                  movie={movie}
+                  layout={layout}
+                  blockOptions={{
+                    poster: { flags: { showFlags: false } },
+                    hover: { flags: { showFlags: false } },
+                    body: { flags: { showFlags: false } },
+                  }}
+                />
               ))}
             </div>
           </div>

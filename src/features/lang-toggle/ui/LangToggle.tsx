@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 import { Button } from "@/shared/ui";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 type Lang = "Ru" | "En";
 
