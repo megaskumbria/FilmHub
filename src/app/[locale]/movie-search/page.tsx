@@ -7,7 +7,7 @@ import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
 import { MovieCatalogToolbar } from "@/widgets";
 
 export default function MovieSearchPage() {
-  const { layout, blockOptions } = useMovieCardLayout();
+  const { layout } = useMovieCardLayout();
 
   return (
     <div className="max-w-[1640px] w-full mx-auto p-4">
@@ -19,7 +19,15 @@ export default function MovieSearchPage() {
 
           return (
             <Link href={`/movies/${id}`} key={id}>
-              <MovieCard movie={movie} layout={layout} blockOptions={blockOptions} />
+              <MovieCard
+                movie={movie}
+                layout={layout}
+                blockOptions={{
+                  poster: { flags: { showFlags: false } },
+                  hover: { flags: { showFlags: false } },
+                  body: { flags: { showFlags: false } },
+                }}
+              />
             </Link>
           );
         })}

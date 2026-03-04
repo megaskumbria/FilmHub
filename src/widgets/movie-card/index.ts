@@ -1,10 +1,10 @@
 export { MovieCard } from "./ui/MovieCard";
 export { Rating } from "./ui/Rating";
-export { Flags } from "./ui/Flags";
+export { FlagGroup } from "./ui/FlagGroup";
 export { Title } from "./ui/Title";
 export { Genres } from "./ui/Genres";
 export { Description } from "./ui/Description";
-export { Flag } from "./ui/Flag";
+export { FlagBadge } from "./ui/FlagBadge";
 export { FlagWithCategory } from "./ui/FlagWithCategory";
 
-export { blocksRegistry, type BlockPlacement } from "./model/blocksRegistry";
+export { cardBlocksMap, type BlockPlacement } from "./model/cardBlocksMap";

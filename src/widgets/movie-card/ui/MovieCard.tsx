@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { blocksRegistry } from "@/widgets/movie-card";
+import { cardBlocksMap } from "@/widgets/movie-card";
 import { Button } from "@/shared/ui";
 import { Plus } from "lucide-react";
 import { IMovieCardData } from "@/shared/model/movies";
 import { Fragment } from "react/jsx-runtime";
 import { useRef, useState } from "react";
-import { BlockPlacement } from "../model/blocksRegistry";
+import { BlockPlacement } from "../model/cardBlocksMap";
 import type { BlockOptions, Layout } from "@/shared/model/stores/movie-card-layout";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 
@@ -118,7 +118,7 @@ const renderBlocks = ({
   blockOptions,
 }: RenderBlocksProps) => {
   return keys.map((key) => {
-    const block = blocksRegistry[key];
+    const block = cardBlocksMap[key];
 
     const options = placement ? blockOptions?.[placement]?.[key] : undefined;
 

@@ -2,22 +2,22 @@
 
 import { flagsData } from "@/shared/model/flags";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
-import { BlockPlacement } from "../model/blocksRegistry";
-import { Flag, FlagWithCategory } from "@/widgets/movie-card";
+import { BlockPlacement } from "../model/cardBlocksMap";
+import { FlagBadge, FlagWithCategory } from "@/widgets/movie-card";
 
-interface FlagsProps {
+interface FlagGroupProps {
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
   showCategories?: boolean;
 }
 
-export const Flags = ({
+export const FlagGroup = ({
   hoverHeight = 0,
   hasHover,
   placement,
   showCategories = true,
-}: FlagsProps) => {
+}: FlagGroupProps) => {
   const shouldLift = placement === "poster" && hasHover;
 
   return (
@@ -35,7 +35,7 @@ export const Flags = ({
 
             return (
               <FlagWithCategory key={index + id} category={category} showCategory={showCategories}>
-                <Flag flagItem={FlagItem} category={category} />
+                <FlagBadge flagItem={FlagItem} category={category} />
               </FlagWithCategory>
             );
           });

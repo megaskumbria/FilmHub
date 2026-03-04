@@ -2,12 +2,12 @@
 
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
 
-interface FlagProps {
+interface FlagBadgeProps {
   flagItem: IFlagItem;
   category: string;
 }
 
-export const Flag = ({ flagItem, category }: FlagProps) => {
+export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
   const { flagName, color, bg } = flagItem;
 
   return (

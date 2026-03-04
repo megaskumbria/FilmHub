@@ -1,6 +1,6 @@
 "use client";
 
-import { BlockPlacement } from "../model/blocksRegistry";
+import { BlockPlacement } from "../model/cardBlocksMap";
 
 interface GenresProps {
   genres: string[];

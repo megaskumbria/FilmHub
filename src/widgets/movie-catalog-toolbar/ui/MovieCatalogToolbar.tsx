@@ -15,7 +15,6 @@ export const MovieCatalogToolbar = () => {
 
       <div className="flex flex-wrap items-center justify-between gap-4">
         <CategoryTabs />
-
         <FilterPopover />
       </div>
     </section>

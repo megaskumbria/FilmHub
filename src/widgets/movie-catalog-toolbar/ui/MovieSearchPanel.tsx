@@ -17,11 +17,13 @@ export const MovieSearchPanel = () => {
         animate={{ opacity: isSearchFocused ? 1 : 0 }}
         transition={{ duration: 0.25 }}
       />
+
       <div className="relative flex items-center">
         <Search
           className="absolute left-3 size-4 text-muted transition-colors pointer-events-none"
           style={{ color: isSearchFocused ? "hsl(var(--accent))" : undefined }}
         />
+
         <Input
           type="text"
           value={searchQuery}
@@ -32,16 +34,16 @@ export const MovieSearchPanel = () => {
           variant="neutral"
           className="h-10 pl-9 pr-9 text-sm"
         />
+
         <AnimatePresence>
           {searchQuery && (
             <motion.button
-              type="button"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ duration: 0.15 }}
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center transition-colors group"
+              className="cursor-pointer absolute right-3 size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center transition-colors group"
             >
               <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
             </motion.button>
