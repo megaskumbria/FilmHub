@@ -80,7 +80,12 @@ export const MovieCard = ({
         </div>
 
         {shouldShowAddButton && (
-          <Button className="border flex items-center justify-center border-border/60 absolute top-2 right-2 size-8 rounded-full bg-background/80 text-foreground hover:bg-accent shadow-md transition-colors z-20">
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+            className="border flex items-center justify-center border-border/60 absolute top-2 right-2 size-8 rounded-full bg-background/80 text-foreground hover:bg-accent shadow-md transition-colors z-20"
+          >
             <Plus className="size-4" />
           </Button>
         )}

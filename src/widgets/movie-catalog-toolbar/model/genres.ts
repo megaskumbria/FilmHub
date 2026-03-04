@@ -1,0 +1,15 @@
+export const DATA_GENRE = [
+  { id: "Any genre", htmlFor: "Any genre", label: "Any genre", value: "any" },
+  { id: "Action", htmlFor: "Action", label: "Action", value: "action" },
+  { id: "Horror", htmlFor: "Horror", label: "Horror", value: "horror" },
+  { id: "Comedy", htmlFor: "Comedy", label: "Comedy", value: "comedy" },
+  { id: "Drama", htmlFor: "Drama", label: "Drama", value: "drama" },
+  { id: "Thriller", htmlFor: "Thriller", label: "Thriller", value: "thriller" },
+  { id: "Romance", htmlFor: "Romance", label: "Romance", value: "romance" },
+  { id: "Sci-Fi", htmlFor: "Sci-Fi", label: "Sci-Fi", value: "sci-fi" },
+  { id: "Detective", htmlFor: "Detective", label: "Detective", value: "detective" },
+  { id: "Documentary", htmlFor: "Documentary", label: "Documentary", value: "documentary" },
+  { id: "Animation", htmlFor: "Animation", label: "Animation", value: "animation" },
+  { id: "Adventure", htmlFor: "Adventure", label: "Adventure", value: "adventure" },
+  { id: "Historical", htmlFor: "Historical", label: "Historical", value: "historical" },
+];

@@ -16,6 +16,8 @@ const buttonVariants = cva("cursor-pointer flex items-center", {
       secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
       ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
       link: "text-primary underline-offset-4 hover:underline",
+      accent:
+        "bg-linear-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 shadow-lg shadow-accent/20 transition-all",
     },
     size: {
       default: "h-9 px-4 py-2 has-[>svg]:px-3",
