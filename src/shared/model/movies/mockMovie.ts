@@ -1,3 +1,10 @@
+import mockSliderOne from "../../../../public/images/mock-slider-1.jpg";
+import mockSliderTwo from "../../../../public/images/mock-slider-2.jpg";
+import mockSliderThree from "../../../../public/images/mock-slider-3.jpg";
+import mockSliderFour from "../../../../public/images/mock-slider-4.jpg";
+// import mockSliderFive from "../../../../public/images/mock-slider-5.jpg";
+import mockSliderSix from "../../../../public/images/mock-slider-6.jpg";
+
 export interface IMovieCardData {
   id: number;
   imgUrl: string;
@@ -7,6 +14,7 @@ export interface IMovieCardData {
   yearOfRelease: number;
   rating: number;
   durationMinutes: number;
+  posters?: string[];
 }
 
 export const mockMovies: IMovieCardData[] = [
@@ -73,13 +81,20 @@ export const mockMovies: IMovieCardData[] = [
   },
   {
     id: 7,
-    imgUrl: "/images/mock-movie-3.webp",
-    title: "Зелёная комната",
-    genres: ["триллер", "криминал"],
-    description: `Панк‑группа становится свидетелем жестокого убийства в отдалённом клубе. Они заперты в "зелёной комнате" — дыни издевательств и смертельной опасности — без шанса на спасение.`,
-    yearOfRelease: 2015,
-    rating: 7.0,
-    durationMinutes: 95,
+    imgUrl: "/images/mock-slider-5.jpg",
+    title: "Мстители: Финал",
+    genres: ["фантастика", "приключения", "боевик"],
+    description: `Мстители и их союзники должны разработать новый план, чтобы спасти мир от разрушительного молниеносного удара, который представляет собой угрозу всей человеческой расе.`,
+    yearOfRelease: 2019,
+    rating: 8.4,
+    durationMinutes: 181,
+    posters: [
+      mockSliderOne.src,
+      mockSliderTwo.src,
+      mockSliderThree.src,
+      mockSliderFour.src,
+      mockSliderSix.src,
+    ],
   },
   {
     id: 8,

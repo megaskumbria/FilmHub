@@ -3,93 +3,193 @@
 import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import { mockMovies } from "@/shared/model/movies";
-import { Button } from "@/shared/ui";
-import { Plus, Link2, Star, Calendar, Clock } from "lucide-react";
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
+import { Plus, Link2, Clock, CalendarDays, Info } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import type { Swiper as SwiperType } from "swiper";
+import { useIdle } from "react-use";
 
 function formatDuration(min: number) {
   const h = Math.floor(min / 60);
   const m = min % 60;
-  return h > 0 ? `${h} ч ${m} мин` : `${m} мин`;
+  return h > 0 ? `${h}ч ${m}мин` : `${m}мин`;
 }
 
+const TIMER_VALUE = 5000;
+
 export default function MoviePage() {
+  const [selectedPoster, setSelectedPoster] = useState<string | null>(null);
+
+  const swiperRef = useRef<SwiperType | null>(null);
+  const userClickedRef = useRef(false);
+
+  const isIdle = useIdle(TIMER_VALUE);
+
   const params = useParams();
   const id = params?.id != null ? Number(params.id) : NaN;
   const movie = Number.isInteger(id) ? mockMovies.find((m) => m.id === id) : undefined;
 
   if (!movie) notFound();
 
-  const { imgUrl, title, genres, description, yearOfRelease, rating, durationMinutes } = movie;
+  const { imgUrl, title, genres, description, yearOfRelease, durationMinutes, posters } = movie;
+
+  useEffect(() => {
+    if (!swiperRef.current) return;
+
+    if (!isIdle && selectedPoster !== null) {
+      handlePosterSelect(imgUrl);
+    }
+
+    if (isIdle) {
+      swiperRef.current.autoplay.start();
+      userClickedRef.current = false;
+    } else {
+      swiperRef.current.autoplay.stop();
+      setSelectedPoster((prev) => (prev === null ? prev : null));
+    }
+  }, [isIdle]);
+
+  const realPoster = selectedPoster ?? imgUrl;
+
+  const updatePosters = useMemo(() => [imgUrl, ...(posters ?? [])], []);
+
+  const handlePosterSelect = (poster: string) => {
+    setSelectedPoster(poster);
+    swiperRef.current?.autoplay.stop();
+    userClickedRef.current = true;
+
+    const index = updatePosters.findIndex((p) => p === poster);
+
+    if (index >= 0) {
+      swiperRef.current?.slideToLoop(index);
+    }
+  };
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
-      {/* Background poster with overlay */}
-      <div className="absolute inset-0">
-        <Image src={imgUrl} alt={title} fill className="object-cover" priority />
-        {/* Inset shadow vignette */}
-        <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.6)]" />
-        {/* Bottom to top gradient */}
-        <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
+    <div className="relative w-full overflow-hidden h-screen">
+      <div className="absolute inset-0 w-full">
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={realPoster}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+          >
+            <Image src={realPoster} alt={title} fill className="object-cover" priority />
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* Content area */}
-      <div className="relative h-full flex items-end">
-        <div className="w-full max-w-2xl p-8 pb-16 space-y-6">
-          {/* Metadata badges */}
-          <div className="flex flex-wrap gap-3">
-            {/* Rating badge */}
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/20 backdrop-blur-md border border-amber-500/50 shadow-lg shadow-amber-500/20">
-              <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-              <span className="text-amber-100 font-semibold">{rating}</span>
+      {/* Content pinned to the bottom */}
+      <div className="relative h-full flex flex-col justify-end">
+        <div className="flex items-end justify-between gap-10 px-14 mb-32">
+          {/* ── Left: movie info ── */}
+          <div className="max-w-lg space-y-4 shrink-0">
+            {/* Metadata row */}
+            <div className="flex items-center flex-wrap gap-x-3 gap-y-1.5 text-sm">
+              <div className="flex items-center gap-1.5 text-white/70">
+                <CalendarDays className="size-3.5" />
+                <span>{yearOfRelease}</span>
+              </div>
+
+              <span className="text-zinc-muted">·</span>
+
+              <div className="flex items-center gap-1.5 text-white/70">
+                <Clock className="size-3.5" />
+                <span>{formatDuration(durationMinutes)}</span>
+              </div>
+
+              <span className="text-zinc-muted">·</span>
+              <span className="text-white/60">{genres.join(", ")}</span>
             </div>
 
-            {/* Year badge */}
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-              <Calendar className="w-4 h-4 text-white/80" />
-              <span className="text-white/90 font-medium">{yearOfRelease}</span>
-            </div>
+            {/* Title */}
+            <h1 className="text-5xl font-bold text-white leading-tight">{title}</h1>
 
-            {/* Duration badge */}
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-              <Clock className="w-4 h-4 text-white/80" />
-              <span className="text-white/90 font-medium">{formatDuration(durationMinutes)}</span>
-            </div>
-          </div>
+            {/* Description */}
+            <p className="text-muted font-medium text-base leading-snug line-clamp-5 max-w-md">
+              {description}
+            </p>
 
-          {/* Title */}
-          <h1 className="text-5xl font-bold text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-            {title}
-          </h1>
-
-          {/* Genres */}
-          <div className="flex flex-wrap gap-2">
-            {genres.map((genre) => (
-              <span
-                key={genre}
-                className="px-3 py-1 text-sm font-medium rounded-full bg-blue-500/30 backdrop-blur-sm border border-blue-400/50 text-blue-100 shadow-lg"
+            {/* Action buttons */}
+            <div className="flex gap-3">
+              <Button
+                variant="accent"
+                size="lg"
+                className="gap-2 rounded-lg font-semibold shadow-lg shadow-accent/30"
               >
-                {genre}
-              </span>
-            ))}
+                <Plus className="size-4" />
+                <span>Добавить в коллекцию</span>
+              </Button>
+
+              <Button
+                size="lg"
+                className="gap-2 bg-secondary hover:bg-secondary/90 rounded-lg font-semibold border border-border/60"
+              >
+                <Link2 className="size-4" />
+                <span>Сгенерировать ссылку</span>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="size-4" />
+                  </TooltipTrigger>
+
+                  <TooltipContent>
+                    <p className="text-sm">
+                      Генерирует ссылку на бесплатный источник для просмотра фильма.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </Button>
+            </div>
           </div>
 
-          {/* Description */}
-          <p className="text-white/70 text-lg leading-relaxed line-clamp-3 drop-shadow-md">
-            {description}
-          </p>
-
-          {/* Action buttons */}
-          <div className="flex gap-4 pt-2">
-            <Button className="flex items-center gap-2 px-6 py-3 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-xl shadow-blue-600/40 backdrop-blur-md border border-blue-500/50 transition-all duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/60">
-              <Plus className="w-5 h-5" />
-              Добавить в коллекцию
-            </Button>
-
-            <Button className="flex items-center gap-2 px-6 py-3 text-base font-semibold bg-white/10 hover:bg-white/20 text-white rounded-lg shadow-lg backdrop-blur-md border border-white/30 transition-all duration-200 hover:scale-105 hover:border-white/50">
-              <Link2 className="w-5 h-5" />
-              Сгенерировать ссылку
-            </Button>
-          </div>
+          {/* ── Right: Posters ── */}
+          {posters && posters.length > 0 && (
+            <div className="absolute right-[-100px] max-w-[760px]">
+              <Swiper
+                className="h-[140px]"
+                slideToClickedSlide={true}
+                loop={true}
+                spaceBetween={10}
+                slidesPerView={4}
+                speed={800}
+                modules={[Autoplay]}
+                autoplay={{
+                  delay: 2500,
+                  disableOnInteraction: false,
+                }}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper;
+                  swiper.autoplay.stop();
+                }}
+                onSlideChange={(swiper) => {
+                  if (!isIdle) return;
+                  if (userClickedRef.current) return;
+                  setSelectedPoster(posters[swiper.realIndex]);
+                }}
+              >
+                {updatePosters.map((poster, i) => (
+                  <SwiperSlide
+                    key={i}
+                    onClick={() => {
+                      if (swiperRef.current?.animating) return;
+                      handlePosterSelect(poster);
+                    }}
+                    className="relative rounded-xl overflow-hidden border border-white/30 cursor-pointer transition-all duration-200"
+                  >
+                    <Image src={poster} fill alt={title} className="object-cover" />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          )}
         </div>
       </div>
     </div>

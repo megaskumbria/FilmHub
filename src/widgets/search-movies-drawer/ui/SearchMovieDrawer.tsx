@@ -10,7 +10,8 @@ import {
   Button,
   Input,
 } from "@/shared/ui";
-import { mockMovies, IMovieCardData } from "@/shared/model/movies";
+import { mockMovies } from "@/shared/model/movies";
+import Link from "next/link";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -26,6 +27,7 @@ export const SearchMovieDrawer = () => {
   const navigateToMovieSearch = (e: globalThis.KeyboardEvent) => {
     if (e.key === "Enter") {
       router.push("/movie-search");
+      e.preventDefault();
       setOpen(false);
     }
   };
@@ -34,12 +36,11 @@ export const SearchMovieDrawer = () => {
     if (!open) return;
 
     window.addEventListener("keydown", navigateToMovieSearch);
-
     return () => window.removeEventListener("keydown", navigateToMovieSearch);
-  }, [open]);
+  }, [open, router]);
 
   return (
-    <Drawer direction="top" onOpenChange={setOpen} open={open}>
+    <Drawer direction="top" open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button
           variant="outline"
@@ -57,20 +58,19 @@ export const SearchMovieDrawer = () => {
 
         <DrawerHeader className="px-6 pb-4 pt-2 items-center">
           <div className="relative max-w-[1000px] w-full">
-            <Search
-              className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted cursor-pointer"
-              onClick={() => router.push("/movie-search")}
-            />
+            <Link href="/movie-search" onClick={() => setOpen(false)}>
+              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted cursor-pointer" />
+            </Link>
+
             <Input variant="accent" placeholder="Поиск фильмов..." className="w-full h-11 pl-10" />
           </div>
         </DrawerHeader>
 
-        <div className="drawer-scroll overflow-y-auto px-6 pb-4">
-          <div className="flex justify-center">
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-[1000px] w-full">
-              {mockMovies.map((movie: IMovieCardData, index) => (
+        <div className="drawer-scroll overflow-y-auto px-6 pb-4 flex justify-center">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-[1000px] w-full">
+            {mockMovies.map((movie) => (
+              <Link href={`/movies/${movie.id}`} key={movie.id} onClick={() => setOpen(false)}>
                 <MovieCard
-                  key={index}
                   movie={movie}
                   layout={layout}
                   blockOptions={{
@@ -79,8 +79,8 @@ export const SearchMovieDrawer = () => {
                     body: { flags: { showFlags: false } },
                   }}
                 />
-              ))}
-            </div>
+              </Link>
+            ))}
           </div>
         </div>
 
