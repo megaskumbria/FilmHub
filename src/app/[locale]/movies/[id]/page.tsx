@@ -5,13 +5,9 @@ import Image from "next/image";
 import { mockMovies } from "@/shared/model/movies";
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 import { Plus, Link2, Clock, CalendarDays, Info } from "lucide-react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import "swiper/css";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import type { Swiper as SwiperType } from "swiper";
-import { useIdle } from "react-use";
+import { PosterCarousel } from "@/widgets";
 
 function formatDuration(min: number) {
   const h = Math.floor(min / 60);
@@ -19,15 +15,8 @@ function formatDuration(min: number) {
   return h > 0 ? `${h}ч ${m}мин` : `${m}мин`;
 }
 
-const TIMER_VALUE = 5000;
-
 export default function MoviePage() {
   const [selectedPoster, setSelectedPoster] = useState<string | null>(null);
-
-  const swiperRef = useRef<SwiperType | null>(null);
-  const userClickedRef = useRef(false);
-
-  const isIdle = useIdle(TIMER_VALUE);
 
   const params = useParams();
   const id = params?.id != null ? Number(params.id) : NaN;
@@ -37,37 +26,7 @@ export default function MoviePage() {
 
   const { imgUrl, title, genres, description, yearOfRelease, durationMinutes, posters } = movie;
 
-  useEffect(() => {
-    if (!swiperRef.current) return;
-
-    if (!isIdle && selectedPoster !== null) {
-      handlePosterSelect(imgUrl);
-    }
-
-    if (isIdle) {
-      swiperRef.current.autoplay.start();
-      userClickedRef.current = false;
-    } else {
-      swiperRef.current.autoplay.stop();
-      setSelectedPoster((prev) => (prev === null ? prev : null));
-    }
-  }, [isIdle]);
-
   const realPoster = selectedPoster ?? imgUrl;
-
-  const updatePosters = useMemo(() => [imgUrl, ...(posters ?? [])], []);
-
-  const handlePosterSelect = (poster: string) => {
-    setSelectedPoster(poster);
-    swiperRef.current?.autoplay.stop();
-    userClickedRef.current = true;
-
-    const index = updatePosters.findIndex((p) => p === poster);
-
-    if (index >= 0) {
-      swiperRef.current?.slideToLoop(index);
-    }
-  };
 
   return (
     <div className="relative w-full overflow-hidden h-screen">
@@ -90,7 +49,7 @@ export default function MoviePage() {
       <div className="relative h-full flex flex-col justify-end">
         <div className="flex items-end justify-between gap-10 px-14 mb-32">
           {/* ── Left: movie info ── */}
-          <div className="max-w-lg space-y-4 shrink-0">
+          <div className="max-w-lg shrink-0">
             {/* Metadata row */}
             <div className="flex items-center flex-wrap gap-x-3 gap-y-1.5 text-sm">
               <div className="flex items-center gap-1.5 text-white/70">
@@ -152,43 +111,13 @@ export default function MoviePage() {
 
           {/* ── Right: Posters ── */}
           {posters && posters.length > 0 && (
-            <div className="absolute right-[-100px] max-w-[760px]">
-              <Swiper
-                className="h-[140px]"
-                slideToClickedSlide={true}
-                loop={true}
-                spaceBetween={10}
-                slidesPerView={4}
-                speed={800}
-                modules={[Autoplay]}
-                autoplay={{
-                  delay: 2500,
-                  disableOnInteraction: false,
-                }}
-                onSwiper={(swiper) => {
-                  swiperRef.current = swiper;
-                  swiper.autoplay.stop();
-                }}
-                onSlideChange={(swiper) => {
-                  if (!isIdle) return;
-                  if (userClickedRef.current) return;
-                  setSelectedPoster(posters[swiper.realIndex]);
-                }}
-              >
-                {updatePosters.map((poster, i) => (
-                  <SwiperSlide
-                    key={i}
-                    onClick={() => {
-                      if (swiperRef.current?.animating) return;
-                      handlePosterSelect(poster);
-                    }}
-                    className="relative rounded-xl overflow-hidden border border-white/30 cursor-pointer transition-all duration-200"
-                  >
-                    <Image src={poster} fill alt={title} className="object-cover" />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
+            <PosterCarousel
+              posters={posters}
+              imgUrl={imgUrl}
+              selectedPoster={selectedPoster}
+              setSelectedPoster={setSelectedPoster}
+              title={title}
+            />
           )}
         </div>
       </div>
