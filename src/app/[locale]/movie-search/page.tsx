@@ -10,7 +10,7 @@ export default function MovieSearchPage() {
   const { layout } = useMovieCardLayout();
 
   return (
-    <div className="max-w-[1640px] w-full mx-auto p-4">
+    <div className="max-w-[1640px] w-full mx-auto p-4 pt-16">
       <MovieCatalogToolbar />
 
       <ul className="grid grid-cols-5 gap-4">

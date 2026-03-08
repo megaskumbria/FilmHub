@@ -61,7 +61,7 @@ export const PosterCarousel = ({
   const updatePosters = useMemo(() => [imgUrl, ...(posters ?? [])], []);
 
   return (
-    <div className="absolute right-[-100px] max-w-[760px]">
+    <div className="w-[580px]">
       <Swiper
         className="h-[140px]"
         slideToClickedSlide={true}

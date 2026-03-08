@@ -7,7 +7,7 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 import { Plus, Link2, Clock, CalendarDays, Info } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { PosterCarousel } from "@/widgets";
+import { ActorsCarousel, PosterCarousel } from "@/widgets";
 
 function formatDuration(min: number) {
   const h = Math.floor(min / 60);
@@ -45,34 +45,46 @@ export default function MoviePage() {
         </AnimatePresence>
       </div>
 
-      {/* Content pinned to the bottom */}
+      {/* Gradient scrims — ensures readability on any image */}
+      <div className="absolute inset-0 bg-linear-to-t from-black via-black/55 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/75 via-black/20 to-transparent" />
+
+      {/* Content */}
       <div className="relative h-full flex flex-col justify-end">
-        <div className="flex items-end justify-between gap-10 px-14 mb-32">
+        <div className="flex items-end justify-between gap-10 px-14 mb-10">
           {/* ── Left: movie info ── */}
-          <div className="max-w-lg shrink-0">
-            {/* Metadata row */}
-            <div className="flex items-center flex-wrap gap-x-3 gap-y-1.5 text-sm">
-              <div className="flex items-center gap-1.5 text-white/70">
-                <CalendarDays className="size-3.5" />
-                <span>{yearOfRelease}</span>
-              </div>
+          <div className="max-w-xl shrink-0 flex flex-col gap-4">
+            {/* Metadata chips */}
+            <div className="flex items-center flex-wrap gap-2">
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white text-xs font-medium">
+                <CalendarDays className="size-3" />
+                {yearOfRelease}
+              </span>
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white text-xs font-medium">
+                <Clock className="size-3" />
+                {formatDuration(durationMinutes)}
+              </span>
+            </div>
 
-              <span className="text-zinc-muted">·</span>
-
-              <div className="flex items-center gap-1.5 text-white/70">
-                <Clock className="size-3.5" />
-                <span>{formatDuration(durationMinutes)}</span>
-              </div>
-
-              <span className="text-zinc-muted">·</span>
-              <span className="text-white/60">{genres.join(", ")}</span>
+            {/* Genre chips */}
+            <div className="flex flex-wrap gap-1.5">
+              {genres.map((genre) => (
+                <span
+                  key={genre}
+                  className="px-2.5 py-0.5 rounded-full bg-accent/20 border border-accent/30 text-accent text-xs font-medium"
+                >
+                  {genre}
+                </span>
+              ))}
             </div>
 
             {/* Title */}
-            <h1 className="text-5xl font-bold text-white leading-tight">{title}</h1>
+            <h1 className="text-6xl font-black text-white leading-tight drop-shadow-[0_2px_16px_rgba(0,0,0,0.9)]">
+              {title}
+            </h1>
 
             {/* Description */}
-            <p className="text-muted font-medium text-base leading-snug line-clamp-5 max-w-md">
+            <p className="text-white/70 font-medium text-sm leading-relaxed line-clamp-4 max-w-md">
               {description}
             </p>
 
@@ -89,14 +101,14 @@ export default function MoviePage() {
 
               <Button
                 size="lg"
-                className="gap-2 bg-secondary hover:bg-secondary/90 rounded-lg font-semibold border border-border/60"
+                className="gap-2 bg-white/10 hover:bg-white/20 rounded-lg font-semibold border border-white/20 text-white"
               >
                 <Link2 className="size-4" />
                 <span>Сгенерировать ссылку</span>
 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Info className="size-4" />
+                    <Info className="size-4 text-white/60" />
                   </TooltipTrigger>
 
                   <TooltipContent>
@@ -107,17 +119,22 @@ export default function MoviePage() {
                 </Tooltip>
               </Button>
             </div>
+
+            {/* Actors */}
+            <ActorsCarousel />
           </div>
 
           {/* ── Right: Posters ── */}
           {posters && posters.length > 0 && (
-            <PosterCarousel
-              posters={posters}
-              imgUrl={imgUrl}
-              selectedPoster={selectedPoster}
-              setSelectedPoster={setSelectedPoster}
-              title={title}
-            />
+            <div className="shrink-0">
+              <PosterCarousel
+                posters={posters}
+                imgUrl={imgUrl}
+                selectedPoster={selectedPoster}
+                setSelectedPoster={setSelectedPoster}
+                title={title}
+              />
+            </div>
           )}
         </div>
       </div>

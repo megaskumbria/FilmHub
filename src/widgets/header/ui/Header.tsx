@@ -1,42 +1,65 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Button } from "@/shared/ui";
 import { SearchMovieDrawer, AuthModal, UserMenu } from "@/widgets";
+import { cn } from "@/shared/lib/utils";
 // import { LogoSvg } from "@/shared/assets/LogoSvg";
 
 export const Header = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-background border-b border-border px-4 py-4">
+    <header
+      className={cn(
+        "fixed top-0 z-50 w-full px-10 py-3 transition-colors duration-300",
+        "after:absolute after:inset-x-0 after:bottom-0 after:h-px after:transition-colors after:duration-300",
+        scrolled ?
+          "bg-background/95 after:bg-border/40"
+        : "bg-linear-to-b from-black/75 via-black/20 to-transparent after:bg-transparent",
+      )}
+    >
       <div className="flex w-full items-center justify-between gap-3">
-        <nav className="flex min-w-0 items-center gap-4">
+        <nav className="flex min-w-0 items-center gap-6">
           <Link
             href="/"
-            className="shrink-0 text-2xl flex items-baseline gap-0.5 font-bold tracking-tight transition-colors hover:opacity-90"
+            className="shrink-0 flex items-baseline gap-0 font-black text-xl tracking-tight hover:opacity-85 transition-opacity"
           >
-            {/* <span className="text-primary">Film</span>
-            <span className="text-accent">Hub</span> */}
-            {/* <Image src="/Logo.webp" alt="Logo" width={100} height={100} /> */}
+            <span className="text-primary">Film</span>
+            <span className="text-accent">Hub</span>
           </Link>
 
-          <Link href="/" className="text-base font-medium text-primary">
+          <Link
+            href="/"
+            className="text-sm font-medium text-white/80 hover:text-white transition-colors"
+          >
             Главная
           </Link>
 
-          <Link href="/movie-search" className="text-base font-medium text-primary">
+          <Link
+            href="/movie-search"
+            className="text-sm font-medium text-white/80 hover:text-white transition-colors"
+          >
             Фильмы
           </Link>
 
           <AuthModal>
-            <Button variant="outline">Рега (триггер кнопка)</Button>
+            <Button>Рега (триггер кнопка)</Button>
           </AuthModal>
         </nav>
 
         <div className="flex items-center gap-2">
           <SearchMovieDrawer />
 
-          <Button className="rounded-sm p-1.5 bg-accent hover:bg-accent/80 text-secondary-foreground border-0 transition-colors">
-            Мои коллекции
+          <Button className="rounded-lg px-4 py-2 bg-accent/90 hover:bg-accent text-white border-0 text-sm font-medium transition-colors">
+            <span>Мои коллекции</span>
           </Button>
 
           <UserMenu />

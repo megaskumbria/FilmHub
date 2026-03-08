@@ -8,7 +8,7 @@ export default function Home() {
   const { layout, blockOptions } = useMovieCardLayout();
 
   return (
-    <>
+    <div className="pt-16">
       <h1 className="text-center text-2xl font-bold">
         ЭТА СТРАНИЦА БУДЕТ С КОЛЛОДАМИ КОЛЛЕКЦИЙ ЮЗЕРОВ В ДАЛЬНЕЙШЕМ
       </h1>
@@ -18,6 +18,6 @@ export default function Home() {
           <MovieCard key={movie.id} movie={movie} layout={layout} blockOptions={blockOptions} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
