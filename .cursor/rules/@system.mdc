@@ -3,6 +3,7 @@ alwaysApply: true
 ---
 
 - BEFORE writing any code, you MUST read repomix-output.xml to understand the code structure, code style, naming conventions, and patterns. This is mandatory — do not skip it.
+- Always read the PRD.md file to understand what the application is about.
 - When designing layouts, use colors from the global.css file.
 - Always use semantic HTML tags when designing layouts.
 - Always use the Button and Input components!!!!!! (these files exist in the project).
