@@ -1,28 +1,68 @@
 "use client";
 
+import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
+import { Button } from "@/shared/ui/button";
 
 const MOCK_ACTORS = [
-  { id: 1, name: "Леонардо ДиКаприо", role: "Главная роль" },
-  { id: 2, name: "Джозеф Гордон-Левитт", role: "Второй план" },
-  { id: 3, name: "Эллиот Пейдж", role: "Второй план" },
-  { id: 4, name: "Том Харди", role: "Второй план" },
-  { id: 5, name: "Кен Ватанабэ", role: "Второй план" },
-  { id: 6, name: "Дилип Рао", role: "Эпизод" },
-  { id: 7, name: "Киллиан Мёрфи", role: "Второй план" },
-  { id: 8, name: "Мэрион Котийяр", role: "Второй план" },
-  { id: 9, name: "Майкл Кейн", role: "Эпизод" },
-  { id: 10, name: "Пит Постлтуэйт", role: "Эпизод" },
+  { id: 1, name: "Леонардо ДиКаприо", role: "Дом Кобб" },
+  { id: 2, name: "Джозеф Гордон-Левитт", role: "Артур" },
+  { id: 3, name: "Эллиот Пейдж", role: "Ариадна" },
+  { id: 4, name: "Том Харди", role: "Имс" },
+  { id: 5, name: "Кен Ватанабэ", role: "Саито" },
+  { id: 6, name: "Дилип Рао", role: "Юсуф" },
+  { id: 7, name: "Киллиан Мёрфи", role: "Роберт Фишер" },
+  { id: 8, name: "Мэрион Котийяр", role: "Мал" },
+  { id: 9, name: "Майкл Кейн", role: "Майлс" },
+  { id: 10, name: "Пит Постлтуэйт", role: "Морис Фишер" },
 ];
 
 export const ActorsCarousel = () => {
-  return (
-    <div className="w-full max-w-2xl">
-      <p className="text-sm font-semibold text-white/50 mb-3 uppercase tracking-widest">Актёры</p>
+  const swiperRef = useRef<SwiperType | null>(null);
 
-      <Swiper spaceBetween={20} slidesPerView="auto" loop={false}>
+  const handleNext = () => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
+
+    if (swiper.isEnd) {
+      swiper.slideTo(0);
+    } else {
+      swiper.slideNext();
+    }
+  };
+  return (
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-sm font-semibold text-white/50 uppercase tracking-widest">Актёры</p>
+
+        <div className="flex items-center gap-1 pr-4">
+          <Button
+            onClick={() => swiperRef.current?.slidePrev()}
+            className="flex items-center justify-center size-7 rounded-full border border-white/20 text-white/60 transition-all duration-200 hover:border-accent hover:text-accent hover:bg-accent/10"
+          >
+            <ChevronLeft size={14} />
+          </Button>
+
+          <Button
+            onClick={handleNext}
+            className="flex items-center justify-center size-7 rounded-full border border-white/20 text-white/60 transition-all duration-200 hover:border-accent hover:text-accent hover:bg-accent/10"
+          >
+            <ChevronRight size={14} />
+          </Button>
+        </div>
+      </div>
+
+      <Swiper
+        spaceBetween={10}
+        slidesPerView="auto"
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+      >
         {MOCK_ACTORS.map((actor) => (
           <SwiperSlide key={actor.id} className="w-auto!">
             <div className="flex flex-col items-center gap-2 w-[72px]">

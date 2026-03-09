@@ -4,19 +4,14 @@ import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import { mockMovies } from "@/shared/model/movies";
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
-import { Plus, Link2, Clock, CalendarDays, Info } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ActorsCarousel, PosterCarousel } from "@/widgets";
-
-function formatDuration(min: number) {
-  const h = Math.floor(min / 60);
-  const m = min % 60;
-  return h > 0 ? `${h}ч ${m}мин` : `${m}мин`;
-}
+import { MovieInfoPanel, PosterCarousel } from "@/widgets";
 
 export default function MoviePage() {
   const [selectedPoster, setSelectedPoster] = useState<string | null>(null);
+  const [isUiHidden, setIsUiHidden] = useState(false);
 
   const params = useParams();
   const id = params?.id != null ? Number(params.id) : NaN;
@@ -24,7 +19,7 @@ export default function MoviePage() {
 
   if (!movie) notFound();
 
-  const { imgUrl, title, genres, description, yearOfRelease, durationMinutes, posters } = movie;
+  const { imgUrl, title, posters } = movie;
 
   const realPoster = selectedPoster ?? imgUrl;
 
@@ -45,88 +40,43 @@ export default function MoviePage() {
         </AnimatePresence>
       </div>
 
-      {/* Gradient scrims — ensures readability on any image */}
-      <div className="absolute inset-0 bg-linear-to-t from-black via-black/55 to-transparent" />
-      <div className="absolute inset-0 bg-linear-to-r from-black/75 via-black/20 to-transparent" />
+      <motion.div
+        animate={{ opacity: isUiHidden ? 0 : 1 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="absolute inset-0 bg-linear-to-t from-black via-black/55 to-transparent pointer-events-none"
+      />
+      <motion.div
+        animate={{ opacity: isUiHidden ? 0 : 1 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="absolute inset-0 bg-linear-to-r from-black/75 via-black/20 to-transparent pointer-events-none"
+      />
 
-      {/* Content */}
       <div className="relative h-full flex flex-col justify-end">
         <div className="flex items-end justify-between gap-10 px-14 mb-10">
-          {/* ── Left: movie info ── */}
-          <div className="max-w-xl shrink-0 flex flex-col gap-4">
-            {/* Metadata chips */}
-            <div className="flex items-center flex-wrap gap-2">
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white text-xs font-medium">
-                <CalendarDays className="size-3" />
-                {yearOfRelease}
-              </span>
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white text-xs font-medium">
-                <Clock className="size-3" />
-                {formatDuration(durationMinutes)}
-              </span>
-            </div>
+          <MovieInfoPanel movie={movie} isUiHidden={isUiHidden} />
 
-            {/* Genre chips */}
-            <div className="flex flex-wrap gap-1.5">
-              {genres.map((genre) => (
-                <span
-                  key={genre}
-                  className="px-2.5 py-0.5 rounded-full bg-accent/20 border border-accent/30 text-accent text-xs font-medium"
-                >
-                  {genre}
-                </span>
-              ))}
-            </div>
-
-            {/* Title */}
-            <h1 className="text-6xl font-black text-white leading-tight drop-shadow-[0_2px_16px_rgba(0,0,0,0.9)]">
-              {title}
-            </h1>
-
-            {/* Description */}
-            <p className="text-white/70 font-medium text-sm leading-relaxed line-clamp-4 max-w-md">
-              {description}
-            </p>
-
-            {/* Action buttons */}
-            <div className="flex gap-3">
-              <Button
-                variant="accent"
-                size="lg"
-                className="gap-2 rounded-lg font-semibold shadow-lg shadow-accent/30"
-              >
-                <Plus className="size-4" />
-                <span>Добавить в коллекцию</span>
-              </Button>
-
-              <Button
-                size="lg"
-                className="gap-2 bg-white/10 hover:bg-white/20 rounded-lg font-semibold border border-white/20 text-white"
-              >
-                <Link2 className="size-4" />
-                <span>Сгенерировать ссылку</span>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info className="size-4 text-white/60" />
-                  </TooltipTrigger>
-
-                  <TooltipContent>
-                    <p className="text-sm">
-                      Генерирует ссылку на бесплатный источник для просмотра фильма.
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </Button>
-            </div>
-
-            {/* Actors */}
-            <ActorsCarousel />
-          </div>
-
-          {/* ── Right: Posters ── */}
           {posters && posters.length > 0 && (
-            <div className="shrink-0">
+            <div className="shrink-0 flex flex-col gap-3">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={() => setIsUiHidden((v) => !v)}
+                    className="self-end flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/60 hover:bg-white/18 hover:text-white transition-all duration-200 text-xs font-medium"
+                  >
+                    {isUiHidden ?
+                      <Eye className="size-3.5" />
+                    : <EyeOff className="size-3.5" />}
+                    <span>{isUiHidden ? "Показать" : "Только постер"}</span>
+                  </Button>
+                </TooltipTrigger>
+
+                <TooltipContent side="left">
+                  <p className="text-sm">
+                    {isUiHidden ? "Вернуть интерфейс" : "Скрыть интерфейс, оставить только постер"}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+
               <PosterCarousel
                 posters={posters}
                 imgUrl={imgUrl}
