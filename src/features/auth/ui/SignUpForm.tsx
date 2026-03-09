@@ -15,7 +15,7 @@ import {
   Button,
 } from "@/shared/ui";
 import { GoogleIcon } from "@/shared/icons";
-import { authModalSignUpSchema, type AuthModalSignUpSchema } from "../model";
+import { authModalSignUpSchema, type AuthModalSignUpSchema } from "../model/validation";
 
 export function AuthModalSignUpForm() {
   const [showPassword, setShowPassword] = useState(false);

@@ -12,7 +12,6 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
 
   return (
     <span className="relative inline-flex items-stretch w-fit" title={category}>
-      {/* Body: border on 3 sides, right side open — triangle closes it */}
       <span
         className="pl-1.5 pr-2 py-1 text-xs font-semibold rounded-l-sm border-y border-l saturate-150 flex items-center"
         style={{
@@ -25,7 +24,6 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
         {flagName}
       </span>
 
-      {/* Triangle: fixed 12px — consistent across all badge widths */}
       <svg
         width="8"
         viewBox="0 0 8 22"
@@ -44,7 +42,6 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
         />
       </svg>
 
-      {/* Hole */}
       <span
         aria-hidden
         className="absolute right-2 top-1/2 -translate-y-1/2 w-[5px] h-[5px] rounded-full opacity-75"
