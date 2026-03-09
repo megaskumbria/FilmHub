@@ -1,16 +1,18 @@
 import { Button } from "@/shared/ui/button";
 import { LucideIcon } from "lucide-react";
 import { forwardRef, ReactNode } from "react";
+import Link from "next/link";
 
 interface ActionButtonProps {
   icon: LucideIcon;
   children: ReactNode;
   soon?: boolean;
+  href?: string;
 }
 
 export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
-  ({ icon: Icon, children, soon, ...props }, ref) => {
-    return (
+  ({ icon: Icon, children, soon, href, ...props }, ref) => {
+    const content = (
       <Button
         ref={ref}
         {...props}
@@ -32,5 +34,9 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
         )}
       </Button>
     );
+
+    if (href) return <Link href={href}>{content}</Link>;
+
+    return <Button asChild>{content}</Button>;
   },
 );

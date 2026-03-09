@@ -40,8 +40,8 @@ export const UserMenu = () => {
 
         <LangToggle />
 
-        {/* <Separator decorative orientation="horizontal" /> */}
         <UserActions />
+
         <Separator decorative orientation="horizontal" />
 
         <Button
