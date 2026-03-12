@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Button, Input } from "@/shared/ui";
 import { MovieCard } from "@/widgets/movie-card";
 import { FilterPopover } from "@/widgets/movie-catalog-toolbar";
+import { CollectionComments } from "@/widgets/collection-comments";
 import { mockMovies } from "@/shared/model/movies";
 import { cn } from "@/shared/lib/utils";
 import type { LucideIcon } from "lucide-react";
@@ -313,25 +314,31 @@ export default function AuthorDashboardPage() {
                     {/* Footer */}
                     <div className="px-3.5 py-2.5 bg-surface flex items-center justify-between border-t border-border/50">
                       <span className="font-semibold text-foreground text-sm">{folder.name}</span>
-                      <div className="relative size-4 shrink-0">
+
+                      {/* Count (default) / Eye + Settings (hover) */}
+                      <div className="relative flex items-center shrink-0">
                         <span
                           className={cn(
-                            "absolute inset-0 flex items-center justify-center text-sm text-zinc-muted tabular-nums  duration-200",
+                            "text-sm text-zinc-muted tabular-nums transition-opacity duration-200",
                             isHovered ? "opacity-0" : "opacity-100",
                           )}
                         >
                           {folder.count}
                         </span>
 
-                        <Button
-                          onClick={(e) => e.stopPropagation()}
+                        <div
                           className={cn(
-                            "absolute inset-0 flex items-center justify-center duration-200 text-zinc-muted hover:text-foreground",
+                            "absolute right-0 flex items-center gap-1 transition-opacity duration-200",
                             isHovered ? "opacity-100" : "opacity-0",
                           )}
                         >
-                          <Settings className="size-3.5" />
-                        </Button>
+                          <Button
+                            onClick={(e) => e.stopPropagation()}
+                            className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-foreground hover:bg-white/10 transition-colors"
+                          >
+                            <Settings className="size-4" />
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </Button>
@@ -346,10 +353,16 @@ export default function AuthorDashboardPage() {
           <div className="flex items-center justify-between mb-5">
             {/* Left: title + badge */}
             <div className="flex items-center gap-3">
-              <h2 className="text-base font-semibold text-foreground">{currentFolder?.name}</h2>
-              <span className="text-xs px-2.5 py-0.5 rounded-full bg-surface border border-border text-zinc-muted">
-                {currentFolder?.count} фильмов
-              </span>
+              {currentFolder && (
+                <div className={cn("shrink-0", currentFolder.iconColor)}>
+                  <currentFolder.icon className="size-5" />
+                </div>
+              )}
+              <h2 className={cn("text-lg font-bold", currentFolder?.iconColor)}>
+                {currentFolder?.name}
+              </h2>
+              <div className="w-px h-4 bg-border shrink-0" />
+              <span className="text-base font-normal text-foreground">{currentFolder?.count}</span>
             </div>
 
             {/* Right: search + filters + actions */}
@@ -364,9 +377,10 @@ export default function AuthorDashboardPage() {
                 >
                   <Input
                     value={searchQuery}
+                    variant="neutral"
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Поиск по коллекции..."
-                    className="h-9 text-sm rounded-lg border-border bg-surface"
+                    className="h-9 text-sm rounded-lg border-border bg-surface placeholder:text-zinc-muted"
                     autoFocus={isSearchOpen}
                   />
                 </div>
@@ -391,21 +405,34 @@ export default function AuthorDashboardPage() {
 
               <FilterPopover />
 
+              {/* Divider */}
+              <div className="w-px h-5 bg-border shrink-0" />
+
               <Button
                 size="sm"
-                className="rounded-lg gap-2 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+                className="transition-colors duration-200 h-9 shrink-0 whitespace-nowrap rounded-lg gap-2 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
               >
-                <Clapperboard className="size-4" />
+                <Clapperboard className="size-4 shrink-0" />
                 <span className="text-sm">Добавить фильм вручную</span>
               </Button>
 
               <Button
                 size="sm"
                 onClick={() => setIsCollectionVisible((v) => !v)}
-                className="rounded-lg size-9 p-0 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+                className={cn(
+                  "rounded-lg size-9 p-0 border transition-colors duration-200",
+                  isCollectionVisible ?
+                    "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+                  : "bg-success/10 border-success/30 text-success",
+                )}
               >
                 <ToggleIcon className="size-4" />
               </Button>
+
+              {/* Divider */}
+              <div className="w-px h-5 bg-border shrink-0" />
+
+              <CollectionComments />
             </div>
           </div>
 

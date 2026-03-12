@@ -37,13 +37,13 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
     ],
   },
   {
-    label: "Кабинет Автора",
+    label: "Коллекции",
     items: [
       {
         icon: Clapperboard,
         render: () => (
-          <ActionButton icon={Clapperboard} href="/author-dashboard">
-            Кабинет Автора
+          <ActionButton icon={Clapperboard} href="/my-collections">
+            Мои коллекции
           </ActionButton>
         ),
       },

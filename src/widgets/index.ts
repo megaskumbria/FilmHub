@@ -10,3 +10,4 @@ export { MovieCatalogToolbar } from "./movie-catalog-toolbar";
 export { PosterCarousel } from "./poster-carousel";
 export { ActorsCarousel } from "./actors-carousel";
 export { MovieInfoPanel } from "./movie-info-panel";
+export { CollectionComments } from "./collection-comments";
