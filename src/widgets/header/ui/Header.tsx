@@ -58,9 +58,12 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           <SearchMovieDrawer />
 
-          <Button className="rounded-lg px-4 py-2 bg-accent/90 hover:bg-accent text-white border-0 text-sm font-medium transition-colors">
+          <Link
+            href="/my-collections"
+            className="rounded-lg px-4 py-2 bg-accent/90 hover:bg-accent text-white border-0 text-sm font-medium transition-colors"
+          >
             <span>Мои коллекции</span>
-          </Button>
+          </Link>
 
           <UserMenu />
         </div>
