@@ -24,7 +24,7 @@ export const FilterPopover = () => {
   return (
     <Popover>
       <PopoverTrigger asChild className="group">
-        <Button className="flex justify-center gap-x-2 relative h-9 px-2 max-w-32 w-full rounded-lg bg-graphite border border-border/40 hover:bg-surface hover:border-accent/30 shadow-sm hover:shadow-accent/10 transition-all duration-300 text-sm font-medium">
+        <Button className="flex justify-center gap-x-2 relative h-9 px-2.5 max-w-32 w-full rounded-lg bg-graphite border border-border/40 hover:bg-surface hover:border-accent/30 shadow-sm hover:shadow-accent/10 transition-all duration-300 text-sm font-medium">
           <Filter className="size-4 group-data-[state=open]:rotate-90 transition-transform duration-300" />
 
           <span>Фильтры</span>

@@ -11,3 +11,6 @@ export { PosterCarousel } from "./poster-carousel";
 export { ActorsCarousel } from "./actors-carousel";
 export { MovieInfoPanel } from "./movie-info-panel";
 export { CollectionComments } from "./collection-comments";
+export { CollectionsToolbar } from "./collections-toolbar";
+export { FilterPopover } from "./movie-catalog-toolbar/ui/FilterPopover";
+export { UserCollections } from "./user-collections";
