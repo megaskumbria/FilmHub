@@ -3,7 +3,7 @@
 import { Button } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
-import { Settings } from "lucide-react";
+import { Eye, EyeOff, Heart, Settings, Share2 } from "lucide-react";
 import type { Folder as FolderType } from "../model/mock-folders";
 import { useState } from "react";
 
@@ -13,6 +13,7 @@ interface FolderProps {
   activeFolder: number;
   setActiveFolder: (index: number) => void;
 }
+
 export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderProps) => {
   const [hoveredFolder, setHoveredFolder] = useState<number | null>(null);
 
@@ -27,6 +28,9 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
     count,
     posters,
     iconColor,
+    liked,
+    shared,
+    isVisible,
   } = folder;
 
   const isActive = activeFolder === index;
@@ -93,13 +97,35 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
 
           <div className={cn("absolute inset-0 bg-linear-to-t opacity-60", accentColor)} />
 
-          <div
-            className={cn(
-              "absolute top-2.5 left-2.5 size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10",
-              iconColor,
-            )}
-          >
-            <Icon className="size-4" />
+          <div className="flex flex-col absolute top-2.5 left-2.5 gap-2">
+            <div className="flex items-center gap-2">
+              <div
+                className={cn(
+                  "size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10",
+                  iconColor,
+                )}
+              >
+                <Icon className="size-4" />
+              </div>
+
+              <Button className="size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10">
+                {isVisible ?
+                  <EyeOff className="size-4" />
+                : <Eye className="size-4" />}
+              </Button>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-1">
+                <Share2 size={16} />
+                <span>{shared}</span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <Heart size={16} />
+                <span>{liked}</span>
+              </div>
+            </div>
           </div>
         </div>
 

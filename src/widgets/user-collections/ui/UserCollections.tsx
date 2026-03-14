@@ -1,7 +1,11 @@
+"use client";
+
 import { Button } from "@/shared/ui";
 import { Plus } from "lucide-react";
 import { folders } from "../model/mock-folders";
 import { Folder } from "./Folder";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 interface UserCollectionsProps {
   setActiveFolder: (folder: number) => void;
@@ -20,21 +24,22 @@ export const UserCollections = ({ setActiveFolder, activeFolder }: UserCollectio
         </Button>
       </div>
 
-      <div className="flex flex-wrap gap-3 w-full">
+      <Swiper spaceBetween={10} loop={true} slidesPerView={5}>
         {folders.map((folder, index) => {
           const { id } = folder;
 
           return (
-            <Folder
-              key={id}
-              folder={folder}
-              index={index}
-              activeFolder={activeFolder}
-              setActiveFolder={setActiveFolder}
-            />
+            <SwiperSlide key={id}>
+              <Folder
+                folder={folder}
+                index={index}
+                activeFolder={activeFolder}
+                setActiveFolder={setActiveFolder}
+              />
+            </SwiperSlide>
           );
         })}
-      </div>
+      </Swiper>
     </>
   );
 };

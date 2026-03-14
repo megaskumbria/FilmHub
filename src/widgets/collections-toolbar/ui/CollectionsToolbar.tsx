@@ -2,7 +2,7 @@
 
 import { cn } from "@/shared/lib/utils";
 import { Input, Button, Separator } from "@/shared/ui";
-import { X, Clapperboard, Search, EyeOff, Eye } from "lucide-react";
+import { X, Clapperboard, Search, EyeOff, Eye, Share2, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
 import { folders } from "@/widgets/user-collections/model/mock-folders";
@@ -19,7 +19,7 @@ export const CollectionsToolbar = ({ activeFolder }: CollectionsToolbarProps) =>
   const focusRef = useRef<HTMLInputElement>(null);
 
   const currentFolder = folders[activeFolder];
-  const { iconColor, name, count, icon: Icon } = currentFolder;
+  const { iconColor, name, count, icon: Icon, liked, shared } = currentFolder;
 
   useEffect(() => {
     if (isSearchOpen) {
@@ -46,6 +46,20 @@ export const CollectionsToolbar = ({ activeFolder }: CollectionsToolbarProps) =>
         <Separator orientation="vertical" className="h-5 bg-border" />
 
         <span className="text-base font-normal text-foreground">{count}</span>
+
+        <Separator orientation="vertical" className="h-5 bg-border" />
+
+        <div className="flex items-center gap-2">
+          <Button variant="transparent" size="icon">
+            <Share2 className="size-4" />
+            <span>{shared}</span>
+          </Button>
+
+          <Button variant="transparent" size="icon">
+            <Heart className="size-4" />
+            <span>{liked}</span>
+          </Button>
+        </div>
       </div>
 
       <div className="flex items-center gap-2">

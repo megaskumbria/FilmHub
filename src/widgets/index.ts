@@ -14,3 +14,5 @@ export { CollectionComments } from "./collection-comments";
 export { CollectionsToolbar } from "./collections-toolbar";
 export { FilterPopover } from "./movie-catalog-toolbar/ui/FilterPopover";
 export { UserCollections } from "./user-collections";
+export { ProfileHeader } from "./profile-header";
+export { AddFlagPopover } from "./add-flag-popover";

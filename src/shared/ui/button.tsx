@@ -18,6 +18,8 @@ const buttonVariants = cva("cursor-pointer flex items-center", {
       link: "text-primary underline-offset-4 hover:underline",
       accent:
         "bg-linear-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 shadow-lg shadow-accent/20 transition-all",
+      rounded:
+        "border backdrop-blur-sm flex items-center justify-center border-border/60 rounded-full bg-background/80 hover:bg-accent shadow-md transition-colors",
     },
     size: {
       default: "h-9 px-4 py-2 has-[>svg]:px-3",
