@@ -4,14 +4,14 @@ import { IFlagItem } from "@/shared/model/flags/mockFlags";
 
 interface FlagBadgeProps {
   flagItem: IFlagItem;
-  category: string;
+  category?: string;
 }
 
 export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
   const { flagName, color, bg } = flagItem;
 
   return (
-    <span className="relative inline-flex items-stretch w-fit" title={category}>
+    <span className="relative inline-flex items-stretch w-fit overflow-visible" title={category}>
       <span
         className="pl-1.5 pr-2 py-1 text-xs font-semibold rounded-l-sm border-y border-l saturate-150 flex items-center"
         style={{
@@ -29,8 +29,7 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
         viewBox="0 0 8 22"
         preserveAspectRatio="none"
         aria-hidden
-        className="shrink-0"
-        style={{ height: "100%", overflow: "visible" }}
+        className="shrink-0 self-stretch"
       >
         <polygon points="0,0 8,11 0,22" fill={bg} stroke="none" />
         <polyline

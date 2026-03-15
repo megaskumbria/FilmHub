@@ -1,21 +1,154 @@
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/shared/ui";
+"use client";
+
+import { useState } from "react";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+  Button,
+  RadioGroupItem,
+  RadioGroup,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  Input,
+} from "@/shared/ui";
 import { PopoverMode } from "@/widgets/movie-card/ui/MovieCard";
+import { flagsData } from "@/shared/model/flags";
+import { FlagBadge } from "@/widgets/movie-card/ui/FlagBadge";
+import { HelpCircle, Plus, Search } from "lucide-react";
+import { cn } from "@/shared/lib/utils";
+import { IFlagItem } from "@/shared/model/flags";
 
 interface AddFlagPopoverProps {
   mode: PopoverMode;
 }
 
 export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
+  const [selectedFlags, setSelectedFlags] = useState<Record<string, IFlagItem>>({});
+
+  const handleSelectFlag = (category: string, value: string, flagItems: IFlagItem[]) => {
+    const flag = flagItems.find((flag) => flag.id.toString() === value);
+
+    if (!flag) return;
+
+    setSelectedFlags((prev) => ({
+      ...prev,
+      [category]: flag,
+    }));
+  };
+
   return (
     <>
       {mode === "add-flag" && (
-        <div className="flex flex-col gap-2 max-w-52 w-full bg-surface border border-border/70">
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Is it accessible?</AccordionTrigger>
-              <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
-            </AccordionItem>
-          </Accordion>
+        <div className="flex flex-col w-96 h-full">
+          <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
+            <div className="flex items-center gap-2.5">
+              <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
+              <span className="text-sm font-semibold text-foreground tracking-wide">Флаги</span>
+            </div>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle className="size-4 text-zinc-muted hover:text-foreground transition-colors cursor-pointer" />
+              </TooltipTrigger>
+
+              <TooltipContent>
+                <p>Максимум 1 флаг из категории</p>
+              </TooltipContent>
+            </Tooltip>
+          </header>
+
+          <nav className="p-2.5">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
+              <Input
+                variant="neutral"
+                placeholder="Поиск категории..."
+                className="pl-7 pr-2 text-sm h-9"
+              />
+              {/* {search && (
+                <button
+                  onClick={() => setSearch("")}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-muted hover:text-foreground transition-colors"
+                >
+                  <X className="size-3" />
+                </button>
+              )} */}
+            </div>
+          </nav>
+
+          <div className="overflow-y-auto max-h-64 px-1.5 pb-1 drawer-scroll">
+            {flagsData.length === 0 ?
+              <div className="py-6 text-center text-xs text-zinc-muted">Флаги не найдены</div>
+            : <Accordion type="multiple">
+                {flagsData.map(({ category, flagItems }) => {
+                  return (
+                    <AccordionItem
+                      key={category}
+                      value={category}
+                      className="border-b border-border last:border-0"
+                    >
+                      <AccordionTrigger className="px-2 py-2.5 text-sm font-medium text-foreground/70 rounded-lg hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
+                        <span className="flex items-center gap-2 flex-1 min-w-0">
+                          <span className="truncate">{category}</span>
+
+                          {selectedFlags[category] && (
+                            <span className="ml-auto mr-1 shrink-0">
+                              <FlagBadge flagItem={selectedFlags[category]} />
+                            </span>
+                          )}
+                        </span>
+                      </AccordionTrigger>
+
+                      <AccordionContent className="pb-1">
+                        <RadioGroup
+                          className="gap-0"
+                          value={selectedFlags[category]?.id.toString()}
+                          onValueChange={(value) => handleSelectFlag(category, value, flagItems)}
+                        >
+                          {flagItems.map((flag) => {
+                            const isChecked = selectedFlags[category]?.id === flag.id;
+
+                            return (
+                              <label
+                                key={flag.id}
+                                className={cn(
+                                  "flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all",
+                                  "hover:bg-white/4",
+                                  isChecked
+                                    && "bg-accent/8 shadow-[inset_0_0_0_1px_rgba(155,86,240,0.25)]",
+                                )}
+                              >
+                                <FlagBadge flagItem={flag} />
+                                <RadioGroupItem
+                                  value={flag.id.toString()}
+                                  className={cn(
+                                    "size-3.5 border shrink-0 transition-all",
+                                    isChecked ?
+                                      "border-accent bg-accent/20 text-accent shadow-[0_0_6px_rgba(155,86,240,0.4)]"
+                                    : "border-border/50 text-accent",
+                                  )}
+                                />
+                              </label>
+                            );
+                          })}
+                        </RadioGroup>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
+            }
+          </div>
+
+          <footer className="px-2 py-2 border-t border-border/40 bg-linear-to-r from-accent/3 via-transparent to-transparent">
+            <Button className="w-full h-8 text-zinc-muted hover:text-accent hover:bg-accent/10 transition-all px-2 gap-1.5 rounded-lg justify-start">
+              <Plus className="size-3 shrink-0" />
+              <span>Создать флаг</span>
+            </Button>
+          </footer>
         </div>
       )}
     </>

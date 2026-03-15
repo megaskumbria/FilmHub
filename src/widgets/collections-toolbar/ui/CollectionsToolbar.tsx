@@ -49,15 +49,15 @@ export const CollectionsToolbar = ({ activeFolder }: CollectionsToolbarProps) =>
 
         <Separator orientation="vertical" className="h-5 bg-border" />
 
-        <div className="flex items-center gap-2">
-          <Button variant="transparent" size="icon">
-            <Share2 className="size-4" />
-            <span>{shared}</span>
+        <div className="flex items-center gap-1.5">
+          <Button className="flex items-center gap-1.5 h-8 px-1 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/5 transition-colors duration-200">
+            <Share2 className="size-3.5 shrink-0" />
+            <span className="text-sm tabular-nums">{shared}</span>
           </Button>
 
-          <Button variant="transparent" size="icon">
-            <Heart className="size-4" />
-            <span>{liked}</span>
+          <Button className="flex items-center gap-1.5 h-8 px-1 rounded-lg text-zinc-muted hover:text-rose-400 hover:bg-rose-400/5 transition-colors duration-200">
+            <Heart className="size-3.5 shrink-0" />
+            <span className="text-sm tabular-nums">{liked}</span>
           </Button>
         </div>
       </div>

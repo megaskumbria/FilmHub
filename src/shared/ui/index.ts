@@ -17,3 +17,4 @@ export * from "./accordion";
 export * from "./drawer";
 export * from "./select";
 export * from "./tabs";
+export * from "./radio-group";

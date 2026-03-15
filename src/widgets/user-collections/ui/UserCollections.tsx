@@ -24,7 +24,7 @@ export const UserCollections = ({ setActiveFolder, activeFolder }: UserCollectio
         </Button>
       </div>
 
-      <Swiper spaceBetween={10} loop={true} slidesPerView={5}>
+      <Swiper spaceBetween={10} loop={true} slidesPerView={5} className="min-h-[220px] h-full">
         {folders.map((folder, index) => {
           const { id } = folder;
 

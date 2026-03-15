@@ -21,6 +21,7 @@ interface MovieCardProps {
   blockOptions: BlockOptions;
   shouldShowAddButton?: boolean;
   mode?: PopoverMode;
+  cardWidth?: number;
 }
 
 export const MovieCard = ({
@@ -29,6 +30,7 @@ export const MovieCard = ({
   blockOptions,
   shouldShowAddButton = true,
   mode,
+  cardWidth = 290,
 }: MovieCardProps) => {
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
@@ -39,7 +41,7 @@ export const MovieCard = ({
   const hasHover = hover.length > 0;
 
   return (
-    <article className="max-w-[290px] border border-border rounded-xl relative">
+    <article className="w-full border border-border rounded-xl relative">
       <Link href={`/movies/${movie.id}`}>
         <div
           className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl"
@@ -52,7 +54,7 @@ export const MovieCard = ({
           <Image
             src={imgUrl}
             alt={title}
-            width={290}
+            width={cardWidth}
             height={435}
             className="h-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
           />
@@ -97,7 +99,7 @@ export const MovieCard = ({
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent>
+          <PopoverContent className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full">
             <AddFlagPopover mode={mode} />
           </PopoverContent>
         </Popover>

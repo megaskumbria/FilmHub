@@ -3,7 +3,7 @@
 import { Button } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
-import { Eye, EyeOff, Heart, Settings, Share2 } from "lucide-react";
+import { Eye, EyeOff, Settings } from "lucide-react";
 import type { Folder as FolderType } from "../model/mock-folders";
 import { useState } from "react";
 
@@ -28,8 +28,6 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
     count,
     posters,
     iconColor,
-    liked,
-    shared,
     isVisible,
   } = folder;
 
@@ -53,7 +51,7 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
   return (
     <div
       key={id}
-      className="relative pt-3 flex-1 group"
+      className="relative pt-3 flex-1"
       onMouseEnter={() => setHoveredFolder(index)}
       onMouseLeave={() => setHoveredFolder(null)}
     >
@@ -65,10 +63,12 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
         )}
       />
 
-      <Button
+      <div
+        role="button"
+        tabIndex={0}
         onClick={() => setActiveFolder(index)}
         className={cn(
-          "relative flex-col shadow-lg items-stretch gap-0 h-auto p-0 rounded-b-xl rounded-tr-xl border overflow-hidden transition-all duration-300 w-full",
+          "cursor-pointer relative flex-col shadow-lg items-stretch gap-0 h-auto p-0 rounded-b-xl rounded-tr-xl border overflow-hidden transition-all duration-300 w-full",
           isActive ? borderActive : borderBase,
           isActive && glowColor,
         )}
@@ -97,35 +97,21 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
 
           <div className={cn("absolute inset-0 bg-linear-to-t opacity-60", accentColor)} />
 
-          <div className="flex flex-col absolute top-2.5 left-2.5 gap-2">
-            <div className="flex items-center gap-2">
-              <div
-                className={cn(
-                  "size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10",
-                  iconColor,
-                )}
-              >
-                <Icon className="size-4" />
-              </div>
-
-              <Button className="size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10">
-                {isVisible ?
-                  <EyeOff className="size-4" />
-                : <Eye className="size-4" />}
-              </Button>
+          <div className="flex items-center absolute top-2.5 left-2.5 gap-2">
+            <div
+              className={cn(
+                "size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10",
+                iconColor,
+              )}
+            >
+              <Icon className="size-4" />
             </div>
 
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-1">
-                <Share2 size={16} />
-                <span>{shared}</span>
-              </div>
-
-              <div className="flex items-center gap-1">
-                <Heart size={16} />
-                <span>{liked}</span>
-              </div>
-            </div>
+            <Button className="size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10">
+              {isVisible ?
+                <EyeOff className="size-4" />
+              : <Eye className="size-4" />}
+            </Button>
           </div>
         </div>
 
@@ -157,7 +143,7 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
             </div>
           </div>
         </div>
-      </Button>
+      </div>
     </div>
   );
 };

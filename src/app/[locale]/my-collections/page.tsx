@@ -18,10 +18,16 @@ export default function AuthorDashboardPage() {
 
       <CollectionsToolbar activeFolder={activeFolder} />
 
-      <ul className="grid grid-cols-5 gap-4">
+      <ul className="grid grid-cols-5 gap-2 justify-items-center">
         {mockMovies.map((movie) => (
           <li key={movie.id}>
-            <MovieCard movie={movie} layout={layout} blockOptions={blockOptions} mode="add-flag" />
+            <MovieCard
+              cardWidth={310}
+              movie={movie}
+              layout={layout}
+              blockOptions={blockOptions}
+              mode="add-flag"
+            />
           </li>
         ))}
       </ul>
