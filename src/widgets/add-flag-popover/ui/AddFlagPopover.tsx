@@ -42,7 +42,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
   return (
     <>
       {mode === "add-flag" && (
-        <div className="flex flex-col w-96 h-full">
+        <div className="flex flex-col w-96">
           <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
             <div className="flex items-center gap-2.5">
               <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
@@ -79,7 +79,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
             </div>
           </nav>
 
-          <div className="overflow-y-auto max-h-64 px-1.5 pb-1 drawer-scroll">
+          <div className="overflow-y-auto max-h-92 px-1.5 drawer-scroll">
             {flagsData.length === 0 ?
               <div className="py-6 text-center text-xs text-zinc-muted">Флаги не найдены</div>
             : <Accordion type="multiple">
@@ -90,7 +90,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
                       value={category}
                       className="border-b border-border last:border-0"
                     >
-                      <AccordionTrigger className="px-2 py-2.5 text-sm font-medium text-foreground/70 rounded-lg hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
+                      <AccordionTrigger className="items-center px-2 py-2.5 text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
                         <span className="flex items-center gap-2 flex-1 min-w-0">
                           <span className="truncate">{category}</span>
 

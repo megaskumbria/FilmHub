@@ -13,7 +13,7 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
   return (
     <span className="relative inline-flex items-stretch w-fit overflow-visible" title={category}>
       <span
-        className="pl-1.5 pr-2 py-1 text-xs font-semibold rounded-l-sm border-y border-l saturate-150 flex items-center"
+        className="pl-1.5 pr-2 py-1 text-xs font-semibold rounded-l-sm border-y border-l flex items-center"
         style={{
           color,
           backgroundColor: bg,
