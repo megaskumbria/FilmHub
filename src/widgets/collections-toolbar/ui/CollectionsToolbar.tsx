@@ -5,6 +5,7 @@ import { Input, Button, Separator } from "@/shared/ui";
 import { X, Clapperboard, Search, EyeOff, Eye, Share2, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
+import { AddMovieModal } from "@/widgets/add-movie-modal";
 import { folders } from "@/widgets/user-collections/model/mock-folders";
 
 interface CollectionsToolbarProps {
@@ -99,13 +100,15 @@ export const CollectionsToolbar = ({ activeFolder }: CollectionsToolbarProps) =>
 
         <Separator orientation="vertical" className="h-5 bg-border" />
 
-        <Button
-          size="sm"
-          className="transition-colors duration-200 h-9 shrink-0 whitespace-nowrap rounded-lg gap-2 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
-        >
-          <Clapperboard className="size-4 shrink-0" />
-          <span className="text-sm">Добавить фильм вручную</span>
-        </Button>
+        <AddMovieModal>
+          <Button
+            size="sm"
+            className="transition-colors duration-200 h-9 shrink-0 whitespace-nowrap rounded-lg gap-2 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+          >
+            <Clapperboard className="size-4 shrink-0" />
+            <span className="text-sm">Добавить фильм вручную</span>
+          </Button>
+        </AddMovieModal>
 
         <Button
           size="sm"

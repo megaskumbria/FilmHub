@@ -2,6 +2,7 @@
 
 import { Button } from "@/shared/ui";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { CreateFolderModal } from "@/widgets";
 import { folders } from "../model/mock-folders";
 import { Folder } from "./Folder";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -35,10 +36,12 @@ export const UserCollections = ({ setActiveFolder, activeFolder }: UserCollectio
       <div className="flex items-center justify-between mb-5 pt-5">
         <h2 className="text-lg font-semibold text-foreground">Мои коллекции</h2>
 
-        <Button variant="accent" size="sm" className="rounded-lg gap-2">
-          <Plus className="size-4" />
-          <span className="text-sm font-medium">Создать</span>
-        </Button>
+        <CreateFolderModal>
+          <Button variant="accent" size="sm" className="rounded-lg gap-2">
+            <Plus className="size-4" />
+            <span className="text-sm font-medium">Создать</span>
+          </Button>
+        </CreateFolderModal>
       </div>
 
       <div

@@ -7,7 +7,7 @@ import { cn } from "@/shared/lib/utils";
 const buttonVariants = cva("cursor-pointer flex items-center", {
   variants: {
     variant: {
-      transparent: "bg-transparent hover:bg-transparent focus:ring-0 focus:ring-offset-0",
+      transparent: "bg-transparent focus:ring-0 focus:ring-offset-0",
       default: "bg-primary text-primary-foreground hover:bg-primary/90",
       destructive:
         "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
@@ -32,14 +32,10 @@ const buttonVariants = cva("cursor-pointer flex items-center", {
       "icon-lg": "size-10",
       none: "p-0",
     },
-    hover: {
-      none: "hover:bg-transparent",
-    },
   },
   defaultVariants: {
     variant: "transparent",
     size: "default",
-    hover: "none",
   },
 });
 
@@ -47,7 +43,6 @@ function Button({
   className,
   variant = "transparent",
   size = "none",
-  hover = "none",
   asChild = false,
   ...props
 }: React.ComponentProps<"button">
@@ -63,7 +58,7 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn(buttonVariants({ variant, size, hover }), className)}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     />
   );

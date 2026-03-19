@@ -18,3 +18,5 @@ export * from "./drawer";
 export * from "./select";
 export * from "./tabs";
 export * from "./radio-group";
+export * from "./textarea";
+export * from "./combobox";
