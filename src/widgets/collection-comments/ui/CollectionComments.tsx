@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MessageSquare, ThumbsUp, ThumbsDown, CornerDownRight, Send } from "lucide-react";
+import { MessageSquare, Send } from "lucide-react";
 
 import {
   Sheet,
@@ -13,32 +13,23 @@ import {
   SheetTitle,
 } from "@/shared/ui";
 import { Textarea } from "@/shared/ui/textarea";
-import { cn } from "@/shared/lib/utils";
 import { mockComments, type Comment } from "../model/mockComments";
-import { CommentsSheetHeader } from "./CommentsSheetHeader";
-import { CommentsSheetFooter } from "./CommentsSheetFooter";
+import {
+  CommentByline,
+  CommentVoteButtons,
+  CommentsSheetFooter,
+  CommentsSheetHeader,
+} from "@/widgets/collection-comments";
 
 const MAX_TEXT_LENGTH = 200;
 
 export function CollectionComments() {
   const [comments, setComments] = useState<Comment[]>(mockComments);
-  const [votes, setVotes] = useState<Record<number, "up" | "down">>({});
   const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [replyText, setReplyText] = useState("");
 
   const totalCount = comments.reduce((acc, c) => acc + 1 + c.replies.length, 0);
-
-  function toggleVote(id: number, dir: "up" | "down") {
-    setVotes((prev) => {
-      if (prev[id] === dir) {
-        const next = { ...prev };
-        delete next[id];
-        return next;
-      }
-      return { ...prev, [id]: dir };
-    });
-  }
 
   function toggleExpand(id: number) {
     setExpandedIds((prev) => {
@@ -110,12 +101,14 @@ export function CollectionComments() {
           )} */}
 
           {comments.map((comment, index) => {
+            const { id, author, timestamp, likes, dislikes } = comment;
+            const { name, handle, initials, color } = author;
+
             const isLast = index === comments.length - 1;
             const isExpanded = expandedIds.has(comment.id);
             const isLong = comment.text.length > MAX_TEXT_LENGTH;
             const displayText =
               isLong && !isExpanded ? comment.text.slice(0, MAX_TEXT_LENGTH) + "…" : comment.text;
-            const userVote = votes[comment.id];
             const isReplying = replyingTo === comment.id;
 
             return (
@@ -124,28 +117,14 @@ export function CollectionComments() {
                   <Avatar className="size-8 shrink-0 mt-0.5">
                     <AvatarFallback
                       className="text-xs font-semibold text-white"
-                      style={{ backgroundColor: comment.author.color }}
+                      style={{ backgroundColor: color }}
                     >
-                      {comment.author.initials}
+                      {initials}
                     </AvatarFallback>
                   </Avatar>
 
                   <div className="flex-1 min-w-0 space-y-1.5">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-sm font-semibold text-foreground leading-none">
-                        {comment.author.name}
-                      </span>
-
-                      <span className="text-xs text-zinc-muted leading-none">
-                        {comment.author.handle}
-                      </span>
-
-                      <span className="text-zinc-muted text-xs opacity-40">·</span>
-
-                      <span className="text-xs text-zinc-muted leading-none">
-                        {comment.timestamp}
-                      </span>
-                    </div>
+                    <CommentByline author={name} handle={handle} timestamp={timestamp} />
 
                     <p className="text-sm text-foreground/90 leading-relaxed">
                       {displayText}
@@ -159,67 +138,14 @@ export function CollectionComments() {
                       )}
                     </p>
 
-                    <div className="flex items-center gap-3 pt-0.5">
-                      <div className="flex items-center gap-1">
-                        <Button
-                          onClick={() => toggleVote(comment.id, "up")}
-                          className={cn(
-                            "size-6 p-0 rounded-md transition-colors",
-                            userVote === "up" ? "text-emerald-accent" : (
-                              "text-zinc-muted hover:text-foreground"
-                            ),
-                          )}
-                        >
-                          <ThumbsUp className="size-3.5" />
-                        </Button>
-                        <span
-                          className={cn(
-                            "text-xs tabular-nums",
-                            userVote === "up" ? "text-emerald-accent" : "text-zinc-muted",
-                          )}
-                        >
-                          {comment.likes + (userVote === "up" ? 1 : 0)}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-1">
-                        <Button
-                          onClick={() => toggleVote(comment.id, "down")}
-                          className={cn(
-                            "size-6 p-0 rounded-md transition-colors",
-                            userVote === "down" ? "text-destructive" : (
-                              "text-zinc-muted hover:text-foreground"
-                            ),
-                          )}
-                        >
-                          <ThumbsDown className="size-3.5" />
-                        </Button>
-                        <span
-                          className={cn(
-                            "text-xs tabular-nums",
-                            userVote === "down" ? "text-destructive" : "text-zinc-muted",
-                          )}
-                        >
-                          {comment.dislikes + (userVote === "down" ? 1 : 0)}
-                        </span>
-                      </div>
-
-                      <Button
-                        onClick={() => {
-                          setReplyingTo(isReplying ? null : comment.id);
-                          if (!isReplying) setReplyText("");
-                        }}
-                        className={cn(
-                          "h-6 px-2 rounded-md text-xs gap-1 transition-colors",
-                          isReplying ?
-                            "text-accent bg-accent/10"
-                          : "text-zinc-muted hover:text-foreground",
-                        )}
-                      >
-                        <CornerDownRight className="size-3" />
-                        <span>Ответить</span>
-                      </Button>
-                    </div>
+                    <CommentVoteButtons
+                      id={id}
+                      likes={likes}
+                      dislikes={dislikes}
+                      setReplyingTo={setReplyingTo}
+                      isReplying={isReplying}
+                      setReplyText={setReplyText}
+                    />
 
                     {isReplying && (
                       <div className="flex gap-2.5 pt-2">
@@ -268,8 +194,10 @@ export function CollectionComments() {
                 {comment.replies.length > 0 && (
                   <div className="ml-11 mt-3 space-y-3 border-l-2 border-border/50 pl-3">
                     {comment.replies.map((reply) => {
-                      const replyVote = votes[reply.id];
-                      const isReplyLong = reply.text.length > MAX_TEXT_LENGTH;
+                      const { id, author, text, timestamp, likes, dislikes } = reply;
+                      const { name, handle, initials, color } = author;
+
+                      const isReplyLong = text.length > MAX_TEXT_LENGTH;
                       const isReplyExpanded = expandedIds.has(reply.id);
                       const replyDisplayText =
                         isReplyLong && !isReplyExpanded ?
@@ -281,86 +209,35 @@ export function CollectionComments() {
                           <Avatar className="size-6 shrink-0 mt-0.5">
                             <AvatarFallback
                               className="text-xs font-semibold text-white"
-                              style={{ backgroundColor: reply.author.color }}
+                              style={{ backgroundColor: color }}
                             >
-                              {reply.author.initials}
+                              {initials}
                             </AvatarFallback>
                           </Avatar>
 
                           <div className="flex-1 min-w-0 space-y-1.5">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className="text-xs font-semibold text-foreground leading-none">
-                                {reply.author.name}
-                              </span>
-
-                              <span className="text-xs text-zinc-muted leading-none">
-                                {reply.author.handle}
-                              </span>
-
-                              <span className="text-zinc-muted text-xs opacity-40">·</span>
-
-                              <span className="text-xs text-zinc-muted leading-none">
-                                {reply.timestamp}
-                              </span>
-                            </div>
+                            <CommentByline author={name} handle={handle} timestamp={timestamp} />
 
                             <p className="text-sm text-foreground/90 leading-relaxed">
                               {replyDisplayText}
                               {isReplyLong && (
-                                <button
+                                <Button
                                   onClick={() => toggleExpand(reply.id)}
                                   className="ml-1 text-accent text-xs hover:underline cursor-pointer"
                                 >
                                   {isReplyExpanded ? "Свернуть" : "Читать далее"}
-                                </button>
+                                </Button>
                               )}
                             </p>
 
-                            <div className="flex items-center gap-3">
-                              <div className="flex items-center gap-1">
-                                <Button
-                                  onClick={() => toggleVote(reply.id, "up")}
-                                  className={cn(
-                                    "size-5 p-0 rounded-md transition-colors",
-                                    replyVote === "up" ? "text-emerald-accent" : (
-                                      "text-zinc-muted hover:text-foreground"
-                                    ),
-                                  )}
-                                >
-                                  <ThumbsUp className="size-3" />
-                                </Button>
-                                <span
-                                  className={cn(
-                                    "text-xs tabular-nums",
-                                    replyVote === "up" ? "text-emerald-accent" : "text-zinc-muted",
-                                  )}
-                                >
-                                  {reply.likes + (replyVote === "up" ? 1 : 0)}
-                                </span>
-                              </div>
-
-                              <div className="flex items-center gap-1">
-                                <Button
-                                  onClick={() => toggleVote(reply.id, "down")}
-                                  className={cn(
-                                    "size-5 p-0 rounded-md transition-colors",
-                                    replyVote === "down" ? "text-destructive" : (
-                                      "text-zinc-muted hover:text-foreground"
-                                    ),
-                                  )}
-                                >
-                                  <ThumbsDown className="size-3" />
-                                </Button>
-                                <span
-                                  className={cn(
-                                    "text-xs tabular-nums",
-                                    replyVote === "down" ? "text-destructive" : "text-zinc-muted",
-                                  )}
-                                >
-                                  {reply.dislikes + (replyVote === "down" ? 1 : 0)}
-                                </span>
-                              </div>
-                            </div>
+                            <CommentVoteButtons
+                              id={id}
+                              likes={likes}
+                              dislikes={dislikes}
+                              setReplyingTo={setReplyingTo}
+                              isReplying={isReplying}
+                              setReplyText={setReplyText}
+                            />
                           </div>
                         </div>
                       );

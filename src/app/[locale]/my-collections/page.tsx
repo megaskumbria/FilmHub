@@ -11,7 +11,7 @@ export default function AuthorDashboardPage() {
   const { layout, blockOptions } = useMovieCardLayout();
 
   return (
-    <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16 space-y-8">
+    <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
       <ProfileHeader />
 
       <UserCollections setActiveFolder={setActiveFolder} activeFolder={activeFolder} />

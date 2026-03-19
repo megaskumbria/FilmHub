@@ -33,7 +33,7 @@ export const CollectionsToolbar = ({ activeFolder }: CollectionsToolbarProps) =>
   };
 
   return (
-    <div className="flex items-center justify-between mb-5">
+    <div className="flex items-center justify-between mb-5 pt-5">
       <div className="flex items-center gap-2 pr-2">
         {currentFolder && (
           <div className={cn("shrink-0", iconColor)}>
