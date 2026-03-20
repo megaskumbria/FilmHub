@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import { ImagePlus, X } from "lucide-react";
+import { useRef, useState, type ReactNode } from "react";
+import { ImagePlus, Info, X } from "lucide-react";
 import {
   Button,
   Combobox,
@@ -10,7 +10,6 @@ import {
   ComboboxChipsInput,
   ComboboxContent,
   ComboboxEmpty,
-  ComboboxInput,
   ComboboxItem,
   ComboboxList,
   Dialog,
@@ -21,8 +20,16 @@ import {
   DialogTrigger,
   Input,
   Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Textarea,
   useComboboxAnchor,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { AGE_RATINGS, CONTENT_TYPES, GENRES, type ContentType } from "../model/content-types";
@@ -41,6 +48,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
   const [title, setTitle] = useState("");
 
   const genreAnchorRef = useComboboxAnchor();
+  const dialogContentRef = useRef<HTMLDivElement>(null);
 
   const isSeries = selectedType === "series" || selectedType === "cartoon-series";
 
@@ -65,7 +73,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
           </DialogClose>
         </DialogHeader>
 
-        <div className="overflow-y-auto max-h-[75vh]">
+        <div ref={dialogContentRef} className="overflow-y-auto max-h-[75vh]">
           <div className="px-5 py-5 flex flex-col gap-5">
             {/* Тип контента */}
             <div className="flex flex-col gap-2.5">
@@ -93,30 +101,26 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
             </div>
 
             {/* Обложка + Поля */}
-            <div className="flex gap-4 items-stretch">
-              <button
-                type="button"
-                className={cn(
-                  "shrink-0 w-28 rounded-xl border-2 border-dashed border-border",
-                  "flex flex-col items-center justify-center gap-2",
-                  "bg-surface hover:bg-surface-elevated hover:border-accent/40 transition-all duration-200",
-                  "group",
-                )}
+            <div className="flex gap-4 h-full min-h-80 w-full">
+              <Button
+                size="icon"
+                className="shrink-0 flex-1 w-full flex justify-center h-auto rounded-xl border-2 border-dashed border-border bg-surface hover:bg-surface-elevated hover:border-accent/40 transition-all duration-200 group"
               >
                 <ImagePlus className="size-6 text-zinc-muted group-hover:text-accent transition-colors" />
-                <span className="text-[11px] text-zinc-muted group-hover:text-accent transition-colors text-center leading-tight">
+
+                <span className="text-xs text-zinc-muted group-hover:text-accent transition-colors text-center leading-tight">
                   Обложка
                 </span>
-              </button>
+              </Button>
 
-              <div className="flex-1 flex flex-col gap-3">
+              <div className="flex flex-col justify-between max-w-72 w-full">
                 <div className="flex flex-col gap-1.5">
                   <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
                     Название
                   </Label>
+
                   <Input
                     variant="neutral"
-                    inputSize="default"
                     placeholder="Название фильма..."
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -135,6 +139,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                     <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
                       {isSeries ? "Сезонов" : "Мин."}
                     </Label>
+
                     <Input
                       variant="neutral"
                       inputSize="default"
@@ -146,81 +151,103 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                     <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
                       Возраст
                     </Label>
-                    <Combobox value={selectedAge} onValueChange={(v) => setSelectedAge(v)}>
-                      <ComboboxInput placeholder="—" showClear={!!selectedAge} className="w-full" />
-                      <ComboboxContent>
-                        <ComboboxList>
-                          {AGE_RATINGS.map((age) => (
-                            <ComboboxItem key={age} value={age}>
-                              {age}
-                            </ComboboxItem>
-                          ))}
-                        </ComboboxList>
-                      </ComboboxContent>
-                    </Combobox>
+
+                    <Select
+                      value={selectedAge ?? ""}
+                      onValueChange={(v) => setSelectedAge(v || null)}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="—" />
+                      </SelectTrigger>
+
+                      <SelectContent>
+                        {AGE_RATINGS.map((age) => (
+                          <SelectItem key={age} value={age}>
+                            {age}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
+
+                {/* Жанры */}
+                <div className="flex flex-col gap-2.5">
+                  <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
+                    Жанры
+                  </Label>
+
+                  <Combobox multiple value={selectedGenres} onValueChange={setSelectedGenres}>
+                    <ComboboxChips
+                      ref={genreAnchorRef}
+                      scrollable
+                      className="bg-surface border-border min-h-9"
+                    >
+                      {selectedGenres.map((genre) => (
+                        <ComboboxChip key={genre}>{genre}</ComboboxChip>
+                      ))}
+                      <ComboboxChipsInput
+                        placeholder={selectedGenres.length === 0 ? "Выберите жанры..." : ""}
+                      />
+                    </ComboboxChips>
+
+                    <ComboboxContent anchor={genreAnchorRef} container={dialogContentRef}>
+                      <ComboboxList>
+                        <ComboboxEmpty>Ничего не найдено</ComboboxEmpty>
+                        {GENRES.map((genre) => (
+                          <ComboboxItem key={genre} value={genre}>
+                            {genre}
+                          </ComboboxItem>
+                        ))}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+                </div>
+
+                {/* Оценка */}
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex items-center gap-x-2">
+                    <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
+                      Моя оценка
+                    </Label>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="size-4 text-zinc-muted hover:text-foreground transition-colors cursor-pointer" />
+                      </TooltipTrigger>
+
+                      <TooltipContent>
+                        <p>Ваша кастомная оценка</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+
+                  <Select
+                    value={selectedScore ?? ""}
+                    onValueChange={(v) => setSelectedScore(v || null)}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Не выбрано" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {SCORE_OPTIONS.map((score) => (
+                        <SelectItem key={score} value={score}>
+                          {score}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
-
-            {/* Жанры */}
-            <div className="flex flex-col gap-2.5">
-              <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                Жанры
-              </Label>
-              <Combobox multiple value={selectedGenres} onValueChange={setSelectedGenres}>
-                <ComboboxChips ref={genreAnchorRef} className="bg-surface border-border min-h-9">
-                  {selectedGenres.map((genre) => (
-                    <ComboboxChip key={genre}>{genre}</ComboboxChip>
-                  ))}
-                  <ComboboxChipsInput
-                    placeholder={selectedGenres.length === 0 ? "Выберите жанры..." : ""}
-                  />
-                </ComboboxChips>
-                <ComboboxContent anchor={genreAnchorRef}>
-                  <ComboboxList>
-                    <ComboboxEmpty>Ничего не найдено</ComboboxEmpty>
-                    {GENRES.map((genre) => (
-                      <ComboboxItem key={genre} value={genre}>
-                        {genre}
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxList>
-                </ComboboxContent>
-              </Combobox>
-            </div>
-
-            {/* Оценка */}
-            <div className="flex flex-col gap-2.5">
-              <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                Моя оценка
-              </Label>
-              <Combobox value={selectedScore} onValueChange={(v) => setSelectedScore(v)}>
-                <ComboboxInput
-                  placeholder="Не выбрано"
-                  showClear={!!selectedScore}
-                  className="w-full"
-                />
-                <ComboboxContent>
-                  <ComboboxList>
-                    {SCORE_OPTIONS.map((score) => (
-                      <ComboboxItem key={score} value={score}>
-                        {score} / 10
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxList>
-                </ComboboxContent>
-              </Combobox>
             </div>
 
             {/* Описание */}
             <div className="flex flex-col gap-2.5">
               <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
                 Описание
-                <span className="ml-1.5 normal-case text-zinc-muted/60 font-normal tracking-normal">
-                  — необязательно
-                </span>
               </Label>
+
               <Textarea
                 placeholder="Краткое описание сюжета..."
                 className="resize-none min-h-20 rounded-lg bg-graphite border-border/40 placeholder:text-zinc-muted text-sm focus-visible:border-accent/50 focus-visible:ring-0 transition-all"
