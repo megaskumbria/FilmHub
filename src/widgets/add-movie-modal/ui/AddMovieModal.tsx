@@ -81,8 +81,8 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                 Тип
               </Label>
               <div className="grid grid-cols-4 gap-1.5">
-                {CONTENT_TYPES.map(({ value, label, emoji }) => (
-                  <button
+                {CONTENT_TYPES.map(({ value, label, icon: Icon }) => (
+                  <Button
                     key={value}
                     type="button"
                     onClick={() => setSelectedType(value)}
@@ -93,9 +93,9 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                       : "bg-surface border-border text-zinc-muted hover:text-foreground hover:bg-surface-elevated",
                     )}
                   >
-                    <span className="text-lg leading-none">{emoji}</span>
+                    <Icon size={18} />
                     <span className="text-xs font-medium">{label}</span>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
