@@ -20,6 +20,7 @@ import { FlagBadge } from "@/widgets/movie-card/ui/FlagBadge";
 import { HelpCircle, Plus, Search } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { IFlagItem } from "@/shared/model/flags";
+import Link from "next/link";
 
 interface AddFlagPopoverProps {
   mode: PopoverMode;
@@ -144,10 +145,12 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
           </div>
 
           <footer className="px-2 py-2 border-t border-border/40 bg-linear-to-r from-accent/3 via-transparent to-transparent">
-            <Button className="w-full h-8 text-zinc-muted hover:text-accent hover:bg-accent/10 transition-all px-2 gap-1.5 rounded-lg justify-start">
-              <Plus className="size-3 shrink-0" />
-              <span>Создать флаг</span>
-            </Button>
+            <Link href="/creation-flag">
+              <Button className="w-full h-8 text-zinc-muted hover:text-accent hover:bg-accent/10 transition-all px-2 gap-1.5 rounded-lg justify-start">
+                <Plus className="size-3 shrink-0" />
+                <span>Создать флаг</span>
+              </Button>
+            </Link>
           </footer>
         </div>
       )}
