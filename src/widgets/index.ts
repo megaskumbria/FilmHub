@@ -20,3 +20,6 @@ export { CreateFolderModal } from "./create-folder-modal";
 export { AddMovieModal } from "./add-movie-modal";
 export { FlagCategoriesSidebar } from "./flag-categories-sidebar";
 export { PosterUploadSection } from "./poster-upload-section";
+export { FlagPreview } from "./flag-preview";
+export { FlagNameFontForm } from "./flag-name-font-form";
+export { PopularFlagsCarousel } from "./popular-flags-carousel";

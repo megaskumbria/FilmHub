@@ -1,0 +1,48 @@
+import { Label } from "@/shared/ui";
+import { cn } from "@/shared/lib/utils";
+import { LucideIcon } from "lucide-react";
+import { ICON_MAP } from "@/shared/model/icons";
+
+interface Props {
+  selectedIcon: string;
+  setSelectedIcon: (icon: string) => void;
+  SelectedIconComponent: LucideIcon;
+}
+
+export const FlagIconPicker = ({ selectedIcon, setSelectedIcon, SelectedIconComponent }: Props) => {
+  return (
+    <section className="rounded-xl border border-border/60 bg-surface-subtle p-4">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
+          <Label className="text-sm font-semibold text-foreground">Иконка</Label>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-zinc-muted">Выбрана:</span>
+          <span className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
+            <SelectedIconComponent className="size-4 text-accent" />
+          </span>
+          <span className="text-xs text-zinc-muted">{selectedIcon}</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-10 gap-2">
+        {ICON_MAP.map(({ name, icon: Icon }) => (
+          <button
+            key={name}
+            onClick={() => setSelectedIcon(name)}
+            className={cn(
+              "flex items-center justify-center size-10 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
+              selectedIcon === name
+                && "border-accent bg-accent/10 text-accent shadow-[0_0_8px_rgba(155,86,240,0.3)]",
+              selectedIcon !== name && "border-border/40 text-zinc-muted hover:text-foreground",
+            )}
+            title={name}
+          >
+            <Icon className="size-5" />
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+};

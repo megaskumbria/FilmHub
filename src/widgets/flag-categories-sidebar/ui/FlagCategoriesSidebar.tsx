@@ -58,13 +58,15 @@ export const FlagCategoriesSidebar = () => {
                 className="border-b border-border/40 last:border-0"
               >
                 <AccordionTrigger className="items-center px-2 py-2 text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
-                  <span className="flex items-center gap-2 flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
                     <span className="truncate">{category}</span>
                     <span className="ml-auto flex items-center gap-1.5 shrink-0">
                       <span className="px-1.5 py-0.5 rounded text-[10px] font-medium tabular-nums text-zinc-muted bg-white/6 border border-border/30">
                         {flagItems.length}
                       </span>
+
                       <Button
+                        asChild
                         size="icon-xs"
                         variant="transparent"
                         className="flex items-center justify-center shrink-0 rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-accent hover:border-accent/40 hover:bg-accent/10 transition-colors"
@@ -74,7 +76,7 @@ export const FlagCategoriesSidebar = () => {
                         <Plus className="size-3" />
                       </Button>
                     </span>
-                  </span>
+                  </div>
                 </AccordionTrigger>
 
                 <AccordionContent className="pb-1">

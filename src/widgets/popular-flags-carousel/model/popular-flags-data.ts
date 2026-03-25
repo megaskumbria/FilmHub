@@ -1,0 +1,88 @@
+import { IFlagItem } from "@/shared/model/flags";
+
+export const POPULAR_FLAGS: IFlagItem[] = [
+  {
+    id: 101,
+    flagName: "Литературный шедевр",
+    color: "#008a73",
+    bg: "rgba(0, 138, 115, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 102,
+    flagName: "Жуткая",
+    color: "#ff937e",
+    bg: "rgba(255, 147, 126, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 103,
+    flagName: "Реалистичная",
+    color: "#f4a261",
+    bg: "rgba(244, 162, 97, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 104,
+    flagName: "Обильное",
+    color: "#ef476f",
+    bg: "rgba(239, 71, 111, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 105,
+    flagName: "Гнетущая атмосфера",
+    color: "#5b21b6",
+    bg: "rgba(91, 33, 182, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 106,
+    flagName: "Невыносимая",
+    color: "#1e3a8a",
+    bg: "rgba(30, 58, 138, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 107,
+    flagName: "Кошмарная",
+    color: "#008a73",
+    bg: "rgba(0, 138, 115, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 108,
+    flagName: "Галлюциногенный",
+    color: "#059669",
+    bg: "rgba(5, 150, 105, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 109,
+    flagName: "Абсурдный",
+    color: "#f97316",
+    bg: "rgba(249, 115, 22, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 110,
+    flagName: "Интенсивная",
+    color: "#1d4ed8",
+    bg: "rgba(29, 78, 216, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 111,
+    flagName: "Погружающий",
+    color: "#7c3aed",
+    bg: "rgba(124, 58, 237, 0.38)",
+    isUsed: true,
+  },
+  {
+    id: 112,
+    flagName: "Трип-визуал",
+    color: "#047857",
+    bg: "rgba(4, 120, 87, 0.38)",
+    isUsed: true,
+  },
+];

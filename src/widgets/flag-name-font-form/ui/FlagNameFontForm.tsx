@@ -1,0 +1,49 @@
+import { Label, Input } from "@/shared/ui";
+import FontPicker from "react-fontpicker-ts";
+
+interface Props {
+  flagName: string;
+  selectedFont: string;
+  setFlagName: (value: string) => void;
+  setSelectedFont: (value: string) => void;
+}
+
+export const FlagNameFontForm = ({
+  flagName,
+  selectedFont,
+  setFlagName,
+  setSelectedFont,
+}: Props) => {
+  return (
+    <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4">
+      <div className="flex items-center gap-2">
+        <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
+        <span className="text-sm font-semibold text-foreground tracking-wide">Настройки</span>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
+          Название флага
+        </Label>
+        <Input
+          variant="neutral"
+          placeholder="Введите название..."
+          className="h-9 text-sm"
+          value={flagName}
+          onChange={(e) => setFlagName(e.target.value)}
+        />
+        <p className="text-[11px] text-zinc-muted/50">До 30 символов</p>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
+          Шрифт
+        </Label>
+        <div className="font-picker-wrapper">
+          <FontPicker defaultValue={selectedFont} value={(val) => setSelectedFont(val)} autoLoad />
+        </div>
+        <p className="text-[11px] text-zinc-muted/50">Выбран: {selectedFont}</p>
+      </div>
+    </section>
+  );
+};
