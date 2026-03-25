@@ -1,22 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-  Button,
-  Input,
-  Label,
-  Separator,
-} from "@/shared/ui";
-import { flagsData, type IFlagItem } from "@/shared/model/flags";
+import { Input, Label, Separator } from "@/shared/ui";
 import { FlagBadge } from "@/widgets/movie-card/ui/FlagBadge";
 import { cn } from "@/shared/lib/utils";
 import {
-  Search,
-  Plus,
   Flame,
   Skull,
   Ghost,
@@ -60,6 +48,8 @@ import {
 } from "lucide-react";
 import FontPicker from "react-fontpicker-ts";
 import "react-fontpicker-ts/dist/index.css";
+import { FlagCategoriesSidebar, PosterUploadSection } from "@/widgets";
+import { IFlagItem } from "@/shared/model/flags";
 
 const PRESET_COLORS = [
   "#ef4444",
@@ -234,32 +224,14 @@ const POPULAR_FLAGS: IFlagItem[] = [
   },
 ];
 
-const allCategoryNames = flagsData.map((d) => d.category);
-
 export default function CreationFlagPage() {
   const [flagName, setFlagName] = useState("Новый флаг");
   const [selectedColor, setSelectedColor] = useState("#8b5cf6");
   const [selectedIcon, setSelectedIcon] = useState("Flame");
   const [selectedFont, setSelectedFont] = useState("Manrope");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [categoryName, setCategoryName] = useState("");
 
   const selectedColorBg = selectedColor + "61";
-
   const SelectedIconComponent = ICON_MAP.find((i) => i.name === selectedIcon)?.icon ?? Flame;
-
-  const filteredFlags = flagsData
-    .map((category) => ({
-      ...category,
-      flagItems: category.flagItems.filter((flag) =>
-        flag.flagName.toLowerCase().includes(searchQuery.toLowerCase()),
-      ),
-    }))
-    .filter(
-      (category) =>
-        category.category.toLowerCase().includes(searchQuery.toLowerCase())
-        || category.flagItems.length > 0,
-    );
 
   return (
     <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
@@ -271,120 +243,26 @@ export default function CreationFlagPage() {
       </header>
 
       <div className="flex gap-6 items-start">
-        {/* ===== LEFT SIDEBAR ===== */}
-        <aside className="w-80 shrink-0 rounded-xl border border-border/60 bg-surface-subtle flex flex-col overflow-hidden">
-          <div className="px-4 py-3.5 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
-            <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-              <span className="text-sm font-semibold text-foreground tracking-wide">
-                Категории флагов
-              </span>
-            </div>
-
-            <div className="flex gap-2">
-              <Input
-                variant="neutral"
-                placeholder="Название категории..."
-                className="text-sm h-8 flex-1"
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-              />
-              <Button
-                variant="accent"
-                size="sm"
-                className="shrink-0 rounded-lg text-xs font-medium"
-              >
-                <Plus className="size-3.5" />
-                <span>Создать</span>
-              </Button>
-            </div>
-          </div>
-
-          <nav className="px-3 py-2.5">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
-              <Input
-                variant="neutral"
-                placeholder="Поиск категорий и флагов..."
-                className="pl-7 pr-2 text-sm h-8"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </nav>
-
-          <div className="overflow-y-auto flex-1 max-h-[540px] px-2 drawer-scroll">
-            {filteredFlags.length === 0 ?
-              <div className="py-8 text-center text-xs text-zinc-muted">Ничего не найдено</div>
-            : <Accordion type="multiple" defaultValue={allCategoryNames}>
-                {filteredFlags.map(({ category, flagItems }) => (
-                  <AccordionItem
-                    key={category}
-                    value={category}
-                    className="border-b border-border/40 last:border-0"
-                  >
-                    <AccordionTrigger className="items-center px-2 py-2 text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
-                      <span className="flex items-center gap-2 flex-1 min-w-0">
-                        <span className="truncate">{category}</span>
-                        <span className="ml-auto mr-1 text-[10px] text-zinc-muted/60 tabular-nums">
-                          {flagItems.length}
-                        </span>
-                      </span>
-                    </AccordionTrigger>
-
-                    <AccordionContent className="pb-1">
-                      <ul className="flex flex-col gap-0.5">
-                        {flagItems.map((flag) => (
-                          <li
-                            key={`${category}-${flag.id}`}
-                            className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg hover:bg-white/4 transition-colors cursor-pointer"
-                          >
-                            <FlagBadge flagItem={flag} />
-                            <span
-                              className={cn(
-                                "size-1.5 rounded-full shrink-0",
-                                flag.isUsed && "bg-emerald-accent",
-                                !flag.isUsed && "bg-zinc-muted/30",
-                              )}
-                            />
-                          </li>
-                        ))}
-                      </ul>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            }
-          </div>
-
-          <footer className="px-3 py-3 border-t border-border/40 bg-linear-to-r from-accent/3 via-transparent to-transparent">
-            <Button
-              variant="accent"
-              size="default"
-              className="w-full h-9 rounded-lg text-sm font-semibold gap-2 justify-center"
-            >
-              <Plus className="size-4" />
-              <span>Создать флаг</span>
-            </Button>
-          </footer>
-        </aside>
+        <FlagCategoriesSidebar />
 
         {/* ===== CENTER CONTENT ===== */}
-        <main className="flex-1 min-w-0 flex flex-col gap-6">
-          {/* Flag Preview */}
-          <section className="rounded-xl border border-border/60 bg-surface-subtle p-6">
-            <div className="flex items-center gap-2.5 mb-5">
-              <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-              <span className="text-sm font-semibold text-foreground tracking-wide">
-                Предпросмотр
-              </span>
-            </div>
+        <main className="flex-1 min-w-0 grid grid-cols-[310px_1fr] grid-rows-[auto_auto] gap-4 items-stretch">
+          <PosterUploadSection />
 
-            <div className="flex items-center justify-center py-10 rounded-lg bg-obsidian/60 border border-border/30">
-              <div className="flex flex-col items-center gap-5">
-                {/* Large preview */}
+          {/* ── TOP RIGHT ROW: Flag Preview · Name + Font ── */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* [ORANGE] Flag Preview */}
+            <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
+                <span className="text-sm font-semibold text-foreground tracking-wide">
+                  Предпросмотр флага
+                </span>
+              </div>
+
+              <div className="flex-1 flex flex-col items-center justify-center gap-5 rounded-lg bg-obsidian/60 border border-border/30 py-8">
                 <div
-                  className="relative inline-flex items-center gap-2.5 px-5 py-3 rounded-lg border"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-lg border"
                   style={{
                     backgroundColor: selectedColorBg,
                     borderColor: selectedColor,
@@ -397,16 +275,12 @@ export default function CreationFlagPage() {
                   />
                   <span
                     className="text-lg font-bold"
-                    style={{
-                      color: selectedColor,
-                      textShadow: "0 1px 3px rgba(0, 0, 0, 0.8)",
-                    }}
+                    style={{ color: selectedColor, textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
                   >
                     {flagName || "Название флага"}
                   </span>
                 </div>
 
-                {/* Badge-style preview */}
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-zinc-muted">Вид бейджа:</span>
                   <FlagBadge
@@ -420,103 +294,119 @@ export default function CreationFlagPage() {
                   />
                 </div>
               </div>
-            </div>
-          </section>
-
-          {/* Settings Grid */}
-          <div className="grid grid-cols-2 gap-6">
-            {/* Flag Name */}
-            <section className="rounded-xl border border-border/60 bg-surface-subtle p-5">
-              <Label className="text-sm font-semibold text-foreground mb-3">Название флага</Label>
-              <Input
-                variant="neutral"
-                placeholder="Введите название..."
-                className="h-10 text-sm"
-                value={flagName}
-                onChange={(e) => setFlagName(e.target.value)}
-              />
-              <p className="text-[11px] text-zinc-muted/60 mt-2">
-                Используйте краткое и понятное название, до 30 символов
-              </p>
             </section>
 
-            {/* Font Selector */}
-            <section className="rounded-xl border border-border/60 bg-surface-subtle p-5">
-              <Label className="text-sm font-semibold text-foreground mb-3">Шрифт</Label>
-              <div className="font-picker-wrapper">
-                <FontPicker
-                  defaultValue={selectedFont}
-                  value={(val) => setSelectedFont(val)}
-                  autoLoad
-                />
+            {/* [PURPLE] Name + Font */}
+            <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
+                <span className="text-sm font-semibold text-foreground tracking-wide">
+                  Настройки
+                </span>
               </div>
-              <p className="text-[11px] text-zinc-muted/60 mt-2">Выбранный шрифт: {selectedFont}</p>
+
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
+                  Название флага
+                </Label>
+                <Input
+                  variant="neutral"
+                  placeholder="Введите название..."
+                  className="h-9 text-sm"
+                  value={flagName}
+                  onChange={(e) => setFlagName(e.target.value)}
+                />
+                <p className="text-[11px] text-zinc-muted/50">До 30 символов</p>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
+                  Шрифт
+                </Label>
+                <div className="font-picker-wrapper">
+                  <FontPicker
+                    defaultValue={selectedFont}
+                    value={(val) => setSelectedFont(val)}
+                    autoLoad
+                  />
+                </div>
+                <p className="text-[11px] text-zinc-muted/50">Выбран: {selectedFont}</p>
+              </div>
             </section>
           </div>
 
-          {/* Color Picker */}
-          <section className="rounded-xl border border-border/60 bg-surface-subtle p-5">
-            <div className="flex items-center justify-between mb-4">
-              <Label className="text-sm font-semibold text-foreground">Цвет фона</Label>
-              <div className="flex items-center gap-2">
-                <span
-                  className="size-5 rounded-md border border-border/60"
-                  style={{ backgroundColor: selectedColor }}
-                />
-                <span className="text-xs text-zinc-muted font-mono">{selectedColor}</span>
+          {/* ── BOTTOM RIGHT ROW: Color · Icon ── */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* [GREEN] Color Picker */}
+            <section className="rounded-xl border border-border/60 bg-surface-subtle p-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
+                  <Label className="text-sm font-semibold text-foreground">Цвет фона</Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span
+                    className="size-5 rounded-md border border-border/60"
+                    style={{ backgroundColor: selectedColor }}
+                  />
+                  <span className="text-xs text-zinc-muted font-mono">{selectedColor}</span>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-10 gap-2">
-              {PRESET_COLORS.map((color) => (
-                <button
-                  key={color}
-                  onClick={() => setSelectedColor(color)}
-                  className={cn(
-                    "size-9 rounded-lg border-2 transition-all cursor-pointer hover:scale-110",
-                    selectedColor === color
-                      && "border-foreground ring-2 ring-foreground/20 scale-110",
-                    selectedColor !== color && "border-transparent",
-                  )}
-                  style={{ backgroundColor: color }}
-                  title={color}
-                />
-              ))}
-            </div>
-          </section>
-
-          {/* Icon Picker */}
-          <section className="rounded-xl border border-border/60 bg-surface-subtle p-5">
-            <div className="flex items-center justify-between mb-4">
-              <Label className="text-sm font-semibold text-foreground">Иконка</Label>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-zinc-muted">Выбрана:</span>
-                <span className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
-                  <SelectedIconComponent className="size-4 text-accent" />
-                </span>
-                <span className="text-xs text-zinc-muted">{selectedIcon}</span>
+              <div className="grid grid-cols-10 gap-2">
+                {PRESET_COLORS.map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => setSelectedColor(color)}
+                    className={cn(
+                      "size-9 rounded-lg border-2 transition-all cursor-pointer hover:scale-110",
+                      selectedColor === color
+                        && "border-foreground ring-2 ring-foreground/20 scale-110",
+                      selectedColor !== color && "border-transparent",
+                    )}
+                    style={{ backgroundColor: color }}
+                    title={color}
+                  />
+                ))}
               </div>
-            </div>
+            </section>
 
-            <div className="grid grid-cols-10 gap-2">
-              {ICON_MAP.map(({ name, icon: Icon }) => (
-                <button
-                  key={name}
-                  onClick={() => setSelectedIcon(name)}
-                  className={cn(
-                    "flex items-center justify-center size-10 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
-                    selectedIcon === name
-                      && "border-accent bg-accent/10 text-accent shadow-[0_0_8px_rgba(155,86,240,0.3)]",
-                    selectedIcon !== name
-                      && "border-border/40 text-zinc-muted hover:text-foreground",
-                  )}
-                  title={name}
-                >
-                  <Icon className="size-5" />
-                </button>
-              ))}
-            </div>
-          </section>
+            {/* [BLUE] Icon Picker */}
+            <section className="rounded-xl border border-border/60 bg-surface-subtle p-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
+                  <Label className="text-sm font-semibold text-foreground">Иконка</Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-zinc-muted">Выбрана:</span>
+                  <span className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
+                    <SelectedIconComponent className="size-4 text-accent" />
+                  </span>
+                  <span className="text-xs text-zinc-muted">{selectedIcon}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-10 gap-2">
+                {ICON_MAP.map(({ name, icon: Icon }) => (
+                  <button
+                    key={name}
+                    onClick={() => setSelectedIcon(name)}
+                    className={cn(
+                      "flex items-center justify-center size-10 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
+                      selectedIcon === name
+                        && "border-accent bg-accent/10 text-accent shadow-[0_0_8px_rgba(155,86,240,0.3)]",
+                      selectedIcon !== name
+                        && "border-border/40 text-zinc-muted hover:text-foreground",
+                    )}
+                    title={name}
+                  >
+                    <Icon className="size-5" />
+                  </button>
+                ))}
+              </div>
+            </section>
+          </div>
         </main>
       </div>
 
@@ -529,7 +419,7 @@ export default function CreationFlagPage() {
           <span className="text-sm font-semibold text-foreground tracking-wide">
             Популярные флаги
           </span>
-          <span className="text-xs text-zinc-muted ml-1">-- для вдохновения</span>
+          <span className="text-xs text-zinc-muted ml-1">— для вдохновения</span>
         </div>
 
         <div className="flex gap-3 overflow-x-auto pb-3 drawer-scroll">

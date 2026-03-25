@@ -20,3 +20,4 @@ export * from "./tabs";
 export * from "./radio-group";
 export * from "./textarea";
 export * from "./combobox";
+export * from "./dot-grid";

@@ -1,4 +1,4 @@
-// Экспортируются только внешние компоненты, которые используются в папках других слоёв
+// Экспортируются только внешние компоненты виджета, дочерние компоненты не экспортируются
 export { AuthModal } from "./auth-modal";
 export { Header } from "./header";
 export { UserMenu } from "./user-menu";
@@ -18,3 +18,5 @@ export { ProfileHeader } from "./profile-header";
 export { AddFlagPopover } from "./add-flag-popover";
 export { CreateFolderModal } from "./create-folder-modal";
 export { AddMovieModal } from "./add-movie-modal";
+export { FlagCategoriesSidebar } from "./flag-categories-sidebar";
+export { PosterUploadSection } from "./poster-upload-section";
