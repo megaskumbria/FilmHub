@@ -1,6 +1,6 @@
 "use client";
 
-import { Separator } from "@/shared/ui";
+import { Button, Separator } from "@/shared/ui";
 import "react-fontpicker-ts/dist/index.css";
 import {
   FlagCategoriesSidebar,
@@ -10,6 +10,7 @@ import {
   PosterUploadSection,
 } from "@/widgets";
 import { FlagColorPicker, FlagIconPicker } from "@/features";
+import { Save } from "lucide-react";
 
 export default function CreationFlagPage() {
   return (
@@ -38,6 +39,13 @@ export default function CreationFlagPage() {
             <FlagColorPicker />
 
             <FlagIconPicker />
+          </div>
+
+          <div className="col-span-full flex items-center justify-end">
+            <Button variant="accent" size="default" className="gap-2 rounded-lg">
+              <Save className="size-4" />
+              <span>Сохранить флаг</span>
+            </Button>
           </div>
         </main>
       </div>

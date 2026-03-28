@@ -1,9 +1,11 @@
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
 import { getIconByName, hexToFlagBg } from "@/shared/lib";
+import { FolderOpen } from "lucide-react";
+import { DotGrid } from "@/shared/ui";
 
 export const FlagPreview = () => {
-  const { flagName, selectedColor, selectedFont, selectedIcon } = useCreationFlagStore();
+  const { flagName, selectedColor, selectedFont, selectedIcon, category } = useCreationFlagStore();
 
   const SelectedIconComponent = getIconByName(selectedIcon);
   const selectedColorBg = hexToFlagBg(selectedColor);
@@ -18,7 +20,17 @@ export const FlagPreview = () => {
         </span>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center gap-5 rounded-lg bg-obsidian/60 border border-border/30 py-8">
+      <div className="relative flex-1 flex flex-col items-center justify-center gap-5 rounded-lg bg-obsidian/60 border border-border/30 py-8">
+        <DotGrid />
+
+        <div className="flex items-center gap-1.5">
+          <FolderOpen className="size-3.5 shrink-0" />
+
+          <span className="text-sm font-medium text-zinc-muted">Категория:</span>
+
+          <span className="text-foreground font-medium">{category || "Не выбрана"}</span>
+        </div>
+
         <div
           className="inline-flex items-center gap-1.5 p-2 rounded-lg border"
           style={{
