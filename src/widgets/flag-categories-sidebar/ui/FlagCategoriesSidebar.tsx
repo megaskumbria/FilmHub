@@ -1,7 +1,14 @@
 "use client";
 
 import { Button, Input } from "@/shared/ui";
-import { Plus, Search } from "lucide-react";
+import {
+  ArrowDownAZ,
+  ArrowUpAZ,
+  CalendarArrowDown,
+  CalendarArrowUp,
+  Plus,
+  Search,
+} from "lucide-react";
 import { FlagCategoryAccordion } from "./FlagCategoryAccordion";
 
 export const FlagCategoriesSidebar = () => {
@@ -29,7 +36,7 @@ export const FlagCategoriesSidebar = () => {
         </div>
       </div>
 
-      <nav className="px-3 py-2.5">
+      <nav className="px-3 py-2.5 flex flex-col gap-2">
         <div className="relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
           <Input
@@ -37,6 +44,54 @@ export const FlagCategoriesSidebar = () => {
             placeholder="Поиск категорий и флагов..."
             className="pl-7 pr-2 text-sm h-8"
           />
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs text-zinc-muted/90 font-semibold uppercase tracking-widest shrink-0">
+            Сортировка
+          </span>
+
+          <div className="flex-1 h-px bg-border/30" />
+
+          <div className="flex items-center gap-1">
+            <Button
+              variant="transparent"
+              size="icon-xs"
+              className="h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
+              title="По алфавиту (А → Я)"
+            >
+              <ArrowDownAZ className="size-3.5" />
+            </Button>
+
+            <Button
+              variant="transparent"
+              size="icon-xs"
+              className="h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
+              title="По алфавиту (Я → А)"
+            >
+              <ArrowUpAZ className="size-3.5" />
+            </Button>
+
+            <span className="w-px h-3.5 bg-border/40 mx-0.5 shrink-0" />
+
+            <Button
+              variant="transparent"
+              size="icon-xs"
+              className="h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
+              title="Сначала новые"
+            >
+              <CalendarArrowDown className="size-3.5" />
+            </Button>
+
+            <Button
+              variant="transparent"
+              size="icon-xs"
+              className="h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
+              title="Сначала старые"
+            >
+              <CalendarArrowUp className="size-3.5" />
+            </Button>
+          </div>
         </div>
       </nav>
 

@@ -6,11 +6,11 @@ import { SidebarSettingsModal } from "./SidebarSettingsModal";
 import { MenuKey } from "../lib/types";
 import { CardSettings } from "@/widgets/movie-card-settings";
 
-interface SettingsModalProps {
+interface Props {
   children: ReactNode;
 }
 
-export const SettingsModal = ({ children }: SettingsModalProps) => {
+export const SettingsModal = ({ children }: Props) => {
   const [activeMenu, setActiveMenu] = useState<MenuKey>("movie-card");
 
   return (

@@ -47,7 +47,7 @@ export const FlagCategoryAccordion = () => {
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                   <span className="truncate">{category}</span>
 
-                  <span className="ml-auto flex items-center gap-1.5 shrink-0">
+                  <div className="ml-auto flex items-center gap-1.5 shrink-0">
                     <span className="px-1.5 py-0.5 rounded text-xs font-medium tabular-nums text-zinc-muted bg-white/6 border border-border/30">
                       {flagItems.length}
                     </span>
@@ -64,7 +64,7 @@ export const FlagCategoryAccordion = () => {
                     >
                       <Plus className="size-3" />
                     </Button>
-                  </span>
+                  </div>
                 </div>
               </AccordionTrigger>
 

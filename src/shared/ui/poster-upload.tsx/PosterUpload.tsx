@@ -46,7 +46,7 @@ export const PosterUpload = ({
 
   return (
     <article
-      className="flex flex-col group cursor-pointer w-full max-w-[270px]"
+      className="flex flex-col group cursor-pointer w-full"
       onClick={() => fileInputRef.current?.click()}
     >
       <input

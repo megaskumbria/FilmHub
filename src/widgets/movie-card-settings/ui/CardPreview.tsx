@@ -20,12 +20,14 @@ export const CardPreview = () => {
         Превью
       </p>
 
-      <PosterUpload
-        fileInputRef={fileInputRef}
-        preview={preview}
-        handleFileInputChange={handleFileInputChange}
-        handleDrop={handleDrop}
-      />
+      <div className="max-w-[270px]">
+        <PosterUpload
+          fileInputRef={fileInputRef}
+          preview={preview}
+          handleFileInputChange={handleFileInputChange}
+          handleDrop={handleDrop}
+        />
+      </div>
 
       <div className="relative flex items-center gap-2">
         <PosterPreviewActions onResetPreview={handleReset} />

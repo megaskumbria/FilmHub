@@ -3,7 +3,8 @@ import FontPicker from "react-fontpicker-ts";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 
 export const FlagNameFontForm = () => {
-  const { flagName, selectedFont, setFlagName, setSelectedFont } = useCreationFlagStore();
+  const { flagName, selectedFont, selectedColor, setFlagName, setSelectedFont } =
+    useCreationFlagStore();
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4">
@@ -16,12 +17,13 @@ export const FlagNameFontForm = () => {
         <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
           Название флага
         </Label>
+
         <Input
           variant="neutral"
           placeholder="Введите название..."
           className="h-9 text-sm"
           value={flagName}
-          onChange={(e) => setFlagName(e.target.value)}
+          onChange={(e) => setFlagName(e.target.value, selectedColor)}
         />
         <p className="text-[11px] text-zinc-muted/50">До 30 символов</p>
       </div>
