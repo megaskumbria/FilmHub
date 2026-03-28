@@ -1,10 +1,9 @@
 import { Button, Label } from "@/shared/ui";
-import { PRESET_COLORS } from "../model/preset-colors";
 import { cn } from "@/shared/lib/utils";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 
 export const FlagColorPicker = () => {
-  const { selectedColor, setSelectedColor } = useCreationFlagStore();
+  const { selectedColor, setSelectedColor, presetColors } = useCreationFlagStore();
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4">
@@ -24,7 +23,7 @@ export const FlagColorPicker = () => {
       </div>
 
       <div className="grid grid-cols-10 gap-2">
-        {PRESET_COLORS.map((color) => (
+        {presetColors.map((color) => (
           <Button
             key={color}
             onClick={() => setSelectedColor(color)}

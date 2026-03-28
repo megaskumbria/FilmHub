@@ -45,7 +45,7 @@ export const FlagPreview = () => {
             className="text-lg font-bold"
             style={{ color: selectedColor, textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
           >
-            {flagName || "Название флага"}
+            {flagName || "Новый флаг"}
           </span>
         </div>
 
@@ -55,7 +55,7 @@ export const FlagPreview = () => {
           <FlagBadge
             flagItem={{
               id: 0,
-              flagName: flagName || "Название флага",
+              flagName: flagName || "Новый флаг",
               color: selectedColor,
               bg: selectedColorBg,
               isUsed: false,

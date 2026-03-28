@@ -1,8 +1,9 @@
+import { PRESET_COLORS } from "@/features/flag-color-picker/model/preset-colors";
 import { create } from "zustand";
 
 interface CreationFlagStore {
   flagName: string;
-  setFlagName: (flagName: string) => void;
+  setFlagName: (flagName: string, color: string) => void;
   selectedColor: string;
   setSelectedColor: (selectedColor: string) => void;
   category: string;
@@ -11,12 +12,15 @@ interface CreationFlagStore {
   setSelectedIcon: (selectedIcon: string) => void;
   selectedFont: string;
   setSelectedFont: (selectedFont: string) => void;
+
+  presetColors: string[];
+  addPresetColor: (color: string) => void;
 }
 
 export const useCreationFlagStore = create<CreationFlagStore>((set) => {
   return {
     flagName: "Новый флаг",
-    setFlagName: (flagName) => set({ flagName }),
+    setFlagName: (flagName, color) => set({ flagName, selectedColor: color }),
     selectedColor: "#8b5cf6",
     setSelectedColor: (selectedColor) => set({ selectedColor }),
     category: "",
@@ -25,5 +29,12 @@ export const useCreationFlagStore = create<CreationFlagStore>((set) => {
     setSelectedIcon: (selectedIcon) => set({ selectedIcon }),
     selectedFont: "Manrope",
     setSelectedFont: (selectedFont) => set({ selectedFont }),
+
+    presetColors: PRESET_COLORS,
+    addPresetColor: (color) =>
+      set((state) => ({
+        presetColors:
+          state.presetColors.includes(color) ? state.presetColors : [...state.presetColors, color],
+      })),
   };
 });

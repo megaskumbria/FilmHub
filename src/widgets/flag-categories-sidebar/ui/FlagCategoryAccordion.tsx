@@ -6,7 +6,6 @@ import {
   AccordionContent,
   Button,
   Label,
-  Input,
 } from "@/shared/ui";
 import { Plus, PencilLine } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
@@ -14,15 +13,22 @@ import { useCreationFlagStore } from "@/features/creation-flag/model/creation-fl
 import { FlagBadge } from "@/entities";
 
 export const FlagCategoryAccordion = () => {
-  const { setCategory, setFlagName, flagName: activeFlagName } = useCreationFlagStore();
+  const {
+    setCategory,
+    setFlagName,
+    flagName: activeFlagName,
+    addPresetColor,
+    presetColors,
+  } = useCreationFlagStore();
 
-  const handleSelectFlag = (flagName: string, category: string) => {
-    setFlagName(flagName);
+  const handleSelectFlag = (flagName: string, category: string, color: string) => {
+    addPresetColor(color);
+    setFlagName(flagName, color);
     setCategory(category);
   };
 
   const handleAddFlag = (category: string) => {
-    setFlagName("");
+    setFlagName("", presetColors[0]);
     setCategory(category);
   };
 
@@ -42,7 +48,7 @@ export const FlagCategoryAccordion = () => {
                   <span className="truncate">{category}</span>
 
                   <span className="ml-auto flex items-center gap-1.5 shrink-0">
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-medium tabular-nums text-zinc-muted bg-white/6 border border-border/30">
+                    <span className="px-1.5 py-0.5 rounded text-xs font-medium tabular-nums text-zinc-muted bg-white/6 border border-border/30">
                       {flagItems.length}
                     </span>
 
@@ -67,21 +73,11 @@ export const FlagCategoryAccordion = () => {
                   {flagItems.map((flag) => {
                     const { flagName, color } = flag;
                     const isActive = activeFlagName === flagName;
-                    const inputId = `flag-${category}-${flag.id}`;
 
                     return (
                       <li key={`${category}-${flag.id}`}>
-                        <Input
-                          type="radio"
-                          id={inputId}
-                          name="active-flag"
-                          className="sr-only"
-                          checked={isActive}
-                          onChange={() => handleSelectFlag(flagName, category)}
-                        />
-
                         <Label
-                          htmlFor={inputId}
+                          onClick={() => handleSelectFlag(flagName, category, color)}
                           className={cn(
                             "group hover:bg-white/5 flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all select-none",
                             isActive && "bg-white/6",

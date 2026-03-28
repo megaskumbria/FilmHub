@@ -40,7 +40,7 @@ export const FlagCategoriesSidebar = () => {
         </div>
       </nav>
 
-      <div className="overflow-y-auto flex-1 max-h-[540px] px-2 scrollbar-minimal">
+      <div className="overflow-y-auto max-h-[540px] px-2 scrollbar-minimal">
         <FlagCategoryAccordion />
       </div>
     </aside>
