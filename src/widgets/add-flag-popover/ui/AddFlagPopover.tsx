@@ -16,7 +16,7 @@ import {
 } from "@/shared/ui";
 import { PopoverMode } from "@/widgets/movie-card/ui/MovieCard";
 import { flagsData } from "@/shared/model/flags";
-import { FlagBadge } from "@/widgets/movie-card/ui/FlagBadge";
+import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
 import { HelpCircle, Plus, Search } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { IFlagItem } from "@/shared/model/flags";

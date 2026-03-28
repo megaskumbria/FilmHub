@@ -1,0 +1,1 @@
+export const FLAG_BACKGROUND_ALPHA = 0.38;

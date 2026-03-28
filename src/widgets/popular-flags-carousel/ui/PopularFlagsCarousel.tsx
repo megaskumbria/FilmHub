@@ -1,5 +1,5 @@
 import { POPULAR_FLAGS } from "../model/popular-flags-data";
-import { FlagBadge } from "@/widgets/movie-card/ui/FlagBadge";
+import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
 
 export const PopularFlagsCarousel = () => {
   return (

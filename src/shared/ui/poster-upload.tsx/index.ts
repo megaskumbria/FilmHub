@@ -1,0 +1,1 @@
+export { PosterUpload } from "./PosterUpload";

@@ -4,12 +4,15 @@ import { flagsData } from "@/shared/model/flags";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
 import { BlockPlacement } from "../model/cardBlocksMap";
 import { FlagBadge, FlagWithCategory } from "@/widgets/movie-card";
+import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
+import { hexToFlagBg } from "@/shared/lib";
 
 interface FlagGroupProps {
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
   showCategories?: boolean;
+  isPreview?: boolean;
 }
 
 export const FlagGroup = ({
@@ -17,7 +20,10 @@ export const FlagGroup = ({
   hasHover,
   placement,
   showCategories = true,
+  isPreview = false,
 }: FlagGroupProps) => {
+  const { category, selectedColor, selectedFont, selectedIcon, flagName } = useCreationFlagStore();
+
   const shouldLift = placement === "poster" && hasHover;
 
   return (
@@ -25,21 +31,42 @@ export const FlagGroup = ({
       className="flex flex-wrap gap-1.5 translate-y-0 transition-transform duration-300 ease-out"
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
-      {flagsData.map((flagData) => {
-        const { flagItems, category } = flagData;
+      {isPreview ?
+        <FlagWithCategory category={category} showCategory={showCategories}>
+          <FlagBadge
+            flagItem={{
+              id: 0,
+              flagName: flagName || "Новый флаг",
+              color: selectedColor,
+              bg: hexToFlagBg(selectedColor),
+              fontFamily: selectedFont,
+              icon: selectedIcon,
+            }}
+            category={category}
+          />
+        </FlagWithCategory>
+      : <>
+          {flagsData.map((flagData) => {
+            const { flagItems, category } = flagData;
 
-        return flagItems
-          .filter((FlagItem) => FlagItem.isUsed)
-          .map((FlagItem: IFlagItem, index: number) => {
-            const { id } = FlagItem;
+            return flagItems
+              .filter((FlagItem) => FlagItem.isUsed)
+              .map((FlagItem: IFlagItem, index: number) => {
+                const { id } = FlagItem;
 
-            return (
-              <FlagWithCategory key={index + id} category={category} showCategory={showCategories}>
-                <FlagBadge flagItem={FlagItem} category={category} />
-              </FlagWithCategory>
-            );
-          });
-      })}
+                return (
+                  <FlagWithCategory
+                    key={index + id}
+                    category={category}
+                    showCategory={showCategories}
+                  >
+                    <FlagBadge flagItem={FlagItem} category={category} />
+                  </FlagWithCategory>
+                );
+              });
+          })}
+        </>
+      }
     </div>
   );
 };

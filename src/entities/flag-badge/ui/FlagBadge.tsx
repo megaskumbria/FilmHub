@@ -1,5 +1,6 @@
 "use client";
 
+import { getIconByName } from "@/shared/lib";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
 
 interface FlagBadgeProps {
@@ -8,19 +9,24 @@ interface FlagBadgeProps {
 }
 
 export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
-  const { flagName, color, bg } = flagItem;
+  const { flagName, color, bg, fontFamily, icon } = flagItem;
+
+  const IconComponent = getIconByName(icon || "");
 
   return (
     <span className="relative inline-flex items-stretch w-fit overflow-visible" title={category}>
       <span
-        className="pl-1.5 pr-2 py-1 text-xs font-semibold rounded-l-sm border-y border-l flex items-center"
+        className="pl-1.5 gap-1.5 pr-2 py-1 text-xs font-semibold rounded-l-sm border-y border-l flex items-center"
         style={{
           color,
           backgroundColor: bg,
           borderColor: color,
           textShadow: "0 1px 2px rgba(0, 0, 0, 0.8)",
+          fontFamily: fontFamily || "Manrope",
         }}
       >
+        {icon && <IconComponent className="size-5 shrink-0" style={{ color: color }} />}
+
         {flagName}
       </span>
 
@@ -28,7 +34,6 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
         width="8"
         viewBox="0 0 8 22"
         preserveAspectRatio="none"
-        aria-hidden
         className="shrink-0 self-stretch"
       >
         <polygon points="0,0 8,11 0,22" fill={bg} stroke="none" />

@@ -25,6 +25,7 @@ export const cardBlocksMap = {
         hasHover={hasHover}
         placement={placement}
         showCategories={options?.showCategories}
+        isPreview={options?.isPreview}
       />
     );
   },

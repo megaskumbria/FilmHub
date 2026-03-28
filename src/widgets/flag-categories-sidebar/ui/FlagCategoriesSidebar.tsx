@@ -9,7 +9,7 @@ import {
   Input,
 } from "@/shared/ui";
 import { flagsData } from "@/shared/model/flags/mockFlags";
-import { FlagBadge } from "@/widgets/movie-card/ui/FlagBadge";
+import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
 import { Plus, Search } from "lucide-react";
 
 export const FlagCategoriesSidebar = () => {

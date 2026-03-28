@@ -1,15 +1,14 @@
-import { Label } from "@/shared/ui";
+import { Button, Label } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
-import { LucideIcon } from "lucide-react";
 import { ICON_MAP } from "@/shared/model/icons";
+import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
+import { getIconByName } from "@/shared/lib";
 
-interface Props {
-  selectedIcon: string;
-  setSelectedIcon: (icon: string) => void;
-  SelectedIconComponent: LucideIcon;
-}
+export const FlagIconPicker = () => {
+  const { selectedIcon, setSelectedIcon } = useCreationFlagStore();
 
-export const FlagIconPicker = ({ selectedIcon, setSelectedIcon, SelectedIconComponent }: Props) => {
+  const SelectedIconComponent = getIconByName(selectedIcon);
+
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4">
       <div className="flex items-center justify-between mb-4">
@@ -17,18 +16,21 @@ export const FlagIconPicker = ({ selectedIcon, setSelectedIcon, SelectedIconComp
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
           <Label className="text-sm font-semibold text-foreground">Иконка</Label>
         </div>
+
         <div className="flex items-center gap-2">
           <span className="text-xs text-zinc-muted">Выбрана:</span>
+
           <span className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
             <SelectedIconComponent className="size-4 text-accent" />
           </span>
+
           <span className="text-xs text-zinc-muted">{selectedIcon}</span>
         </div>
       </div>
 
       <div className="grid grid-cols-10 gap-2">
         {ICON_MAP.map(({ name, icon: Icon }) => (
-          <button
+          <Button
             key={name}
             onClick={() => setSelectedIcon(name)}
             className={cn(
@@ -40,7 +42,7 @@ export const FlagIconPicker = ({ selectedIcon, setSelectedIcon, SelectedIconComp
             title={name}
           >
             <Icon className="size-5" />
-          </button>
+          </Button>
         ))}
       </div>
     </section>
