@@ -1,5 +1,4 @@
-import { Label, Input } from "@/shared/ui";
-import FontPicker from "react-fontpicker-ts";
+import { Label, Input, FontPicker } from "@/shared/ui";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { useShallow } from "zustand/shallow";
 import { memo } from "react";
@@ -35,19 +34,17 @@ export const FlagNameFontForm = memo(() => {
           value={flagName}
           onChange={(e) => setFlagName(e.target.value, selectedColor)}
         />
-        <p className="text-[11px] text-zinc-muted/50">До 30 символов</p>
+        <p className="text-xs text-zinc-muted/50">До 30 символов</p>
       </div>
 
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5 w-full">
         <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
           Шрифт
         </Label>
 
-        <div className="font-picker-wrapper">
-          <FontPicker defaultValue={selectedFont} value={(val) => setSelectedFont(val)} autoLoad />
-        </div>
+        <FontPicker value={selectedFont} onChange={(family) => setSelectedFont(family)} />
 
-        <p className="text-[11px] text-zinc-muted/50">Выбран: {selectedFont}</p>
+        <p className="text-xs text-zinc-muted/50">Выбран: {selectedFont}</p>
       </div>
     </section>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, Separator } from "@/shared/ui";
-import "react-fontpicker-ts/dist/index.css";
 import {
   FlagCategoriesSidebar,
   FlagNameFontForm,
