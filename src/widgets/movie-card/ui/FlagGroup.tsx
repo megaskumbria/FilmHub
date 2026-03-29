@@ -5,7 +5,7 @@ import { IFlagItem } from "@/shared/model/flags/mockFlags";
 import { BlockPlacement } from "../model/cardBlocksMap";
 import { FlagBadge, FlagWithCategory } from "@/widgets/movie-card";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
-import { hexToFlagBg } from "@/shared/lib";
+import { flagSoftBackground } from "@/shared/lib";
 
 interface FlagGroupProps {
   hoverHeight?: number;
@@ -38,7 +38,7 @@ export const FlagGroup = ({
               id: 0,
               flagName: flagName || "Новый флаг",
               color: selectedColor,
-              bg: hexToFlagBg(selectedColor),
+              bg: flagSoftBackground(selectedColor),
               fontFamily: selectedFont,
               icon: selectedIcon,
             }}

@@ -1,14 +1,24 @@
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
-import { getIconByName, hexToFlagBg } from "@/shared/lib";
+import { getIconByName, flagSoftBackground } from "@/shared/lib";
 import { FolderOpen } from "lucide-react";
 import { DotGrid } from "@/shared/ui";
+import { useShallow } from "zustand/shallow";
+import { memo } from "react";
 
-export const FlagPreview = () => {
-  const { flagName, selectedColor, selectedFont, selectedIcon, category } = useCreationFlagStore();
+export const FlagPreview = memo(() => {
+  const { flagName, selectedColor, selectedFont, selectedIcon, category } = useCreationFlagStore(
+    useShallow((state) => ({
+      flagName: state.flagName,
+      selectedColor: state.selectedColor,
+      selectedFont: state.selectedFont,
+      selectedIcon: state.selectedIcon,
+      category: state.category,
+    })),
+  );
 
   const SelectedIconComponent = getIconByName(selectedIcon);
-  const selectedColorBg = hexToFlagBg(selectedColor);
+  const selectedColorBg = flagSoftBackground(selectedColor);
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3">
@@ -67,4 +77,4 @@ export const FlagPreview = () => {
       </div>
     </section>
   );
-};
+});

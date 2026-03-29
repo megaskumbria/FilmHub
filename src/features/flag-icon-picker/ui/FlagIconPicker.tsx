@@ -3,9 +3,16 @@ import { cn } from "@/shared/lib/utils";
 import { ICON_MAP } from "@/shared/model/icons";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { getIconByName } from "@/shared/lib";
+import { memo } from "react";
+import { useShallow } from "zustand/shallow";
 
-export const FlagIconPicker = () => {
-  const { selectedIcon, setSelectedIcon } = useCreationFlagStore();
+export const FlagIconPicker = memo(() => {
+  const { selectedIcon, setSelectedIcon } = useCreationFlagStore(
+    useShallow((state) => ({
+      selectedIcon: state.selectedIcon,
+      setSelectedIcon: state.setSelectedIcon,
+    })),
+  );
 
   const SelectedIconComponent = getIconByName(selectedIcon);
 
@@ -47,4 +54,4 @@ export const FlagIconPicker = () => {
       </div>
     </section>
   );
-};
+});

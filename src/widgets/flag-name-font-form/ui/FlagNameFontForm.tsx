@@ -1,10 +1,20 @@
 import { Label, Input } from "@/shared/ui";
 import FontPicker from "react-fontpicker-ts";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
+import { useShallow } from "zustand/shallow";
+import { memo } from "react";
 
-export const FlagNameFontForm = () => {
+export const FlagNameFontForm = memo(() => {
   const { flagName, selectedFont, selectedColor, setFlagName, setSelectedFont } =
-    useCreationFlagStore();
+    useCreationFlagStore(
+      useShallow((state) => ({
+        flagName: state.flagName,
+        selectedFont: state.selectedFont,
+        selectedColor: state.selectedColor,
+        setFlagName: state.setFlagName,
+        setSelectedFont: state.setSelectedFont,
+      })),
+    );
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4">
@@ -41,4 +51,4 @@ export const FlagNameFontForm = () => {
       </div>
     </section>
   );
-};
+});

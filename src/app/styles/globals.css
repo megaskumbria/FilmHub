@@ -116,6 +116,25 @@
   }
 }
 
+/* react-best-gradient-color-picker overrides */
+#rbgcp-color-picker {
+  background-color: #1c1c1f !important;
+  border-radius: 8px !important;
+}
+
+#rbgcp-hex-input,
+#rbgcp-R-input,
+#rbgcp-G-input,
+#rbgcp-B-input,
+#rbgcp-A-input,
+#rbgcp-C-input,
+#rbgcp-M-input,
+#rbgcp-Y-input,
+#rbgcp-K-input {
+  color: white !important;
+  border: 1px solid #27272a !important;
+}
+
 @layer utilities {
   .scrollbar-minimal {
     scrollbar-width: thin;

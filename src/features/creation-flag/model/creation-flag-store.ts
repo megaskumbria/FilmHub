@@ -21,7 +21,7 @@ export const useCreationFlagStore = create<CreationFlagStore>((set) => {
   return {
     flagName: "Новый флаг",
     setFlagName: (flagName, color) => set({ flagName, selectedColor: color }),
-    selectedColor: "#8b5cf6",
+    selectedColor: "rgba(139, 92, 246, 1)",
     setSelectedColor: (selectedColor) => set({ selectedColor }),
     category: "",
     setCategory: (category) => set({ category }),

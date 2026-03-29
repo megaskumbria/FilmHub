@@ -20,7 +20,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 1,
         flagName: "Нарративный хаос",
-        color: "#8b8680",
+        color: "rgba(139, 134, 128, 1)",
         bg: "rgba(139, 134, 128, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -28,7 +28,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 2,
         flagName: "Предсказуемая обыденность",
-        color: "#f2e6d8",
+        color: "rgba(242, 230, 216, 1)",
         bg: "rgba(242, 230, 216, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -36,7 +36,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 3,
         flagName: "Удовлетворительная структура",
-        color: "#a9dce3",
+        color: "rgba(169, 220, 227, 1)",
         bg: "rgba(169, 220, 227, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -44,7 +44,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 4,
         flagName: "Захватывающие повествование",
-        color: "#ff937e",
+        color: "rgba(255, 147, 126, 1)",
         bg: "rgba(255, 147, 126, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -52,7 +52,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 5,
         flagName: "Литературyный шедевр",
-        color: "#008a73",
+        color: "rgba(0, 138, 115, 1)",
         bg: "rgba(0, 138, 115, 0.38)",
         isUsed: true,
         fontFamily: "Manrope",
@@ -66,7 +66,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 1,
         flagName: "Лёгкая",
-        color: "#8b8680",
+        color: "rgba(139, 134, 128, 1)",
         bg: "rgba(139, 134, 128, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -74,7 +74,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 2,
         flagName: "Ниже среднего",
-        color: "#f2e6d8",
+        color: "rgba(242, 230, 216, 1)",
         bg: "rgba(242, 230, 216, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -82,7 +82,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 3,
         flagName: "Средняя",
-        color: "#a9dce3",
+        color: "rgba(169, 220, 227, 1)",
         bg: "rgba(169, 220, 227, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -90,7 +90,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 4,
         flagName: "Жуткая",
-        color: "#ff937e",
+        color: "rgba(255, 147, 126, 1)",
         bg: "rgba(255, 147, 126, 0.38)",
         isUsed: true,
         fontFamily: "Manrope",
@@ -98,7 +98,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 5,
         flagName: "Кошмарная",
-        color: "#008a73",
+        color: "rgba(0, 138, 115, 1)",
         bg: "rgba(0, 138, 115, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -106,7 +106,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 6,
         flagName: "Бессонница",
-        color: "#008a73",
+        color: "rgba(0, 138, 115, 1)",
         bg: "rgba(0, 138, 115, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -120,7 +120,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 1,
         flagName: "Символическая",
-        color: "#7dd3c0",
+        color: "rgba(125, 211, 192, 1)",
         bg: "rgba(125, 211, 192, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -128,7 +128,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 2,
         flagName: "Кинематографичная",
-        color: "#ffd166",
+        color: "rgba(255, 209, 102, 1)",
         bg: "rgba(255, 209, 102, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -136,7 +136,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 3,
         flagName: "Реалистичная",
-        color: "#f4a261",
+        color: "rgba(244, 162, 97, 1)",
         bg: "rgba(244, 162, 97, 0.38)",
         isUsed: true,
         fontFamily: "Manrope",
@@ -144,7 +144,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 4,
         flagName: "Натуралистичная",
-        color: "#e63946",
+        color: "rgba(230, 57, 70, 1)",
         bg: "rgba(230, 57, 70, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -158,7 +158,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 1,
         flagName: "Стерильное",
-        color: "#a8dadc",
+        color: "rgba(168, 218, 220, 1)",
         bg: "rgba(168, 218, 220, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -166,7 +166,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 2,
         flagName: "Театральное",
-        color: "#f9a826",
+        color: "rgba(249, 168, 38, 1)",
         bg: "rgba(249, 168, 38, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -174,7 +174,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 3,
         flagName: "Обильное",
-        color: "#ef476f",
+        color: "rgba(239, 71, 111, 1)",
         bg: "rgba(239, 71, 111, 0.38)",
         isUsed: true,
         fontFamily: "Manrope",
@@ -182,7 +182,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 4,
         flagName: "Беспощадное",
-        color: "#c1121f",
+        color: "rgba(193, 18, 31, 1)",
         bg: "rgba(193, 18, 31, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -196,7 +196,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 1,
         flagName: "Тишина",
-        color: "#9ca3af",
+        color: "rgba(156, 163, 175, 1)",
         bg: "rgba(156, 163, 175, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -204,7 +204,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 2,
         flagName: "Фоновый шум",
-        color: "#818cf8",
+        color: "rgba(129, 140, 248, 1)",
         bg: "rgba(129, 140, 248, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -212,7 +212,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 3,
         flagName: "Напряжённый саунд",
-        color: "#a78bfa",
+        color: "rgba(167, 139, 250, 1)",
         bg: "rgba(167, 139, 250, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -220,7 +220,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 4,
         flagName: "Погружающий",
-        color: "#7c3aed",
+        color: "rgba(124, 58, 237, 1)",
         bg: "rgba(124, 58, 237, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -228,7 +228,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 5,
         flagName: "Гнетущая атмосфера",
-        color: "#5b21b6",
+        color: "rgba(91, 33, 182, 1)",
         bg: "rgba(91, 33, 182, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -242,7 +242,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 1,
         flagName: "Серьёзный",
-        color: "#78716c",
+        color: "rgba(120, 113, 108, 1)",
         bg: "rgba(120, 113, 108, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -250,7 +250,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 2,
         flagName: "Ироничный",
-        color: "#fcd34d",
+        color: "rgba(252, 211, 77, 1)",
         bg: "rgba(252, 211, 77, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -259,7 +259,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 5,
         flagName: "Гротеск",
-        color: "#ea580c",
+        color: "rgba(234, 88, 12, 1)",
         bg: "rgba(234, 88, 12, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -273,7 +273,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 1,
         flagName: "Расслабленная",
-        color: "#94a3b8",
+        color: "rgba(148, 163, 184, 1)",
         bg: "rgba(148, 163, 184, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -281,7 +281,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 2,
         flagName: "Лёгкое ожидание",
-        color: "#64748b",
+        color: "rgba(100, 116, 139, 1)",
         bg: "rgba(100, 116, 139, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -289,7 +289,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 3,
         flagName: "Нарастающая",
-        color: "#3b82f6",
+        color: "rgba(59, 130, 246, 1)",
         bg: "rgba(59, 130, 246, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -297,7 +297,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 4,
         flagName: "Интенсивная",
-        color: "#1d4ed8",
+        color: "rgba(29, 78, 216, 1)",
         bg: "rgba(29, 78, 216, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -305,7 +305,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 5,
         flagName: "Невыносимая",
-        color: "#1e3a8a",
+        color: "rgba(30, 58, 138, 1)",
         bg: "rgba(30, 58, 138, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -319,7 +319,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 1,
         flagName: "Реалистичный",
-        color: "#6ee7b7",
+        color: "rgba(110, 231, 183, 1)",
         bg: "rgba(110, 231, 183, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -327,7 +327,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 2,
         flagName: "Стилизованный",
-        color: "#34d399",
+        color: "rgba(52, 211, 153, 1)",
         bg: "rgba(52, 211, 153, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -335,7 +335,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 3,
         flagName: "Сюрреалистичный",
-        color: "#10b981",
+        color: "rgba(16, 185, 129, 1)",
         bg: "rgba(16, 185, 129, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -343,7 +343,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 4,
         flagName: "Галлюциногенный",
-        color: "#059669",
+        color: "rgba(5, 150, 105, 1)",
         bg: "rgba(5, 150, 105, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
@@ -351,7 +351,7 @@ export const flagsData: IFlagData[] = [
       {
         id: 5,
         flagName: "Трип-визуал",
-        color: "#047857",
+        color: "rgba(4, 120, 87, 1)",
         bg: "rgba(4, 120, 87, 0.38)",
         isUsed: false,
         fontFamily: "Manrope",
