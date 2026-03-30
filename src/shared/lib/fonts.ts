@@ -38,7 +38,7 @@ export async function fetchGoogleFonts(): Promise<GoogleFont[]> {
     if (!response.ok) {
       throw new Error("Failed to fetch Google Fonts");
     }
-    const data = await response.json();
+    const data = (await response.json()) as { items: GoogleFont[] };
     fontsCache = data.items;
     fontsCacheTimestamp = Date.now();
     return data.items;

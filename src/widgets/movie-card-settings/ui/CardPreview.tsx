@@ -20,7 +20,7 @@ export const CardPreview = () => {
         Превью
       </p>
 
-      <div className="max-w-[270px]">
+      <div className="max-w-[270px] w-full">
         <PosterUpload
           fileInputRef={fileInputRef}
           preview={preview}
@@ -38,7 +38,7 @@ export const CardPreview = () => {
           <div key={key} className="flex items-center gap-1.5">
             <span className={`size-1.5 rounded-full ${dotClass}`} />
 
-            <span className="text-[10px] font-medium tracking-wider text-zinc-muted/60 uppercase">
+            <span className="text-xs font-medium tracking-wider text-zinc-muted/60 uppercase">
               {label}
             </span>
           </div>

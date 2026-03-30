@@ -16,8 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
-import type { GoogleFont } from "@/lib/fonts";
-import { fetchGoogleFonts, fontSupportsCyrillic, loadFont } from "@/lib/fonts";
+import type { GoogleFont } from "@/shared/lib/fonts";
+import { fetchGoogleFonts, fontSupportsCyrillic, loadFont } from "@/shared/lib/fonts";
 import { Label } from "@/shared/ui/label";
 import { Switch } from "@/shared/ui/switch";
 import { cn } from "@/shared/lib/utils";

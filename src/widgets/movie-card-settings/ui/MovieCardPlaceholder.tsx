@@ -3,7 +3,7 @@ import { ImageIcon, Upload } from "lucide-react";
 export const MovieCardPlaceholder = () => {
   return (
     <>
-      <div className="relative w-full aspect-2/3 rounded-xl border border-white/8 bg-zinc-900 flex items-center justify-center overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/5">
+      <div className="relative w-full shrink-0 aspect-2/3 rounded-xl border border-white/8 bg-zinc-900 flex items-center justify-center overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/5">
         <div className="absolute inset-0 bg-linear-to-br from-zinc-800/60 via-zinc-900/80 to-zinc-950" />
 
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10 px-4">

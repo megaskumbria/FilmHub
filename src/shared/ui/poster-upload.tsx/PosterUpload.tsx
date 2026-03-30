@@ -46,7 +46,7 @@ export const PosterUpload = ({
 
   return (
     <article
-      className="flex flex-col group cursor-pointer w-full"
+      className="flex flex-col group cursor-pointer w-full shrink-0"
       onClick={() => fileInputRef.current?.click()}
     >
       <input
@@ -76,7 +76,7 @@ export const PosterUpload = ({
       )}
 
       {!preview && (
-        <div className="relative" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
+        <div className="relative w-full" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
           <MovieCardPlaceholder />
           <DragOverlay visible={isWindowDragOver} />
         </div>

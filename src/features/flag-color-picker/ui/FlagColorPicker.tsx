@@ -1,12 +1,13 @@
 "use client";
 
-import ColorPicker from "react-best-gradient-color-picker";
 import { Button, Label, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { Pipette } from "lucide-react";
 import { useShallow } from "zustand/shallow";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
+import ColorPicker from "react-best-gradient-color-picker";
+import { useThrottle } from "@/shared/hooks";
 
 export const FlagColorPicker = memo(() => {
   const { selectedColor, setSelectedColor, presetColors } = useCreationFlagStore(
@@ -16,6 +17,14 @@ export const FlagColorPicker = memo(() => {
       presetColors: state.presetColors,
     })),
   );
+
+  const [tempColor, setTempColor] = useState(selectedColor);
+
+  const throttledColor = useThrottle(tempColor, 50);
+
+  useEffect(() => {
+    setSelectedColor(throttledColor);
+  }, [throttledColor]);
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4">
@@ -52,8 +61,8 @@ export const FlagColorPicker = memo(() => {
               </div>
 
               <ColorPicker
-                value={selectedColor}
-                onChange={setSelectedColor}
+                value={tempColor}
+                onChange={setTempColor}
                 hideColorTypeBtns
                 hideGradientControls
                 hidePresets
@@ -81,9 +90,8 @@ export const FlagColorPicker = memo(() => {
 
       <div className="grid grid-cols-10 gap-1.5">
         {presetColors.map((color) => (
-          <button
+          <Button
             key={color}
-            type="button"
             onClick={() => setSelectedColor(color)}
             title={color}
             className={cn(

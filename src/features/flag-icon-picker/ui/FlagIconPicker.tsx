@@ -5,6 +5,7 @@ import { useCreationFlagStore } from "@/features/creation-flag/model/creation-fl
 import { getIconByName } from "@/shared/lib";
 import { memo } from "react";
 import { useShallow } from "zustand/shallow";
+// import * as icons from "@lucide/icons";
 
 export const FlagIconPicker = memo(() => {
   const { selectedIcon, setSelectedIcon } = useCreationFlagStore(
@@ -15,6 +16,9 @@ export const FlagIconPicker = memo(() => {
   );
 
   const SelectedIconComponent = getIconByName(selectedIcon);
+
+  // Don't forget to migrate icons to the backend API
+  // console.log(Object.keys(icons));
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4">
@@ -35,20 +39,20 @@ export const FlagIconPicker = memo(() => {
         </div>
       </div>
 
-      <div className="grid grid-cols-10 gap-2">
+      <div className="grid grid-cols-10 gap-1.5">
         {ICON_MAP.map(({ name, icon: Icon }) => (
           <Button
             key={name}
             onClick={() => setSelectedIcon(name)}
             className={cn(
-              "flex items-center justify-center size-10 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
+              "flex items-center justify-center size-8 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
               selectedIcon === name
                 && "border-accent bg-accent/10 text-accent shadow-[0_0_8px_rgba(155,86,240,0.3)]",
               selectedIcon !== name && "border-border/40 text-zinc-muted hover:text-foreground",
             )}
             title={name}
           >
-            <Icon className="size-5" />
+            <Icon className="size-4" />
           </Button>
         ))}
       </div>
