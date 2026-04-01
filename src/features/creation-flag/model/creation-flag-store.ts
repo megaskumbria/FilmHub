@@ -6,10 +6,12 @@ interface CreationFlagStore {
   setFlagName: (flagName: string, color: string) => void;
   selectedColor: string;
   setSelectedColor: (selectedColor: string) => void;
-  category: string;
+  bgOpacity: number;
+  setBgOpacity: (bgOpacity: number) => void;
+  category: string | null;
   setCategory: (category: string) => void;
-  selectedIcon: string;
-  setSelectedIcon: (selectedIcon: string) => void;
+  selectedIcon: string | null;
+  setSelectedIcon: (selectedIcon: string | null) => void;
   selectedFont: string;
   setSelectedFont: (selectedFont: string) => void;
 
@@ -23,9 +25,11 @@ export const useCreationFlagStore = create<CreationFlagStore>((set) => {
     setFlagName: (flagName, color) => set({ flagName, selectedColor: color }),
     selectedColor: "rgba(139, 92, 246, 1)",
     setSelectedColor: (selectedColor) => set({ selectedColor }),
-    category: "",
+    bgOpacity: 0.38,
+    setBgOpacity: (bgOpacity) => set({ bgOpacity }),
+    category: null,
     setCategory: (category) => set({ category }),
-    selectedIcon: "Flame",
+    selectedIcon: null,
     setSelectedIcon: (selectedIcon) => set({ selectedIcon }),
     selectedFont: "Manrope",
     setSelectedFont: (selectedFont) => set({ selectedFont }),

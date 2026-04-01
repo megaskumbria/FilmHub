@@ -8,6 +8,7 @@ import { useShallow } from "zustand/shallow";
 import { memo, useEffect, useState } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
 import { useThrottle } from "@/shared/hooks";
+import { OpacitySlider } from "@/features/opacity-slider";
 
 export const FlagColorPicker = memo(() => {
   const { selectedColor, setSelectedColor, presetColors } = useCreationFlagStore(
@@ -15,6 +16,8 @@ export const FlagColorPicker = memo(() => {
       selectedColor: state.selectedColor,
       setSelectedColor: state.setSelectedColor,
       presetColors: state.presetColors,
+      bgOpacity: state.bgOpacity,
+      setBgOpacity: state.setBgOpacity,
     })),
   );
 
@@ -103,6 +106,12 @@ export const FlagColorPicker = memo(() => {
           />
         ))}
       </div>
+
+      <span className="text-base text-zinc-muted text-center w-full block">
+        Тут будет много предопределенных цветов (на беке будем хранить)
+      </span>
+
+      <OpacitySlider />
     </section>
   );
 });

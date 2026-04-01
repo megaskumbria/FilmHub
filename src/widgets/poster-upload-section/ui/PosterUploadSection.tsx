@@ -1,19 +1,20 @@
 "use client";
 
-import { PosterPreviewActions } from "@/features";
+import { PosterPreviewActions, PosterUpload } from "@/features";
 import { useImageUpload } from "@/shared/hooks";
-import { PosterUpload } from "@/shared/ui/poster-upload.tsx";
-import { Settings } from "lucide-react";
+import { Button, DotGrid } from "@/shared/ui";
 import { SettingsModal } from "@/widgets";
-import { Button } from "@/shared/ui";
+import { Settings } from "lucide-react";
 
 export const PosterUploadSection = () => {
   const { preview, fileInputRef, handleFileInputChange, handleDrop, handleReset } =
     useImageUpload();
 
   return (
-    <section className="row-span-2 rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3">
-      <div className="flex items-center justify-between">
+    <section className="relative row-span-2 rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3">
+      <DotGrid />
+
+      <div className="flex items-center justify-between z-10">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
           <span className="text-sm font-semibold text-foreground tracking-wide">Постер</span>
@@ -37,7 +38,7 @@ export const PosterUploadSection = () => {
         flagPreview
       />
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 z-10">
         <PosterPreviewActions onResetPreview={handleReset} />
       </div>
     </section>

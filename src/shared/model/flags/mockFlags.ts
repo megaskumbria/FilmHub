@@ -3,9 +3,10 @@ export interface IFlagItem {
   flagName: string;
   color: string;
   bg: string;
+  bgOpacity?: number;
   isUsed?: boolean;
   fontFamily?: string;
-  icon?: string;
+  icon?: string | null;
 }
 
 interface IFlagData {

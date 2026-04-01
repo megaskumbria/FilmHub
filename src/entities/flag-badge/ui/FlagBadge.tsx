@@ -1,6 +1,6 @@
 "use client";
 
-import { getIconByName } from "@/shared/lib";
+import { getIconByName, flagSoftBackground } from "@/shared/lib";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
 
 interface FlagBadgeProps {
@@ -9,23 +9,30 @@ interface FlagBadgeProps {
 }
 
 export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
-  const { flagName, color, bg, fontFamily, icon } = flagItem;
+  const { flagName, color, bg, bgOpacity, fontFamily, icon } = flagItem;
+
+  const computedBg = bgOpacity !== undefined ? flagSoftBackground(color, bgOpacity) : bg;
 
   const IconComponent = getIconByName(icon || "");
 
   return (
-    <span className="relative inline-flex items-stretch w-fit overflow-visible" title={category}>
+    <span
+      className="relative inline-flex items-stretch w-fit overflow-visible backdrop-blur-md"
+      title={category}
+      style={{ isolation: "isolate", transform: "translateZ(0)" }}
+      // style={{ transform: "translateZ(0)", willChange: "transform" }}
+    >
       <span
-        className="pl-1.5 gap-1.5 pr-2 py-1 text-xs font-semibold rounded-l-sm border-y border-l flex items-center"
+        className="pl-1.5 gap-1.5 pr-2 py-1 text-sm font-semibold rounded-l-sm border-y border-l flex items-center"
         style={{
           color,
-          backgroundColor: bg,
+          backgroundColor: computedBg,
           borderColor: color,
           textShadow: "0 1px 2px rgba(0, 0, 0, 0.8)",
           fontFamily: fontFamily || "Manrope",
         }}
       >
-        {icon && <IconComponent className="size-5 shrink-0" style={{ color: color }} />}
+        {IconComponent && <IconComponent className="size-5 shrink-0" style={{ color: color }} />}
 
         {flagName}
       </span>
@@ -36,7 +43,7 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
         preserveAspectRatio="none"
         className="shrink-0 self-stretch"
       >
-        <polygon points="0,0 8,11 0,22" fill={bg} stroke="none" />
+        <polygon points="0,0 8,11 0,22" fill={computedBg} stroke="none" />
         <polyline
           points="0,0 8,11 0,22"
           fill="none"

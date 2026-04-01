@@ -1,8 +1,7 @@
 "use client";
 
-import { PosterPreviewActions } from "@/features";
+import { PosterPreviewActions, PosterUpload } from "@/features";
 import { DotGrid } from "@/shared/ui";
-import { PosterUpload } from "@/shared/ui/poster-upload.tsx";
 import { useImageUpload } from "@/shared/hooks";
 import { ZONES } from "../model/zones";
 

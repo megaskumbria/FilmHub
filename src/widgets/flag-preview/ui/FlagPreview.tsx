@@ -7,18 +7,20 @@ import { useShallow } from "zustand/shallow";
 import { memo } from "react";
 
 export const FlagPreview = memo(() => {
-  const { flagName, selectedColor, selectedFont, selectedIcon, category } = useCreationFlagStore(
-    useShallow((state) => ({
-      flagName: state.flagName,
-      selectedColor: state.selectedColor,
-      selectedFont: state.selectedFont,
-      selectedIcon: state.selectedIcon,
-      category: state.category,
-    })),
-  );
+  const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } =
+    useCreationFlagStore(
+      useShallow((state) => ({
+        flagName: state.flagName,
+        selectedColor: state.selectedColor,
+        selectedFont: state.selectedFont,
+        selectedIcon: state.selectedIcon,
+        category: state.category,
+        bgOpacity: state.bgOpacity,
+      })),
+    );
 
   const SelectedIconComponent = getIconByName(selectedIcon);
-  const selectedColorBg = flagSoftBackground(selectedColor);
+  const selectedColorBg = flagSoftBackground(selectedColor, bgOpacity);
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3">
@@ -49,7 +51,9 @@ export const FlagPreview = memo(() => {
             fontFamily: selectedFont || "Manrope",
           }}
         >
-          <SelectedIconComponent className="size-8 shrink-0" style={{ color: selectedColor }} />
+          {SelectedIconComponent && (
+            <SelectedIconComponent className="size-8 shrink-0" style={{ color: selectedColor }} />
+          )}
 
           <span
             className="text-lg font-bold"
@@ -68,6 +72,7 @@ export const FlagPreview = memo(() => {
               flagName: flagName || "Новый флаг",
               color: selectedColor,
               bg: selectedColorBg,
+              bgOpacity,
               isUsed: false,
               fontFamily: selectedFont || "Manrope",
               icon: selectedIcon,

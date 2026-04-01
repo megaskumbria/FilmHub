@@ -22,3 +22,4 @@ export * from "./textarea";
 export * from "./combobox";
 export * from "./dot-grid";
 export * from "./font-picker";
+export * from "./slider";

@@ -7,7 +7,7 @@ import {
   Button,
   Label,
 } from "@/shared/ui";
-import { Plus, PencilLine } from "lucide-react";
+import { Plus, PencilLine, Trash2 } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { FlagBadge } from "@/entities";
@@ -86,18 +86,21 @@ export const FlagCategoryAccordion = () => {
                         >
                           <FlagBadge flagItem={flag} />
 
-                          <span
-                            className={cn(
-                              "flex items-center gap-1 shrink-0 text-sm font-medium transition-all",
-                              isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60",
-                            )}
-                            style={{ color: color }}
-                          >
-                            <PencilLine className="size-3" />
+                          <span className="flex items-center gap-1.5 shrink-0">
+                            <PencilLine
+                              className={cn(
+                                "size-3.5 transition-all duration-150",
+                                isActive ? "opacity-70" : "opacity-0 group-hover:opacity-40",
+                              )}
+                              style={{ color: isActive ? color : undefined }}
+                            />
 
-                            <span className={cn(!isActive && "hidden group-hover:inline")}>
-                              {isActive ? "Редактирование" : "Изменить"}
-                            </span>
+                            <span className="w-px h-3 bg-border/40 transition-all duration-150 opacity-0 group-hover:opacity-100" />
+
+                            <Trash2
+                              onClick={(e) => e.stopPropagation()}
+                              className="size-3.5 text-zinc-muted opacity-0 group-hover:opacity-100 hover:text-red-400 transition-all duration-150 cursor-pointer"
+                            />
                           </span>
                         </Label>
                       </li>

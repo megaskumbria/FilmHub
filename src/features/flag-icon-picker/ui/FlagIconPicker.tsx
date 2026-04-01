@@ -21,7 +21,7 @@ export const FlagIconPicker = memo(() => {
   // console.log(Object.keys(icons));
 
   return (
-    <section className="rounded-xl border border-border/60 bg-surface-subtle p-4">
+    <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 w-full">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
@@ -32,7 +32,7 @@ export const FlagIconPicker = memo(() => {
           <span className="text-xs text-zinc-muted">Выбрана:</span>
 
           <span className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
-            <SelectedIconComponent className="size-4 text-accent" />
+            {SelectedIconComponent && <SelectedIconComponent className="size-4 text-accent" />}
           </span>
 
           <span className="text-xs text-zinc-muted">{selectedIcon}</span>
@@ -43,19 +43,23 @@ export const FlagIconPicker = memo(() => {
         {ICON_MAP.map(({ name, icon: Icon }) => (
           <Button
             key={name}
-            onClick={() => setSelectedIcon(name)}
+            onClick={() => setSelectedIcon(selectedIcon === name ? null : name)}
             className={cn(
-              "flex items-center justify-center size-8 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
+              "flex items-center justify-center size-10 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
               selectedIcon === name
                 && "border-accent bg-accent/10 text-accent shadow-[0_0_8px_rgba(155,86,240,0.3)]",
               selectedIcon !== name && "border-border/40 text-zinc-muted hover:text-foreground",
             )}
             title={name}
           >
-            <Icon className="size-4" />
+            <Icon className="size-5" />
           </Button>
         ))}
       </div>
+
+      <span className="text-base text-zinc-muted text-center w-full block">
+        Тут будет 1500 svg иконок (на беке будем хранить)
+      </span>
     </section>
   );
 });
