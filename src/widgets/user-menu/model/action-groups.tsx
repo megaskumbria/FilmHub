@@ -1,4 +1,4 @@
-import { BarChart3, Clapperboard, Folder, LucideIcon, Settings, User } from "lucide-react";
+import { BarChart3, Clapperboard, Flag, Folder, LucideIcon, Settings, User } from "lucide-react";
 import { ActionButton } from "../ui/ActionButton";
 import { ReactNode } from "react";
 import { SettingsModal } from "@/widgets";
@@ -24,7 +24,11 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
       },
       {
         icon: BarChart3,
-        render: () => <ActionButton icon={BarChart3}>Статистика</ActionButton>,
+        render: () => (
+          <ActionButton icon={BarChart3} href="/statistics">
+            Статистика
+          </ActionButton>
+        ),
       },
       {
         icon: Folder,
@@ -44,6 +48,14 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
         render: () => (
           <ActionButton icon={Clapperboard} href="/my-collections">
             Мои коллекции
+          </ActionButton>
+        ),
+      },
+      {
+        icon: Flag,
+        render: () => (
+          <ActionButton icon={Flag} href="/creation-flag">
+            Флаги
           </ActionButton>
         ),
       },
