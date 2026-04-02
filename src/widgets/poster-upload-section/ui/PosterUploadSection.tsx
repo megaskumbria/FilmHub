@@ -5,10 +5,15 @@ import { useImageUpload } from "@/shared/hooks";
 import { Button, DotGrid } from "@/shared/ui";
 import { SettingsModal } from "@/widgets";
 import { Settings } from "lucide-react";
+import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
 
 export const PosterUploadSection = () => {
   const { preview, fileInputRef, handleFileInputChange, handleDrop, handleReset } =
     useImageUpload();
+
+  const { layout } = useMovieCardLayout();
+
+  const isFlagEnabled = Object.values(layout).some((blocks) => blocks.includes("flags"));
 
   return (
     <section className="relative row-span-2 rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3">
@@ -41,6 +46,16 @@ export const PosterUploadSection = () => {
       <div className="flex items-center gap-2 z-10">
         <PosterPreviewActions onResetPreview={handleReset} />
       </div>
+
+      {preview && !isFlagEnabled && (
+        <SettingsModal>
+          <Button className="w-full pt-4 z-10">
+            <span className="text-xs text-center hover:text-foreground/70 text-zinc-muted/90 font-semibold tracking-widest transition-colors ">
+              Включите отображение флага в настройках
+            </span>
+          </Button>
+        </SettingsModal>
+      )}
     </section>
   );
 };

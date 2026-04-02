@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 
 interface FlagWithCategoryProps {
-  category: string;
+  category: string | null;
   showCategory: boolean;
   children: ReactNode;
 }

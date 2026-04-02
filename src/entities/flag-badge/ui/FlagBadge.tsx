@@ -5,20 +5,20 @@ import { IFlagItem } from "@/shared/model/flags/mockFlags";
 
 interface FlagBadgeProps {
   flagItem: IFlagItem;
-  category?: string;
+  category?: string | null;
 }
 
 export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
-  const { flagName, color, bg, bgOpacity, fontFamily, icon } = flagItem;
+  const { flagName, color, bgOpacity, fontFamily, icon } = flagItem;
 
-  const computedBg = bgOpacity !== undefined ? flagSoftBackground(color, bgOpacity) : bg;
+  const computedBg = flagSoftBackground(color, bgOpacity);
 
   const IconComponent = getIconByName(icon || "");
 
   return (
     <span
       className="relative inline-flex items-stretch w-fit overflow-visible backdrop-blur-md"
-      title={category}
+      title={category || ""}
       style={{ isolation: "isolate", transform: "translateZ(0)" }}
       // style={{ transform: "translateZ(0)", willChange: "transform" }}
     >

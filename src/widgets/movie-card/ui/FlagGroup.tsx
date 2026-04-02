@@ -6,6 +6,7 @@ import { BlockPlacement } from "../model/cardBlocksMap";
 import { FlagBadge, FlagWithCategory } from "@/widgets/movie-card";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { flagSoftBackground } from "@/shared/lib";
+import { useShallow } from "zustand/shallow";
 
 interface FlagGroupProps {
   hoverHeight?: number;
@@ -22,7 +23,17 @@ export const FlagGroup = ({
   showCategories = true,
   isPreview = false,
 }: FlagGroupProps) => {
-  const { category, selectedColor, selectedFont, selectedIcon, flagName } = useCreationFlagStore();
+  const { category, selectedColor, selectedFont, selectedIcon, flagName, bgOpacity } =
+    useCreationFlagStore(
+      useShallow((state) => ({
+        category: state.category,
+        selectedColor: state.selectedColor,
+        selectedFont: state.selectedFont,
+        selectedIcon: state.selectedIcon,
+        flagName: state.flagName,
+        bgOpacity: state.bgOpacity,
+      })),
+    );
 
   const shouldLift = placement === "poster" && hasHover;
 
@@ -41,6 +52,7 @@ export const FlagGroup = ({
               bg: flagSoftBackground(selectedColor),
               fontFamily: selectedFont,
               icon: selectedIcon,
+              bgOpacity: bgOpacity,
             }}
             category={category}
           />
