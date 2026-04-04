@@ -62,24 +62,27 @@ export const SearchMovieDrawer = () => {
               <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted cursor-pointer" />
             </Link>
 
-            <Input variant="accent" placeholder="Поиск фильмов..." className="w-full h-11 pl-10" />
+            <Input
+              placeholder="Поиск фильмов..."
+              className="w-full h-11 pl-10 placeholder:text-zinc-muted"
+            />
           </div>
         </DrawerHeader>
 
         <div className="drawer-scroll overflow-y-auto px-6 pb-4 flex justify-center">
           <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-[1000px] w-full">
             {mockMovies.map((movie) => (
-              <Link href={`/movies/${movie.id}`} key={movie.id} onClick={() => setOpen(false)}>
-                <MovieCard
-                  movie={movie}
-                  layout={layout}
-                  blockOptions={{
-                    poster: { flags: { showFlags: false } },
-                    hover: { flags: { showFlags: false } },
-                    body: { flags: { showFlags: false } },
-                  }}
-                />
-              </Link>
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                layout={layout}
+                blockOptions={{
+                  poster: { flags: { showFlags: false } },
+                  hover: { flags: { showFlags: false } },
+                  body: { flags: { showFlags: false } },
+                }}
+                mode="add-collection"
+              />
             ))}
           </div>
         </div>

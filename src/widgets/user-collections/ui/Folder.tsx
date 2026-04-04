@@ -6,15 +6,23 @@ import Image from "next/image";
 import { Eye, EyeOff, Settings } from "lucide-react";
 import type { Folder as FolderType } from "../model/mock-folders";
 import { useState } from "react";
+import { CreateFolderModal } from "@/widgets/create-folder-modal";
 
 interface FolderProps {
+  isMyProfile: boolean;
   folder: FolderType;
   index: number;
   activeFolder: number;
   setActiveFolder: (index: number) => void;
 }
 
-export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderProps) => {
+export const Folder = ({
+  isMyProfile,
+  folder,
+  index,
+  activeFolder,
+  setActiveFolder,
+}: FolderProps) => {
   const [hoveredFolder, setHoveredFolder] = useState<number | null>(null);
 
   const {
@@ -107,11 +115,13 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
               <Icon className="size-4" />
             </div>
 
-            <Button className="size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10">
-              {isVisible ?
-                <EyeOff className="size-4" />
-              : <Eye className="size-4" />}
-            </Button>
+            {isMyProfile && (
+              <Button className="size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10">
+                {isVisible ?
+                  <EyeOff className="size-4" />
+                : <Eye className="size-4" />}
+              </Button>
+            )}
           </div>
         </div>
 
@@ -122,25 +132,29 @@ export const Folder = ({ folder, index, activeFolder, setActiveFolder }: FolderP
             <span
               className={cn(
                 "text-sm text-zinc-muted tabular-nums transition-opacity duration-200",
-                isHovered ? "opacity-0" : "opacity-100",
+                isHovered && isMyProfile ? "opacity-0" : "opacity-100",
               )}
             >
               {count}
             </span>
 
-            <div
-              className={cn(
-                "absolute right-0 flex items-center gap-1 transition-opacity duration-200",
-                isHovered ? "opacity-100" : "opacity-0",
-              )}
-            >
-              <Button
-                onClick={(e) => e.stopPropagation()}
-                className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-foreground hover:bg-white/10 transition-colors"
+            {isMyProfile && (
+              <div
+                className={cn(
+                  "absolute right-0 flex items-center gap-1 transition-opacity duration-200",
+                  isHovered ? "opacity-100" : "opacity-0",
+                )}
               >
-                <Settings className="size-4" />
-              </Button>
-            </div>
+                <CreateFolderModal isEditing={true}>
+                  <Button
+                    onClick={(e) => e.stopPropagation()}
+                    className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-foreground hover:bg-white/10 transition-colors"
+                  >
+                    <Settings className="size-4" />
+                  </Button>
+                </CreateFolderModal>
+              </div>
+            )}
           </div>
         </div>
       </div>

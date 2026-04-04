@@ -42,7 +42,7 @@ export const UserCollections = ({
         <h2 className="text-lg font-semibold text-foreground">Мои коллекции</h2>
 
         {isMyProfile && (
-          <CreateFolderModal>
+          <CreateFolderModal isEditing={false}>
             <Button variant="accent" size="sm" className="rounded-lg gap-2">
               <Plus className="size-4" />
               <span className="text-sm font-medium">Создать</span>
@@ -88,6 +88,7 @@ export const UserCollections = ({
             return (
               <SwiperSlide key={id}>
                 <Folder
+                  isMyProfile={isMyProfile}
                   folder={folder}
                   index={index}
                   activeFolder={activeFolder}

@@ -24,3 +24,4 @@ export { FlagPreview } from "./flag-preview";
 export { FlagNameFontForm } from "./flag-name-font-form";
 export { PopularFlagsCarousel } from "./popular-flags-carousel";
 export { UserProfileHeader } from "./user-profile-header";
+export { FollowersSheet } from "./followers-sheet";

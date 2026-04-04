@@ -20,7 +20,7 @@ export default function AuthorDashboardPage() {
         activeFolder={activeFolder}
       />
 
-      <CollectionsToolbar activeFolder={activeFolder} />
+      <CollectionsToolbar isMyProfile={true} activeFolder={activeFolder} />
 
       <ul className="grid grid-cols-5 gap-2 justify-items-center">
         {mockMovies.map((movie) => (

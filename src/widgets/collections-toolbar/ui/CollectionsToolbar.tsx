@@ -10,9 +10,10 @@ import { folders } from "@/widgets/user-collections/model/mock-folders";
 
 interface CollectionsToolbarProps {
   activeFolder: number;
+  isMyProfile: boolean;
 }
 
-export const CollectionsToolbar = ({ activeFolder }: CollectionsToolbarProps) => {
+export const CollectionsToolbar = ({ activeFolder, isMyProfile }: CollectionsToolbarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCollectionVisible, setIsCollectionVisible] = useState(true);
@@ -100,32 +101,36 @@ export const CollectionsToolbar = ({ activeFolder }: CollectionsToolbarProps) =>
 
         <Separator orientation="vertical" className="h-5 bg-border" />
 
-        <AddMovieModal>
-          <Button
-            size="sm"
-            className="transition-colors duration-200 h-9 shrink-0 whitespace-nowrap rounded-lg gap-2 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
-          >
-            <Clapperboard className="size-4 shrink-0" />
-            <span className="text-sm">Добавить фильм вручную</span>
-          </Button>
-        </AddMovieModal>
+        {isMyProfile && (
+          <>
+            <AddMovieModal>
+              <Button
+                size="sm"
+                className="transition-colors duration-200 h-9 shrink-0 whitespace-nowrap rounded-lg gap-2 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+              >
+                <Clapperboard className="size-4 shrink-0" />
+                <span className="text-sm">Добавить фильм вручную</span>
+              </Button>
+            </AddMovieModal>
 
-        <Button
-          size="sm"
-          onClick={() => setIsCollectionVisible((prev) => !prev)}
-          className={cn(
-            "rounded-lg h-9 p-0 border transition-colors duration-200",
-            isCollectionVisible ?
-              "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
-            : "bg-success/10 border-success/30 text-success",
-          )}
-        >
-          {isCollectionVisible ?
-            <EyeOff className="shrink-0 size-4" />
-          : <Eye className="shrink-0 size-4" />}
-        </Button>
+            <Button
+              size="sm"
+              onClick={() => setIsCollectionVisible((prev) => !prev)}
+              className={cn(
+                "rounded-lg h-9 p-0 border transition-colors duration-200",
+                isCollectionVisible ?
+                  "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+                : "bg-success/10 border-success/30 text-success",
+              )}
+            >
+              {isCollectionVisible ?
+                <EyeOff className="shrink-0 size-4" />
+              : <Eye className="shrink-0 size-4" />}
+            </Button>
 
-        <Separator orientation="vertical" className="h-5 bg-border" />
+            <Separator orientation="vertical" className="h-5 bg-border" />
+          </>
+        )}
 
         <CollectionComments />
       </div>

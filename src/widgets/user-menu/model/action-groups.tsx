@@ -1,7 +1,18 @@
-import { BarChart3, Clapperboard, Flag, Folder, LucideIcon, Settings, User } from "lucide-react";
+import {
+  BarChart3,
+  Clapperboard,
+  Flag,
+  Folder,
+  LucideIcon,
+  Settings,
+  User,
+  Users,
+} from "lucide-react";
 import { ActionButton } from "../ui/ActionButton";
 import { ReactNode } from "react";
 import { SettingsModal } from "@/widgets";
+import { FollowersSheet } from "@/widgets/followers-sheet";
+import { SheetTrigger } from "@/shared/ui";
 
 interface UserActionsGroup {
   label: string;
@@ -28,6 +39,16 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
           <ActionButton icon={BarChart3} href="/statistics">
             Статистика
           </ActionButton>
+        ),
+      },
+      {
+        icon: Users,
+        render: () => (
+          <FollowersSheet>
+            <SheetTrigger asChild>
+              <ActionButton icon={Users}>Подписки</ActionButton>
+            </SheetTrigger>
+          </FollowersSheet>
         ),
       },
       {

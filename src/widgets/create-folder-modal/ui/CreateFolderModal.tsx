@@ -22,9 +22,10 @@ const USED_FOLDERS = 7;
 
 interface CreateFolderModalProps {
   children: ReactNode;
+  isEditing: boolean;
 }
 
-export function CreateFolderModal({ children }: CreateFolderModalProps) {
+export function CreateFolderModal({ children, isEditing }: CreateFolderModalProps) {
   const [selectedIcon, setSelectedIcon] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
   const [folderName, setFolderName] = useState("");
@@ -47,7 +48,7 @@ export function CreateFolderModal({ children }: CreateFolderModalProps) {
         <DialogHeader className="flex flex-row items-center justify-between border-b border-border px-5 py-4">
           <div className="flex items-center gap-3">
             <DialogTitle className="text-base font-semibold text-foreground">
-              Новая коллекция
+              {isEditing ? "Редактировать коллекцию" : "Новая коллекция"}
             </DialogTitle>
 
             <div
