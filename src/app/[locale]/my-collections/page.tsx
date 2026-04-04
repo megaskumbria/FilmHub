@@ -14,7 +14,11 @@ export default function AuthorDashboardPage() {
     <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
       <ProfileHeader />
 
-      <UserCollections setActiveFolder={setActiveFolder} activeFolder={activeFolder} />
+      <UserCollections
+        isMyProfile={true}
+        setActiveFolder={setActiveFolder}
+        activeFolder={activeFolder}
+      />
 
       <CollectionsToolbar activeFolder={activeFolder} />
 

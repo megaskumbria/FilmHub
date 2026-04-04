@@ -15,9 +15,14 @@ import { cn } from "@/shared/lib/utils";
 interface UserCollectionsProps {
   setActiveFolder: (folder: number) => void;
   activeFolder: number;
+  isMyProfile: boolean;
 }
 
-export const UserCollections = ({ setActiveFolder, activeFolder }: UserCollectionsProps) => {
+export const UserCollections = ({
+  isMyProfile,
+  setActiveFolder,
+  activeFolder,
+}: UserCollectionsProps) => {
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -36,12 +41,14 @@ export const UserCollections = ({ setActiveFolder, activeFolder }: UserCollectio
       <div className="flex items-center justify-between mb-5 pt-5">
         <h2 className="text-lg font-semibold text-foreground">Мои коллекции</h2>
 
-        <CreateFolderModal>
-          <Button variant="accent" size="sm" className="rounded-lg gap-2">
-            <Plus className="size-4" />
-            <span className="text-sm font-medium">Создать</span>
-          </Button>
-        </CreateFolderModal>
+        {isMyProfile && (
+          <CreateFolderModal>
+            <Button variant="accent" size="sm" className="rounded-lg gap-2">
+              <Plus className="size-4" />
+              <span className="text-sm font-medium">Создать</span>
+            </Button>
+          </CreateFolderModal>
+        )}
       </div>
 
       <div
