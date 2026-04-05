@@ -17,8 +17,8 @@ export default function CreationFlagPage() {
       <header className="mb-8">
         <h1 className="text-2xl font-bold text-foreground tracking-tight">Создание флага</h1>
 
-        <p className="text-sm text-zinc-muted mt-1">
-          Настройте внешний вид и параметры нового флага для вашей коллекции
+        <p className="text-base text-zinc-muted mt-1">
+          Флаги - это градуированная шкала от слабого к сильному, а категория задаёт измерение
         </p>
       </header>
 

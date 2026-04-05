@@ -53,8 +53,10 @@ export const FlagColorPicker = memo(() => {
           </PopoverTrigger>
 
           <PopoverContent
+            side="bottom"
             align="end"
             sideOffset={8}
+            avoidCollisions={false}
             className="w-auto p-3 rounded-xl border border-border/60 bg-surface shadow-popover"
           >
             <div className="flex flex-col gap-3">

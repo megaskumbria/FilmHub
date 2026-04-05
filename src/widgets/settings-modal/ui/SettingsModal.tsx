@@ -9,10 +9,11 @@ import { AccountSettings } from "@/widgets/account-settings";
 
 interface Props {
   children: ReactNode;
+  defaultMenu?: MenuKey;
 }
 
-export const SettingsModal = ({ children }: Props) => {
-  const [activeMenu, setActiveMenu] = useState<MenuKey>("account");
+export const SettingsModal = ({ children, defaultMenu = "account" }: Props) => {
+  const [activeMenu, setActiveMenu] = useState<MenuKey>(defaultMenu);
 
   return (
     <Dialog>

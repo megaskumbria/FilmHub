@@ -45,6 +45,7 @@ export default function MoviePage() {
         transition={{ duration: 0.25, ease: "easeOut" }}
         className="absolute inset-0 bg-linear-to-t from-black via-black/55 to-transparent pointer-events-none"
       />
+
       <motion.div
         animate={{ opacity: isUiHidden ? 0 : 1 }}
         transition={{ duration: 0.25, ease: "easeOut" }}

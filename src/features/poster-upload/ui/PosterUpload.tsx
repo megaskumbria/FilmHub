@@ -11,6 +11,7 @@ interface Props {
   handleFileInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleDrop: (e: DragEvent<HTMLDivElement>) => void;
   flagPreview?: boolean;
+  disableNavigation?: boolean;
 }
 
 export const PosterUpload = ({
@@ -19,6 +20,7 @@ export const PosterUpload = ({
   handleFileInputChange,
   handleDrop,
   flagPreview = false,
+  disableNavigation = false,
 }: Props) => {
   const isWindowDragOver = useWindowFileDrag();
 
@@ -69,6 +71,7 @@ export const PosterUpload = ({
             layout={layout}
             blockOptions={activeBlockOptions}
             shouldShowAddButton={false}
+            disableNavigation={disableNavigation}
           />
 
           <DragOverlay visible={isWindowDragOver} />

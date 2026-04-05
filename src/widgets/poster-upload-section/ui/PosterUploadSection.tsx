@@ -25,7 +25,7 @@ export const PosterUploadSection = () => {
           <span className="text-sm font-semibold text-foreground tracking-wide">Постер</span>
         </div>
 
-        <SettingsModal>
+        <SettingsModal defaultMenu="movie-card">
           <Button className="flex items-center gap-1.5 group">
             <Settings className="size-4 text-zinc-muted/90 group-hover:text-foreground/70 transition-colors" />
             <span className="text-xs text-zinc-muted/90 font-semibold tracking-widest transition-colors group-hover:text-foreground/70 ">
@@ -41,6 +41,7 @@ export const PosterUploadSection = () => {
         handleFileInputChange={handleFileInputChange}
         handleDrop={handleDrop}
         flagPreview
+        disableNavigation={true}
       />
 
       <div className="flex items-center gap-2 z-10">
@@ -48,7 +49,7 @@ export const PosterUploadSection = () => {
       </div>
 
       {preview && !isFlagEnabled && (
-        <SettingsModal>
+        <SettingsModal defaultMenu="movie-card">
           <Button className="w-full pt-4 z-10">
             <span className="text-xs text-center hover:text-foreground/70 text-zinc-muted/90 font-semibold tracking-widest transition-colors ">
               Включите отображение флага в настройках

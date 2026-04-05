@@ -22,6 +22,7 @@ interface MovieCardProps {
   shouldShowAddButton?: boolean;
   mode?: PopoverMode;
   cardWidth?: number;
+  disableNavigation?: boolean;
 }
 
 export const MovieCard = ({
@@ -31,6 +32,7 @@ export const MovieCard = ({
   shouldShowAddButton = true,
   mode,
   cardWidth = 290,
+  disableNavigation = false,
 }: MovieCardProps) => {
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
@@ -42,7 +44,7 @@ export const MovieCard = ({
 
   return (
     <article className="w-full border border-border rounded-xl relative">
-      <Link href={`/movies/${movie.id}`}>
+      <Link href={disableNavigation ? "" : `/movies/${movie.id}`}>
         <div
           className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl"
           onMouseEnter={() => {
@@ -56,7 +58,7 @@ export const MovieCard = ({
             alt={title}
             width={cardWidth}
             height={435}
-            className="h-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
+            className="h-full w-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
           />
 
           <div className="absolute inset-0 flex flex-col gap-1.5 justify-end p-3 z-20">
