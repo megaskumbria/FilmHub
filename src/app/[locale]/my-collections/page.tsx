@@ -12,7 +12,7 @@ export default function AuthorDashboardPage() {
 
   return (
     <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
-      <ProfileHeader />
+      <ProfileHeader isMyProfile={true} />
 
       <UserCollections
         isMyProfile={true}

@@ -1,1 +1,1 @@
-export type MenuKey = "movie-card" | "animations";
+export type MenuKey = "account" | "movie-card" | "animations";

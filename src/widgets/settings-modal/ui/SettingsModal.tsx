@@ -5,13 +5,14 @@ import { Dialog, DialogTrigger, DialogContent } from "@/shared/ui";
 import { SidebarSettingsModal } from "./SidebarSettingsModal";
 import { MenuKey } from "../lib/types";
 import { CardSettings } from "@/widgets/movie-card-settings";
+import { AccountSettings } from "@/widgets/account-settings";
 
 interface Props {
   children: ReactNode;
 }
 
 export const SettingsModal = ({ children }: Props) => {
-  const [activeMenu, setActiveMenu] = useState<MenuKey>("movie-card");
+  const [activeMenu, setActiveMenu] = useState<MenuKey>("account");
 
   return (
     <Dialog>
@@ -25,7 +26,11 @@ export const SettingsModal = ({ children }: Props) => {
         <div className="flex h-full overflow-hidden">
           <SidebarSettingsModal activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
 
-          <main className="flex-1 min-w-0 overflow-hidden h-full grid grid-cols-[18rem_1fr] grid-rows-[100%]">
+          <main
+            className="flex-1 min-w-0 overflow-hidden h-full grid grid-rows-[100%]"
+            style={{ gridTemplateColumns: activeMenu === "movie-card" ? "18rem 1fr" : "1fr" }}
+          >
+            {activeMenu === "account" && <AccountSettings />}
             {activeMenu === "movie-card" && <CardSettings />}
           </main>
         </div>

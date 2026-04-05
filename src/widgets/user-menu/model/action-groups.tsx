@@ -1,13 +1,4 @@
-import {
-  BarChart3,
-  Clapperboard,
-  Flag,
-  Folder,
-  LucideIcon,
-  Settings,
-  User,
-  Users,
-} from "lucide-react";
+import { BarChart3, Clapperboard, Flag, Folder, LucideIcon, Settings, Users } from "lucide-react";
 import { ActionButton } from "../ui/ActionButton";
 import { ReactNode } from "react";
 import { SettingsModal } from "@/widgets";
@@ -29,10 +20,10 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
   {
     label: "Аккаунт",
     items: [
-      {
-        icon: User,
-        render: () => <ActionButton icon={User}>Мой профиль</ActionButton>,
-      },
+      // {
+      //   icon: User,
+      //   render: () => <ActionButton icon={User}>Мой профиль</ActionButton>,
+      // },
       {
         icon: BarChart3,
         render: () => (
@@ -44,6 +35,7 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
       {
         icon: Users,
         render: () => (
+          // Убрать доп обёртку
           <FollowersSheet>
             <SheetTrigger asChild>
               <ActionButton icon={Users}>Подписки</ActionButton>
