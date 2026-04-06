@@ -21,7 +21,7 @@ export const OpacitySlider = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-3.5 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <Label className="text-sm font-semibold text-foreground">Прозрачность фона</Label>
+          <Label className="text-sm font-semibold text-foreground">Background opacity</Label>
         </div>
 
         <div className="flex items-center gap-1.5">

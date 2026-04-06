@@ -19,7 +19,7 @@ export const CommentsSheetFooter = () => {
           <Textarea
             value=""
             onChange={() => {}}
-            placeholder="Написать комментарий…"
+            placeholder="Write a comment…"
             className="placeholder:text-zinc-muted w-full min-h-[72px] text-sm bg-background border-border resize-none pr-16 pb-10"
           />
 

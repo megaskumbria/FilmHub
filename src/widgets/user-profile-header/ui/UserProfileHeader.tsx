@@ -10,10 +10,10 @@ interface IStat {
 }
 
 const stats: IStat[] = [
-  { label: "Коллекций", value: "17", Icon: BookOpen },
-  { label: "Фильмов", value: "248", Icon: Film },
-  { label: "Подписчиков", value: "1.2K", Icon: Users },
-  { label: "Рейтинг", value: "4.8", Icon: Star },
+  { label: "Collections", value: "17", Icon: BookOpen },
+  { label: "Films", value: "248", Icon: Film },
+  { label: "Followers", value: "1.2K", Icon: Users },
+  { label: "Rating", value: "4.8", Icon: Star },
 ];
 
 export const UserProfileHeader = () => {
@@ -40,7 +40,7 @@ export const UserProfileHeader = () => {
 
           <div className="flex-1 min-w-0 pb-1">
             <h1 className="text-2xl font-bold text-foreground truncate">Pavel Ivanov</h1>
-            <p className="text-zinc-muted text-sm">@pavel_films · Кино-энтузиаст с 2019 года</p>
+            <p className="text-zinc-muted text-sm">@pavel_films · Film enthusiast since 2019</p>
           </div>
 
           <div className="flex items-start gap-2">
@@ -84,7 +84,7 @@ export const UserProfileHeader = () => {
             </Button>
 
             <Button variant="accent" className="transition-colors rounded-md px-2.5 h-9 gap-2">
-              <span className="text-sm">Подписаться</span>
+              <span className="text-sm">Follow</span>
             </Button>
           </div>
         </div>

@@ -20,12 +20,12 @@ export const GenreSelect = ({ value, onValueChange }: GenreSelectProps) => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <Film className="size-3.5" />
-        Жанр
+        Genre
       </Label>
 
       <Select value={value} onValueChange={onValueChange}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Выберите жанр" />
+          <SelectValue placeholder="Select genre" />
         </SelectTrigger>
 
         <SelectContent

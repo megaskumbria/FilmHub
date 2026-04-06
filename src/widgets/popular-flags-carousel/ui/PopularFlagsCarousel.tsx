@@ -23,9 +23,9 @@ export const PopularFlagsCarousel = () => {
       <div className="flex items-center gap-2.5 mb-5">
         <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
         <span className="text-sm font-semibold text-foreground tracking-wide">
-          Популярные наборы
+          Popular packs
         </span>
-        <span className="text-xs text-zinc-muted ml-1">— готовые категории флагов</span>
+        <span className="text-xs text-zinc-muted ml-1">— ready-made flag categories</span>
 
         <span className="ml-auto flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border border-gold/30 bg-gold/8 text-gold">
           <Crown className="size-3" />
@@ -124,7 +124,7 @@ export const PopularFlagsCarousel = () => {
                       className="text-xs font-medium transition-colors"
                       style={{ color: pack.accentColor }}
                     >
-                      Подробнее →
+                      Details →
                     </span>
                   </div>
                 </Button>

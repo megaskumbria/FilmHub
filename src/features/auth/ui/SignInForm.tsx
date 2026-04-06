@@ -37,7 +37,7 @@ export function AuthModalSignInForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="block text-foreground text-sm font-medium mb-0">
-                Email или телефон
+                Email or phone
               </FormLabel>
               <FormControl>
                 <Input
@@ -59,9 +59,9 @@ export function AuthModalSignInForm() {
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center justify-between">
-                <FormLabel className="block text-light text-sm font-medium mb-0">Пароль</FormLabel>
+                <FormLabel className="block text-light text-sm font-medium mb-0">Password</FormLabel>
                 <a href="#" className="text-accent text-xs font-medium hover:text-accent/80">
-                  Забыли пароль?
+                  Forgot password?
                 </a>
               </div>
               <FormControl>
@@ -95,18 +95,18 @@ export function AuthModalSignInForm() {
           type="submit"
           className="h-11 w-full justify-center rounded-lg bg-accent font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98]"
         >
-          <span>Войти</span>
+          <span>Sign in</span>
         </Button>
 
         <div className="relative flex items-center py-2">
           <div className="grow border-t border-border" />
-          <span className="mx-4 shrink text-sm font-medium text-muted">или</span>
+          <span className="mx-4 shrink text-sm font-medium text-muted">or</span>
           <div className="grow border-t border-border" />
         </div>
 
         <Button className="active:scale-[0.98] h-11 w-full justify-center gap-3 rounded-lg border border-border bg-input font-medium text-foreground transition-all hover:bg-white/5">
           <GoogleIcon className="size-5 shrink-0" />
-          <span>Продолжить с Google</span>
+          <span>Continue with Google</span>
         </Button>
       </form>
     </Form>

@@ -27,7 +27,7 @@ export const FilterPopover = () => {
         <Button className="flex justify-center gap-x-2 relative h-9 px-2.5 max-w-32 w-full rounded-lg bg-graphite border border-border/40 hover:bg-surface hover:border-accent/30 shadow-sm hover:shadow-accent/10 transition-all duration-300 text-sm font-medium">
           <Filter className="size-4 group-data-[state=open]:rotate-90 transition-transform duration-300" />
 
-          <span>Фильтры</span>
+          <span>Filters</span>
 
           <AnimatePresence>
             {hasActiveFilters && (
@@ -60,7 +60,7 @@ export const FilterPopover = () => {
               <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
                 <Filter className="size-4 text-accent" />
               </div>
-              <h3 className="font-semibold text-base">Фильтры поиска</h3>
+              <h3 className="font-semibold text-base">Search filters</h3>
             </div>
           </header>
 
@@ -84,7 +84,7 @@ export const FilterPopover = () => {
                   variant="accent"
                 >
                   <RotateCcw className="size-4" />
-                  Сбросить
+                  Reset
                 </Button>
               </motion.footer>
             )}

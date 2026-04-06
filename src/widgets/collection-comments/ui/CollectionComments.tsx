@@ -57,7 +57,7 @@ export function CollectionComments() {
                   color: "#9b56f0",
                 },
                 text: replyText.trim(),
-                timestamp: "только что",
+                timestamp: "just now",
                 likes: 0,
                 dislikes: 0,
               },
@@ -96,7 +96,7 @@ export function CollectionComments() {
           {/* {comments.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
               <MessageSquare className="size-10 text-zinc-muted opacity-30" />
-              <p className="text-sm text-zinc-muted">Будьте первым, кто оставит комментарий</p>
+              <p className="text-sm text-zinc-muted">Be the first to leave a comment</p>
             </div>
           )} */}
 
@@ -133,7 +133,7 @@ export function CollectionComments() {
                           onClick={() => toggleExpand(comment.id)}
                           className="ml-1 text-accent text-xs hover:underline cursor-pointer"
                         >
-                          {isExpanded ? "Свернуть" : "Читать далее"}
+                          {isExpanded ? "Show less" : "Read more"}
                         </button>
                       )}
                     </p>
@@ -161,7 +161,7 @@ export function CollectionComments() {
                           <Textarea
                             value={replyText}
                             onChange={(e) => setReplyText(e.target.value)}
-                            placeholder={`Ответить ${comment.author.handle}…`}
+                            placeholder={`Reply to ${comment.author.handle}…`}
                             className="min-h-[68px] text-sm bg-background border-border resize-none"
                             autoFocus
                           />
@@ -173,7 +173,7 @@ export function CollectionComments() {
                               }}
                               className="h-7 px-3 rounded-lg text-xs border border-border text-zinc-muted hover:text-foreground transition-colors"
                             >
-                              <span>Отмена</span>
+                              <span>Cancel</span>
                             </Button>
                             <Button
                               variant="accent"
@@ -182,7 +182,7 @@ export function CollectionComments() {
                               className="h-7 px-3 rounded-lg text-xs gap-1.5"
                             >
                               <Send className="size-3" />
-                              <span>Ответить</span>
+                              <span>Reply</span>
                             </Button>
                           </div>
                         </div>
@@ -225,7 +225,7 @@ export function CollectionComments() {
                                   onClick={() => toggleExpand(reply.id)}
                                   className="ml-1 text-accent text-xs hover:underline cursor-pointer"
                                 >
-                                  {isReplyExpanded ? "Свернуть" : "Читать далее"}
+                                  {isReplyExpanded ? "Show less" : "Read more"}
                                 </Button>
                               )}
                             </p>

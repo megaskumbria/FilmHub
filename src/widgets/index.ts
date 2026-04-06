@@ -1,4 +1,4 @@
-// Экспортируются только внешние компоненты виджета, дочерние компоненты не экспортируются
+// Only external widget components are exported; child components are not
 export { AuthModal } from "./auth-modal";
 export { Header } from "./header";
 export { UserMenu } from "./user-menu";

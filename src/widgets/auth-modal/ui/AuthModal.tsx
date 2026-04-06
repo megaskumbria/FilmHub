@@ -26,11 +26,11 @@ interface Tab {
 
 const TABS: Tab[] = [
   {
-    label: "Войти",
+    label: "Sign in",
     value: "signin",
   },
   {
-    label: "Зарегистрироваться",
+    label: "Sign up",
     value: "signup",
   },
 ];
@@ -46,7 +46,7 @@ export function AuthModal({ children }: AuthModalProps) {
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogTitle className="sr-only">Авторизация</DialogTitle>
+      <DialogTitle className="sr-only">Authentication</DialogTitle>
 
       <DialogContent
         aria-describedby={undefined}

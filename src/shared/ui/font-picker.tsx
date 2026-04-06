@@ -75,7 +75,7 @@ function FontListItem({
             fontFamily: isFontLoaded ? font.family : "system-ui",
           }}
         >
-          Быстрая коричневая лиса
+          The quick brown fox
         </span>
       </div>
     </CommandItem>
@@ -226,7 +226,7 @@ export function FontPicker({
           <span className="truncate text-sm">
             {selectedFont ?
               <span>{selectedFont.family}</span>
-            : <span className="text-zinc-muted/70">Выберите шрифт...</span>}
+            : <span className="text-zinc-muted/70">Choose a font...</span>}
           </span>
           <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-muted/50" />
         </Button>
@@ -241,7 +241,7 @@ export function FontPicker({
       >
         <Command className="bg-transparent">
           <CommandInput
-            placeholder="Поиск шрифта..."
+            placeholder="Search fonts..."
             value={search}
             onValueChange={setSearch}
             className="text-sm placeholder:text-zinc-muted/60 w-full"
@@ -254,7 +254,7 @@ export function FontPicker({
                     <Button variant="ghost" size="sm">
                       <Filter className="h-3.5 w-3.5" />
                       <span className="text-xs capitalize">
-                        {selectedCategory === "all" ? "Все категории" : selectedCategory}
+                        {selectedCategory === "all" ? "All categories" : selectedCategory}
                       </span>
                       <ChevronsUpDown className="ml-1 h-3 w-3 opacity-50" />
                     </Button>
@@ -268,7 +268,7 @@ export function FontPicker({
                       onValueChange={setSelectedCategory}
                     >
                       <DropdownMenuRadioItem value="all">
-                        <span>Все категории</span>
+                        <span>All categories</span>
                       </DropdownMenuRadioItem>
                       {categories.map((category) => (
                         <DropdownMenuRadioItem
@@ -289,18 +289,18 @@ export function FontPicker({
                   size="sm"
                   checked={cyrillicOnly}
                   onCheckedChange={setCyrillicOnly}
-                  aria-label="Только шрифты с поддержкой кириллицы"
+                  aria-label="Only fonts that support Cyrillic script"
                 />
                 <Label
                   htmlFor="font-picker-cyrillic"
                   className="text-zinc-muted cursor-pointer gap-1.5 font-normal"
                 >
-                  <span className="text-xs">Кириллица</span>
+                  <span className="text-xs">Cyrillic</span>
                 </Label>
               </div>
             </div>
             <span className="text-zinc-muted/60 shrink-0 text-xs">
-              {filteredFonts.length} шрифтов
+              {filteredFonts.length} fonts
             </span>
           </div>
           {isLoading ?
@@ -309,11 +309,11 @@ export function FontPicker({
             </div>
           : error ?
             <div className="text-destructive flex items-center justify-center p-4 text-sm">
-              Не удалось загрузить шрифты.
+              Failed to load fonts.
             </div>
           : <>
               <CommandEmpty className="text-zinc-muted py-6 text-sm text-center">
-                Шрифты не найдены.
+                No fonts found.
               </CommandEmpty>
 
               <CommandGroup className="p-0">

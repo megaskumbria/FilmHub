@@ -11,10 +11,10 @@ interface IStat {
 }
 
 const stats: IStat[] = [
-  { label: "Коллекций", value: "17", Icon: BookOpen },
-  { label: "Фильмов", value: "248", Icon: Film },
-  { label: "Подписчиков", value: "1.2K", Icon: Users },
-  { label: "Рейтинг", value: "4.8", Icon: Star },
+  { label: "Collections", value: "17", Icon: BookOpen },
+  { label: "Films", value: "248", Icon: Film },
+  { label: "Followers", value: "1.2K", Icon: Users },
+  { label: "Rating", value: "4.8", Icon: Star },
 ];
 
 interface Props {
@@ -43,7 +43,7 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
               className="rounded-lg gap-2 bg-black/50 border-white/15 text-white hover:bg-black/70"
             >
               <ImagePlus className="size-4" />
-              <span className="text-sm">Изменить обложку</span>
+              <span className="text-sm">Change cover</span>
             </Button>
           </div>
         )}
@@ -63,8 +63,8 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
 
             <p className="text-zinc-muted text-sm">
               {isMyProfile ?
-                "@pavel_films · Кино-энтузиаст с 2019 года"
-              : "@john_doe · бла бла бла"}
+                "@pavel_films · Film enthusiast since 2019"
+              : "@john_doe · placeholder bio"}
             </p>
           </div>
 
@@ -99,7 +99,7 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
                 </div>
               );
 
-              if (label === "Подписчиков") {
+              if (label === "Followers") {
                 return (
                   <FollowersSheet key={label} defaultTab="followers">
                     <SheetTrigger asChild>
@@ -128,10 +128,10 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
             {isMyProfile ?
               <Button variant="accent" className="transition-colors rounded-md px-2.5 h-9 gap-2">
                 <Pencil className="size-3.5" />
-                <span className="text-sm">Редактировать</span>
+                <span className="text-sm">Edit</span>
               </Button>
             : <Button variant="accent" className="transition-colors rounded-md px-2.5 h-9 gap-2">
-                <span className="text-sm">Подписаться</span>
+                <span className="text-sm">Follow</span>
               </Button>
             }
           </div>

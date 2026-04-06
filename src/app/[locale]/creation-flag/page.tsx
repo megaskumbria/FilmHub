@@ -15,10 +15,10 @@ export default function CreationFlagPage() {
   return (
     <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
       <header className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground tracking-tight">Создание флага</h1>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight">Create flag</h1>
 
         <p className="text-base text-zinc-muted mt-1">
-          Флаги - это градуированная шкала от слабого к сильному, а категория задаёт измерение
+          Flags are a graded scale from weak to strong; the category defines what you measure
         </p>
       </header>
 
@@ -43,7 +43,7 @@ export default function CreationFlagPage() {
           <div className="col-span-full flex items-center justify-end">
             <Button variant="accent" size="default" className="gap-2 rounded-lg">
               <Save className="size-4" />
-              <span>Сохранить флаг</span>
+              <span>Save flag</span>
             </Button>
           </div>
         </main>

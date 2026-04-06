@@ -20,7 +20,7 @@ export interface Folder {
 export const folders: Folder[] = [
   {
     id: 1,
-    name: "Ужасы",
+    name: "Horror",
     icon: Ghost,
     count: 24,
     posters: ["/images/mock-movie-6.jpg", "/images/mock-movie-1.jpg", "/images/mock-movie-2.webp"],
@@ -35,7 +35,7 @@ export const folders: Folder[] = [
   },
   {
     id: 2,
-    name: "Любимое",
+    name: "Favorites",
     icon: Heart,
     count: 47,
     posters: ["/images/mock-movie-4.jpg", "/images/mock-movie-5.webp", "/images/mock-movie-7.webp"],
@@ -50,7 +50,7 @@ export const folders: Folder[] = [
   },
   {
     id: 3,
-    name: "Детективы",
+    name: "Mystery",
     icon: Search,
     count: 18,
     posters: [
@@ -69,7 +69,7 @@ export const folders: Folder[] = [
   },
   {
     id: 4,
-    name: "Триллеры",
+    name: "Thrillers",
     icon: Zap,
     count: 31,
     posters: ["/images/mock-movie-2.webp", "/images/mock-movie-6.jpg", "/images/mock-movie-9.webp"],
@@ -84,7 +84,7 @@ export const folders: Folder[] = [
   },
   {
     id: 5,
-    name: "Фантастика",
+    name: "Sci-Fi",
     icon: Star,
     count: 22,
     posters: [
@@ -103,7 +103,7 @@ export const folders: Folder[] = [
   },
   {
     id: 6,
-    name: "Комедии",
+    name: "Comedy",
     icon: Smile,
     count: 35,
     posters: ["/images/mock-movie-1.jpg", "/images/mock-movie-4.jpg", "/images/mock-movie-6.jpg"],
@@ -118,7 +118,7 @@ export const folders: Folder[] = [
   },
   {
     id: 7,
-    name: "Мультфильмы",
+    name: "Animation",
     icon: Film,
     count: 28,
     posters: [
@@ -137,7 +137,7 @@ export const folders: Folder[] = [
   },
   {
     id: 8,
-    name: "Документальные",
+    name: "Documentary",
     icon: BookOpen,
     count: 14,
     posters: [

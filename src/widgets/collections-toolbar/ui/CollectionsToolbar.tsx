@@ -77,7 +77,7 @@ export const CollectionsToolbar = ({ activeFolder, isMyProfile }: CollectionsToo
               value={searchQuery}
               variant="neutral"
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Поиск по коллекции..."
+              placeholder="Search collections..."
               className="h-9 text-sm rounded-lg border-border bg-surface placeholder:text-zinc-muted"
             />
           </div>
@@ -109,7 +109,7 @@ export const CollectionsToolbar = ({ activeFolder, isMyProfile }: CollectionsToo
                 className="transition-colors duration-200 h-9 shrink-0 whitespace-nowrap rounded-lg gap-2 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
               >
                 <Clapperboard className="size-4 shrink-0" />
-                <span className="text-sm">Добавить фильм вручную</span>
+                <span className="text-sm">Add a movie manually</span>
               </Button>
             </AddMovieModal>
 

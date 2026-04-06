@@ -35,7 +35,7 @@ export const FlagCategoryAccordion = () => {
   return (
     <>
       {flagsData.length === 0 ?
-        <div className="py-8 text-center text-xs text-zinc-muted">Ничего не найдено</div>
+        <div className="py-8 text-center text-xs text-zinc-muted">Nothing found</div>
       : <Accordion type="multiple">
           {flagsData.map(({ category, flagItems }) => (
             <AccordionItem

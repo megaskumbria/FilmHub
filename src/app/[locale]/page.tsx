@@ -139,7 +139,7 @@ const Deck = ({ movies, meta, id }: DeckProps) => {
             >
               {meta.label}
             </p>
-            <span className="shrink-0 text-sm text-zinc-muted">{movies.length} фильмов</span>
+            <span className="shrink-0 text-sm text-zinc-muted">{movies.length} movies</span>
           </div>
 
           <p className="mt-0.5 text-sm text-zinc-muted truncate">{meta.genres.join(" · ")}</p>
@@ -292,8 +292,8 @@ const CollectionDeck = ({
 const BEST_COLLECTIONS: CollectionCardData[] = [
   {
     id: 1,
-    label: "Ночные кошмары",
-    genres: ["ужасы", "триллер"],
+    label: "Nightmares",
+    genres: ["horror", "thriller"],
     rating: 7.1,
     views: "18.2K",
     likes: 934,
@@ -301,8 +301,8 @@ const BEST_COLLECTIONS: CollectionCardData[] = [
   },
   {
     id: 2,
-    label: "Приключения эпох",
-    genres: ["фэнтези", "боевик"],
+    label: "Age of adventure",
+    genres: ["fantasy", "action"],
     rating: 8.0,
     views: "41.5K",
     likes: 2300,
@@ -310,8 +310,8 @@ const BEST_COLLECTIONS: CollectionCardData[] = [
   },
   {
     id: 3,
-    label: "Человек и война",
-    genres: ["драма", "детектив"],
+    label: "Man and war",
+    genres: ["drama", "mystery"],
     rating: 8.1,
     views: "27.8K",
     likes: 1540,
@@ -319,8 +319,8 @@ const BEST_COLLECTIONS: CollectionCardData[] = [
   },
   {
     id: 4,
-    label: "Великая любовь",
-    genres: ["мелодрама", "драма"],
+    label: "Great love",
+    genres: ["melodrama", "drama"],
     rating: 7.9,
     views: "55.0K",
     likes: 4100,
@@ -328,8 +328,8 @@ const BEST_COLLECTIONS: CollectionCardData[] = [
   },
   {
     id: 5,
-    label: "Марвел и К",
-    genres: ["фантастика", "боевик"],
+    label: "Marvel and co.",
+    genres: ["sci-fi", "action"],
     rating: 8.4,
     views: "98.3K",
     likes: 7200,
@@ -337,8 +337,8 @@ const BEST_COLLECTIONS: CollectionCardData[] = [
   },
   {
     id: 6,
-    label: "Тёмные истории",
-    genres: ["триллер", "ужасы"],
+    label: "Dark stories",
+    genres: ["thriller", "horror"],
     rating: 7.4,
     views: "14.1K",
     likes: 620,
@@ -346,8 +346,8 @@ const BEST_COLLECTIONS: CollectionCardData[] = [
   },
   {
     id: 7,
-    label: "Культовое кино",
-    genres: ["приключения", "драма"],
+    label: "Cult cinema",
+    genres: ["adventure", "drama"],
     rating: 8.3,
     views: "36.7K",
     likes: 2890,
@@ -355,8 +355,8 @@ const BEST_COLLECTIONS: CollectionCardData[] = [
   },
   {
     id: 8,
-    label: "Лучшее десятилетия",
-    genres: ["фэнтези", "фантастика"],
+    label: "Best of the decade",
+    genres: ["fantasy", "sci-fi"],
     rating: 8.5,
     views: "72.4K",
     likes: 5610,
@@ -391,7 +391,7 @@ const BestCollectionsSlider = () => {
             </div>
 
             <h2 className="text-xl font-bold text-foreground leading-tight">
-              Лучшие коллекции за месяц
+              Best collections this month
             </h2>
           </div>
 
@@ -441,8 +441,8 @@ const DECKS: DeckProps[] = [
     id: 1,
     movies: [mockMovies[0], mockMovies[2], mockMovies[7]],
     meta: {
-      label: "Ночные кошмары",
-      genres: ["ужасы", "триллер"],
+      label: "Nightmares",
+      genres: ["horror", "thriller"],
       rating: 7.1,
       views: "18.2K",
       likes: 934,
@@ -452,8 +452,8 @@ const DECKS: DeckProps[] = [
     id: 2,
     movies: [mockMovies[1], mockMovies[4], mockMovies[6]],
     meta: {
-      label: "Приключения эпох",
-      genres: ["фэнтези", "боевик"],
+      label: "Age of adventure",
+      genres: ["fantasy", "action"],
       rating: 8.0,
       views: "41.5K",
       likes: 2300,
@@ -463,8 +463,8 @@ const DECKS: DeckProps[] = [
     id: 3,
     movies: [mockMovies[3], mockMovies[5], mockMovies[7]],
     meta: {
-      label: "Человек и война",
-      genres: ["драма", "детектив"],
+      label: "Man and war",
+      genres: ["drama", "mystery"],
       rating: 8.1,
       views: "27.8K",
       likes: 1540,
@@ -474,8 +474,8 @@ const DECKS: DeckProps[] = [
     id: 4,
     movies: [mockMovies[5], mockMovies[3], mockMovies[4]],
     meta: {
-      label: "Великая любовь",
-      genres: ["мелодрама", "драма"],
+      label: "Great love",
+      genres: ["melodrama", "drama"],
       rating: 7.9,
       views: "55.0K",
       likes: 4100,
@@ -485,8 +485,8 @@ const DECKS: DeckProps[] = [
     id: 5,
     movies: [mockMovies[6], mockMovies[0], mockMovies[1]],
     meta: {
-      label: "Марвел и К",
-      genres: ["фантастика", "боевик"],
+      label: "Marvel and co.",
+      genres: ["sci-fi", "action"],
       rating: 8.4,
       views: "98.3K",
       likes: 7200,
@@ -496,8 +496,8 @@ const DECKS: DeckProps[] = [
     id: 6,
     movies: [mockMovies[2], mockMovies[0], mockMovies[7]],
     meta: {
-      label: "Тёмные истории",
-      genres: ["триллер", "ужасы"],
+      label: "Dark stories",
+      genres: ["thriller", "horror"],
       rating: 7.4,
       views: "14.1K",
       likes: 620,
@@ -507,8 +507,8 @@ const DECKS: DeckProps[] = [
     id: 7,
     movies: [mockMovies[1], mockMovies[5], mockMovies[3]],
     meta: {
-      label: "Культовое кино",
-      genres: ["приключения", "драма"],
+      label: "Cult cinema",
+      genres: ["adventure", "drama"],
       rating: 8.3,
       views: "36.7K",
       likes: 2890,
@@ -518,8 +518,8 @@ const DECKS: DeckProps[] = [
     id: 8,
     movies: [mockMovies[4], mockMovies[6], mockMovies[1]],
     meta: {
-      label: "Лучшее десятилетия",
-      genres: ["фэнтези", "фантастика"],
+      label: "Best of the decade",
+      genres: ["fantasy", "sci-fi"],
       rating: 8.5,
       views: "72.4K",
       likes: 5610,
@@ -536,7 +536,7 @@ const CatalogLayoutSwitch = () => {
     <div
       className="flex rounded-md border border-border bg-graphite p-0.5 shadow-inner"
       role="group"
-      aria-label="Вид коллекций"
+      aria-label="Collection layout"
     >
       <Button
         type="button"
@@ -576,7 +576,7 @@ export default function Home() {
 
       <section className="flex items-center justify-between mb-8 bg-surface rounded-lg p-4 border border-border">
         <span className="text-base font-semibold text-primary">
-          Коллекций: <span className="text-lg">121</span>
+          Collections: <span className="text-lg">121</span>
         </span>
 
         <div className="flex items-center gap-2">

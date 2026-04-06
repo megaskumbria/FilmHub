@@ -67,13 +67,13 @@ export default function MoviePage() {
                     {isUiHidden ?
                       <Eye className="size-3.5" />
                     : <EyeOff className="size-3.5" />}
-                    <span>{isUiHidden ? "Показать" : "Только постер"}</span>
+                    <span>{isUiHidden ? "Show UI" : "Poster only"}</span>
                   </Button>
                 </TooltipTrigger>
 
                 <TooltipContent side="left">
                   <p className="text-sm">
-                    {isUiHidden ? "Вернуть интерфейс" : "Скрыть интерфейс, оставить только постер"}
+                    {isUiHidden ? "Bring back the interface" : "Hide the UI and show only the poster"}
                   </p>
                 </TooltipContent>
               </Tooltip>

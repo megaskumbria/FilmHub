@@ -16,7 +16,7 @@ export const SidebarSettingsModal = ({ activeMenu, setActiveMenu }: SidebarSetti
     <aside className="w-56 shrink-0 flex flex-col border-r border-border bg-surface-subtle">
       <DialogHeader className="px-5 pt-5 pb-4">
         <DialogTitle className="text-xs font-semibold text-zinc-muted tracking-widest uppercase">
-          Настройки
+          Settings
         </DialogTitle>
       </DialogHeader>
 

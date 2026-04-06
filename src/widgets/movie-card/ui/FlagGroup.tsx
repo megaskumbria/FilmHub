@@ -47,7 +47,7 @@ export const FlagGroup = ({
           <FlagBadge
             flagItem={{
               id: 0,
-              flagName: flagName || "Новый флаг",
+              flagName: flagName || "New flag",
               color: selectedColor,
               bg: flagSoftBackground(selectedColor),
               fontFamily: selectedFont,

@@ -42,14 +42,14 @@ export const ZonesPanel = () => {
 
   const handleReset = () => {
     setLayout(defaultLayout);
-    toast.success("Настройки сброшены к значениям по умолчанию", { position: "bottom-left" });
+    toast.success("Settings reset to defaults", { position: "bottom-left" });
   };
 
   return (
     <section className="flex flex-col border-r border-border bg-surface min-h-0 ">
       <div className="flex items-center justify-between px-5 pt-5 pb-4">
         <h3 className="text-xs font-semibold text-zinc-muted tracking-widest uppercase">
-          Зоны карточки
+          Card zones
         </h3>
 
         <div className="flex items-center gap-1.5 max-h-3">
@@ -65,7 +65,7 @@ export const ZonesPanel = () => {
             </TooltipTrigger>
 
             <TooltipContent>
-              <p className="text-sm">Сбросить к значениям по умолчанию</p>
+              <p className="text-sm">Reset to defaults</p>
             </TooltipContent>
           </Tooltip>
 
@@ -75,7 +75,7 @@ export const ZonesPanel = () => {
             </TooltipTrigger>
 
             <TooltipContent>
-              <p className="text-sm">Блок может быть активен только в одной зоне.</p>
+              <p className="text-sm">A block can only be active in one zone.</p>
             </TooltipContent>
           </Tooltip>
         </div>

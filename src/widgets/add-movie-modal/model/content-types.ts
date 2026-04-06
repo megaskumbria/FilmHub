@@ -4,29 +4,29 @@ import type { LucideIcon } from "lucide-react";
 export type ContentType = "movie" | "series" | "cartoon" | "cartoon-series";
 
 export const CONTENT_TYPES: { value: ContentType; label: string; icon: LucideIcon }[] = [
-  { value: "movie", label: "Фильм", icon: Film },
-  { value: "series", label: "Сериал", icon: Tv },
-  { value: "cartoon", label: "Мультфильм", icon: Smile },
-  { value: "cartoon-series", label: "Мультсериал", icon: Clapperboard },
+  { value: "movie", label: "Movie", icon: Film },
+  { value: "series", label: "Series", icon: Tv },
+  { value: "cartoon", label: "Animation", icon: Smile },
+  { value: "cartoon-series", label: "Animated series", icon: Clapperboard },
 ];
 
 export const GENRES = [
-  "Экшн",
-  "Комедия",
-  "Драма",
-  "Ужасы",
-  "Триллер",
-  "Фантастика",
-  "Фэнтези",
-  "Мелодрама",
-  "Анимация",
-  "Документальный",
-  "Биография",
-  "Криминал",
-  "Приключения",
-  "Мистика",
-  "Семейный",
-  "Исторический",
+  "Action",
+  "Comedy",
+  "Drama",
+  "Horror",
+  "Thriller",
+  "Sci-Fi",
+  "Fantasy",
+  "Romance",
+  "Animation",
+  "Documentary",
+  "Biography",
+  "Crime",
+  "Adventure",
+  "Mystery",
+  "Family",
+  "Historical",
 ];
 
 export const AGE_RATINGS = ["0+", "6+", "12+", "16+", "18+"];

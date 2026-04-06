@@ -20,12 +20,12 @@ export const YearSelect = ({ value, onValueChange }: YearSelectProps) => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <Calendar className="size-3.5" />
-        Год выпуска
+        Release year
       </Label>
 
       <Select value={value} onValueChange={onValueChange}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Выберите период" />
+          <SelectValue placeholder="Select period" />
         </SelectTrigger>
 
         <SelectContent

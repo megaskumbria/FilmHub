@@ -24,7 +24,7 @@ export const DragOverlay = ({ visible }: DragOverlayProps) => (
         <Upload className="size-5 text-accent" />
       </div>
       <span className="text-[10px] font-semibold text-accent/90 tracking-widest uppercase">
-        Отпустите постер
+        Drop poster here
       </span>
     </div>
   </div>

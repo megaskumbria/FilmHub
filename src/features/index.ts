@@ -1,4 +1,4 @@
-// Экспортируются только внешние компоненты фичи, дочерние компоненты не экспортируются
+// Only external feature components are exported; child components are not
 export { ThemeToggle } from "./theme-toggle";
 export { LangToggle } from "./lang-toggle";
 export { PosterPreviewActions } from "./poster-preview-actions";

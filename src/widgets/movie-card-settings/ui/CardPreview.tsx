@@ -16,7 +16,7 @@ export const CardPreview = () => {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-40 bg-accent/5 blur-3xl rounded-full" />
 
       <p className="relative text-xs font-semibold tracking-widest uppercase text-zinc-muted">
-        Превью
+        Preview
       </p>
 
       <div className="max-w-[270px] w-full">
@@ -45,7 +45,7 @@ export const CardPreview = () => {
       </div>
 
       <p className="relative text-xs text-zinc-muted/40 text-center max-w-[190px] leading-relaxed">
-        Настройте видимость блоков в каждой зоне карточки
+        Toggle blocks on or off for each card zone
       </p>
     </section>
   );

@@ -13,9 +13,9 @@ interface ICommentTabItem {
 }
 
 const TABS: ICommentTabItem[] = [
-  { value: "new", label: "Новые" },
-  { value: "old", label: "Старые" },
-  { value: "popular", label: "Популярные" },
+  { value: "new", label: "Newest" },
+  { value: "old", label: "Oldest" },
+  { value: "popular", label: "Popular" },
 ];
 
 interface CommentsSheetHeaderProps {
@@ -29,7 +29,7 @@ export const CommentsSheetHeader = ({ totalCount }: CommentsSheetHeaderProps) =>
     <header className="flex items-center justify-between gap-2 px-5 py-3.5 border-b border-border shrink-0">
       <div className="flex items-center gap-2">
         <MessageSquare className="size-4 text-zinc-muted shrink-0" />
-        <span className="font-semibold text-foreground text-sm">Комментарии</span>
+        <span className="font-semibold text-foreground text-sm">Comments</span>
         <span className="text-sm text-zinc-muted tabular-nums">({totalCount})</span>
       </div>
 

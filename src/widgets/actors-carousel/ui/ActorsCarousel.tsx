@@ -9,16 +9,16 @@ import "swiper/css";
 import { Button } from "@/shared/ui/button";
 
 const MOCK_ACTORS = [
-  { id: 1, name: "Леонардо ДиКаприо", role: "Дом Кобб" },
-  { id: 2, name: "Джозеф Гордон-Левитт", role: "Артур" },
-  { id: 3, name: "Эллиот Пейдж", role: "Ариадна" },
-  { id: 4, name: "Том Харди", role: "Имс" },
-  { id: 5, name: "Кен Ватанабэ", role: "Саито" },
-  { id: 6, name: "Дилип Рао", role: "Юсуф" },
-  { id: 7, name: "Киллиан Мёрфи", role: "Роберт Фишер" },
-  { id: 8, name: "Мэрион Котийяр", role: "Мал" },
-  { id: 9, name: "Майкл Кейн", role: "Майлс" },
-  { id: 10, name: "Пит Постлтуэйт", role: "Морис Фишер" },
+  { id: 1, name: "Leonardo DiCaprio", role: "Dom Cobb" },
+  { id: 2, name: "Joseph Gordon-Levitt", role: "Arthur" },
+  { id: 3, name: "Elliot Page", role: "Ariadne" },
+  { id: 4, name: "Tom Hardy", role: "Eames" },
+  { id: 5, name: "Ken Watanabe", role: "Saito" },
+  { id: 6, name: "Dileep Rao", role: "Yusuf" },
+  { id: 7, name: "Cillian Murphy", role: "Robert Fischer" },
+  { id: 8, name: "Marion Cotillard", role: "Mal" },
+  { id: 9, name: "Michael Caine", role: "Miles" },
+  { id: 10, name: "Pete Postlethwaite", role: "Maurice Fischer" },
 ];
 
 export const ActorsCarousel = () => {
@@ -37,7 +37,7 @@ export const ActorsCarousel = () => {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-3">
-        <p className="text-sm font-semibold text-white/50 uppercase tracking-widest">Актёры</p>
+        <p className="text-sm font-semibold text-white/50 uppercase tracking-widest">Cast</p>
 
         <div className="flex items-center gap-1 pr-4">
           <Button

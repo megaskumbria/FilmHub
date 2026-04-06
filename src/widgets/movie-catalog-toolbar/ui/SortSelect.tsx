@@ -20,12 +20,12 @@ export const SortSelect = ({ value, onValueChange }: SortSelectProps) => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <ArrowUpDown className="size-3.5" />
-        Сортировка
+        Sort
       </Label>
 
       <Select value={value} onValueChange={onValueChange}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Выберите порядок" />
+          <SelectValue placeholder="Choose order" />
         </SelectTrigger>
 
         <SelectContent

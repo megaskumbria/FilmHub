@@ -18,27 +18,27 @@ interface UserActionsButton {
 
 export const ACTION_GROUPS: UserActionsGroup[] = [
   {
-    label: "Аккаунт",
+    label: "Account",
     items: [
       // {
       //   icon: User,
-      //   render: () => <ActionButton icon={User}>Мой профиль</ActionButton>,
+      //   render: () => <ActionButton icon={User}>My profile</ActionButton>,
       // },
       {
         icon: BarChart3,
         render: () => (
           <ActionButton icon={BarChart3} href="/statistics">
-            Статистика
+            Statistics
           </ActionButton>
         ),
       },
       {
         icon: Users,
         render: () => (
-          // Убрать доп обёртку
+          // Remove extra wrapper when wiring routes
           <FollowersSheet>
             <SheetTrigger asChild>
-              <ActionButton icon={Users}>Подписки</ActionButton>
+              <ActionButton icon={Users}>Subscriptions</ActionButton>
             </SheetTrigger>
           </FollowersSheet>
         ),
@@ -47,20 +47,20 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
         icon: Folder,
         render: () => (
           <ActionButton icon={Folder} soon={true}>
-            Достижения
+            Achievements
           </ActionButton>
         ),
       },
     ],
   },
   {
-    label: "Коллекции",
+    label: "Collections",
     items: [
       {
         icon: Clapperboard,
         render: () => (
           <ActionButton icon={Clapperboard} href="/my-collections">
-            Мои коллекции
+            My collections
           </ActionButton>
         ),
       },
@@ -68,20 +68,20 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
         icon: Flag,
         render: () => (
           <ActionButton icon={Flag} href="/creation-flag">
-            Флаги
+            Flags
           </ActionButton>
         ),
       },
     ],
   },
   {
-    label: "Система",
+    label: "System",
     items: [
       {
         icon: Settings,
         render: () => (
           <SettingsModal>
-            <ActionButton icon={Settings}>Настройки</ActionButton>
+            <ActionButton icon={Settings}>Settings</ActionButton>
           </SettingsModal>
         ),
       },

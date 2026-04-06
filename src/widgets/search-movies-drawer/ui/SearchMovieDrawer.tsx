@@ -63,7 +63,7 @@ export const SearchMovieDrawer = () => {
             </Link>
 
             <Input
-              placeholder="Поиск фильмов..."
+              placeholder="Search movies..."
               className="w-full h-11 pl-10 placeholder:text-zinc-muted"
             />
           </div>
@@ -89,7 +89,7 @@ export const SearchMovieDrawer = () => {
 
         <DrawerFooter className="border-t border-border/40 py-3">
           <p className="text-center text-sm text-muted">
-            Нажмите Enter или на значок поиска чтобы узнать больше результатов
+            Press Enter or the search icon to load more results
           </p>
         </DrawerFooter>
       </DrawerContent>

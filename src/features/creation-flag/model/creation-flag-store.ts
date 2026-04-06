@@ -21,7 +21,7 @@ interface CreationFlagStore {
 
 export const useCreationFlagStore = create<CreationFlagStore>((set) => {
   return {
-    flagName: "Новый флаг",
+    flagName: "New flag",
     setFlagName: (flagName, color) => set({ flagName, selectedColor: color }),
     selectedColor: "rgba(139, 92, 246, 1)",
     setSelectedColor: (selectedColor) => set({ selectedColor }),

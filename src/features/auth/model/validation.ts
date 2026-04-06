@@ -20,21 +20,21 @@ export const signInFormSchema = z.object({
 
 const emailOrPhone = z
   .string()
-  .min(1, "Введите email или телефон")
+  .min(1, "Enter email or phone")
   .refine(
     (val) => z.string().email().safeParse(val).success || /^\+?[\d\s()-]{10,}$/.test(val),
-    "Некорректный email или номер телефона",
+    "Invalid email or phone number",
   );
 
 export const authModalSignInSchema = z.object({
   emailOrPhone,
-  password: z.string().min(8, "Пароль не менее 8 символов"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 export const authModalSignUpSchema = z.object({
   emailOrPhone,
-  username: z.string().min(2, "Имя пользователя не менее 2 символов"),
-  password: z.string().min(8, "Пароль не менее 8 символов"),
+  username: z.string().min(2, "Username must be at least 2 characters"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 export type SignInFormSchema = z.infer<typeof signInFormSchema>;

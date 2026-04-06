@@ -14,11 +14,11 @@ export const MovieCardPlaceholder = () => {
 
           <div className="flex flex-col items-center gap-1">
             <span className="text-[11px] font-medium text-white/70 group-hover:text-white/90 text-center leading-tight">
-              Загрузите постер
+              Upload a poster
             </span>
 
             <span className="text-[9px] text-white/30 group-hover:text-white/50 text-center">
-              или перетащите файл
+              or drop a file here
             </span>
           </div>
         </div>

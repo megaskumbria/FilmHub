@@ -28,8 +28,8 @@ interface FollowersSheetProps {
 }
 
 const TABS: { value: TabValue; label: string }[] = [
-  { value: "followers", label: "Подписчики" },
-  { value: "following", label: "Подписки" },
+  { value: "followers", label: "Followers" },
+  { value: "following", label: "Following" },
 ];
 
 function UserRow({ user }: { user: FollowUser }) {
@@ -62,7 +62,7 @@ function UserRow({ user }: { user: FollowUser }) {
           className="shrink-0 h-8 w-28 justify-center px-2 rounded-lg text-sm border border-border text-primary hover:text-foreground transition-colors"
           variant={following ? "accent" : undefined}
         >
-          <span>{following ? "Отписаться" : "Подписаться"}</span>
+          <span>{following ? "Unfollow" : "Follow"}</span>
         </Button>
       </Link>
     </li>
@@ -100,7 +100,7 @@ export function FollowersSheet({ children, defaultTab = "followers" }: Followers
         <header className="flex items-center justify-between gap-2 px-5 py-3.5 border-b border-border shrink-0">
           <div className="flex items-center gap-2">
             <Users className="size-4 text-zinc-muted shrink-0" />
-            <span className="font-semibold text-foreground text-sm">Подписки</span>
+            <span className="font-semibold text-foreground text-sm">People</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -139,7 +139,7 @@ export function FollowersSheet({ children, defaultTab = "followers" }: Followers
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
             <Input
               variant="neutral"
-              placeholder="Поиск по имени или @handle…"
+              placeholder="Search by name or @handle…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9 h-9 text-sm"
@@ -159,7 +159,7 @@ export function FollowersSheet({ children, defaultTab = "followers" }: Followers
                 {filtered.length === 0 ?
                   <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
                     <UserCheck className="size-10 text-zinc-muted opacity-30" />
-                    <p className="text-sm text-zinc-muted">Ничего не найдено</p>
+                    <p className="text-sm text-zinc-muted">No results</p>
                   </div>
                 : <ul className="divide-y divide-border/40">
                     {filtered.map((user) => (

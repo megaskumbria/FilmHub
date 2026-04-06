@@ -32,7 +32,7 @@ export const useImageUpload = () => {
       const dataUrl = e.target?.result as string;
       setPreview(dataUrl);
       localStorage.setItem(MOVIE_CARD_PREVIEW_KEY, dataUrl);
-      toast.success("Постер загружен", { position: "bottom-left" });
+      toast.success("Poster uploaded", { position: "bottom-left" });
     };
     reader.readAsDataURL(file);
   };
@@ -43,10 +43,10 @@ export const useImageUpload = () => {
       setPreview(null);
       localStorage.removeItem(MOVIE_CARD_PREVIEW_KEY);
 
-      toast.success("Превью сброшено", { position: "bottom-left" });
+      toast.success("Preview cleared", { position: "bottom-left" });
       return;
     }
-    toast.error("Не удалось сбросить превью", { position: "bottom-left" });
+    toast.error("Could not reset preview", { position: "bottom-left" });
   };
 
   return {

@@ -1,15 +1,15 @@
 import { IZoneBlock, IZones } from "../lib/types";
 
 const BLOCKS: IZoneBlock[] = [
-  { id: "title", label: "Название" },
-  { id: "description", label: "Описание" },
-  { id: "genres", label: "Жанры" },
+  { id: "title", label: "Title" },
+  { id: "description", label: "Description" },
+  { id: "genres", label: "Genres" },
   {
     id: "flags",
-    label: "Флаги",
-    subOptions: [{ id: "showCategories", label: "Категории", storeKey: "showCategories" }],
+    label: "Flags",
+    subOptions: [{ id: "showCategories", label: "Categories", storeKey: "showCategories" }],
   },
-  { id: "rating", label: "Рейтинг" },
+  { id: "rating", label: "Rating" },
 ];
 
 export const ZONES: IZones[] = [
@@ -24,13 +24,13 @@ export const ZONES: IZones[] = [
     label: "HOVER",
     dotClass: "bg-accent",
     blocks: [
-      { id: "title", label: "Название" },
-      { id: "description", label: "Описание" },
-      { id: "genres", label: "Жанры" },
+      { id: "title", label: "Title" },
+      { id: "description", label: "Description" },
+      { id: "genres", label: "Genres" },
       {
         id: "flags",
-        label: "Флаги",
-        subOptions: [{ id: "showCategories", label: "Категории", storeKey: "showCategories" }],
+        label: "Flags",
+        subOptions: [{ id: "showCategories", label: "Categories", storeKey: "showCategories" }],
       },
     ],
   },
@@ -39,13 +39,13 @@ export const ZONES: IZones[] = [
     label: "BODY",
     dotClass: "bg-emerald-accent",
     blocks: [
-      { id: "title", label: "Название" },
-      { id: "description", label: "Описание" },
-      { id: "genres", label: "Жанры" },
+      { id: "title", label: "Title" },
+      { id: "description", label: "Description" },
+      { id: "genres", label: "Genres" },
       {
         id: "flags",
-        label: "Флаги",
-        subOptions: [{ id: "showCategories", label: "Категории", storeKey: "showCategories" }],
+        label: "Flags",
+        subOptions: [{ id: "showCategories", label: "Categories", storeKey: "showCategories" }],
       },
     ],
   },

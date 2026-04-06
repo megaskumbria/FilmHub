@@ -61,8 +61,8 @@ export const AccountSettings = () => {
         <section>
           <SectionHeader
             icon={<Camera className="size-4" />}
-            title="Аватар"
-            description="Отображается в профиле и рядом с вашими коллекциями"
+            title="Avatar"
+            description="Shown on your profile and next to your collections"
           />
           <div className="flex items-center gap-5">
             <div className="relative group">
@@ -86,13 +86,13 @@ export const AccountSettings = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className="rounded-lg border-border text-sm text-foreground hover:border-accent/40 hover:bg-accent/5 transition-colors"
               >
-                <span>Загрузить фото</span>
+                <span>Upload photo</span>
               </Button>
               <Button
                 size="sm"
                 className="rounded-lg text-sm text-zinc-muted hover:text-destructive transition-colors"
               >
-                <span>Удалить</span>
+                <span>Remove</span>
               </Button>
             </div>
           </div>
@@ -104,11 +104,11 @@ export const AccountSettings = () => {
         <section>
           <SectionHeader
             icon={<User className="size-4" />}
-            title="Личные данные"
-            description="Никнейм и почта отображаются публично"
+            title="Profile"
+            description="Your nickname and email are visible publicly"
           />
           <div className="flex flex-col gap-4">
-            <FieldRow label="Никнейм">
+            <FieldRow label="Nickname">
               <div className="flex gap-2">
                 <Input
                   variant="neutral"
@@ -122,12 +122,12 @@ export const AccountSettings = () => {
                   size="sm"
                   className="shrink-0 rounded-lg border-border text-sm text-foreground hover:border-accent/40 hover:bg-accent/5 transition-colors px-4"
                 >
-                  <span>Сохранить</span>
+                  <span>Save</span>
                 </Button>
               </div>
             </FieldRow>
 
-            <FieldRow label="Почта">
+            <FieldRow label="Email">
               <div className="flex gap-2">
                 <Input
                   variant="neutral"
@@ -142,7 +142,7 @@ export const AccountSettings = () => {
                   size="sm"
                   className="shrink-0 rounded-lg border-border text-sm text-foreground hover:border-accent/40 hover:bg-accent/5 transition-colors px-4"
                 >
-                  <span>Сохранить</span>
+                  <span>Save</span>
                 </Button>
               </div>
             </FieldRow>
@@ -155,18 +155,18 @@ export const AccountSettings = () => {
         <section>
           <SectionHeader
             icon={<Lock className="size-4" />}
-            title="Безопасность"
-            description="Изменение пароля аккаунта"
+            title="Security"
+            description="Change your account password"
           />
           <div className="flex flex-col gap-4">
-            <FieldRow label="Текущий">
+            <FieldRow label="Current">
               <div className="relative">
                 <Input
                   variant="neutral"
                   type={showCurrentPwd ? "text" : "password"}
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  placeholder="Текущий пароль"
+                  placeholder="Current password"
                   className="h-9 text-sm pr-10"
                 />
                 <button
@@ -181,14 +181,14 @@ export const AccountSettings = () => {
               </div>
             </FieldRow>
 
-            <FieldRow label="Новый">
+            <FieldRow label="New">
               <div className="relative">
                 <Input
                   variant="neutral"
                   type={showNewPwd ? "text" : "password"}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Новый пароль"
+                  placeholder="New password"
                   className="h-9 text-sm pr-10"
                 />
                 <button
@@ -203,14 +203,14 @@ export const AccountSettings = () => {
               </div>
             </FieldRow>
 
-            <FieldRow label="Повтор">
+            <FieldRow label="Confirm">
               <div className="relative">
                 <Input
                   variant="neutral"
                   type={showRepeatPwd ? "text" : "password"}
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
-                  placeholder="Повторите пароль"
+                  placeholder="Confirm password"
                   className={cn(
                     "h-9 text-sm pr-10",
                     passwordMismatch && "border-destructive/60 focus-visible:border-destructive/80",
@@ -227,7 +227,7 @@ export const AccountSettings = () => {
                 </button>
               </div>
               {passwordMismatch && (
-                <p className="text-sm text-destructive mt-1.5">Пароли не совпадают</p>
+                <p className="text-sm text-destructive mt-1.5">Passwords do not match</p>
               )}
             </FieldRow>
 
@@ -238,7 +238,7 @@ export const AccountSettings = () => {
                 disabled={!currentPassword || !newPassword || !repeatPassword || passwordMismatch}
                 className="rounded-lg text-sm px-5 disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <span>Изменить пароль</span>
+                <span>Update password</span>
               </Button>
             </div>
           </div>
@@ -248,13 +248,13 @@ export const AccountSettings = () => {
 
         {/* Privacy */}
         <section>
-          <SectionHeader icon={<Shield className="size-4" />} title="Приватность" />
+          <SectionHeader icon={<Shield className="size-4" />} title="Privacy" />
           <div className="flex flex-col gap-0 rounded-xl border border-border overflow-hidden">
             <div className="flex items-center justify-between gap-4 px-4 py-3.5">
               <div>
-                <p className="text-sm font-medium text-foreground">Закрытый профиль</p>
+                <p className="text-sm font-medium text-foreground">Private profile</p>
                 <p className="text-sm text-zinc-muted mt-0.5">
-                  Подписчики только по одобрению, коллекции скрыты для незнакомцев
+                  Followers require approval; collections stay hidden from strangers
                 </p>
               </div>
               <Switch
@@ -266,9 +266,9 @@ export const AccountSettings = () => {
             <Separator />
             <div className="flex items-center justify-between gap-4 px-4 py-3.5">
               <div>
-                <p className="text-sm font-medium text-foreground">Публичная статистика</p>
+                <p className="text-sm font-medium text-foreground">Public statistics</p>
                 <p className="text-sm text-zinc-muted mt-0.5">
-                  Другие пользователи смогут видеть вашу статистику просмотров
+                  Other users can see your viewing stats
                 </p>
               </div>
               <Switch checked={publicStats} onCheckedChange={setPublicStats} className="shrink-0" />
@@ -284,15 +284,15 @@ export const AccountSettings = () => {
             <div className="flex items-start gap-3">
               <AlertTriangle className="size-4 text-destructive shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-semibold text-foreground">Удалить аккаунт</p>
-                <p className="text-sm text-zinc-muted mt-0.5">Это действие необратимо</p>
+                <p className="text-sm font-semibold text-foreground">Delete account</p>
+                <p className="text-sm text-zinc-muted mt-0.5">This action cannot be undone</p>
               </div>
             </div>
             <Button
               size="sm"
               className="shrink-0 rounded-lg border border-destructive/40 text-destructive hover:bg-destructive/10 hover:border-destructive/60 transition-colors px-4 text-sm"
             >
-              <span>Удалить</span>
+              <span>Delete</span>
             </Button>
           </div>
         </section>

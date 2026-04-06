@@ -9,7 +9,7 @@ import { IMovieCardData } from "@/shared/model/movies";
 const formatDuration = (min: number) => {
   const h = Math.floor(min / 60);
   const m = min % 60;
-  return h > 0 ? `${h}ч ${m}мин` : `${m}мин`;
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
 };
 
 interface MovieInfoPanelProps {
@@ -63,13 +63,13 @@ export const MovieInfoPanel = ({ movie, isUiHidden }: MovieInfoPanelProps) => {
           className="transition-all duration-200 gap-2 rounded-lg font-semibold shadow-lg shadow-accent/30"
         >
           <Plus className="size-4" />
-          <span>Добавить в коллекцию</span>
+          <span>Add to collection</span>
         </Button>
 
         <div className="flex items-stretch h-10 rounded-lg border border-white/20 bg-white/10 overflow-hidden">
           <Button className="transition-all duration-200 gap-2 h-full rounded-none bg-transparent hover:bg-white/10 font-semibold text-white border-none shadow-none px-4">
             <Link2 className="size-4" />
-            <span>Сгенерировать ссылку</span>
+            <span>Generate link</span>
           </Button>
 
           <div className="w-px self-center h-5 bg-white/15 shrink-0" />
@@ -83,7 +83,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden }: MovieInfoPanelProps) => {
 
             <TooltipContent>
               <p className="text-sm">
-                Генерирует ссылку на бесплатный источник для просмотра фильма.
+                Builds a link to a free source for watching the film.
               </p>
             </TooltipContent>
           </Tooltip>

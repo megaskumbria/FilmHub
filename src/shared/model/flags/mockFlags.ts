@@ -16,11 +16,11 @@ interface IFlagData {
 
 export const flagsData: IFlagData[] = [
   {
-    category: "Cюжет",
+    category: "Plot",
     flagItems: [
       {
         id: 1,
-        flagName: "Нарративный хаос",
+        flagName: "Narrative chaos",
         color: "rgba(139, 134, 128, 1)",
         bg: "rgba(139, 134, 128, 0.38)",
         isUsed: false,
@@ -28,7 +28,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 2,
-        flagName: "Предсказуемая обыденность",
+        flagName: "Predictable mundanity",
         color: "rgba(242, 230, 216, 1)",
         bg: "rgba(242, 230, 216, 0.38)",
         isUsed: false,
@@ -36,7 +36,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 3,
-        flagName: "Удовлетворительная структура",
+        flagName: "Satisfying structure",
         color: "rgba(169, 220, 227, 1)",
         bg: "rgba(169, 220, 227, 0.38)",
         isUsed: false,
@@ -44,7 +44,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 4,
-        flagName: "Захватывающие повествование",
+        flagName: "Captivating storytelling",
         color: "rgba(255, 147, 126, 1)",
         bg: "rgba(255, 147, 126, 0.38)",
         isUsed: false,
@@ -52,7 +52,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 5,
-        flagName: "Литературyный шедевр",
+        flagName: "Literary masterpiece",
         color: "rgba(0, 138, 115, 1)",
         bg: "rgba(0, 138, 115, 0.38)",
         isUsed: true,
@@ -62,11 +62,11 @@ export const flagsData: IFlagData[] = [
   },
 
   {
-    category: "Страшность",
+    category: "Scariness",
     flagItems: [
       {
         id: 1,
-        flagName: "Лёгкая",
+        flagName: "Mild",
         color: "rgba(139, 134, 128, 1)",
         bg: "rgba(139, 134, 128, 0.38)",
         isUsed: false,
@@ -74,7 +74,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 2,
-        flagName: "Ниже среднего",
+        flagName: "Below average",
         color: "rgba(242, 230, 216, 1)",
         bg: "rgba(242, 230, 216, 0.38)",
         isUsed: false,
@@ -82,7 +82,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 3,
-        flagName: "Средняя",
+        flagName: "Medium",
         color: "rgba(169, 220, 227, 1)",
         bg: "rgba(169, 220, 227, 0.38)",
         isUsed: false,
@@ -90,7 +90,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 4,
-        flagName: "Жуткая",
+        flagName: "Creepy",
         color: "rgba(255, 147, 126, 1)",
         bg: "rgba(255, 147, 126, 0.38)",
         isUsed: true,
@@ -98,7 +98,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 5,
-        flagName: "Кошмарная",
+        flagName: "Nightmarish",
         color: "rgba(0, 138, 115, 1)",
         bg: "rgba(0, 138, 115, 0.38)",
         isUsed: false,
@@ -106,7 +106,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 6,
-        flagName: "Бессонница",
+        flagName: "Sleepless",
         color: "rgba(0, 138, 115, 1)",
         bg: "rgba(0, 138, 115, 0.38)",
         isUsed: false,
@@ -116,11 +116,11 @@ export const flagsData: IFlagData[] = [
   },
 
   {
-    category: "Жестокость",
+    category: "Brutality",
     flagItems: [
       {
         id: 1,
-        flagName: "Символическая",
+        flagName: "Symbolic",
         color: "rgba(125, 211, 192, 1)",
         bg: "rgba(125, 211, 192, 0.38)",
         isUsed: false,
@@ -128,7 +128,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 2,
-        flagName: "Кинематографичная",
+        flagName: "Cinematic",
         color: "rgba(255, 209, 102, 1)",
         bg: "rgba(255, 209, 102, 0.38)",
         isUsed: false,
@@ -136,7 +136,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 3,
-        flagName: "Реалистичная",
+        flagName: "Realistic",
         color: "rgba(244, 162, 97, 1)",
         bg: "rgba(244, 162, 97, 0.38)",
         isUsed: true,
@@ -144,7 +144,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 4,
-        flagName: "Натуралистичная",
+        flagName: "Naturalistic",
         color: "rgba(230, 57, 70, 1)",
         bg: "rgba(230, 57, 70, 0.38)",
         isUsed: false,
@@ -154,11 +154,11 @@ export const flagsData: IFlagData[] = [
   },
 
   {
-    category: "Кровопролитие",
+    category: "Bloodiness",
     flagItems: [
       {
         id: 1,
-        flagName: "Стерильное",
+        flagName: "Sterile",
         color: "rgba(168, 218, 220, 1)",
         bg: "rgba(168, 218, 220, 0.38)",
         isUsed: false,
@@ -166,7 +166,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 2,
-        flagName: "Театральное",
+        flagName: "Theatrical",
         color: "rgba(249, 168, 38, 1)",
         bg: "rgba(249, 168, 38, 0.38)",
         isUsed: false,
@@ -174,7 +174,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 3,
-        flagName: "Обильное",
+        flagName: "Heavy",
         color: "rgba(239, 71, 111, 1)",
         bg: "rgba(239, 71, 111, 0.38)",
         isUsed: true,
@@ -182,7 +182,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 4,
-        flagName: "Беспощадное",
+        flagName: "Relentless",
         color: "rgba(193, 18, 31, 1)",
         bg: "rgba(193, 18, 31, 0.38)",
         isUsed: false,
@@ -192,11 +192,11 @@ export const flagsData: IFlagData[] = [
   },
 
   {
-    category: "Звук и атмосфера",
+    category: "Sound and atmosphere",
     flagItems: [
       {
         id: 1,
-        flagName: "Тишина",
+        flagName: "Silence",
         color: "rgba(156, 163, 175, 1)",
         bg: "rgba(156, 163, 175, 0.38)",
         isUsed: false,
@@ -204,7 +204,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 2,
-        flagName: "Фоновый шум",
+        flagName: "Background noise",
         color: "rgba(129, 140, 248, 1)",
         bg: "rgba(129, 140, 248, 0.38)",
         isUsed: false,
@@ -212,7 +212,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 3,
-        flagName: "Напряжённый саунд",
+        flagName: "Tense sound design",
         color: "rgba(167, 139, 250, 1)",
         bg: "rgba(167, 139, 250, 0.38)",
         isUsed: false,
@@ -220,7 +220,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 4,
-        flagName: "Погружающий",
+        flagName: "Immersive",
         color: "rgba(124, 58, 237, 1)",
         bg: "rgba(124, 58, 237, 0.38)",
         isUsed: false,
@@ -228,7 +228,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 5,
-        flagName: "Гнетущая атмосфера",
+        flagName: "Oppressive atmosphere",
         color: "rgba(91, 33, 182, 1)",
         bg: "rgba(91, 33, 182, 0.38)",
         isUsed: false,
@@ -238,11 +238,11 @@ export const flagsData: IFlagData[] = [
   },
 
   {
-    category: "Юмор",
+    category: "Humor",
     flagItems: [
       {
         id: 1,
-        flagName: "Серьёзный",
+        flagName: "Serious",
         color: "rgba(120, 113, 108, 1)",
         bg: "rgba(120, 113, 108, 0.38)",
         isUsed: false,
@@ -250,7 +250,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 2,
-        flagName: "Ироничный",
+        flagName: "Ironic",
         color: "rgba(252, 211, 77, 1)",
         bg: "rgba(252, 211, 77, 0.38)",
         isUsed: false,
@@ -259,7 +259,7 @@ export const flagsData: IFlagData[] = [
 
       {
         id: 5,
-        flagName: "Гротеск",
+        flagName: "Grotesque",
         color: "rgba(234, 88, 12, 1)",
         bg: "rgba(234, 88, 12, 0.38)",
         isUsed: false,
@@ -269,11 +269,11 @@ export const flagsData: IFlagData[] = [
   },
 
   {
-    category: "Напряжённость",
+    category: "Tension",
     flagItems: [
       {
         id: 1,
-        flagName: "Расслабленная",
+        flagName: "Relaxed",
         color: "rgba(148, 163, 184, 1)",
         bg: "rgba(148, 163, 184, 0.38)",
         isUsed: false,
@@ -281,7 +281,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 2,
-        flagName: "Лёгкое ожидание",
+        flagName: "Light anticipation",
         color: "rgba(100, 116, 139, 1)",
         bg: "rgba(100, 116, 139, 0.38)",
         isUsed: false,
@@ -289,7 +289,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 3,
-        flagName: "Нарастающая",
+        flagName: "Building",
         color: "rgba(59, 130, 246, 1)",
         bg: "rgba(59, 130, 246, 0.38)",
         isUsed: false,
@@ -297,7 +297,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 4,
-        flagName: "Интенсивная",
+        flagName: "Intense",
         color: "rgba(29, 78, 216, 1)",
         bg: "rgba(29, 78, 216, 0.38)",
         isUsed: false,
@@ -305,7 +305,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 5,
-        flagName: "Невыносимая",
+        flagName: "Unbearable",
         color: "rgba(30, 58, 138, 1)",
         bg: "rgba(30, 58, 138, 0.38)",
         isUsed: false,
@@ -315,11 +315,11 @@ export const flagsData: IFlagData[] = [
   },
 
   {
-    category: "Визуальный стиль",
+    category: "Visual style",
     flagItems: [
       {
         id: 1,
-        flagName: "Реалистичный",
+        flagName: "Grounded realism",
         color: "rgba(110, 231, 183, 1)",
         bg: "rgba(110, 231, 183, 0.38)",
         isUsed: false,
@@ -327,7 +327,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 2,
-        flagName: "Стилизованный",
+        flagName: "Stylized",
         color: "rgba(52, 211, 153, 1)",
         bg: "rgba(52, 211, 153, 0.38)",
         isUsed: false,
@@ -335,7 +335,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 3,
-        flagName: "Сюрреалистичный",
+        flagName: "Surreal",
         color: "rgba(16, 185, 129, 1)",
         bg: "rgba(16, 185, 129, 0.38)",
         isUsed: false,
@@ -343,7 +343,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 4,
-        flagName: "Галлюциногенный",
+        flagName: "Hallucinatory",
         color: "rgba(5, 150, 105, 1)",
         bg: "rgba(5, 150, 105, 0.38)",
         isUsed: false,
@@ -351,7 +351,7 @@ export const flagsData: IFlagData[] = [
       },
       {
         id: 5,
-        flagName: "Трип-визуал",
+        flagName: "Trip visuals",
         color: "rgba(4, 120, 87, 1)",
         bg: "rgba(4, 120, 87, 0.38)",
         isUsed: false,
@@ -360,5 +360,5 @@ export const flagsData: IFlagData[] = [
     ],
   },
 ];
-// градиент эмоции — от безопасного/нейтрального → тревожного → опасного → ужасающего.
-// каждая категория должна иметь свой “характер” цвета, но при этом внутри категории сохраняется градиент интенсивности.
+// Emotion gradient — from safe/neutral → anxious → dangerous → horrifying.
+// Each category should have its own color “character”, but within a category the intensity gradient stays consistent.

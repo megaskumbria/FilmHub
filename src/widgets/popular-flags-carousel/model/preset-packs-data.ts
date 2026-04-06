@@ -13,15 +13,15 @@ export interface IPresetPack {
 export const PRESET_PACKS: IPresetPack[] = [
   {
     id: 1,
-    title: "Темп повествования",
-    description: "Насколько быстро развиваются события — от черепашьего до безумного",
-    categoryName: "Темп повествования",
+    title: "Pacing",
+    description: "How fast the story moves — from glacial to breakneck",
+    categoryName: "Pacing",
     accentColor: "rgba(99, 102, 241, 1)",
     usageCount: 2140,
     flags: [
       {
         id: 301,
-        flagName: "Сонный",
+        flagName: "Sleepy",
         color: "rgba(148, 163, 184, 1)",
         bg: "rgba(148, 163, 184, 0.38)",
         isUsed: false,
@@ -29,7 +29,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 302,
-        flagName: "Неспешный",
+        flagName: "Leisurely",
         color: "rgba(100, 116, 139, 1)",
         bg: "rgba(100, 116, 139, 0.38)",
         isUsed: false,
@@ -37,7 +37,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 303,
-        flagName: "Размеренный",
+        flagName: "Steady",
         color: "rgba(99, 102, 241, 1)",
         bg: "rgba(99, 102, 241, 0.38)",
         isUsed: false,
@@ -45,7 +45,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 304,
-        flagName: "Динамичный",
+        flagName: "Dynamic",
         color: "rgba(79, 70, 229, 1)",
         bg: "rgba(79, 70, 229, 0.38)",
         isUsed: false,
@@ -53,7 +53,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 305,
-        flagName: "Стремительный",
+        flagName: "Breakneck",
         color: "rgba(55, 48, 163, 1)",
         bg: "rgba(55, 48, 163, 0.38)",
         isUsed: false,
@@ -63,15 +63,15 @@ export const PRESET_PACKS: IPresetPack[] = [
   },
   {
     id: 2,
-    title: "Эмоциональный вес",
-    description: "Насколько фильм давит на психику — от лёгкого до сокрушительного",
-    categoryName: "Эмоциональный вес",
+    title: "Emotional weight",
+    description: "How hard the film hits — from featherlight to crushing",
+    categoryName: "Emotional weight",
     accentColor: "rgba(236, 72, 153, 1)",
     usageCount: 1876,
     flags: [
       {
         id: 306,
-        flagName: "Невесомый",
+        flagName: "Weightless",
         color: "rgba(251, 207, 232, 1)",
         bg: "rgba(251, 207, 232, 0.38)",
         isUsed: false,
@@ -79,7 +79,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 307,
-        flagName: "Лёгкая грусть",
+        flagName: "Mellow ache",
         color: "rgba(244, 114, 182, 1)",
         bg: "rgba(244, 114, 182, 0.38)",
         isUsed: false,
@@ -87,7 +87,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 308,
-        flagName: "Щемящий",
+        flagName: "Heart-clenching",
         color: "rgba(236, 72, 153, 1)",
         bg: "rgba(236, 72, 153, 0.38)",
         isUsed: false,
@@ -95,7 +95,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 309,
-        flagName: "Опустошающий",
+        flagName: "Hollowing",
         color: "rgba(190, 24, 93, 1)",
         bg: "rgba(190, 24, 93, 0.38)",
         isUsed: false,
@@ -103,7 +103,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 310,
-        flagName: "Выжигающий душу",
+        flagName: "Soul-scouring",
         color: "rgba(131, 24, 67, 1)",
         bg: "rgba(131, 24, 67, 0.38)",
         isUsed: false,
@@ -113,15 +113,15 @@ export const PRESET_PACKS: IPresetPack[] = [
   },
   {
     id: 3,
-    title: "Предсказуемость",
-    description: "Легко ли угадать развязку — от очевидного до непостижимого",
-    categoryName: "Предсказуемость",
+    title: "Predictability",
+    description: "How easy the ending is to guess — from obvious to incomprehensible",
+    categoryName: "Predictability",
     accentColor: "rgba(245, 158, 11, 1)",
     usageCount: 1654,
     flags: [
       {
         id: 311,
-        flagName: "Телеграфирующая",
+        flagName: "Telegraphed",
         color: "rgba(253, 230, 138, 1)",
         bg: "rgba(253, 230, 138, 0.38)",
         isUsed: false,
@@ -129,7 +129,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 312,
-        flagName: "Читаемая",
+        flagName: "Readable",
         color: "rgba(251, 191, 36, 1)",
         bg: "rgba(251, 191, 36, 0.38)",
         isUsed: false,
@@ -137,7 +137,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 313,
-        flagName: "С сюрпризом",
+        flagName: "Has a twist",
         color: "rgba(245, 158, 11, 1)",
         bg: "rgba(245, 158, 11, 0.38)",
         isUsed: false,
@@ -145,7 +145,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 314,
-        flagName: "Непредсказуемая",
+        flagName: "Unpredictable",
         color: "rgba(217, 119, 6, 1)",
         bg: "rgba(217, 119, 6, 0.38)",
         isUsed: false,
@@ -153,7 +153,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 315,
-        flagName: "Взрыв мозга",
+        flagName: "Mind-blowing",
         color: "rgba(180, 83, 9, 1)",
         bg: "rgba(180, 83, 9, 0.38)",
         isUsed: false,
@@ -163,15 +163,15 @@ export const PRESET_PACKS: IPresetPack[] = [
   },
   {
     id: 4,
-    title: "Мрачность",
-    description: "Тональность фильма — от солнечного до беспросветного",
-    categoryName: "Мрачность",
+    title: "Gloom",
+    description: "Overall tone — from sunny to pitch-black",
+    categoryName: "Gloom",
     accentColor: "rgba(107, 114, 128, 1)",
     usageCount: 2033,
     flags: [
       {
         id: 316,
-        flagName: "Светлое",
+        flagName: "Bright",
         color: "rgba(209, 213, 219, 1)",
         bg: "rgba(209, 213, 219, 0.38)",
         isUsed: false,
@@ -179,7 +179,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 317,
-        flagName: "С тенью",
+        flagName: "Shadowed",
         color: "rgba(156, 163, 175, 1)",
         bg: "rgba(156, 163, 175, 0.38)",
         isUsed: false,
@@ -187,7 +187,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 318,
-        flagName: "Сумрачная",
+        flagName: "Somber",
         color: "rgba(107, 114, 128, 1)",
         bg: "rgba(107, 114, 128, 0.38)",
         isUsed: false,
@@ -195,7 +195,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 319,
-        flagName: "Гнетущая",
+        flagName: "Oppressive",
         color: "rgba(75, 85, 99, 1)",
         bg: "rgba(75, 85, 99, 0.38)",
         isUsed: false,
@@ -203,7 +203,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 320,
-        flagName: "Беспросветная",
+        flagName: "Lightless",
         color: "rgba(31, 41, 55, 1)",
         bg: "rgba(31, 41, 55, 0.38)",
         isUsed: false,
@@ -213,15 +213,15 @@ export const PRESET_PACKS: IPresetPack[] = [
   },
   {
     id: 5,
-    title: "Абсурдность",
-    description: "Насколько фильм отрывается от реальности — от бытового до безумного",
-    categoryName: "Абсурдность",
+    title: "Absurdity",
+    description: "How far the film drifts from reality — from mundane to unhinged",
+    categoryName: "Absurdity",
     accentColor: "rgba(234, 88, 12, 1)",
     usageCount: 987,
     flags: [
       {
         id: 321,
-        flagName: "Приземлённая",
+        flagName: "Grounded",
         color: "rgba(209, 213, 219, 1)",
         bg: "rgba(209, 213, 219, 0.38)",
         isUsed: false,
@@ -229,7 +229,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 322,
-        flagName: "С причудами",
+        flagName: "Quirky",
         color: "rgba(253, 186, 116, 1)",
         bg: "rgba(253, 186, 116, 0.38)",
         isUsed: false,
@@ -237,7 +237,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 323,
-        flagName: "Гротескная",
+        flagName: "Grotesque",
         color: "rgba(249, 115, 22, 1)",
         bg: "rgba(249, 115, 22, 0.38)",
         isUsed: false,
@@ -245,7 +245,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 324,
-        flagName: "Абсурдистская",
+        flagName: "Absurdist",
         color: "rgba(234, 88, 12, 1)",
         bg: "rgba(234, 88, 12, 0.38)",
         isUsed: false,
@@ -253,7 +253,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 325,
-        flagName: "Чистый хаос",
+        flagName: "Pure chaos",
         color: "rgba(194, 65, 12, 1)",
         bg: "rgba(194, 65, 12, 0.38)",
         isUsed: false,
@@ -263,15 +263,15 @@ export const PRESET_PACKS: IPresetPack[] = [
   },
   {
     id: 6,
-    title: "Достоверность персонажей",
-    description: "Насколько персонажи живые и убедительные",
-    categoryName: "Достоверность персонажей",
+    title: "Character believability",
+    description: "How alive and convincing the characters feel",
+    categoryName: "Character believability",
     accentColor: "rgba(20, 184, 166, 1)",
     usageCount: 1321,
     flags: [
       {
         id: 326,
-        flagName: "Картонные",
+        flagName: "Cardboard",
         color: "rgba(148, 163, 184, 1)",
         bg: "rgba(148, 163, 184, 0.38)",
         isUsed: false,
@@ -279,7 +279,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 327,
-        flagName: "Функциональные",
+        flagName: "Functional",
         color: "rgba(94, 234, 212, 1)",
         bg: "rgba(94, 234, 212, 0.38)",
         isUsed: false,
@@ -287,7 +287,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 328,
-        flagName: "Объёмные",
+        flagName: "Layered",
         color: "rgba(45, 212, 191, 1)",
         bg: "rgba(45, 212, 191, 0.38)",
         isUsed: false,
@@ -295,7 +295,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 329,
-        flagName: "Живые",
+        flagName: "Alive",
         color: "rgba(20, 184, 166, 1)",
         bg: "rgba(20, 184, 166, 0.38)",
         isUsed: false,
@@ -303,7 +303,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 330,
-        flagName: "Незабываемые",
+        flagName: "Unforgettable",
         color: "rgba(13, 148, 136, 1)",
         bg: "rgba(13, 148, 136, 0.38)",
         isUsed: false,
@@ -313,15 +313,15 @@ export const PRESET_PACKS: IPresetPack[] = [
   },
   {
     id: 7,
-    title: "Зрительский комфорт",
-    description: "Насколько легко смотреть — от фонового до невыносимого",
-    categoryName: "Зрительский комфорт",
+    title: "Viewing comfort",
+    description: "How easy it is to watch — from background noise to endurance test",
+    categoryName: "Viewing comfort",
     accentColor: "rgba(139, 92, 246, 1)",
     usageCount: 1789,
     flags: [
       {
         id: 331,
-        flagName: "Фоновый",
+        flagName: "Background",
         color: "rgba(196, 181, 253, 1)",
         bg: "rgba(196, 181, 253, 0.38)",
         isUsed: false,
@@ -329,7 +329,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 332,
-        flagName: "Расслабляющий",
+        flagName: "Relaxing",
         color: "rgba(167, 139, 250, 1)",
         bg: "rgba(167, 139, 250, 0.38)",
         isUsed: false,
@@ -337,7 +337,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 333,
-        flagName: "Требует внимания",
+        flagName: "Demands attention",
         color: "rgba(139, 92, 246, 1)",
         bg: "rgba(139, 92, 246, 0.38)",
         isUsed: false,
@@ -345,7 +345,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 334,
-        flagName: "Изматывающий",
+        flagName: "Grueling",
         color: "rgba(109, 40, 217, 1)",
         bg: "rgba(109, 40, 217, 0.38)",
         isUsed: false,
@@ -353,7 +353,7 @@ export const PRESET_PACKS: IPresetPack[] = [
       },
       {
         id: 335,
-        flagName: "Выживание",
+        flagName: "Survival mode",
         color: "rgba(76, 29, 149, 1)",
         bg: "rgba(76, 29, 149, 0.38)",
         isUsed: false,

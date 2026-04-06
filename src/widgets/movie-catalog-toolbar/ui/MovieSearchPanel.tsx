@@ -30,7 +30,7 @@ export const MovieSearchPanel = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setIsSearchFocused(true)}
           onBlur={() => setIsSearchFocused(false)}
-          placeholder="Поиск фильмов, сериалов..."
+          placeholder="Search movies, series..."
           variant="neutral"
           className="h-10 pl-9 pr-9 text-sm"
         />

@@ -63,7 +63,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
           <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
             <div className="flex items-center gap-2.5">
               <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-              <span className="text-sm font-semibold text-foreground tracking-wide">Флаги</span>
+              <span className="text-sm font-semibold text-foreground tracking-wide">Flags</span>
             </div>
 
             <Tooltip>
@@ -72,7 +72,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
               </TooltipTrigger>
 
               <TooltipContent>
-                <p>Максимум 1 флаг из категории</p>
+                <p>At most one flag per category</p>
               </TooltipContent>
             </Tooltip>
           </header>
@@ -82,7 +82,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
               <Input
                 variant="neutral"
-                placeholder="Поиск категории..."
+                placeholder="Search categories..."
                 className="pl-7 pr-2 text-sm h-9"
               />
               {/* {search && (
@@ -98,7 +98,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
 
           <div className="overflow-y-auto max-h-92 px-1.5 drawer-scroll">
             {flagsData.length === 0 ?
-              <div className="py-6 text-center text-xs text-zinc-muted">Флаги не найдены</div>
+              <div className="py-6 text-center text-xs text-zinc-muted">No flags found</div>
             : <Accordion type="multiple">
                 {flagsData.map(({ category, flagItems }) => {
                   return (
@@ -164,7 +164,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
             <Link href="/creation-flag">
               <Button className="w-full h-8 text-zinc-muted hover:text-accent hover:bg-accent/10 transition-all px-2 gap-1.5 rounded-lg justify-start">
                 <Plus className="size-3 shrink-0" />
-                <span>Создать флаг</span>
+                <span>Create flag</span>
               </Button>
             </Link>
           </footer>
@@ -175,12 +175,12 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
           <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
             <div className="flex items-center gap-2.5">
               <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-              <span className="text-sm font-semibold text-foreground tracking-wide">Коллекции</span>
+              <span className="text-sm font-semibold text-foreground tracking-wide">Collections</span>
             </div>
 
             {selectedFolders.size > 0 && (
               <span className="text-xs text-accent font-medium">
-                {selectedFolders.size} выбрано
+                {selectedFolders.size} selected
               </span>
             )}
           </header>
@@ -190,7 +190,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
               <Input
                 variant="neutral"
-                placeholder="Поиск коллекции..."
+                placeholder="Search collections..."
                 className="pl-7 pr-2 text-sm h-9"
                 value={folderSearch}
                 onChange={(e) => setFolderSearch(e.target.value)}
@@ -200,7 +200,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
 
           <div className="overflow-y-auto max-h-72 px-1.5 pb-1.5 drawer-scroll flex flex-col gap-0.5">
             {filteredFolders.length === 0 ?
-              <div className="py-6 text-center text-xs text-zinc-muted">Коллекции не найдены</div>
+              <div className="py-6 text-center text-xs text-zinc-muted">No collections found</div>
             : filteredFolders.map((folder) => {
                 const { id, name, borderBase, count, posters } = folder;
                 const isSelected = selectedFolders.has(id);
@@ -235,7 +235,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
 
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">{name}</p>
-                      <p className="text-xs text-zinc-muted">{count} фильмов</p>
+                      <p className="text-xs text-zinc-muted">{count} films</p>
                     </div>
 
                     <div
@@ -259,13 +259,13 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
               disabled={selectedFolders.size === 0}
               className="flex-1 h-8 px-2 text-sm rounded-lg bg-accent/10 hover:bg-accent/20 text-accent hover:text-accent border border-accent/20 transition-all disabled:opacity-40 disabled:pointer-events-none"
             >
-              <span>Добавить</span>
+              <span>Add</span>
             </Button>
 
             <Link href="/my-collections" className="shrink-0">
               <Button className="h-8 px-2.5 text-zinc-muted hover:text-accent hover:bg-accent/10 transition-all rounded-lg gap-1.5">
                 <Plus className="size-3 shrink-0" />
-                <span className="text-sm">Новая</span>
+                <span className="text-sm">New</span>
               </Button>
             </Link>
           </footer>

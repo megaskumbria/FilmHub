@@ -63,7 +63,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
       >
         <DialogHeader className="flex flex-row items-center justify-between border-b border-border px-5 py-4">
           <DialogTitle className="text-base font-semibold text-foreground">
-            Добавить вручную
+            Add manually
           </DialogTitle>
 
           <DialogClose asChild>
@@ -75,10 +75,10 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
 
         <div ref={dialogContentRef} className="overflow-y-auto max-h-[75vh]">
           <div className="px-5 py-5 flex flex-col gap-5">
-            {/* Тип контента */}
+            {/* Content type */}
             <div className="flex flex-col gap-2.5">
               <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                Тип
+                Type
               </Label>
               <div className="grid grid-cols-4 gap-1.5">
                 {CONTENT_TYPES.map(({ value, label, icon: Icon }) => (
@@ -100,7 +100,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
               </div>
             </div>
 
-            {/* Обложка + Поля */}
+            {/* Cover + fields */}
             <div className="flex gap-4 h-full min-h-80 w-full">
               <Button
                 size="icon"
@@ -109,19 +109,19 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                 <ImagePlus className="size-6 text-zinc-muted group-hover:text-accent transition-colors" />
 
                 <span className="text-xs text-zinc-muted group-hover:text-accent transition-colors text-center leading-tight">
-                  Обложка
+                  Cover
                 </span>
               </Button>
 
               <div className="flex flex-col justify-between max-w-72 w-full">
                 <div className="flex flex-col gap-1.5">
                   <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                    Название
+                    Title
                   </Label>
 
                   <Input
                     variant="neutral"
-                    placeholder="Название фильма..."
+                    placeholder="Movie title..."
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                   />
@@ -130,14 +130,14 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                 <div className="grid grid-cols-3 gap-2">
                   <div className="flex flex-col gap-1.5">
                     <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                      Год
+                      Year
                     </Label>
                     <Input variant="neutral" inputSize="default" placeholder="2024" maxLength={4} />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
                     <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                      {isSeries ? "Сезонов" : "Мин."}
+                      {isSeries ? "Seasons" : "Min."}
                     </Label>
 
                     <Input
@@ -149,7 +149,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
 
                   <div className="flex flex-col gap-1.5">
                     <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                      Возраст
+                      Age rating
                     </Label>
 
                     <Select
@@ -171,10 +171,10 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                   </div>
                 </div>
 
-                {/* Жанры */}
+                {/* Genres */}
                 <div className="flex flex-col gap-2.5">
                   <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                    Жанры
+                    Genres
                   </Label>
 
                   <Combobox multiple value={selectedGenres} onValueChange={setSelectedGenres}>
@@ -187,13 +187,13 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                         <ComboboxChip key={genre}>{genre}</ComboboxChip>
                       ))}
                       <ComboboxChipsInput
-                        placeholder={selectedGenres.length === 0 ? "Выберите жанры..." : ""}
+                        placeholder={selectedGenres.length === 0 ? "Select genres..." : ""}
                       />
                     </ComboboxChips>
 
                     <ComboboxContent anchor={genreAnchorRef} container={dialogContentRef}>
                       <ComboboxList>
-                        <ComboboxEmpty>Ничего не найдено</ComboboxEmpty>
+                        <ComboboxEmpty>No results</ComboboxEmpty>
                         {GENRES.map((genre) => (
                           <ComboboxItem key={genre} value={genre}>
                             {genre}
@@ -204,11 +204,11 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                   </Combobox>
                 </div>
 
-                {/* Оценка */}
+                {/* Score */}
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center gap-x-2">
                     <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                      Моя оценка
+                      My score
                     </Label>
 
                     <Tooltip>
@@ -217,7 +217,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                       </TooltipTrigger>
 
                       <TooltipContent>
-                        <p>Ваша кастомная оценка</p>
+                        <p>Your personal rating</p>
                       </TooltipContent>
                     </Tooltip>
                   </div>
@@ -227,7 +227,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
                     onValueChange={(v) => setSelectedScore(v || null)}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Не выбрано" />
+                      <SelectValue placeholder="Not selected" />
                     </SelectTrigger>
 
                     <SelectContent>
@@ -242,14 +242,14 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
               </div>
             </div>
 
-            {/* Описание */}
+            {/* Description */}
             <div className="flex flex-col gap-2.5">
               <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                Описание
+                Description
               </Label>
 
               <Textarea
-                placeholder="Краткое описание сюжета..."
+                placeholder="Short plot summary..."
                 className="resize-none min-h-20 rounded-lg bg-graphite border-border/40 placeholder:text-zinc-muted text-sm focus-visible:border-accent/50 focus-visible:ring-0 transition-all"
               />
             </div>
@@ -263,7 +263,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
               size="sm"
               className="rounded-lg text-sm text-muted hover:text-foreground"
             >
-              <span>Отмена</span>
+              <span>Cancel</span>
             </Button>
           </DialogClose>
 
@@ -273,7 +273,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
             className="rounded-lg text-sm"
             disabled={!title.trim()}
           >
-            <span className="font-medium">Добавить в коллекцию</span>
+            <span className="font-medium">Add to collection</span>
           </Button>
         </div>
       </DialogContent>

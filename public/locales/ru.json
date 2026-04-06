@@ -1,7 +1,7 @@
 {
   "action-menu": {
-    "share": "Поделится",
-    "edit": "Переименовать",
-    "delete": "Удалить"
+    "share": "Share",
+    "edit": "Rename",
+    "delete": "Delete"
   }
 }

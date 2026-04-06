@@ -40,18 +40,20 @@ export const Header = () => {
             href="/"
             className="text-sm font-medium text-white/80 hover:text-white transition-colors"
           >
-            Главная
+            Home
           </Link>
 
           <Link
             href="/movie-search"
             className="text-sm font-medium text-white/80 hover:text-white transition-colors"
           >
-            Фильмы
+            Movies
           </Link>
 
           <AuthModal>
-            <Button>Рега (триггер кнопка)</Button>
+            <Button>
+              <span>Sign up (trigger)</span>
+            </Button>
           </AuthModal>
         </nav>
 
@@ -62,7 +64,7 @@ export const Header = () => {
             href="/my-collections"
             className="rounded-lg px-4 py-2 bg-accent/90 hover:bg-accent text-white border-0 text-sm font-medium transition-colors"
           >
-            <span>Мои коллекции</span>
+            <span>My collections</span>
           </Link>
 
           <UserMenu />

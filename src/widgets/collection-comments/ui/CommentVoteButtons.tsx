@@ -94,7 +94,7 @@ export const CommentVoteButtons = ({
         )}
       >
         <CornerDownRight className="size-3" />
-        <span>Ответить</span>
+        <span>Reply</span>
       </Button>
     </div>
   );

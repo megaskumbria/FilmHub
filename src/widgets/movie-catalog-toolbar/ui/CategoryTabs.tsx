@@ -6,19 +6,19 @@ import { useState } from "react";
 
 const tabs = [
   {
-    label: "Новинки",
+    label: "New",
     value: "newest",
   },
   {
-    label: "Фильмы",
+    label: "Movies",
     value: "movies",
   },
   {
-    label: "Сериалы",
+    label: "Series",
     value: "series",
   },
   {
-    label: "Мультфильмы",
+    label: "Animation",
     value: "cartoons",
   },
 ];

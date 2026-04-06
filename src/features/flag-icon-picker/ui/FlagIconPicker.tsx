@@ -25,11 +25,11 @@ export const FlagIconPicker = memo(() => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <Label className="text-sm font-semibold text-foreground">Иконка</Label>
+          <Label className="text-sm font-semibold text-foreground">Icon</Label>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-muted">Выбрана:</span>
+          <span className="text-xs text-zinc-muted">Selected:</span>
 
           <span className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
             {SelectedIconComponent && <SelectedIconComponent className="size-4 text-accent" />}
@@ -58,7 +58,7 @@ export const FlagIconPicker = memo(() => {
       </div>
 
       <span className="text-base text-zinc-muted text-center w-full block">
-        Тут будет 1500 svg иконок (на беке будем хранить)
+        About 1,500 SVG icons will live here (stored on the backend)
       </span>
     </section>
   );

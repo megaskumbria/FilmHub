@@ -34,7 +34,7 @@ export const FlagColorPicker = memo(() => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <Label className="text-sm font-semibold text-foreground">Цвет фона</Label>
+          <Label className="text-sm font-semibold text-foreground">Background color</Label>
         </div>
 
         <Popover>
@@ -62,7 +62,7 @@ export const FlagColorPicker = memo(() => {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
                 <span className="w-0.5 h-3.5 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-                <span className="text-sm font-semibold text-foreground">Выбор цвета</span>
+                <span className="text-sm font-semibold text-foreground">Pick a color</span>
               </div>
 
               <ColorPicker
@@ -77,7 +77,7 @@ export const FlagColorPicker = memo(() => {
               />
 
               <div className="flex items-center justify-between pt-1 border-t border-border/40 gap-2">
-                <span className="text-xs text-zinc-muted shrink-0">Выбранный цвет:</span>
+                <span className="text-xs text-zinc-muted shrink-0">Selected:</span>
                 <div className="flex items-center gap-1.5 min-w-0">
                   <span
                     className="size-4 rounded border border-white/10 shrink-0"
@@ -110,7 +110,7 @@ export const FlagColorPicker = memo(() => {
       </div>
 
       <span className="text-base text-zinc-muted text-center w-full block">
-        Тут будет много предопределенных цветов (на беке будем хранить)
+        Many preset colors will live here (stored on the backend)
       </span>
 
       <OpacitySlider />

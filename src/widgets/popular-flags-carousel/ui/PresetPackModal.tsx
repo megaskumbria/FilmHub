@@ -56,12 +56,12 @@ export const PresetPackModal = ({ pack, children }: PresetPackModalProps) => {
                     }}
                   >
                     <Crown className="size-3" />
-                    <span>PRO набор</span>
+                    <span>PRO pack</span>
                   </span>
 
                   <span className="flex items-center gap-1 text-xs text-zinc-muted">
                     <Users className="size-3" />
-                    <span>{formatCount(pack.usageCount)} пользователей</span>
+                    <span>{formatCount(pack.usageCount)} users</span>
                   </span>
                 </div>
 
@@ -74,7 +74,7 @@ export const PresetPackModal = ({ pack, children }: PresetPackModalProps) => {
 
               <DialogClose
                 className="shrink-0 mt-0.5 size-7 flex items-center justify-center rounded-lg border border-border/40 bg-white/4 text-zinc-muted hover:text-foreground hover:bg-white/8 transition-colors cursor-pointer"
-                aria-label="Закрыть"
+                aria-label="Close"
               >
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path
@@ -92,7 +92,7 @@ export const PresetPackModal = ({ pack, children }: PresetPackModalProps) => {
           <div className="px-6 py-4">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-xs font-semibold text-zinc-muted uppercase tracking-widest">
-                Флаги в наборе
+                Flags in this pack
               </span>
               <span
                 className="text-xs font-semibold px-1.5 py-0.5 rounded-md"
@@ -146,9 +146,9 @@ export const PresetPackModal = ({ pack, children }: PresetPackModalProps) => {
                 style={{ backgroundColor: pack.accentColor }}
               />
               <p className="text-xs text-zinc-muted leading-relaxed">
-                Набор добавится как новая категория{" "}
-                <span className="text-foreground font-medium">«{pack.categoryName}»</span> в ваш
-                сайдбар. Флаги можно редактировать после добавления.
+                The pack is added as a new category{" "}
+                <span className="text-foreground font-medium">&ldquo;{pack.categoryName}&rdquo;</span> in your
+                sidebar. You can edit the flags after adding.
               </p>
             </div>
 
@@ -164,7 +164,7 @@ export const PresetPackModal = ({ pack, children }: PresetPackModalProps) => {
               }
             >
               <FolderPlus className="size-4" />
-              <span>Добавить набор в коллекцию</span>
+              <span>Add pack to collection</span>
             </Button>
           </div>
         </div>

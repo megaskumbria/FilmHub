@@ -51,7 +51,7 @@ export const UserMenu = () => {
           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-destructive/15 text-destructive/80 transition-colors ">
             <LogOut size={16} strokeWidth={2} />
           </span>
-          <span className="flex-1 text-left">Выйти</span>
+          <span className="flex-1 text-left">Log out</span>
         </Button>
       </PopoverContent>
     </Popover>

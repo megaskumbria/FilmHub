@@ -28,7 +28,7 @@ export const FlagPreview = memo(() => {
         <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
 
         <span className="text-sm font-semibold text-foreground tracking-wide">
-          Предпросмотр флага
+          Flag preview
         </span>
       </div>
 
@@ -38,9 +38,9 @@ export const FlagPreview = memo(() => {
         <div className="flex items-center gap-1.5">
           <FolderOpen className="size-3.5 shrink-0" />
 
-          <span className="text-sm font-medium text-zinc-muted">Категория:</span>
+          <span className="text-sm font-medium text-zinc-muted">Category:</span>
 
-          <span className="text-foreground font-medium">{category || "Не выбрана"}</span>
+          <span className="text-foreground font-medium">{category || "Not selected"}</span>
         </div>
 
         <div
@@ -59,17 +59,17 @@ export const FlagPreview = memo(() => {
             className="text-lg font-bold"
             style={{ color: selectedColor, textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
           >
-            {flagName || "Новый флаг"}
+            {flagName || "New flag"}
           </span>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs text-zinc-muted">Вид бейджа:</span>
+          <span className="text-xs text-zinc-muted">Badge style:</span>
 
           <FlagBadge
             flagItem={{
               id: 0,
-              flagName: flagName || "Новый флаг",
+              flagName: flagName || "New flag",
               color: selectedColor,
               bg: selectedColorBg,
               bgOpacity,

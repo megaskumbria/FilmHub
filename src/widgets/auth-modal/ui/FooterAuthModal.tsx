@@ -9,13 +9,13 @@ export const FooterAuthModal = ({ tab, setTab }: FooterAuthModalProps) => {
   return (
     <DialogFooter className="border-t border-border bg-surface/50 px-6 py-5 w-full">
       <p className="text-sm text-muted flex items-center justify-center text-center gap-1">
-        {tab === "signin" ? "Нет аккаунта?" : "Уже есть аккаунт?"}
+        <span>{tab === "signin" ? "No account?" : "Already have an account?"}</span>
 
         <Button
           className="font-bold text-accent hover:text-accent/80"
           onClick={() => setTab(tab === "signin" ? "signup" : "signin")}
         >
-          {tab === "signin" ? "Создать сейчас" : "Войти"}
+          <span>{tab === "signin" ? "Create one" : "Sign in"}</span>
         </Button>
       </p>
     </DialogFooter>

@@ -17,7 +17,7 @@ import { cn } from "@/shared/lib/utils";
 import { Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from "recharts";
 
 // ---------------------------------------------------------------------------
-// Mock data — в реальном приложении приходит с API
+// Mock data — in production this comes from the API
 // ---------------------------------------------------------------------------
 
 interface IUserMovie {
@@ -32,192 +32,192 @@ interface IUserMovie {
 const userMovies: IUserMovie[] = [
   {
     id: 1,
-    title: "Последний дом слева",
-    genres: ["ужасы", "триллер"],
+    title: "The Last House on the Left",
+    genres: ["horror", "thriller"],
     yearOfRelease: 2009,
     rating: 6.5,
     addedAt: "2022-02-10",
   },
   {
     id: 2,
-    title: "Майнкрафт фильм",
-    genres: ["фэнтези", "приключения"],
+    title: "A Minecraft Movie",
+    genres: ["fantasy", "adventure"],
     yearOfRelease: 2025,
     rating: 7.0,
     addedAt: "2022-03-05",
   },
   {
     id: 3,
-    title: "Астрал",
-    genres: ["ужасы", "триллер"],
+    title: "Insidious",
+    genres: ["horror", "thriller"],
     yearOfRelease: 2010,
     rating: 6.8,
     addedAt: "2022-04-18",
   },
   {
     id: 4,
-    title: "Пожары",
-    genres: ["драма", "детектив", "военный"],
+    title: "Incendies",
+    genres: ["drama", "mystery", "war"],
     yearOfRelease: 2010,
     rating: 8.1,
     addedAt: "2022-06-22",
   },
   {
     id: 5,
-    title: "Властелин конец: Две крепости",
-    genres: ["фэнтези", "приключения"],
+    title: "The Lord of the Rings: The Two Towers",
+    genres: ["fantasy", "adventure"],
     yearOfRelease: 2002,
     rating: 8.7,
     addedAt: "2022-08-01",
   },
   {
     id: 6,
-    title: "Титаник",
-    genres: ["мелодрама", "драма"],
+    title: "Titanic",
+    genres: ["melodrama", "drama"],
     yearOfRelease: 1997,
     rating: 7.8,
     addedAt: "2022-09-14",
   },
   {
     id: 7,
-    title: "Мстители: Финал",
-    genres: ["фантастика", "приключения", "боевик"],
+    title: "Avengers: Endgame",
+    genres: ["sci-fi", "adventure", "action"],
     yearOfRelease: 2019,
     rating: 8.4,
     addedAt: "2022-11-03",
   },
   {
     id: 8,
-    title: "Платформа",
-    genres: ["фантастика", "триллер", "ужасы"],
+    title: "The Platform",
+    genres: ["sci-fi", "thriller", "horror"],
     yearOfRelease: 2019,
     rating: 7.9,
     addedAt: "2023-01-20",
   },
   {
     id: 9,
-    title: "Реквием по мечте",
-    genres: ["драма"],
+    title: "Requiem for a Dream",
+    genres: ["drama"],
     yearOfRelease: 2000,
     rating: 8.3,
     addedAt: "2023-03-08",
   },
   {
     id: 10,
-    title: "Господин Никто",
-    genres: ["драма", "фантастика"],
+    title: "Mr. Nobody",
+    genres: ["drama", "sci-fi"],
     yearOfRelease: 2009,
     rating: 7.9,
     addedAt: "2023-04-25",
   },
   {
     id: 11,
-    title: "Елена",
-    genres: ["драма"],
+    title: "Elena",
+    genres: ["drama"],
     yearOfRelease: 2011,
     rating: 7.7,
     addedAt: "2023-06-12",
   },
   {
     id: 12,
-    title: "Догвилль",
-    genres: ["драма", "криминал"],
+    title: "Dogville",
+    genres: ["drama", "crime"],
     yearOfRelease: 2003,
     rating: 8.0,
     addedAt: "2023-08-03",
   },
   {
     id: 13,
-    title: "Левиафан",
-    genres: ["драма"],
+    title: "Leviathan",
+    genres: ["drama"],
     yearOfRelease: 2014,
     rating: 7.7,
     addedAt: "2023-09-19",
   },
   {
     id: 14,
-    title: "Ла-Ла Ленд",
-    genres: ["мелодрама", "мюзикл"],
+    title: "La La Land",
+    genres: ["melodrama", "musical"],
     yearOfRelease: 2016,
     rating: 8.0,
     addedAt: "2023-11-07",
   },
   {
     id: 15,
-    title: "Нелюбовь",
-    genres: ["драма"],
+    title: "Loveless",
+    genres: ["drama"],
     yearOfRelease: 2017,
     rating: 7.9,
     addedAt: "2024-01-14",
   },
   {
     id: 16,
-    title: "Сталкер",
-    genres: ["драма", "фантастика"],
+    title: "Stalker",
+    genres: ["drama", "sci-fi"],
     yearOfRelease: 1979,
     rating: 8.1,
     addedAt: "2024-02-28",
   },
   {
     id: 17,
-    title: "Фотоувеличение",
-    genres: ["детектив", "драма"],
+    title: "Blow-Up",
+    genres: ["mystery", "drama"],
     yearOfRelease: 1966,
     rating: 7.7,
     addedAt: "2024-04-05",
   },
   {
     id: 18,
-    title: "Меланхолия",
-    genres: ["драма", "фантастика"],
+    title: "Melancholia",
+    genres: ["drama", "sci-fi"],
     yearOfRelease: 2011,
     rating: 7.8,
     addedAt: "2024-05-22",
   },
   {
     id: 19,
-    title: "Зеркало",
-    genres: ["драма"],
+    title: "Mirror",
+    genres: ["drama"],
     yearOfRelease: 1975,
     rating: 8.1,
     addedAt: "2024-07-09",
   },
   {
     id: 20,
-    title: "Паразиты",
-    genres: ["криминал", "драма", "триллер"],
+    title: "Parasite",
+    genres: ["crime", "drama", "thriller"],
     yearOfRelease: 2019,
     rating: 8.5,
     addedAt: "2024-08-18",
   },
   {
     id: 21,
-    title: "Дядя Бунми...",
-    genres: ["драма", "фантастика"],
+    title: "Uncle Boonmee Who Can Recall His Past Lives",
+    genres: ["drama", "sci-fi"],
     yearOfRelease: 2010,
     rating: 6.9,
     addedAt: "2024-09-30",
   },
   {
     id: 22,
-    title: "Счастливый час",
-    genres: ["драма"],
+    title: "Happy Hour",
+    genres: ["drama"],
     yearOfRelease: 2015,
     rating: 7.6,
     addedAt: "2024-11-12",
   },
   {
     id: 23,
-    title: "Портрет девушки в огне",
-    genres: ["мелодрама", "драма"],
+    title: "Portrait of a Lady on Fire",
+    genres: ["melodrama", "drama"],
     yearOfRelease: 2019,
     rating: 8.1,
     addedAt: "2025-01-04",
   },
   {
     id: 24,
-    title: "Прошлое",
-    genres: ["драма"],
+    title: "The Past",
+    genres: ["drama"],
     yearOfRelease: 2013,
     rating: 7.8,
     addedAt: "2025-02-19",
@@ -225,7 +225,7 @@ const userMovies: IUserMovie[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Вычисление данных для всех блоков
+// Derived data for all sections
 // ---------------------------------------------------------------------------
 
 const genreData = (() => {
@@ -263,7 +263,7 @@ const yearlyData = (() => {
 })();
 
 // ---------------------------------------------------------------------------
-// Эволюция вкуса — вычисление из данных
+// Taste evolution — derived from data
 // ---------------------------------------------------------------------------
 
 interface IEvolutionPeriod {
@@ -275,18 +275,14 @@ interface IEvolutionPeriod {
   to: string;
 }
 
-function pluralFilmsRU(n: number): string {
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  if (mod10 === 1 && mod100 !== 11) return "фильм";
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return "фильма";
-  return "фильмов";
+function pluralFilms(n: number): string {
+  return n === 1 ? "film" : "films";
 }
 
 function computePeriods(movies: IUserMovie[]): IEvolutionPeriod[] {
   const sorted = [...movies].sort((a, b) => a.addedAt.localeCompare(b.addedAt));
   const chunkSize = Math.ceil(sorted.length / 4);
-  const labels = ["Начало", "Период 2", "Период 3", "Сейчас"];
+  const labels = ["Start", "Period 2", "Period 3", "Now"];
 
   return Array.from({ length: 4 }, (_, i) => {
     const chunk = sorted.slice(i * chunkSize, (i + 1) * chunkSize);
@@ -316,54 +312,55 @@ function computePeriods(movies: IUserMovie[]): IEvolutionPeriod[] {
   });
 }
 
-// Профиль вкуса — 4 шкалы, значение 0–100 (0 = левый полюс, 100 = правый полюс)
-// В реальном приложении приходит с API на основе жанров пользователя
+// Taste profile — four scales, value 0–100 (0 = left pole, 100 = right pole)
+// In production this comes from the API based on the user’s genres
 const tasteScales = [
   {
     id: "meaning",
-    left: "Развлечение",
-    right: "Смысл",
-    value: 72, // ближе к "Смысл"
+    left: "Entertainment",
+    right: "Meaning",
+    value: 72,
   },
   {
     id: "intensity",
-    left: "Лёгкое",
-    right: "Тяжёлое",
-    value: 65, // ближе к "Тяжёлое"
+    left: "Light",
+    right: "Heavy",
+    value: 65,
   },
   {
     id: "mainstream",
-    left: "Мейнстрим",
-    right: "Артхаус",
-    value: 58, // чуть правее центра
+    left: "Mainstream",
+    right: "Arthouse",
+    value: 58,
   },
   {
     id: "era",
-    left: "Современное",
-    right: "Классика",
-    value: 60, // немного в сторону классики
+    left: "Contemporary",
+    right: "Classic",
+    value: 60,
   },
 ];
 
-// Итоговая метка вкуса — на беке определяется по совокупности шкал
+// Summary taste label — determined on the backend from the scales
 const tasteLabel = {
-  title: "Любитель напряжения",
-  description: "Ты не боишься тёмных сторон кино. Кровь, саспенс и адреналин — твоя стихия.",
+  title: "Tension seeker",
+  description:
+    "You’re not afraid of the dark side of film. Blood, suspense, and adrenaline are your element.",
   emoji: "⚡",
 };
 
-// Эпоха: средний год фильма по всей коллекции (приходит с API)
+// Era: average release year across the collection (from API)
 const eraAvgYear = 2007;
 
 const eraInsight = (() => {
-  if (eraAvgYear < 1985) return "Ты настоящий ценитель классики";
-  if (eraAvgYear < 2000) return "Тебя притягивает золотая эпоха кино 80-х и 90-х";
-  if (eraAvgYear < 2011) return "Твоя зона комфорта — кино нулевых";
-  if (eraAvgYear < 2020) return "Ты следишь за современным кино последнего десятилетия";
-  return "Ты в курсе всех новинок";
+  if (eraAvgYear < 1985) return "You’re a true classic cinema lover";
+  if (eraAvgYear < 2000) return "You’re drawn to the golden age of the 80s and 90s";
+  if (eraAvgYear < 2011) return "Your comfort zone is 2000s cinema";
+  if (eraAvgYear < 2020) return "You keep up with films from the last decade";
+  return "You’re on top of new releases";
 })();
 
-// Рейтинговый стандарт: средний рейтинг раньше и сейчас
+// Rating bar: average rating then vs now
 const ratingShift = { before: 6.8, after: 8.1 };
 
 type ArchetypeKey = "intellectual" | "escapist" | "emotional" | "tension" | "explorer";
@@ -380,43 +377,43 @@ interface IArchetype {
 const ARCHETYPES: Record<ArchetypeKey, IArchetype> = {
   intellectual: {
     key: "intellectual",
-    title: "Интеллектуальный исследователь",
+    title: "Intellectual explorer",
     description:
-      "Ты ищешь смысл за кадром. Авторское кино, сильные сценарии и высокие рейтинги — твой стандарт.",
+      "You look for meaning beyond the frame. Arthouse, strong scripts, and high ratings are your standard.",
     emoji: "🎭",
     color: "text-accent",
     bg: "bg-accent/10 border-accent/20",
   },
   escapist: {
     key: "escapist",
-    title: "Эскапист",
+    title: "Escapist",
     description:
-      "Кино для тебя — это путешествие в другие миры. Фэнтези, приключения и зрелищность.",
+      "For you, film is travel to other worlds. Fantasy, adventure, and spectacle.",
     emoji: "🚀",
     color: "text-emerald-accent",
     bg: "bg-emerald-accent/10 border-emerald-accent/20",
   },
   emotional: {
     key: "emotional",
-    title: "Эмоциональный зритель",
-    description: "Ты смотришь кино сердцем. Мелодрамы, драмы и истории, которые задевают.",
+    title: "Emotional viewer",
+    description: "You watch with your heart. Melodramas, dramas, and stories that hit home.",
     emoji: "🌊",
     color: "text-blue-400",
     bg: "bg-blue-400/10 border-blue-400/20",
   },
   tension: {
     key: "tension",
-    title: "Любитель напряжения",
+    title: "Tension seeker",
     description:
-      "Адреналин и саспенс — твоя стихия. Триллеры, криминал и ужасы держат тебя в тонусе.",
+      "Adrenaline and suspense are your element. Thrillers, crime, and horror keep you on edge.",
     emoji: "⚡",
     color: "text-gold",
     bg: "bg-gold/10 border-gold/20",
   },
   explorer: {
     key: "explorer",
-    title: "Всеядный исследователь",
-    description: "Ты не ограничен рамками жанров. Разнообразие и любопытство — твои главные черты.",
+    title: "Omnivore explorer",
+    description: "You’re not boxed in by genre. Variety and curiosity are your hallmarks.",
     emoji: "🔭",
     color: "text-zinc-muted",
     bg: "bg-zinc-muted/10 border-zinc-muted/20",
@@ -439,18 +436,16 @@ function computeArchetype(movies: IUserMovie[]): IArchetype {
       counts[g] = (counts[g] ?? 0) + 1;
     });
     if (
-      (m.genres.includes("драма") || m.genres.includes("детектив") || m.genres.includes("криминал"))
+      (m.genres.includes("drama") || m.genres.includes("mystery") || m.genres.includes("crime"))
       && m.rating >= 7.8
     )
       artHighRating++;
     if (
-      m.genres.includes("фэнтези")
-      || m.genres.includes("приключения")
-      || m.genres.includes("фантастика")
+      m.genres.includes("fantasy") || m.genres.includes("adventure") || m.genres.includes("sci-fi")
     )
       adventure++;
-    if (m.genres.includes("мелодрама")) emotional++;
-    if (m.genres.includes("триллер") || m.genres.includes("ужасы")) tension++;
+    if (m.genres.includes("melodrama")) emotional++;
+    if (m.genres.includes("thriller") || m.genres.includes("horror")) tension++;
   });
 
   const total = recent.length || 1;
@@ -468,26 +463,24 @@ const evolutionPeriods = computePeriods(userMovies);
 const viewerArchetype = computeArchetype(userMovies);
 
 // ---------------------------------------------------------------------------
-// Данные для виджетов-сводки
+// Summary widget data
 // ---------------------------------------------------------------------------
 
 const totalFilms = userMovies.length;
 
-// Топ жанр
 const topGenre = genreData[0] ?? { genre: "—", count: 0 };
 
-// Любимое десятилетие
 const favoriteDecade = (() => {
   const counts: Record<string, number> = {};
   userMovies.forEach((m) => {
-    const decade = `${Math.floor(m.yearOfRelease / 10) * 10}-е`;
+    const decade = `${Math.floor(m.yearOfRelease / 10) * 10}s`;
     counts[decade] = (counts[decade] ?? 0) + 1;
   });
   return Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "—";
 })();
 
-// Страна-лидер (mock, т.к. страна не хранится в IUserMovie)
-const topCountry = { name: "США", count: 10 };
+// Top country (mock — country is not stored on IUserMovie)
+const topCountry = { name: "USA", count: 10 };
 
 const CustomPieTooltip = ({
   active,
@@ -500,7 +493,7 @@ const CustomPieTooltip = ({
     return (
       <div className="bg-surface border border-border rounded-lg px-3 py-2 text-sm">
         <p className="text-foreground font-medium">{payload[0].name}</p>
-        <p className="text-zinc-muted">{payload[0].value} фильмов</p>
+        <p className="text-zinc-muted">{payload[0].value} films</p>
       </div>
     );
   }
@@ -518,63 +511,63 @@ export default function StatisticsPage() {
   return (
     <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
       <header className="mb-10">
-        <h1 className="text-2xl font-bold text-foreground tracking-tight">Статистика</h1>
-        <p className="text-sm text-zinc-muted mt-1">Анализ твоего кинематографического вкуса</p>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight">Statistics</h1>
+        <p className="text-sm text-zinc-muted mt-1">A breakdown of your movie taste</p>
       </header>
 
-      {/* Виджеты-сводка */}
+      {/* Summary widgets */}
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-        {/* Всего фильмов */}
+        {/* Total films */}
         <div className="bg-surface border border-border rounded-2xl p-5 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-zinc-muted">Всего фильмов</p>
+            <p className="text-sm text-zinc-muted">Total films</p>
             <div className="flex items-center justify-center size-8 rounded-lg bg-accent/10 shrink-0">
               <Film className="size-4 text-accent" />
             </div>
           </div>
           <p className="text-3xl font-bold text-foreground tabular-nums">{totalFilms}</p>
-          <p className="text-sm text-zinc-muted">во всех коллекциях</p>
+          <p className="text-sm text-zinc-muted">across all collections</p>
         </div>
 
-        {/* Страна-лидер */}
+        {/* Top country */}
         <div className="bg-surface border border-border rounded-2xl p-5 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-zinc-muted">Страна-лидер</p>
+            <p className="text-sm text-zinc-muted">Top country</p>
             <div className="flex items-center justify-center size-8 rounded-lg bg-emerald-accent/10 shrink-0">
               <MapPin className="size-4 text-emerald-accent" />
             </div>
           </div>
           <p className="text-3xl font-bold text-foreground tabular-nums">{topCountry.name}</p>
-          <p className="text-sm text-zinc-muted">{topCountry.count} фильмов</p>
+          <p className="text-sm text-zinc-muted">{topCountry.count} films</p>
         </div>
 
-        {/* Топ жанр */}
+        {/* Top genre */}
         <div className="bg-surface border border-border rounded-2xl p-5 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-zinc-muted">Топ жанр</p>
+            <p className="text-sm text-zinc-muted">Top genre</p>
             <div className="flex items-center justify-center size-8 rounded-lg bg-accent/10 shrink-0">
               <Clapperboard className="size-4 text-accent" />
             </div>
           </div>
           <p className="text-3xl font-bold text-foreground capitalize">{topGenre.genre}</p>
-          <p className="text-sm text-zinc-muted">{topGenre.count} фильмов</p>
+          <p className="text-sm text-zinc-muted">{topGenre.count} films</p>
         </div>
 
-        {/* Любимое десятилетие */}
+        {/* Favorite decade */}
         <div className="bg-surface border border-border rounded-2xl p-5 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-zinc-muted">Любимое десятилетие</p>
+            <p className="text-sm text-zinc-muted">Favorite decade</p>
             <div className="flex items-center justify-center size-8 rounded-lg bg-gold/10 shrink-0">
               <CalendarDays className="size-4 text-gold" />
             </div>
           </div>
           <p className="text-3xl font-bold text-foreground tabular-nums">{favoriteDecade}</p>
-          <p className="text-sm text-zinc-muted">по году выхода</p>
+          <p className="text-sm text-zinc-muted">by release year</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        {/* Жанровая диаграмма */}
+        {/* Genre chart */}
         <section className="bg-surface border border-border rounded-2xl p-6 flex flex-col gap-5">
           {/* Header + tab switcher */}
           <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -591,12 +584,12 @@ export default function StatisticsPage() {
               </div>
               <div>
                 <h2 className="text-base font-semibold text-foreground">
-                  {genreTab === "genres" ? "Жанры" : "По годам"}
+                  {genreTab === "genres" ? "Genres" : "By year"}
                 </h2>
                 <p className="text-sm text-zinc-muted">
                   {genreTab === "genres" ?
-                    "Какие жанры ты добавляешь чаще всего"
-                  : "Фильмы в коллекции по году выхода"}
+                    "Which genres you add most often"
+                  : "Films in your collection by release year"}
                 </p>
               </div>
             </div>
@@ -614,7 +607,7 @@ export default function StatisticsPage() {
                 )}
               >
                 <BarChart2 className="size-3.5" />
-                <span>Жанры</span>
+                <span>Genres</span>
               </button>
               <button
                 type="button"
@@ -627,7 +620,7 @@ export default function StatisticsPage() {
                 )}
               >
                 <CalendarDays className="size-3.5" />
-                <span>По годам</span>
+                <span>By year</span>
               </button>
             </div>
           </div>
@@ -670,15 +663,15 @@ export default function StatisticsPage() {
           </div>
         </section>
 
-        {/* Google Maps заглушка */}
+        {/* Google Maps placeholder */}
         <section className="bg-surface border border-border rounded-2xl p-6 flex flex-col gap-5">
           <div className="flex items-center gap-2">
             <div className="flex items-center justify-center size-8 rounded-lg bg-emerald-accent/10">
               <MapPin className="size-4 text-emerald-accent" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-foreground">География кино</h2>
-              <p className="text-sm text-zinc-muted">Откуда родом твои любимые фильмы</p>
+              <h2 className="text-base font-semibold text-foreground">Cinema geography</h2>
+              <p className="text-sm text-zinc-muted">Where your favorite films come from</p>
             </div>
           </div>
 
@@ -694,15 +687,15 @@ export default function StatisticsPage() {
               <div className="flex items-center justify-center size-12 rounded-full bg-surface-elevated border border-border">
                 <MapPin className="size-6 text-zinc-muted" />
               </div>
-              <p className="text-sm font-medium text-foreground">Карта скоро появится</p>
+              <p className="text-sm font-medium text-foreground">Map coming soon</p>
               <p className="text-sm text-zinc-muted leading-relaxed">
-                Здесь будет интерактивная карта с распределением стран происхождения твоих фильмов
+                An interactive map of countries of origin for your films will appear here
               </p>
             </div>
           </div>
         </section>
 
-        {/* Эволюция вкуса (PRO) */}
+        {/* Taste evolution (PRO) */}
         <section className="bg-surface border border-border rounded-2xl p-6 flex flex-col gap-6 xl:col-span-2 relative overflow-hidden">
           {/* Header */}
           <div className="flex items-center gap-2">
@@ -711,22 +704,22 @@ export default function StatisticsPage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-semibold text-foreground">Эволюция вкуса</h2>
+                <h2 className="text-base font-semibold text-foreground">Taste evolution</h2>
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-gold/10 border border-gold/20 text-gold text-sm font-medium">
                   <Lock className="size-3" />
                   <span>PRO</span>
                 </span>
               </div>
-              <p className="text-sm text-zinc-muted">Как менялся твой взгляд на кино со временем</p>
+              <p className="text-sm text-zinc-muted">How your relationship with film changed over time</p>
             </div>
           </div>
 
-          {/* Архетип зрителя */}
+          {/* Viewer archetype */}
           <div className={cn("flex items-start gap-4 rounded-xl border p-5", viewerArchetype.bg)}>
             <span className="text-3xl leading-none mt-0.5">{viewerArchetype.emoji}</span>
             <div className="flex flex-col gap-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="text-sm text-zinc-muted">Твой архетип зрителя</p>
+                <p className="text-sm text-zinc-muted">Your viewer archetype</p>
                 <span className={cn("text-sm font-semibold", viewerArchetype.color)}>
                   {viewerArchetype.title}
                 </span>
@@ -737,11 +730,11 @@ export default function StatisticsPage() {
             </div>
           </div>
 
-          {/* Таймлайн вкуса */}
+          {/* Taste timeline */}
           <div className="flex flex-col gap-3">
-            <p className="text-sm font-medium text-foreground">Лента вкуса</p>
+            <p className="text-sm font-medium text-foreground">Taste timeline</p>
             <div className="relative">
-              {/* Соединительная линия */}
+              {/* Connector line */}
               <div className="absolute top-5 left-5 right-5 h-px bg-border hidden sm:block" />
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -749,7 +742,7 @@ export default function StatisticsPage() {
                   const isLast = i === evolutionPeriods.length - 1;
                   return (
                     <div key={period.label} className="flex flex-col items-center gap-3">
-                      {/* Точка на линии */}
+                      {/* Point on line */}
                       <div
                         className={cn(
                           "relative z-10 flex items-center justify-center size-10 rounded-full border-2 shrink-0",
@@ -761,7 +754,7 @@ export default function StatisticsPage() {
                         <span className="text-sm font-bold tabular-nums">{i + 1}</span>
                       </div>
 
-                      {/* Карточка периода */}
+                      {/* Period card */}
                       <div
                         className={cn(
                           "w-full flex flex-col gap-2 rounded-xl border p-3",
@@ -796,13 +789,13 @@ export default function StatisticsPage() {
                         </div>
                         <div className="flex flex-col gap-0.5 mt-0.5">
                           <p className="text-sm text-zinc-muted">
-                            Добавлено{" "}
+                            Added{" "}
                             <span className="font-medium text-foreground tabular-nums">
-                              {period.filmCount} {pluralFilmsRU(period.filmCount)}
+                              {period.filmCount} {pluralFilms(period.filmCount)}
                             </span>
                           </p>
                           <p className="text-sm text-zinc-muted">
-                            Средний рейтинг{" "}
+                            Average rating{" "}
                             <span className="inline-flex items-center gap-1 font-medium text-foreground tabular-nums">
                               <span aria-hidden>⭐</span>
                               {period.avgRating}
@@ -817,18 +810,18 @@ export default function StatisticsPage() {
             </div>
           </div>
 
-          {/* Ключевые сдвиги */}
+          {/* Key shifts */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {/* Виджет 1: Профиль вкуса */}
+            {/* Widget 1: Taste profile */}
             <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface-subtle p-5">
               <div className="flex items-center gap-2">
                 <div className="flex items-center justify-center size-7 rounded-md bg-accent/10 shrink-0">
                   <BarChart2 className="size-3.5 text-accent" />
                 </div>
-                <p className="text-sm font-semibold text-foreground">Профиль вкуса</p>
+                <p className="text-sm font-semibold text-foreground">Taste profile</p>
               </div>
 
-              {/* 4 шкалы */}
+              {/* Four scales */}
               <div className="flex flex-col gap-4">
                 {tasteScales.map((scale) => (
                   <div key={scale.id} className="flex flex-col gap-1.5">
@@ -837,7 +830,7 @@ export default function StatisticsPage() {
                       <span className="text-zinc-muted">{scale.right}</span>
                     </div>
                     <div className="relative h-2 bg-border/50 rounded-full">
-                      {/* Трек-заливка от центра к точке */}
+                      {/* Track fill from center to thumb */}
                       <div
                         className={cn(
                           "absolute top-0 h-full rounded-full bg-accent/40",
@@ -848,7 +841,7 @@ export default function StatisticsPage() {
                           ...(scale.value < 50 && { left: `${scale.value}%` }),
                         }}
                       />
-                      {/* Точка-индикатор */}
+                      {/* Thumb */}
                       <div
                         className="absolute top-1/2 size-4 rounded-full border-2 border-accent bg-surface-subtle shadow-sm"
                         style={{
@@ -861,7 +854,7 @@ export default function StatisticsPage() {
                 ))}
               </div>
 
-              {/* Итоговая метка */}
+              {/* Summary label */}
               <div className="flex items-start gap-2.5 rounded-lg bg-accent/5 border border-accent/15 px-3 py-2.5 mt-auto">
                 <span className="text-base leading-none mt-0.5">{tasteLabel.emoji}</span>
                 <div className="flex flex-col gap-0.5">
@@ -873,31 +866,31 @@ export default function StatisticsPage() {
               </div>
             </div>
 
-            {/* Виджет 2: Эпоха кино */}
+            {/* Widget 2: Cinema era */}
             <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface-subtle p-5">
               <div className="flex items-center gap-2">
                 <div className="flex items-center justify-center size-7 rounded-md bg-gold/10 shrink-0">
                   <Clock className="size-3.5 text-gold" />
                 </div>
-                <p className="text-sm font-semibold text-foreground">Эпоха кино</p>
+                <p className="text-sm font-semibold text-foreground">Cinema era</p>
               </div>
               <p className="text-sm text-zinc-muted -mt-1">{eraInsight}</p>
 
-              {/* Шкала с одной точкой */}
+              {/* Single-thumb scale */}
               <div className="flex flex-col gap-2 flex-1 justify-center">
                 <div className="flex items-center justify-between text-sm text-zinc-muted">
-                  <span>1960-е</span>
-                  <span>Сегодня</span>
+                  <span>1960s</span>
+                  <span>Today</span>
                 </div>
                 <div className="relative h-2 bg-border/50 rounded-full">
-                  {/* Заливка от начала до точки */}
+                  {/* Fill from start to thumb */}
                   <div
                     className="absolute inset-y-0 left-0 rounded-full bg-gold/40"
                     style={{
                       width: `${Math.round(((eraAvgYear - 1960) / (2025 - 1960)) * 100)}%`,
                     }}
                   />
-                  {/* Точка */}
+                  {/* Thumb */}
                   <div
                     className="absolute top-1/2 size-4 rounded-full border-2 border-gold bg-surface-subtle shadow-sm"
                     style={{
@@ -907,7 +900,7 @@ export default function StatisticsPage() {
                   />
                 </div>
                 <p className="text-sm text-foreground font-medium tabular-nums">
-                  Средний год: <span className="text-gold">{eraAvgYear}</span>
+                  Average year: <span className="text-gold">{eraAvgYear}</span>
                 </p>
               </div>
 
@@ -917,36 +910,36 @@ export default function StatisticsPage() {
               </div>
             </div>
 
-            {/* Виджет 3: Рейтинговый стандарт */}
+            {/* Widget 3: Rating bar */}
             <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface-subtle p-5">
               <div className="flex items-center gap-2">
                 <div className="flex items-center justify-center size-7 rounded-md bg-emerald-accent/10 shrink-0">
                   <TrendingUp className="size-3.5 text-emerald-accent" />
                 </div>
-                <p className="text-sm font-semibold text-foreground">Рейтинговый стандарт</p>
+                <p className="text-sm font-semibold text-foreground">Rating standards</p>
               </div>
               <p className="text-sm text-zinc-muted -mt-1">
-                Ты стал требовательнее — средний рейтинг вырос
+                You got pickier — your average rating went up
               </p>
 
-              {/* Два больших числа */}
+              {/* Two large numbers */}
               <div className="flex items-end gap-4 flex-1">
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-sm text-zinc-muted">Раньше</span>
+                  <span className="text-sm text-zinc-muted">Before</span>
                   <span className="text-3xl font-bold text-zinc-muted tabular-nums">
                     {ratingShift.before}
                   </span>
                 </div>
                 <ArrowRight className="size-5 text-zinc-muted/40 mb-2 shrink-0" />
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-sm text-zinc-muted">Сейчас</span>
+                  <span className="text-sm text-zinc-muted">Now</span>
                   <span className="text-3xl font-bold text-emerald-accent tabular-nums">
                     {ratingShift.after}
                   </span>
                 </div>
               </div>
 
-              {/* Прогресс из 10 */}
+              {/* Progress out of 10 */}
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <div className="flex-1 h-2 bg-border/50 rounded-full overflow-hidden">
@@ -975,9 +968,9 @@ export default function StatisticsPage() {
               <div className="flex items-center gap-2 rounded-lg bg-emerald-accent/5 border border-emerald-accent/15 px-3 py-2">
                 <TrendingUp className="size-3.5 text-emerald-accent shrink-0" />
                 <p className="text-sm text-zinc-muted">
-                  Рост на{" "}
+                  Up by{" "}
                   <span className="text-foreground font-medium">
-                    +{Math.round((ratingShift.after - ratingShift.before) * 10) / 10} балла
+                    +{Math.round((ratingShift.after - ratingShift.before) * 10) / 10} points
                   </span>
                 </p>
               </div>

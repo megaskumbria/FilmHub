@@ -39,13 +39,13 @@ export const UserCollections = ({
   return (
     <>
       <div className="flex items-center justify-between mb-5 pt-5">
-        <h2 className="text-lg font-semibold text-foreground">Мои коллекции</h2>
+        <h2 className="text-lg font-semibold text-foreground">My collections</h2>
 
         {isMyProfile && (
           <CreateFolderModal isEditing={false}>
             <Button variant="accent" size="sm" className="rounded-lg gap-2">
               <Plus className="size-4" />
-              <span className="text-sm font-medium">Создать</span>
+              <span className="text-sm font-medium">Create</span>
             </Button>
           </CreateFolderModal>
         )}

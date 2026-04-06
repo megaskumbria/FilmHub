@@ -48,7 +48,7 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
         <DialogHeader className="flex flex-row items-center justify-between border-b border-border px-5 py-4">
           <div className="flex items-center gap-3">
             <DialogTitle className="text-base font-semibold text-foreground">
-              {isEditing ? "Редактировать коллекцию" : "Новая коллекция"}
+              {isEditing ? "Edit collection" : "New collection"}
             </DialogTitle>
 
             <div
@@ -86,12 +86,12 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
 
             <div className="flex-1 flex flex-col gap-1.5">
               <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-                Название
+                Name
               </Label>
               <Input
                 variant="neutral"
                 inputSize="default"
-                placeholder="Например: Любимые триллеры"
+                placeholder="e.g. Favorite thrillers"
                 value={folderName}
                 onChange={(e) => setFolderName(e.target.value)}
               />
@@ -100,7 +100,7 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
 
           <div className="flex flex-col gap-2.5">
             <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-              Иконка
+              Icon
             </Label>
             <div className="grid grid-cols-8 gap-1.5">
               {ICONS.map(({ icon: Icon, label }, i) => (
@@ -124,7 +124,7 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
 
           <div className="flex flex-col gap-2.5">
             <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-              Цвет
+              Color
             </Label>
             <div className="flex items-center gap-2">
               {COLOR_PRESETS.map((preset, i) => (
@@ -149,7 +149,7 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
               <div className="h-px flex-1 bg-border" />
               <div className="flex items-center gap-1.5 text-xs text-zinc-muted">
                 <Crown className="size-3 text-amber-400" />
-                <span>Премиум</span>
+                <span>Premium</span>
               </div>
               <div className="h-px flex-1 bg-border" />
             </div>
@@ -166,8 +166,8 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
                 <Camera className="size-4 text-amber-400" />
               </div>
               <div className="flex flex-col items-start gap-0.5 flex-1">
-                <span className="text-sm font-medium text-foreground">Кастомная обложка</span>
-                <span className="text-xs text-zinc-muted">Загрузи своё изображение для папки</span>
+                <span className="text-sm font-medium text-foreground">Custom cover</span>
+                <span className="text-xs text-zinc-muted">Upload your own image for the folder</span>
               </div>
               <Lock className="size-4 text-zinc-muted group-hover:text-amber-400 transition-colors" />
             </Button>
@@ -181,7 +181,7 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
               size="sm"
               className="rounded-lg text-sm text-muted hover:text-foreground"
             >
-              <span>Отмена</span>
+              <span>Cancel</span>
             </Button>
           </DialogClose>
 
@@ -191,7 +191,7 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
             className="rounded-lg text-sm"
             disabled={!folderName.trim()}
           >
-            <span className="font-medium">Создать коллекцию</span>
+            <span className="font-medium">Create collection</span>
           </Button>
         </div>
       </DialogContent>

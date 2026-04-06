@@ -20,19 +20,19 @@ export const FlagCategoriesSidebar = memo(() => {
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
 
           <span className="text-sm font-semibold text-foreground tracking-wide">
-            Категории флагов
+            Flag categories
           </span>
         </div>
 
         <div className="flex gap-2">
           <Input
             variant="neutral"
-            placeholder="Название категории..."
+            placeholder="Category name..."
             className="text-sm h-8 flex-1"
           />
           <Button variant="accent" size="sm" className="shrink-0 rounded-lg text-xs font-medium">
             <Plus className="size-3.5" />
-            <span>Создать</span>
+            <span>Create</span>
           </Button>
         </div>
       </div>
@@ -42,14 +42,14 @@ export const FlagCategoriesSidebar = memo(() => {
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
           <Input
             variant="neutral"
-            placeholder="Поиск категорий и флагов..."
+            placeholder="Search categories and flags..."
             className="pl-7 pr-2 text-sm h-8"
           />
         </div>
 
         <div className="flex items-center gap-1.5">
           <span className="text-xs text-zinc-muted/90 font-semibold uppercase tracking-widest shrink-0">
-            Сортировка
+            Sort
           </span>
 
           <div className="flex-1 h-px bg-border/30" />
@@ -59,7 +59,7 @@ export const FlagCategoriesSidebar = memo(() => {
               variant="transparent"
               size="icon-xs"
               className="h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
-              title="По алфавиту (А → Я)"
+              title="Alphabetical (A → Z)"
             >
               <ArrowDownAZ className="size-3.5" />
             </Button>
@@ -68,7 +68,7 @@ export const FlagCategoriesSidebar = memo(() => {
               variant="transparent"
               size="icon-xs"
               className="h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
-              title="По алфавиту (Я → А)"
+              title="Alphabetical (Z → A)"
             >
               <ArrowUpAZ className="size-3.5" />
             </Button>
@@ -79,7 +79,7 @@ export const FlagCategoriesSidebar = memo(() => {
               variant="transparent"
               size="icon-xs"
               className="h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
-              title="Сначала новые"
+              title="Newest first"
             >
               <CalendarArrowDown className="size-3.5" />
             </Button>
@@ -88,7 +88,7 @@ export const FlagCategoriesSidebar = memo(() => {
               variant="transparent"
               size="icon-xs"
               className="h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
-              title="Сначала старые"
+              title="Oldest first"
             >
               <CalendarArrowUp className="size-3.5" />
             </Button>
