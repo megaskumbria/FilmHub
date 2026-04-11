@@ -1,37 +1,39 @@
-"use client";
+import { MovieCatalogToolbar, MovieGrid } from "@/widgets";
+import axios from "axios";
+import { API_URL } from "@/shared/constants/constants";
 
-import { mockMovies } from "@/shared/model/movies";
-import Link from "next/link";
-import { MovieCard } from "@/widgets/movie-card";
-import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
-import { MovieCatalogToolbar } from "@/widgets";
+export interface IMovie {
+  adult: boolean;
+  backdrop_url: string;
+  genres: string[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_url: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
 
-export default function MovieSearchPage() {
-  const { layout } = useMovieCardLayout();
+export interface IMovieData {
+  page: number;
+  total_pages: number;
+  movies: IMovie[];
+}
+
+export default async function MovieSearchPage() {
+  const response = await axios.get<IMovieData>(`${API_URL}/movies?page=1`);
+  console.log(response.data);
+  const movies = response.data.movies;
 
   return (
     <div className="max-w-[1640px] w-full mx-auto p-4 pt-16">
       <MovieCatalogToolbar />
-
-      <ul className="grid grid-cols-5 gap-4">
-        {mockMovies.map((movie) => {
-          const { id } = movie;
-
-          return (
-            <Link href={`/movies/${id}`} key={id}>
-              <MovieCard
-                movie={movie}
-                layout={layout}
-                blockOptions={{
-                  poster: { flags: { showFlags: false } },
-                  hover: { flags: { showFlags: false } },
-                  body: { flags: { showFlags: false } },
-                }}
-              />
-            </Link>
-          );
-        })}
-      </ul>
+      <MovieGrid initialMovies={movies} />
     </div>
   );
 }

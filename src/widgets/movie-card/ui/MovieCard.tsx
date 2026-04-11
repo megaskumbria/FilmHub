@@ -5,7 +5,7 @@ import { cardBlocksMap } from "@/widgets/movie-card";
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { IMovieCardData } from "@/shared/model/movies";
+import { IMovie } from "@/app/[locale]/movie-search/page";
 import { Fragment } from "react/jsx-runtime";
 import { useRef, useState } from "react";
 import { BlockPlacement } from "../model/cardBlocksMap";
@@ -16,7 +16,7 @@ import { AddFlagPopover } from "@/widgets";
 export type PopoverMode = "add-flag" | "add-collection";
 
 interface MovieCardProps {
-  movie: IMovieCardData;
+  movie: IMovie;
   layout: Layout;
   blockOptions: BlockOptions;
   shouldShowAddButton?: boolean;
@@ -37,7 +37,7 @@ export const MovieCard = ({
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
-  const { imgUrl, title } = movie;
+  const { poster_url, title } = movie;
   const { poster, body, hover } = layout;
 
   const hasHover = hover.length > 0;
@@ -54,7 +54,7 @@ export const MovieCard = ({
           onMouseLeave={() => setHoverHeight(0)}
         >
           <Image
-            src={imgUrl}
+            src={poster_url}
             alt={title}
             width={cardWidth}
             height={435}
@@ -118,7 +118,7 @@ export const MovieCard = ({
 
 interface RenderBlocksProps {
   keys: BlockKey[];
-  movie: IMovieCardData;
+  movie: IMovie;
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;

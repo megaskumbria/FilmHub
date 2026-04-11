@@ -1,12 +1,12 @@
 "use client";
 
-import { IMovieCardData } from "@/shared/model/movies";
+import { IMovie } from "@/app/[locale]/movie-search/page";
 import { Rating, FlagGroup, Title, Genres, Description } from "@/widgets/movie-card";
 
 export type BlockPlacement = "poster" | "hover" | "body";
 
 interface CardBlocksMapProps {
-  movie: IMovieCardData;
+  movie: IMovie;
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
@@ -14,7 +14,7 @@ interface CardBlocksMapProps {
 }
 
 export const cardBlocksMap = {
-  rating: ({ movie }: CardBlocksMapProps) => <Rating rating={movie.rating} />,
+  rating: ({ movie }: CardBlocksMapProps) => <Rating rating={movie.vote_average} />,
 
   flags: ({ hoverHeight, hasHover, placement, options }: CardBlocksMapProps) => {
     if (options?.showFlags === false) return null;
@@ -33,7 +33,7 @@ export const cardBlocksMap = {
   title: ({ movie, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
     <Title
       title={movie.title}
-      yearOfRelease={movie.yearOfRelease}
+      yearOfRelease={new Date(movie.release_date).getFullYear()}
       hoverHeight={hoverHeight}
       hasHover={hasHover}
       placement={placement}
@@ -51,7 +51,7 @@ export const cardBlocksMap = {
 
   description: ({ movie, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
     <Description
-      description={movie.description}
+      description={movie.overview}
       hoverHeight={hoverHeight}
       hasHover={hasHover}
       placement={placement}
