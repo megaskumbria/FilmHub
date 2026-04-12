@@ -1,5 +1,5 @@
 import { DragOverlay, MovieCardPlaceholder } from "@/widgets/movie-card-settings";
-import { MovieCard } from "@/widgets/movie-card";
+import { MediaCard } from "@/widgets/movie-card";
 import { BlockOptions, useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
 import { mockMovies } from "@/shared/model/movies";
 import { useWindowFileDrag } from "@/shared/hooks";
@@ -65,7 +65,7 @@ export const PosterUpload = ({
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
-          <MovieCard
+          <MediaCard
             key={mockMovies[0].id}
             movie={{ ...mockMovies[0], imgUrl: preview }}
             layout={layout}

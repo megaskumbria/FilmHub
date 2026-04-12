@@ -2,7 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/ui";
-import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import { API_URL } from "@/shared/constants/constants";
+import { IMediaData, MediaType, useMediaCatalog } from "@/shared/model/stores/movie-catalog";
 
 const tabs = [
   {
@@ -11,23 +14,36 @@ const tabs = [
   },
   {
     label: "Movies",
-    value: "movies",
+    value: "movie",
   },
   {
     label: "Series",
-    value: "series",
+    value: "tv",
   },
   {
     label: "Animation",
-    value: "cartoons",
+    value: "cartoon",
   },
 ];
 
 export const CategoryTabs = () => {
-  const [activeTab, setActiveTab] = useState("newest");
+  const { activeType, setActiveType, setMediaData } = useMediaCatalog();
+
+  useEffect(() => {
+    void axios.get<IMediaData>(`${API_URL}/media?type=${activeType}&page=1`).then((res) => {
+      setMediaData(res.data);
+    });
+  }, [activeType]);
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-fit">
+    <Tabs
+      value={activeType}
+      onValueChange={(value) => {
+        setActiveType(value as MediaType);
+        setMediaData(null);
+      }}
+      className="w-fit"
+    >
       <TabsList className="relative items-center justify-center rounded-lg bg-graphite p-1 h-10 border border-border/40 gap-0.5">
         {tabs.map((tab) => (
           <TabsTrigger
@@ -35,7 +51,7 @@ export const CategoryTabs = () => {
             value={tab.value}
             className="cursor-pointer relative z-10 rounded-md px-4 py-3 text-sm font-medium transition-colors duration-200 data-[state=active]:text-accent-foreground data-[state=inactive]:text-zinc-muted hover:text-foreground"
           >
-            {activeTab === tab.value && (
+            {activeType === tab.value && (
               <motion.div
                 layoutId="activeTab"
                 className="absolute inset-0 rounded-md bg-linear-to-br from-accent to-accent/80 shadow-md shadow-accent/20"

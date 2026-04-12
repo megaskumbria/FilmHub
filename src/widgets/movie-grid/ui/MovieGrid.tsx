@@ -1,41 +1,60 @@
 "use client";
 
 import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
-import { MovieCard } from "@/widgets";
-import { IMovie, IMovieData } from "@/app/[locale]/movie-search/page";
-import { useCallback, useState } from "react";
+import { MediaCard } from "@/widgets";
+import { IMedia, IMediaData, useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useIntersectionObserver } from "@/shared/hooks";
 import { API_URL } from "@/shared/constants/constants";
 
 interface Props {
-  initialMovies: IMovie[];
+  initialMedia: IMedia[];
 }
 
-export const MovieGrid = ({ initialMovies }: Props) => {
-  const [movies, setMovies] = useState(initialMovies);
+export const MovieGrid = ({ initialMedia }: Props) => {
   const [page, setPage] = useState(2);
   const [loading, setLoading] = useState(false);
 
+  const { activeType, mediaData, setMediaData } = useMediaCatalog();
+  const allMedia = mediaData?.media ?? [];
+
   const { layout } = useMovieCardLayout();
+
+  useEffect(() => {
+    setMediaData({
+      page: 1,
+      total_pages: 1,
+      media: initialMedia,
+    });
+  }, []);
 
   const loadMore = useCallback(async () => {
     if (loading) return;
 
     setLoading(true);
 
-    const response = await axios.get<IMovieData>(`${API_URL}/movies?page=${page}`);
-    // console.log(response.data);
-    // console.log(response.data.movies.forEach((m) => console.log(m.poster_url)));
-    // И проверить все URL-ы на корректность формата:
-    // console.log(response.data.movies.filter((m) => !m.poster_url.startsWith("https://")));
-    // console.log(response.data.movies.filter((m) => !m.poster_url)); // []
+    const response = await axios.get<IMediaData>(
+      `${API_URL}/media?type=${activeType}&page=${page}`,
+    );
 
-    setMovies((prev) => [...prev, ...response.data.movies]);
-    setPage((p) => p + 1);
+    const newMediaData = response.data.media;
+
+    setMediaData((prev) => {
+      if (!prev) return prev;
+
+      const seen = new Set(prev.media.map((m) => m.id));
+      const filteredMedia = newMediaData.filter((m) => !seen.has(m.id));
+
+      return {
+        ...prev,
+        media: [...prev.media, ...filteredMedia],
+      };
+    });
+    setPage((page) => page + 1);
 
     setLoading(false);
-  }, [loading, page]);
+  }, [loading, page, activeType]);
 
   const ref = useIntersectionObserver(() => void loadMore(), {
     rootMargin: "200px",
@@ -44,13 +63,13 @@ export const MovieGrid = ({ initialMovies }: Props) => {
   return (
     <>
       <ul className="grid grid-cols-5 gap-4">
-        {movies.map((movie) => {
+        {allMedia.map((movie) => {
           const { id } = movie;
 
           return (
             <li key={id}>
-              <MovieCard
-                movie={movie}
+              <MediaCard
+                media={movie}
                 layout={layout}
                 blockOptions={{
                   poster: { flags: { showFlags: false } },

@@ -2,11 +2,12 @@
 
 import { IMovie } from "@/app/[locale]/movie-search/page";
 import { Rating, FlagGroup, Title, Genres, Description } from "@/widgets/movie-card";
+import { ISeries } from "@/widgets/movie-catalog-toolbar/ui/CategoryTabs";
 
 export type BlockPlacement = "poster" | "hover" | "body";
 
 interface CardBlocksMapProps {
-  movie: IMovie;
+  media: IMovie | ISeries;
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
@@ -14,7 +15,7 @@ interface CardBlocksMapProps {
 }
 
 export const cardBlocksMap = {
-  rating: ({ movie }: CardBlocksMapProps) => <Rating rating={movie.vote_average} />,
+  rating: ({ media }: CardBlocksMapProps) => <Rating rating={media.vote_average} />,
 
   flags: ({ hoverHeight, hasHover, placement, options }: CardBlocksMapProps) => {
     if (options?.showFlags === false) return null;
@@ -30,28 +31,28 @@ export const cardBlocksMap = {
     );
   },
 
-  title: ({ movie, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
+  title: ({ media, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
     <Title
-      title={movie.title}
-      yearOfRelease={new Date(movie.release_date).getFullYear()}
+      title={media.title}
+      yearOfRelease={new Date(media.release_date).getFullYear()}
       hoverHeight={hoverHeight}
       hasHover={hasHover}
       placement={placement}
     />
   ),
 
-  genres: ({ movie, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
+  genres: ({ media, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
     <Genres
-      genres={movie.genres}
+      genres={media.genres}
       hoverHeight={hoverHeight}
       hasHover={hasHover}
       placement={placement}
     />
   ),
 
-  description: ({ movie, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
+  description: ({ media, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
     <Description
-      description={movie.overview}
+      description={media.overview}
       hoverHeight={hoverHeight}
       hasHover={hasHover}
       placement={placement}

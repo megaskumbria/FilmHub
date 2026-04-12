@@ -12,11 +12,12 @@ import { BlockPlacement } from "../model/cardBlocksMap";
 import type { BlockOptions, Layout } from "@/shared/model/stores/movie-card-layout";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 import { AddFlagPopover } from "@/widgets";
+import { ISeries } from "@/widgets/movie-catalog-toolbar/ui/CategoryTabs";
 
 export type PopoverMode = "add-flag" | "add-collection";
 
-interface MovieCardProps {
-  movie: IMovie;
+interface Props {
+  media: IMovie | ISeries;
   layout: Layout;
   blockOptions: BlockOptions;
   shouldShowAddButton?: boolean;
@@ -25,26 +26,26 @@ interface MovieCardProps {
   disableNavigation?: boolean;
 }
 
-export const MovieCard = ({
-  movie,
+export const MediaCard = ({
+  media,
   layout,
   blockOptions,
   shouldShowAddButton = true,
   mode,
   cardWidth = 290,
   disableNavigation = false,
-}: MovieCardProps) => {
+}: Props) => {
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
-  const { poster_url, title } = movie;
+  const { poster_url, title } = media;
   const { poster, body, hover } = layout;
 
   const hasHover = hover.length > 0;
 
   return (
     <article className="w-full border border-border rounded-xl relative">
-      <Link href={disableNavigation ? "" : `/movies/${movie.id}`}>
+      <Link href={disableNavigation ? "" : `/movies/${media.id}`}>
         <div
           className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl"
           onMouseEnter={() => {
@@ -64,7 +65,7 @@ export const MovieCard = ({
           <div className="absolute inset-0 flex flex-col gap-1.5 justify-end p-3 z-20">
             {renderBlocks({
               keys: poster,
-              movie,
+              media,
               hoverHeight,
               hasHover,
               placement: "poster",
@@ -79,7 +80,7 @@ export const MovieCard = ({
             >
               {renderBlocks({
                 keys: hover,
-                movie,
+                media,
                 hoverHeight,
                 hasHover,
                 placement: "hover",
@@ -109,7 +110,7 @@ export const MovieCard = ({
 
       {body.length > 0 && (
         <div className="p-3 flex flex-col gap-1.5">
-          {renderBlocks({ keys: body, movie, blockOptions, placement: "body" })}
+          {renderBlocks({ keys: body, media, blockOptions, placement: "body" })}
         </div>
       )}
     </article>
@@ -118,7 +119,7 @@ export const MovieCard = ({
 
 interface RenderBlocksProps {
   keys: BlockKey[];
-  movie: IMovie;
+  media: IMovie | ISeries;
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
@@ -127,7 +128,7 @@ interface RenderBlocksProps {
 
 const renderBlocks = ({
   keys,
-  movie,
+  media,
   hoverHeight,
   hasHover,
   placement,
@@ -141,7 +142,7 @@ const renderBlocks = ({
     return (
       <Fragment key={key}>
         {block({
-          movie,
+          media,
           hoverHeight,
           hasHover,
           placement,

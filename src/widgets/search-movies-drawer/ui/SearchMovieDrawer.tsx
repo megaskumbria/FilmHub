@@ -15,7 +15,7 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { MovieCard } from "@/widgets/movie-card";
+import { MediaCard } from "@/widgets/movie-card";
 import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
 
 export const SearchMovieDrawer = () => {
@@ -72,7 +72,7 @@ export const SearchMovieDrawer = () => {
         <div className="drawer-scroll overflow-y-auto px-6 pb-4 flex justify-center">
           <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-[1000px] w-full">
             {mockMovies.map((movie) => (
-              <MovieCard
+              <MediaCard
                 key={movie.id}
                 movie={movie}
                 layout={layout}

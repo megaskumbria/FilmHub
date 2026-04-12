@@ -14,7 +14,7 @@ import {
   TooltipContent,
   Input,
 } from "@/shared/ui";
-import { PopoverMode } from "@/widgets/movie-card/ui/MovieCard";
+import { PopoverMode } from "@/widgets/movie-card/ui/MediaCard";
 import { flagsData } from "@/shared/model/flags";
 import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
 import { Check, HelpCircle, Plus, Search } from "lucide-react";
@@ -175,7 +175,9 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
           <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
             <div className="flex items-center gap-2.5">
               <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-              <span className="text-sm font-semibold text-foreground tracking-wide">Collections</span>
+              <span className="text-sm font-semibold text-foreground tracking-wide">
+                Collections
+              </span>
             </div>
 
             {selectedFolders.size > 0 && (

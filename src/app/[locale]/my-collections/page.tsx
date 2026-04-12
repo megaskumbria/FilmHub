@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MovieCard, CollectionsToolbar, UserCollections, ProfileHeader } from "@/widgets";
+import { MediaCard, CollectionsToolbar, UserCollections, ProfileHeader } from "@/widgets";
 import { mockMovies } from "@/shared/model/movies";
 import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
 
@@ -25,7 +25,7 @@ export default function AuthorDashboardPage() {
       <ul className="grid grid-cols-5 gap-2 justify-items-center">
         {mockMovies.map((movie) => (
           <li key={movie.id}>
-            <MovieCard
+            <MediaCard
               cardWidth={310}
               movie={movie}
               layout={layout}

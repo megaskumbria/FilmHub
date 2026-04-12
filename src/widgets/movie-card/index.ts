@@ -1,4 +1,4 @@
-export { MovieCard } from "./ui/MovieCard";
+export { MediaCard } from "./ui/MediaCard";
 export { Rating } from "./ui/Rating";
 export { FlagGroup } from "./ui/FlagGroup";
 export { Title } from "./ui/Title";

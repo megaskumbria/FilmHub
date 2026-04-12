@@ -1,7 +1,7 @@
 "use client";
 
 import { mockMovies } from "@/shared/model/movies";
-import { CollectionsToolbar, MovieCard, ProfileHeader } from "@/widgets";
+import { CollectionsToolbar, MediaCard, ProfileHeader } from "@/widgets";
 import { UserCollections } from "@/widgets/user-collections";
 import { useState } from "react";
 import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
@@ -26,7 +26,7 @@ export default function UserCollectionPage() {
       <ul className="grid grid-cols-5 gap-2 justify-items-center">
         {mockMovies.map((movie) => (
           <li key={movie.id}>
-            <MovieCard
+            <MediaCard
               cardWidth={310}
               movie={movie}
               layout={layout}
