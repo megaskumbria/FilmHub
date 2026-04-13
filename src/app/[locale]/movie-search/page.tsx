@@ -2,15 +2,26 @@ import { MovieCatalogToolbar, MovieGrid } from "@/widgets";
 import axios from "axios";
 import { API_URL } from "@/shared/constants/constants";
 import { IMediaData } from "@/shared/model/stores/movie-catalog";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 export default async function MovieSearchPage() {
-  const response = await axios.get<IMediaData>(`${API_URL}/media?type=movie&page=1`);
-  const mediaData = response.data.media;
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ["media", "movie"],
+    queryFn: async () => {
+      const { data } = await axios.get<IMediaData>(`${API_URL}/media?type=movie&page=1`);
+      return data;
+    },
+    initialPageParam: 1,
+  });
 
   return (
-    <div className="max-w-[1640px] w-full mx-auto p-4 pt-16">
-      <MovieCatalogToolbar />
-      <MovieGrid initialMedia={mediaData} />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="max-w-[1640px] w-full mx-auto p-4 pt-16">
+        <MovieCatalogToolbar />
+        <MovieGrid />
+      </div>
+    </HydrationBoundary>
   );
 }

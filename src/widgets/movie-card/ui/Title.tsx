@@ -3,7 +3,7 @@
 import { BlockPlacement } from "../model/cardBlocksMap";
 
 interface TitleProps {
-  title: string;
+  titleToDisplay: string;
   yearOfRelease: number;
   hoverHeight?: number;
   hasHover?: boolean;
@@ -11,7 +11,7 @@ interface TitleProps {
 }
 
 export const Title = ({
-  title,
+  titleToDisplay,
   yearOfRelease,
   hoverHeight = 0,
   hasHover,
@@ -25,10 +25,15 @@ export const Title = ({
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       <h3 className="max-w-[200px] overflow-ellipsis whitespace-nowrap overflow-hidden font-semibold text-foreground">
-        {title}
+        {titleToDisplay}
       </h3>
 
-      <span className="text-sm font-medium text-muted">{yearOfRelease}</span>
+      {/* <span className="text-sm font-medium text-muted">
+        {isNaN(yearOfRelease) ? "-" : yearOfRelease}
+      </span> */}
+      {!Number.isNaN(yearOfRelease) && (
+        <span className="text-sm font-medium text-muted">{yearOfRelease}</span>
+      )}
     </div>
   );
 };

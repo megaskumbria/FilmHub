@@ -7,6 +7,7 @@ import { Header } from "@/widgets";
 import { TooltipProvider } from "@/shared/ui/tooltip";
 // import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/shared/ui/sonner";
+import { ReactQueryProvider } from "@/shared/providers";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -27,25 +28,27 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   return (
     <html lang={locale} className={manrope.variable} suppressHydrationWarning>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          {/* <ThemeProvider
+        <ReactQueryProvider>
+          <NextIntlClientProvider messages={messages}>
+            {/* <ThemeProvider
             attribute="data-theme"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           > */}
-          {/* <SidebarProvider> */}
-          <TooltipProvider>
-            <Header />
-            {/* <Sidebar /> */}
+            {/* <SidebarProvider> */}
+            <TooltipProvider>
+              <Header />
+              {/* <Sidebar /> */}
 
-            {children}
+              {children}
 
-            {/* </SidebarProvider> */}
-            {/* </ThemeProvider> */}
-          </TooltipProvider>
-          <Toaster />
-        </NextIntlClientProvider>
+              {/* </SidebarProvider> */}
+              {/* </ThemeProvider> */}
+            </TooltipProvider>
+            <Toaster />
+          </NextIntlClientProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -5,19 +5,18 @@ import { cardBlocksMap } from "@/widgets/movie-card";
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { IMovie } from "@/app/[locale]/movie-search/page";
 import { Fragment } from "react/jsx-runtime";
 import { useRef, useState } from "react";
 import { BlockPlacement } from "../model/cardBlocksMap";
 import type { BlockOptions, Layout } from "@/shared/model/stores/movie-card-layout";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 import { AddFlagPopover } from "@/widgets";
-import { ISeries } from "@/widgets/movie-catalog-toolbar/ui/CategoryTabs";
+import { IMedia } from "@/shared/model/stores/movie-catalog";
 
 export type PopoverMode = "add-flag" | "add-collection";
 
 interface Props {
-  media: IMovie | ISeries;
+  media: IMedia;
   layout: Layout;
   blockOptions: BlockOptions;
   shouldShowAddButton?: boolean;
@@ -38,7 +37,11 @@ export const MediaCard = ({
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
-  const { poster_url, title } = media;
+  const { poster_url, original_name, original_title, release_date, first_air_date } = media;
+
+  const titleToDisplay = original_name || original_title;
+  const yearOfRelease = new Date(release_date || first_air_date).getFullYear();
+
   const { poster, body, hover } = layout;
 
   const hasHover = hover.length > 0;
@@ -54,18 +57,20 @@ export const MediaCard = ({
           }}
           onMouseLeave={() => setHoverHeight(0)}
         >
-          <Image
-            src={poster_url}
-            alt={title}
-            width={cardWidth}
-            height={435}
-            className="h-full w-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
-          />
+          {poster_url && (
+            <Image
+              src={poster_url}
+              alt={titleToDisplay}
+              width={cardWidth}
+              height={435}
+              className="h-full w-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
+            />
+          )}
 
           <div className="absolute inset-0 flex flex-col gap-1.5 justify-end p-3 z-20">
             {renderBlocks({
               keys: poster,
-              media,
+              media: { ...media, title: titleToDisplay, yearOfRelease: yearOfRelease },
               hoverHeight,
               hasHover,
               placement: "poster",
@@ -80,7 +85,7 @@ export const MediaCard = ({
             >
               {renderBlocks({
                 keys: hover,
-                media,
+                media: { ...media, title: titleToDisplay, yearOfRelease: yearOfRelease },
                 hoverHeight,
                 hasHover,
                 placement: "hover",
@@ -110,7 +115,12 @@ export const MediaCard = ({
 
       {body.length > 0 && (
         <div className="p-3 flex flex-col gap-1.5">
-          {renderBlocks({ keys: body, media, blockOptions, placement: "body" })}
+          {renderBlocks({
+            keys: body,
+            media: { ...media, title: titleToDisplay, yearOfRelease: yearOfRelease },
+            blockOptions,
+            placement: "body",
+          })}
         </div>
       )}
     </article>
@@ -119,7 +129,7 @@ export const MediaCard = ({
 
 interface RenderBlocksProps {
   keys: BlockKey[];
-  media: IMovie | ISeries;
+  media: IMedia;
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;

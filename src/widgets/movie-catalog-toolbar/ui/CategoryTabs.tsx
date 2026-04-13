@@ -2,10 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/ui";
-import { useEffect } from "react";
-import axios from "axios";
-import { API_URL } from "@/shared/constants/constants";
-import { IMediaData, MediaType, useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { MediaType, useMediaCatalog } from "@/shared/model/stores/movie-catalog";
 
 const tabs = [
   {
@@ -27,20 +24,13 @@ const tabs = [
 ];
 
 export const CategoryTabs = () => {
-  const { activeType, setActiveType, setMediaData } = useMediaCatalog();
-
-  useEffect(() => {
-    void axios.get<IMediaData>(`${API_URL}/media?type=${activeType}&page=1`).then((res) => {
-      setMediaData(res.data);
-    });
-  }, [activeType]);
+  const { activeType, setActiveType } = useMediaCatalog();
 
   return (
     <Tabs
       value={activeType}
       onValueChange={(value) => {
         setActiveType(value as MediaType);
-        setMediaData(null);
       }}
       className="w-fit"
     >
