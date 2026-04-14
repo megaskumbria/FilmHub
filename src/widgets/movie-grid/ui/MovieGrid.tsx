@@ -5,13 +5,18 @@ import { MediaCard } from "@/widgets";
 import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
 import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
 import { Skeleton } from "@/shared/ui";
+import { mapCategoryToTmdb } from "@/shared/lib";
 
 export const MovieGrid = () => {
-  const { activeType } = useMediaCatalog();
+  const { category } = useMediaCatalog();
   const { layout } = useMovieCardLayout();
 
-  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteMedia(activeType);
+  const { type, withGenres } = mapCategoryToTmdb(category);
+
+  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
+    type,
+    withGenres,
+  );
 
   const ref = useIntersectionObserver(
     () => {
@@ -27,7 +32,7 @@ export const MovieGrid = () => {
     return (
       <ul className="grid grid-cols-5 gap-4">
         {Array.from({ length: 10 }).map((_, i) => (
-          <Skeleton key={i} className="w-full h-[435px] rounded-xl" />
+          <Skeleton key={i} className="w-full border border-border aspect-2/3 rounded-xl" />
         ))}
       </ul>
     );
@@ -51,8 +56,11 @@ export const MovieGrid = () => {
         ))}
 
         {isFetchingNextPage
-          && Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={`skeleton-${i}`} className="w-full h-[435px] rounded-xl" />
+          && Array.from({ length: 10 }).map((_, i) => (
+            <Skeleton
+              key={`skeleton-${i}`}
+              className="w-full border border-border aspect-2/3 rounded-xl"
+            />
           ))}
       </ul>
 

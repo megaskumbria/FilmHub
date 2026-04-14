@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type MediaType = "movie" | "tv" | "cartoons";
+export type MediaCategory = "movie" | "tv" | "animation_movie" | "animation_tv";
 
 export interface IMedia {
   yearOfRelease: number;
@@ -31,22 +31,11 @@ export interface IMediaData {
 }
 
 interface MediaCatalogStore {
-  activeType: MediaType;
-  setActiveType: (type: MediaType) => void;
-  mediaData: IMediaData | null;
-  setMediaData: (
-    updater: IMediaData | null | ((prev: IMediaData | null) => IMediaData | null),
-  ) => void;
-  // setMediaData: (mediaData: IMediaData | null) => void;
+  category: MediaCategory;
+  setCategory: (category: MediaCategory) => void;
 }
 
-export const useMediaCatalog = create<MediaCatalogStore>()((set) => ({
-  activeType: "movie",
-  setActiveType: (activeType) => set({ activeType }),
-  mediaData: null,
-  // setMediaData: (mediaData) => set({ mediaData }),
-  setMediaData: (updater) =>
-    set((state) => ({
-      mediaData: typeof updater === "function" ? updater(state.mediaData) : updater,
-    })),
+export const useMediaCatalog = create<MediaCatalogStore>((set) => ({
+  category: "movie",
+  setCategory: (category) => set({ category }),
 }));

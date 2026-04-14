@@ -3,20 +3,24 @@ import axios from "axios";
 import { IMediaData } from "../model/stores/movie-catalog";
 import { API_URL } from "../constants/constants";
 
-export const useInfiniteMedia = (type: string) => {
+export const useInfiniteMedia = (type: string, withGenres: string) => {
+  // console.log(type, withGenres); // good
+
   return useInfiniteQuery({
-    queryKey: ["media", type],
+    queryKey: ["media", type, withGenres],
 
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await axios.get<IMediaData>(
-        `${API_URL}/media?type=${type}&page=${pageParam}`,
+        `${API_URL}/media?type=${type}&page=${pageParam}&with_genres=${withGenres}`,
       );
       return data;
     },
 
     getNextPageParam: (lastPage) => {
-      if (lastPage.page >= lastPage.total_pages) return undefined;
-      return lastPage.page + 1;
+      const { page, total_pages } = lastPage;
+
+      if (page >= total_pages) return undefined;
+      return page + 1;
     },
 
     staleTime: 1000 * 60 * 5, // кеш 5 минут
