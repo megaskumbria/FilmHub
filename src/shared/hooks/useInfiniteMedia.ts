@@ -3,15 +3,13 @@ import axios from "axios";
 import { IMediaData } from "../model/stores/movie-catalog";
 import { API_URL } from "../constants/constants";
 
-export const useInfiniteMedia = (type: string, withGenres: string) => {
-  // console.log(type, withGenres); // good
-
+export const useInfiniteMedia = (type: string, withGenres: string, searchQuery: string) => {
   return useInfiniteQuery({
-    queryKey: ["media", type, withGenres],
+    queryKey: ["media", type, withGenres, searchQuery],
 
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await axios.get<IMediaData>(
-        `${API_URL}/media?type=${type}&page=${pageParam}&with_genres=${withGenres}`,
+        `${API_URL}/media?type=${type}&page=${pageParam}&with_genres=${withGenres}&query=${searchQuery}`,
       );
       return data;
     },

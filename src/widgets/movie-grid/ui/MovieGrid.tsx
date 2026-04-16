@@ -8,7 +8,7 @@ import { Skeleton } from "@/shared/ui";
 import { mapCategoryToTmdb } from "@/shared/lib";
 
 export const MovieGrid = () => {
-  const { category } = useMediaCatalog();
+  const { category, searchQuery } = useMediaCatalog();
   const { layout } = useMovieCardLayout();
 
   const { type, withGenres } = mapCategoryToTmdb(category);
@@ -16,6 +16,7 @@ export const MovieGrid = () => {
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
     type,
     withGenres,
+    searchQuery,
   );
 
   const ref = useIntersectionObserver(

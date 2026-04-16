@@ -1,13 +1,23 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/shared/ui";
+import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { useDebounce } from "@/shared/hooks";
 
 export const MovieSearchPanel = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [input, setInput] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+  const { setSearchQuery } = useMediaCatalog();
+
+  const debouncedSearch = useDebounce(input, 500);
+
+  useEffect(() => {
+    setSearchQuery(debouncedSearch); // React query can cache and don't make new request
+  }, [debouncedSearch]);
 
   return (
     <div className="relative mb-4">
@@ -26,8 +36,8 @@ export const MovieSearchPanel = () => {
 
         <Input
           type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           onFocus={() => setIsSearchFocused(true)}
           onBlur={() => setIsSearchFocused(false)}
           placeholder="Search movies, series..."
@@ -36,13 +46,13 @@ export const MovieSearchPanel = () => {
         />
 
         <AnimatePresence>
-          {searchQuery && (
+          {input && (
             <motion.button
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ duration: 0.15 }}
-              onClick={() => setSearchQuery("")}
+              onClick={() => setInput("")}
               className="cursor-pointer absolute right-3 size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center transition-colors group"
             >
               <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />

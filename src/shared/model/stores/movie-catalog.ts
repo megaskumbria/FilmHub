@@ -33,9 +33,13 @@ export interface IMediaData {
 interface MediaCatalogStore {
   category: MediaCategory;
   setCategory: (category: MediaCategory) => void;
+  searchQuery: string;
+  setSearchQuery: (searchQuery: string) => void;
 }
 
 export const useMediaCatalog = create<MediaCatalogStore>((set) => ({
   category: "movie",
   setCategory: (category) => set({ category }),
+  searchQuery: "",
+  setSearchQuery: (searchQuery) => set({ searchQuery }),
 }));
