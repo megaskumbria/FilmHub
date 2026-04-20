@@ -16,7 +16,9 @@ export const useInfiniteMedia = (type: string, withGenres: string, searchQuery: 
 
     getNextPageParam: (lastPage) => {
       const { page, total_pages } = lastPage;
-
+      // console.log("page", page);
+      // console.log("total_pages", total_pages);
+      // console.log("page >= total_pages", page >= total_pages);
       if (page >= total_pages) return undefined;
       return page + 1;
     },

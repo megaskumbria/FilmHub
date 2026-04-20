@@ -22,6 +22,8 @@ export interface IMedia {
   video: boolean;
   vote_average: number;
   vote_count: number;
+
+  rating_imdb: string | null;
 }
 
 export interface IMediaData {

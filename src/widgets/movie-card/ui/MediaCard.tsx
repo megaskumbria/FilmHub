@@ -46,6 +46,9 @@ export const MediaCard = ({
 
   const hasHover = hover.length > 0;
 
+  const rating_imdb = media.rating_imdb;
+  const vote_average = media.vote_average;
+
   return (
     <article className="w-full border border-border rounded-xl relative">
       <Link href={disableNavigation ? "" : `/movies/${media.id}`}>
@@ -70,7 +73,13 @@ export const MediaCard = ({
           <div className="absolute inset-0 flex flex-col gap-1.5 justify-end p-3 z-20">
             {renderBlocks({
               keys: poster,
-              media: { ...media, title: titleToDisplay, yearOfRelease: yearOfRelease },
+              media: {
+                ...media,
+                title: titleToDisplay,
+                yearOfRelease: yearOfRelease,
+                rating_imdb,
+                vote_average,
+              },
               hoverHeight,
               hasHover,
               placement: "poster",
@@ -85,7 +94,13 @@ export const MediaCard = ({
             >
               {renderBlocks({
                 keys: hover,
-                media: { ...media, title: titleToDisplay, yearOfRelease: yearOfRelease },
+                media: {
+                  ...media,
+                  title: titleToDisplay,
+                  yearOfRelease: yearOfRelease,
+                  rating_imdb,
+                  vote_average,
+                },
                 hoverHeight,
                 hasHover,
                 placement: "hover",
@@ -117,7 +132,13 @@ export const MediaCard = ({
         <div className="p-3 flex flex-col gap-1.5">
           {renderBlocks({
             keys: body,
-            media: { ...media, title: titleToDisplay, yearOfRelease: yearOfRelease },
+            media: {
+              ...media,
+              title: titleToDisplay,
+              yearOfRelease: yearOfRelease,
+              rating_imdb,
+              vote_average,
+            },
             blockOptions,
             placement: "body",
           })}

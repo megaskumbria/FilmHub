@@ -29,6 +29,9 @@ export const MovieGrid = () => {
   const allMediaRaw = data?.pages.flatMap((page) => page.media) ?? [];
   const allMedia = Array.from(new Map(allMediaRaw.map((m) => [m.id, m])).values());
 
+  // console.log("allMediaRaw", allMediaRaw);
+  console.log("allMedia", allMedia);
+
   if (isLoading) {
     return (
       <ul className="grid grid-cols-5 gap-4">

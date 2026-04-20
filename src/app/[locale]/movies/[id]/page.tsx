@@ -73,7 +73,9 @@ export default function MoviePage() {
 
                 <TooltipContent side="left">
                   <p className="text-sm">
-                    {isUiHidden ? "Bring back the interface" : "Hide the UI and show only the poster"}
+                    {isUiHidden ?
+                      "Bring back the interface"
+                    : "Hide the UI and show only the poster"}
                   </p>
                 </TooltipContent>
               </Tooltip>
