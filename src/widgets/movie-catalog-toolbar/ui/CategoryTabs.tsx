@@ -5,11 +5,9 @@ import { Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { MediaCategory, useMediaCatalog } from "@/shared/model/stores/movie-catalog";
 
 const tabs = [
-  // { label: "All", value: "" },
+  { label: "All", value: "all" },
   { label: "Movies", value: "movie" },
   { label: "Series", value: "tv" },
-  { label: "Cartoons", value: "animation_movie" },
-  { label: "Animated series", value: "animation_tv" },
 ];
 
 export const CategoryTabs = () => {

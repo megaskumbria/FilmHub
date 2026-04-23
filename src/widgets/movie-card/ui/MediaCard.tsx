@@ -38,16 +38,22 @@ export const MediaCard = ({
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
   const { poster_url, original_name, original_title, release_date, first_air_date } = media;
-
-  const titleToDisplay = original_name || original_title;
-  const yearOfRelease = new Date(release_date || first_air_date).getFullYear();
-
   const { poster, body, hover } = layout;
-
-  const hasHover = hover.length > 0;
 
   const rating_imdb = media.rating_imdb;
   const vote_average = media.vote_average;
+  const titleToDisplay = original_name || original_title;
+  const yearOfRelease = new Date(release_date || first_air_date).getFullYear();
+
+  const mediaForBlocks = {
+    ...media,
+    titleToDisplay,
+    yearOfRelease,
+    rating_imdb,
+    vote_average,
+  };
+
+  const hasHover = hover.length > 0;
 
   return (
     <article className="w-full border border-border rounded-xl relative">
@@ -73,13 +79,7 @@ export const MediaCard = ({
           <div className="absolute inset-0 flex flex-col gap-1.5 justify-end p-3 z-20">
             {renderBlocks({
               keys: poster,
-              media: {
-                ...media,
-                title: titleToDisplay,
-                yearOfRelease: yearOfRelease,
-                rating_imdb,
-                vote_average,
-              },
+              media: mediaForBlocks,
               hoverHeight,
               hasHover,
               placement: "poster",
@@ -94,13 +94,7 @@ export const MediaCard = ({
             >
               {renderBlocks({
                 keys: hover,
-                media: {
-                  ...media,
-                  title: titleToDisplay,
-                  yearOfRelease: yearOfRelease,
-                  rating_imdb,
-                  vote_average,
-                },
+                media: mediaForBlocks,
                 hoverHeight,
                 hasHover,
                 placement: "hover",
@@ -132,13 +126,7 @@ export const MediaCard = ({
         <div className="p-3 flex flex-col gap-1.5">
           {renderBlocks({
             keys: body,
-            media: {
-              ...media,
-              title: titleToDisplay,
-              yearOfRelease: yearOfRelease,
-              rating_imdb,
-              vote_average,
-            },
+            media: mediaForBlocks,
             blockOptions,
             placement: "body",
           })}
