@@ -1,8 +1,9 @@
 import { create } from "zustand";
+import { IGenre } from "@/shared/hooks/useGenres";
 
 interface FilterMediaStore {
-  selectedGenre: string;
-  setSelectedGenre: (name: string) => void;
+  selectedGenre: IGenre;
+  setSelectedGenre: ({ id, name }: IGenre) => void;
   selectedYear: string;
   setSelectedYear: (year: string) => void;
   selectedSort: string;
@@ -10,8 +11,8 @@ interface FilterMediaStore {
 }
 
 export const useFilterMedia = create<FilterMediaStore>((set) => ({
-  selectedGenre: "",
-  setSelectedGenre: (selectedGenre) => set({ selectedGenre }),
+  selectedGenre: { id: "", name: "" },
+  setSelectedGenre: ({ id, name }: IGenre) => set({ selectedGenre: { id, name } }),
   selectedYear: "",
   setSelectedYear: (selectedYear) => set({ selectedYear }),
   selectedSort: "",

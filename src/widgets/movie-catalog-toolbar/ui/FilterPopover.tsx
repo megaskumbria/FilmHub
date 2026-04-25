@@ -16,10 +16,10 @@ export const FilterPopover = () => {
     setSelectedSort,
   } = useFilterMedia();
 
-  const hasActiveFilters = selectedGenre;
+  const hasActiveFilters = selectedGenre.id || selectedYear || selectedSort;
 
   const handleReset = () => {
-    setSelectedGenre("");
+    setSelectedGenre({ id: "", name: "" });
     setSelectedYear("");
     setSelectedSort("");
   };
@@ -41,7 +41,7 @@ export const FilterPopover = () => {
                 className="absolute -top-1 -right-1 size-5 rounded-full bg-accent border-2 border-background flex items-center justify-center"
               >
                 <span className="text-[10px] font-bold text-white">
-                  {[selectedGenre, selectedYear, selectedSort].filter(Boolean).length}
+                  {[selectedGenre.id, selectedYear, selectedSort].filter(Boolean).length}
                 </span>
               </motion.div>
             )}

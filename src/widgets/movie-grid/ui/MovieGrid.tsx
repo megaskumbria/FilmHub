@@ -5,14 +5,17 @@ import { MediaCard } from "@/widgets";
 import { useMediaCatalog } from "@/shared/stores/movie-catalog";
 import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
 import { Skeleton } from "@/shared/ui";
+import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const MovieGrid = () => {
   const { category, searchQuery } = useMediaCatalog();
+  const { selectedGenre } = useFilterMedia();
   const { layout } = useMovieCardLayout();
 
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
     searchQuery,
     category,
+    selectedGenre.id,
   );
 
   const ref = useIntersectionObserver(

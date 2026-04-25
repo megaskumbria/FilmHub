@@ -30,7 +30,10 @@ export const GenreSelect = () => {
         Genre
       </Label>
 
-      <Select value={selectedGenre} onValueChange={setSelectedGenre}>
+      <Select
+        value={selectedGenre.id}
+        onValueChange={(value) => setSelectedGenre({ id: value, name: "" })}
+      >
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
           <SelectValue placeholder="Select genre" />
         </SelectTrigger>
