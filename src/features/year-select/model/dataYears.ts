@@ -1,5 +1,4 @@
-export const DATA_YEAR = [
-  { id: "All years", htmlFor: "All years", label: "All years", value: "all" },
+export const DATA_YEARS = [
   {
     id: "Before 1990",
     htmlFor: "Before 1990",

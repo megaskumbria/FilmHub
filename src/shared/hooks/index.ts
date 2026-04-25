@@ -5,3 +5,4 @@ export { useThrottle } from "./use-throttle";
 export { useIntersectionObserver } from "./useIntersectionObserver";
 export { useInfiniteMedia } from "./useInfiniteMedia";
 export { useDebounce } from "./useDebounce";
+export { useGenres } from "./useGenres";

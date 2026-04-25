@@ -10,7 +10,7 @@ export default async function MovieSearchPage() {
   await queryClient.prefetchInfiniteQuery({
     queryKey: ["media", "movie", ""],
     queryFn: async () => {
-      const { data } = await axios.get<IMediaData>(`${API_URL}/media?type=movie&page=1`);
+      const { data } = await axios.get<IMediaData>(`${API_URL}/movies?type=movie&page=1`);
       return data;
     },
     initialPageParam: 1,
@@ -18,7 +18,7 @@ export default async function MovieSearchPage() {
 
   /*
    * prefetchInfiniteQuery - метод, который делает запросы на сервере и ложит в cache
-   * queryKey: ["media", "movie"] - это переменная с ключём под которым лежит query.
+   * queryKey: ["media", "movie"] - это переменная с ключём под которым лежит запрос
    * React Query хранит всё вот так:
    * {
    *   "media-movie": { data },

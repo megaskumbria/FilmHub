@@ -1,15 +1,15 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { IMediaData } from "../model/stores/movie-catalog";
+import { IMediaData, MediaCategory } from "../model/stores/movie-catalog";
 import { API_URL } from "../constants/constants";
 
-export const useInfiniteMedia = (type: string, withGenres: string, searchQuery: string) => {
+export const useInfiniteMedia = (searchQuery: string, category: MediaCategory) => {
   return useInfiniteQuery({
-    queryKey: ["media", type, withGenres, searchQuery],
+    queryKey: ["media", category, searchQuery],
 
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await axios.get<IMediaData>(
-        `${API_URL}/media?type=${type}&page=${pageParam}&with_genres=${withGenres}&query=${searchQuery}`,
+        `${API_URL}/movies?type=${category}&page=${pageParam}&query=${searchQuery}`,
       );
       return data;
     },
@@ -23,7 +23,7 @@ export const useInfiniteMedia = (type: string, withGenres: string, searchQuery: 
       return page + 1;
     },
 
-    staleTime: 1000 * 60 * 5, // кеш 5 минут
+    staleTime: 1000 * 60 * 5,
     initialPageParam: 1,
   });
 };

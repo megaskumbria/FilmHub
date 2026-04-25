@@ -1,4 +1,4 @@
-export const DATA_OPTIONS = [
+export const DATA_SORT_OPTIONS = [
   { id: "rating", htmlFor: "rating", label: "By rating", value: "rating" },
   { id: "newest", htmlFor: "newest", label: "Newest first", value: "newest" },
   { id: "oldest", htmlFor: "oldest", label: "Oldest first", value: "oldest" },

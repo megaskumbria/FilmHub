@@ -3,14 +3,12 @@
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
 import { Calendar } from "lucide-react";
 import { motion } from "framer-motion";
-import { DATA_YEAR } from "../model/years";
+import { DATA_YEARS } from "../model/dataYears";
+import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
 
-interface YearSelectProps {
-  value: string;
-  onValueChange: (value: string) => void;
-}
+export const YearSelect = () => {
+  const { selectedYear, setSelectedYear } = useMediaCatalog();
 
-export const YearSelect = ({ value, onValueChange }: YearSelectProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
@@ -23,7 +21,7 @@ export const YearSelect = ({ value, onValueChange }: YearSelectProps) => {
         Release year
       </Label>
 
-      <Select value={value} onValueChange={onValueChange}>
+      <Select value={selectedYear} onValueChange={setSelectedYear}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
           <SelectValue placeholder="Select period" />
         </SelectTrigger>
@@ -33,7 +31,7 @@ export const YearSelect = ({ value, onValueChange }: YearSelectProps) => {
           sideOffset={8}
           className="bg-graphite border-border/40 shadow-xl"
         >
-          {DATA_YEAR.map((year) => (
+          {DATA_YEARS.map((year) => (
             <SelectItem key={year.value} value={year.value}>
               {year.label}
             </SelectItem>

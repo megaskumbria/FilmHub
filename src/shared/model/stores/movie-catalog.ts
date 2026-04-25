@@ -39,6 +39,13 @@ interface MediaCatalogStore {
   setCategory: (category: MediaCategory) => void;
   searchQuery: string;
   setSearchQuery: (searchQuery: string) => void;
+
+  selectedGenre: string;
+  setSelectedGenre: (name: string) => void;
+  selectedYear: string;
+  setSelectedYear: (year: string) => void;
+  selectedSort: string;
+  setSelectedSort: (sort: string) => void;
 }
 
 export const useMediaCatalog = create<MediaCatalogStore>((set) => ({
@@ -46,4 +53,10 @@ export const useMediaCatalog = create<MediaCatalogStore>((set) => ({
   setCategory: (category) => set({ category }),
   searchQuery: "",
   setSearchQuery: (searchQuery) => set({ searchQuery }),
+  selectedGenre: "",
+  setSelectedGenre: (selectedGenre) => set({ selectedGenre }),
+  selectedYear: "",
+  setSelectedYear: (selectedYear) => set({ selectedYear }),
+  selectedSort: "",
+  setSelectedSort: (selectedSort) => set({ selectedSort }),
 }));

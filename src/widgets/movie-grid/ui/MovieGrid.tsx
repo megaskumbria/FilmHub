@@ -5,18 +5,14 @@ import { MediaCard } from "@/widgets";
 import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
 import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
 import { Skeleton } from "@/shared/ui";
-import { mapCategoryToTmdb } from "@/shared/lib";
 
 export const MovieGrid = () => {
   const { category, searchQuery } = useMediaCatalog();
   const { layout } = useMovieCardLayout();
 
-  const { type, withGenres } = mapCategoryToTmdb(category);
-
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
-    type,
-    withGenres,
     searchQuery,
+    category,
   );
 
   const ref = useIntersectionObserver(

@@ -3,17 +3,20 @@
 import { Popover, PopoverContent, PopoverTrigger, Button } from "@/shared/ui";
 import { Filter, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { GenreSelect } from "./GenreSelect";
-import { YearSelect } from "./YearSelect";
-import { SortSelect } from "./SortSelect";
+import { GenreSelect, YearSelect, SortSelect } from "@/features";
+import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
 
 export const FilterPopover = () => {
-  const [selectedGenre, setSelectedGenre] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedSort, setSelectedSort] = useState("");
+  const {
+    selectedGenre,
+    selectedYear,
+    selectedSort,
+    setSelectedGenre,
+    setSelectedYear,
+    setSelectedSort,
+  } = useMediaCatalog();
 
-  const hasActiveFilters = selectedGenre || selectedYear || selectedSort;
+  const hasActiveFilters = selectedGenre;
 
   const handleReset = () => {
     setSelectedGenre("");
@@ -65,9 +68,9 @@ export const FilterPopover = () => {
           </header>
 
           <div className="p-4 space-y-4">
-            <GenreSelect value={selectedGenre} onValueChange={setSelectedGenre} />
-            <YearSelect value={selectedYear} onValueChange={setSelectedYear} />
-            <SortSelect value={selectedSort} onValueChange={setSelectedSort} />
+            <GenreSelect />
+            <YearSelect />
+            <SortSelect />
           </div>
 
           <AnimatePresence>
