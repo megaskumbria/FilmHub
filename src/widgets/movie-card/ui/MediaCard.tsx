@@ -8,10 +8,10 @@ import { Plus } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
 import { useRef, useState } from "react";
 import { BlockPlacement } from "../model/cardBlocksMap";
-import type { BlockOptions, Layout } from "@/shared/model/stores/movie-card-layout";
+import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 import { AddFlagPopover } from "@/widgets";
-import { IMedia } from "@/shared/model/stores/movie-catalog";
+import { IMedia } from "@/shared/stores/movie-catalog";
 
 export type PopoverMode = "add-flag" | "add-collection";
 

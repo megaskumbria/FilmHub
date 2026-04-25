@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/ui";
-import { MediaCategory, useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { MediaCategory, useMediaCatalog } from "@/shared/stores/movie-catalog";
 
 const tabs = [
   { label: "All", value: "all" },

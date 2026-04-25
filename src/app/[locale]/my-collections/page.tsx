@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MediaCard, CollectionsToolbar, UserCollections, ProfileHeader } from "@/widgets";
 import { mockMovies } from "@/shared/model/movies";
-import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 
 export default function AuthorDashboardPage() {
   const [activeFolder, setActiveFolder] = useState(0);

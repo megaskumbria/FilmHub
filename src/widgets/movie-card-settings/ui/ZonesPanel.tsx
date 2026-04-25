@@ -16,7 +16,7 @@ import {
 } from "@/shared/ui";
 import { ZONES } from "../model/zones";
 import { ZoneKey } from "../lib/types";
-import { useMovieCardLayout, defaultLayout } from "@/shared/model/stores/movie-card-layout";
+import { useMovieCardLayout, defaultLayout } from "@/shared/stores/movie-card-layout";
 import { MOVIE_CARD_LAYOUT_KEY } from "@/shared/storages/storage-keys";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 import { HelpCircle, RotateCcw } from "lucide-react";

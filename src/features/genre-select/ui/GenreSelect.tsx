@@ -12,11 +12,11 @@ import {
 import { Film } from "lucide-react";
 import { motion } from "framer-motion";
 import { useGenres } from "@/shared/hooks";
-import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const GenreSelect = () => {
   const { data: dataGenres = [], isLoading } = useGenres();
-  const { selectedGenre, setSelectedGenre } = useMediaCatalog();
+  const { selectedGenre, setSelectedGenre } = useFilterMedia();
 
   return (
     <motion.div

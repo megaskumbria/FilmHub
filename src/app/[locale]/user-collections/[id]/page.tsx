@@ -4,7 +4,7 @@ import { mockMovies } from "@/shared/model/movies";
 import { CollectionsToolbar, MediaCard, ProfileHeader } from "@/widgets";
 import { UserCollections } from "@/widgets/user-collections";
 import { useState } from "react";
-import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 
 export default function UserCollectionPage() {
   const [activeFolder, setActiveFolder] = useState(0);

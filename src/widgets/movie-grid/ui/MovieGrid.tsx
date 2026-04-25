@@ -1,8 +1,8 @@
 "use client";
 
-import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { MediaCard } from "@/widgets";
-import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { useMediaCatalog } from "@/shared/stores/movie-catalog";
 import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
 import { Skeleton } from "@/shared/ui";
 

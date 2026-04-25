@@ -16,7 +16,7 @@ import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MediaCard } from "@/widgets/movie-card";
-import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 
 export const SearchMovieDrawer = () => {
   const [open, setOpen] = useState(false);

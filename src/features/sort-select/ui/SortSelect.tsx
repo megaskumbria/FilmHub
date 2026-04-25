@@ -4,10 +4,10 @@ import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } 
 import { ArrowUpDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { DATA_SORT_OPTIONS } from "../model/dataSortOptions";
-import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const SortSelect = () => {
-  const { selectedSort, setSelectedSort } = useMediaCatalog();
+  const { selectedSort, setSelectedSort } = useFilterMedia();
 
   return (
     <motion.div

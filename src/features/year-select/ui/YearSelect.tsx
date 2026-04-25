@@ -4,10 +4,10 @@ import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } 
 import { Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { DATA_YEARS } from "../model/dataYears";
-import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const YearSelect = () => {
-  const { selectedYear, setSelectedYear } = useMediaCatalog();
+  const { selectedYear, setSelectedYear } = useFilterMedia();
 
   return (
     <motion.div

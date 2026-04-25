@@ -1,6 +1,6 @@
 import { DragOverlay, MovieCardPlaceholder } from "@/widgets/movie-card-settings";
 import { MediaCard } from "@/widgets/movie-card";
-import { BlockOptions, useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { BlockOptions, useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { mockMovies } from "@/shared/model/movies";
 import { useWindowFileDrag } from "@/shared/hooks";
 import { RefObject, ChangeEvent, DragEvent } from "react";

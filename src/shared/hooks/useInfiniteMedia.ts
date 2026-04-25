@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { IMediaData, MediaCategory } from "../model/stores/movie-catalog";
+import { IMediaData, MediaCategory } from "../stores/movie-catalog";
 import { API_URL } from "../constants/constants";
 
 export const useInfiniteMedia = (searchQuery: string, category: MediaCategory) => {

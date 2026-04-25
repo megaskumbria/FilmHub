@@ -1,7 +1,7 @@
 "use client";
 
 import { Rating, FlagGroup, Title, Genres, Description } from "@/widgets/movie-card";
-import { IMedia } from "@/shared/model/stores/movie-catalog";
+import { IMedia } from "@/shared/stores/movie-catalog";
 
 export type BlockPlacement = "poster" | "hover" | "body";
 

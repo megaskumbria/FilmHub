@@ -4,17 +4,17 @@ import { Popover, PopoverContent, PopoverTrigger, Button } from "@/shared/ui";
 import { Filter, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GenreSelect, YearSelect, SortSelect } from "@/features";
-import { useMediaCatalog } from "@/shared/model/stores/movie-catalog";
+import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const FilterPopover = () => {
   const {
     selectedGenre,
-    selectedYear,
-    selectedSort,
     setSelectedGenre,
+    selectedYear,
     setSelectedYear,
+    selectedSort,
     setSelectedSort,
-  } = useMediaCatalog();
+  } = useFilterMedia();
 
   const hasActiveFilters = selectedGenre;
 

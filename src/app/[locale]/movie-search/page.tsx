@@ -1,7 +1,7 @@
 import { MovieCatalogToolbar, MovieGrid } from "@/widgets";
 import axios from "axios";
 import { API_URL } from "@/shared/constants/constants";
-import { IMediaData } from "@/shared/model/stores/movie-catalog";
+import { IMediaData } from "@/shared/stores/movie-catalog";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 export default async function MovieSearchPage() {

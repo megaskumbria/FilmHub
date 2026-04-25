@@ -5,7 +5,7 @@ import { useImageUpload } from "@/shared/hooks";
 import { Button, DotGrid } from "@/shared/ui";
 import { SettingsModal } from "@/widgets";
 import { Settings } from "lucide-react";
-import { useMovieCardLayout } from "@/shared/model/stores/movie-card-layout";
+import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 
 export const PosterUploadSection = () => {
   const { preview, fileInputRef, handleFileInputChange, handleDrop, handleReset } =
