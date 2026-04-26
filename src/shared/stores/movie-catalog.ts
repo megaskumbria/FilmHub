@@ -42,7 +42,7 @@ interface MediaCatalogStore {
 }
 
 export const useMediaCatalog = create<MediaCatalogStore>((set) => ({
-  category: "movie",
+  category: "all",
   setCategory: (category) => set({ category }),
   searchQuery: "",
   setSearchQuery: (searchQuery) => set({ searchQuery }),

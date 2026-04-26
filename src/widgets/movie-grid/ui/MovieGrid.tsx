@@ -9,13 +9,15 @@ import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const MovieGrid = () => {
   const { category, searchQuery } = useMediaCatalog();
-  const { selectedGenre } = useFilterMedia();
+  const { selectedGenre, selectedSort, selectedYear } = useFilterMedia();
   const { layout } = useMovieCardLayout();
 
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
     searchQuery,
     category,
     selectedGenre.id,
+    selectedSort,
+    selectedYear,
   );
 
   const ref = useIntersectionObserver(
