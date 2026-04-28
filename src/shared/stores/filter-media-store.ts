@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { IGenre } from "@/shared/hooks/useGenres";
+import { ICountry } from "../hooks/useCountries";
 
 export type FilterSortType = "rating" | "newest" | "oldest" | "az" | "za" | "";
 export type FilterYearType =
@@ -13,17 +14,28 @@ export type FilterYearType =
 interface FilterMediaStore {
   selectedGenre: IGenre;
   setSelectedGenre: ({ id, name }: IGenre) => void;
+
   selectedYear: FilterYearType;
   setSelectedYear: (year: FilterYearType) => void;
+
   selectedSort: FilterSortType;
   setSelectedSort: (sort: FilterSortType) => void;
+
+  selectedCountry: ICountry;
+  setSelectedCountry: ({ iso_3166_1, english_name, native_name }: ICountry) => void;
 }
 
 export const useFilterMedia = create<FilterMediaStore>((set) => ({
   selectedGenre: { id: "", name: "" },
   setSelectedGenre: ({ id, name }: IGenre) => set({ selectedGenre: { id, name } }),
+
   selectedYear: "",
   setSelectedYear: (selectedYear) => set({ selectedYear }),
+
   selectedSort: "",
   setSelectedSort: (selectedSort) => set({ selectedSort }),
+
+  selectedCountry: { iso_3166_1: "", english_name: "", native_name: "" },
+  setSelectedCountry: ({ iso_3166_1, english_name, native_name }: ICountry) =>
+    set({ selectedCountry: { iso_3166_1, english_name, native_name } }),
 }));

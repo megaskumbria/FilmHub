@@ -3,7 +3,7 @@
 import { Popover, PopoverContent, PopoverTrigger, Button } from "@/shared/ui";
 import { Filter, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { GenreSelect, YearSelect, SortSelect } from "@/features";
+import { GenreSelect, YearSelect, SortSelect, CountrySelect } from "@/features";
 import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const FilterPopover = () => {
@@ -14,14 +14,18 @@ export const FilterPopover = () => {
     setSelectedYear,
     selectedSort,
     setSelectedSort,
+    selectedCountry,
+    setSelectedCountry,
   } = useFilterMedia();
 
-  const hasActiveFilters = selectedGenre.id || selectedYear || selectedSort;
+  const hasActiveFilters =
+    selectedGenre.id || selectedYear || selectedSort || selectedCountry.iso_3166_1;
 
   const handleReset = () => {
     setSelectedGenre({ id: "", name: "" });
     setSelectedYear("");
     setSelectedSort("");
+    setSelectedCountry({ iso_3166_1: "", english_name: "", native_name: "" });
   };
 
   return (
@@ -41,7 +45,14 @@ export const FilterPopover = () => {
                 className="absolute -top-1 -right-1 size-5 rounded-full bg-accent border-2 border-background flex items-center justify-center"
               >
                 <span className="text-[10px] font-bold text-white">
-                  {[selectedGenre.id, selectedYear, selectedSort].filter(Boolean).length}
+                  {
+                    [
+                      selectedGenre.id,
+                      selectedYear,
+                      selectedSort,
+                      selectedCountry.iso_3166_1,
+                    ].filter(Boolean).length
+                  }
                 </span>
               </motion.div>
             )}
@@ -71,6 +82,7 @@ export const FilterPopover = () => {
             <GenreSelect />
             <YearSelect />
             <SortSelect />
+            <CountrySelect />
           </div>
 
           <AnimatePresence>

@@ -10,13 +10,24 @@ export const useInfiniteMedia = (
   selectedGenre: string,
   selectedSort: FilterSortType,
   selectedYear: FilterYearType,
+  selectedCountry: string,
 ) => {
   return useInfiniteQuery({
-    queryKey: ["media", category, searchQuery, selectedGenre, selectedSort, selectedYear],
+    queryKey: [
+      "media",
+      category,
+      searchQuery,
+      selectedGenre,
+      selectedSort,
+      selectedYear,
+      selectedCountry,
+    ],
 
-    queryFn: async ({ pageParam = 1 }) => {
+    queryFn: async ({ pageParam = 1, signal }) => {
       const { data } = await axios.get<IMediaData>(
-        `${API_URL}/movies?type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}`,
+        `${API_URL}/movies?type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}&country=${selectedCountry}`,
+        // { signal: AbortSignal.timeout(10000) }, // if request takes more than 10 seconds, it will be cancelled
+        { signal }, // cancel request if called new one
       );
       return data;
     },

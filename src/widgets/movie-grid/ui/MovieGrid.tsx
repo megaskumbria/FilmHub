@@ -9,7 +9,7 @@ import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const MovieGrid = () => {
   const { category, searchQuery } = useMediaCatalog();
-  const { selectedGenre, selectedSort, selectedYear } = useFilterMedia();
+  const { selectedGenre, selectedSort, selectedYear, selectedCountry } = useFilterMedia();
   const { layout } = useMovieCardLayout();
 
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
@@ -18,13 +18,14 @@ export const MovieGrid = () => {
     selectedGenre.id,
     selectedSort,
     selectedYear,
+    selectedCountry.iso_3166_1,
   );
 
   const ref = useIntersectionObserver(
     () => {
       if (hasNextPage && !isFetchingNextPage) void fetchNextPage();
     },
-    { rootMargin: "200px" },
+    { rootMargin: "500px" },
   );
 
   const allMediaRaw = data?.pages.flatMap((page) => page.media) ?? [];
