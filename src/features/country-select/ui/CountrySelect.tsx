@@ -6,19 +6,25 @@ import {
   Combobox,
   ComboboxContent,
   ComboboxInput,
-  ComboboxValue,
   ComboboxList,
   ComboboxItem,
   useComboboxAnchor,
+  ComboboxEmpty,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
 } from "@/shared/ui";
 import { motion } from "framer-motion";
-import { Flag } from "lucide-react";
 import { useFilterMedia } from "@/shared/stores/filter-media-store";
 import { useCountries } from "@/shared/hooks";
+import type { ICountry } from "@/shared/hooks/useCountries";
+import { EarthIcon } from "@/shared/icons";
+import { LockKeyholeIcon } from "lucide-react";
 
 export const CountrySelect = () => {
   const countryAnchorRef = useComboboxAnchor();
-  const { selectedCountry, setSelectedCountry } = useFilterMedia();
+  const { selectedCountry, setSelectedCountry, isFrozenFilterCountry } = useFilterMedia();
   const { data: dataCountries = [], isLoading } = useCountries();
 
   return (
@@ -29,29 +35,59 @@ export const CountrySelect = () => {
       className="space-y-2"
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
-        <Flag className="size-3.5" />
+        <EarthIcon className="size-3.5" />
         Country
       </Label>
 
-      <div ref={countryAnchorRef} className="w-full">
+      <div ref={countryAnchorRef} className="relative w-full">
+        {isFrozenFilterCountry && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute inset-0 z-10 rounded-lg select-none"
+            style={{
+              background:
+                "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--destructive) 8%, transparent) 40%, color-mix(in srgb, var(--destructive) 14%, transparent) 100%)",
+              boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--destructive) 30%, transparent)",
+            }}
+          >
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="absolute right-0 inset-y-0 flex items-center pr-3 cursor-default">
+                    <LockKeyholeIcon className="size-3.5 text-destructive/60" />
+                  </div>
+                </TooltipTrigger>
+
+                <TooltipContent side="top" className="text-sm">
+                  <span>Country filter is unavailable while searching</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </motion.div>
+        )}
         <Combobox
-          value={selectedCountry.iso_3166_1}
-          onValueChange={(value) =>
-            setSelectedCountry({
-              iso_3166_1: value ?? "",
-              english_name: "",
-              native_name: "",
-            })
-          }
+          value={selectedCountry.iso_3166_1 ? selectedCountry : null}
+          onValueChange={(country) => country && setSelectedCountry(country)}
+          items={dataCountries}
+          itemToStringLabel={(country) => country.english_name}
+          itemToStringValue={(country) => country.iso_3166_1}
+          isItemEqualToValue={(a, b) => a.iso_3166_1 === b.iso_3166_1}
         >
-          <ComboboxInput className="cursor-pointer w-full h-9 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-            <ComboboxValue placeholder="Choose country" />
-          </ComboboxInput>
+          <ComboboxInput
+            placeholder="Select country"
+            className="py-2 w-full rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors"
+            disabled={isFrozenFilterCountry}
+          />
 
           <ComboboxContent
             anchor={countryAnchorRef}
             className="bg-graphite border-border/40 shadow-xl"
           >
+            <ComboboxEmpty>
+              <div className="p-4 text-sm text-muted">No countries found</div>
+            </ComboboxEmpty>
+
             <ComboboxList>
               {isLoading ?
                 <div className="space-y-1">
@@ -59,11 +95,11 @@ export const CountrySelect = () => {
                     <Skeleton key={i} className="h-8 w-full rounded-sm" />
                   ))}
                 </div>
-              : dataCountries.map((country) => (
-                  <ComboboxItem key={country.iso_3166_1} value={country.iso_3166_1}>
+              : (country: ICountry) => (
+                  <ComboboxItem key={country.iso_3166_1} value={country}>
                     {country.english_name}
                   </ComboboxItem>
-                ))
+                )
               }
             </ComboboxList>
           </ComboboxContent>

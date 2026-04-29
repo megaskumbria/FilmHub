@@ -42,8 +42,13 @@ export const MediaCard = ({
 
   const rating_imdb = media.rating_imdb;
   const vote_average = media.vote_average;
+
+  // console.log("original_name", original_name);
+  // console.log("original_title", original_title);
   const titleToDisplay = original_name || original_title;
   const yearOfRelease = new Date(release_date || first_air_date).getFullYear();
+
+  // console.log("titleToDisplay", titleToDisplay);
 
   const mediaForBlocks = {
     ...media,

@@ -23,6 +23,12 @@ interface FilterMediaStore {
 
   selectedCountry: ICountry;
   setSelectedCountry: ({ iso_3166_1, english_name, native_name }: ICountry) => void;
+
+  searchQuery: string;
+  setSearchQuery: (searchQuery: string) => void;
+
+  isFrozenFilterCountry: boolean;
+  setFrozenFilterCountry: (isFrozenFilterCountry: boolean) => void;
 }
 
 export const useFilterMedia = create<FilterMediaStore>((set) => ({
@@ -38,4 +44,10 @@ export const useFilterMedia = create<FilterMediaStore>((set) => ({
   selectedCountry: { iso_3166_1: "", english_name: "", native_name: "" },
   setSelectedCountry: ({ iso_3166_1, english_name, native_name }: ICountry) =>
     set({ selectedCountry: { iso_3166_1, english_name, native_name } }),
+
+  searchQuery: "",
+  setSearchQuery: (searchQuery) => set({ searchQuery }),
+
+  isFrozenFilterCountry: false,
+  setFrozenFilterCountry: (isFrozenFilterCountry) => set({ isFrozenFilterCountry }),
 }));

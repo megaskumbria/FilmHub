@@ -8,9 +8,26 @@ import { Skeleton } from "@/shared/ui";
 import { useFilterMedia } from "@/shared/stores/filter-media-store";
 
 export const MovieGrid = () => {
-  const { category, searchQuery } = useMediaCatalog();
-  const { selectedGenre, selectedSort, selectedYear, selectedCountry } = useFilterMedia();
+  const {
+    selectedGenre,
+    selectedSort,
+    selectedYear,
+    selectedCountry,
+    searchQuery,
+    setFrozenFilterCountry,
+  } = useFilterMedia();
+  const { category } = useMediaCatalog();
   const { layout } = useMovieCardLayout();
+
+  const checkHasCountryFilter = (country: string): string => {
+    if (searchQuery.length > 0) {
+      setFrozenFilterCountry(true);
+      return "";
+    } else {
+      setFrozenFilterCountry(false);
+      return country;
+    }
+  };
 
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
     searchQuery,
@@ -18,7 +35,7 @@ export const MovieGrid = () => {
     selectedGenre.id,
     selectedSort,
     selectedYear,
-    selectedCountry.iso_3166_1,
+    checkHasCountryFilter(selectedCountry.iso_3166_1),
   );
 
   const ref = useIntersectionObserver(
@@ -32,7 +49,7 @@ export const MovieGrid = () => {
   const allMedia = Array.from(new Map(allMediaRaw.map((m) => [m.id, m])).values());
 
   // console.log("allMediaRaw", allMediaRaw);
-  // console.log("allMedia", allMedia);
+  console.log("allMedia", allMedia);
 
   if (isLoading) {
     return (

@@ -34,7 +34,7 @@ export const cardBlocksMap = {
 
   title: ({ media, hoverHeight, hasHover, placement }: CardBlocksMapProps) => (
     <Title
-      titleToDisplay={media.title}
+      titleToDisplay={media.titleToDisplay}
       yearOfRelease={media.yearOfRelease}
       hoverHeight={hoverHeight}
       hasHover={hasHover}

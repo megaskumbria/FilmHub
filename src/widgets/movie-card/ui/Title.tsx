@@ -19,6 +19,7 @@ export const Title = ({
 }: TitleProps) => {
   const shouldLift = placement === "poster" && hasHover;
 
+  // console.log("titleToDisplay", titleToDisplay); // undefined
   return (
     <div
       className="flex justify-between items-center mb-2 translate-y-0 transition-transform duration-300 ease-out"

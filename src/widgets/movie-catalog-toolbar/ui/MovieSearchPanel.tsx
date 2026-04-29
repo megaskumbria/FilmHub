@@ -4,14 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/shared/ui";
-import { useMediaCatalog } from "@/shared/stores/movie-catalog";
+import { useFilterMedia } from "@/shared/stores/filter-media-store";
 import { useDebounce } from "@/shared/hooks";
 
 export const MovieSearchPanel = () => {
   const [input, setInput] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  const { setSearchQuery } = useMediaCatalog();
+  const { setSearchQuery } = useFilterMedia();
 
   const debouncedSearch = useDebounce(input, 500);
 
