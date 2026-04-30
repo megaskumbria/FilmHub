@@ -1,6 +1,7 @@
 "use client";
 
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
+import { useEffect } from "react";
 import { MediaCard } from "@/widgets";
 import { useMediaCatalog } from "@/shared/stores/movie-catalog";
 import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
@@ -19,15 +20,9 @@ export const MovieGrid = () => {
   const { category } = useMediaCatalog();
   const { layout } = useMovieCardLayout();
 
-  const checkHasCountryFilter = (country: string): string => {
-    if (searchQuery.length > 0) {
-      setFrozenFilterCountry(true);
-      return "";
-    } else {
-      setFrozenFilterCountry(false);
-      return country;
-    }
-  };
+  useEffect(() => {
+    setFrozenFilterCountry(searchQuery.length > 0);
+  }, [searchQuery]);
 
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
     searchQuery,
@@ -35,7 +30,7 @@ export const MovieGrid = () => {
     selectedGenre.id,
     selectedSort,
     selectedYear,
-    checkHasCountryFilter(selectedCountry.iso_3166_1),
+    searchQuery.length > 0 ? "" : selectedCountry.iso_3166_1,
   );
 
   const ref = useIntersectionObserver(
@@ -49,7 +44,7 @@ export const MovieGrid = () => {
   const allMedia = Array.from(new Map(allMediaRaw.map((m) => [m.id, m])).values());
 
   // console.log("allMediaRaw", allMediaRaw);
-  console.log("allMedia", allMedia);
+  // console.log("allMedia", allMedia);
 
   if (isLoading) {
     return (
