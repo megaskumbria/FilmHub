@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
 import { Button } from "@/shared/ui/button";
-import { ICastMember } from "@/shared/hooks/useMovie";
+import { ICastMember } from "@/shared/hooks/useMedia";
 
 interface Props {
   actors: ICastMember[];

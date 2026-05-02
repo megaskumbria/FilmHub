@@ -7,14 +7,14 @@ import type { Swiper as SwiperType } from "swiper";
 import { useIdle } from "react-use";
 import Image from "next/image";
 import "swiper/css";
-import { IBackdrop } from "@/shared/hooks/useMovie";
+import { IBackdrop } from "@/shared/hooks/useMedia";
 
 interface PosterCarouselProps {
   backdrops: IBackdrop[];
   backdrop_url: string;
   selectedPoster: IBackdrop | null;
   setSelectedPoster: (poster: IBackdrop | null) => void;
-  title: string;
+  titleToDisplay: string;
 }
 
 const IDLE_TIMEOUT = 5000;
@@ -24,7 +24,7 @@ export const PosterCarousel = ({
   backdrop_url,
   selectedPoster,
   setSelectedPoster,
-  title,
+  titleToDisplay,
 }: PosterCarouselProps) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const userClickedRef = useRef(false);
@@ -112,7 +112,7 @@ export const PosterCarousel = ({
             <Image
               src={backdrop.url ?? ""}
               fill
-              alt={title}
+              alt={titleToDisplay}
               sizes="(max-width: 768px) 50vw, 145px"
               className="object-cover"
             />

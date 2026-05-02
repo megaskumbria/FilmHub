@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export type MediaCategory = "all" | "movie" | "tv";
+export type MediaType = "movie" | "tv";
 
 export interface IMedia {
   yearOfRelease: number;
@@ -25,7 +26,7 @@ export interface IMedia {
 
   rating_imdb: string | null;
 
-  media_type: "movie" | "tv";
+  media_type: MediaType;
 }
 
 export interface IMediaData {

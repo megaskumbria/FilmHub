@@ -6,25 +6,32 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MovieInfoPanel, PosterCarousel } from "@/widgets";
 import { useMovie } from "@/shared/hooks";
-import { IBackdrop } from "@/shared/hooks/useMovie";
+import { IBackdrop } from "@/shared/hooks/useMedia";
 import { Button } from "@/shared/ui";
 import { Eye, EyeOff } from "lucide-react";
+import { MediaType } from "@/shared/stores/movie-catalog";
+import { useSearchParams } from "next/navigation";
 
 export default function MoviePage() {
   const [selectedPoster, setSelectedPoster] = useState<IBackdrop | null>(null);
   const [isUiHidden, setIsUiHidden] = useState(false);
+  const searchParams = useSearchParams();
 
   const params = useParams();
   const id = params?.id != null ? Number(params.id) : NaN;
-  const { data: movie } = useMovie(id);
+  const type = searchParams.get("type") as MediaType;
+
+  const { data: movie } = useMovie(id, type);
 
   if (!movie) return null;
 
-  const { title, backdrop_url, images, credits } = movie;
+  const { title, backdrop_url, images, credits, original_name } = movie;
   const { backdrops } = images;
   const { cast } = credits;
 
-  console.log("movie", movie);
+  const titleToDisplay = original_name || title;
+
+  // console.log("movie", movie);
 
   return (
     <div className="relative w-full overflow-hidden h-screen">
@@ -40,7 +47,7 @@ export default function MoviePage() {
           >
             <Image
               src={selectedPoster?.url ?? backdrop_url ?? ""}
-              alt={title}
+              alt={titleToDisplay}
               fill
               sizes="100vw"
               className="object-cover"
@@ -83,7 +90,7 @@ export default function MoviePage() {
                 backdrop_url={backdrop_url}
                 selectedPoster={selectedPoster}
                 setSelectedPoster={setSelectedPoster}
-                title={title}
+                titleToDisplay={titleToDisplay}
               />
             </div>
           )}

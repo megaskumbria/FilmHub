@@ -7,4 +7,4 @@ export { useInfiniteMedia } from "./useInfiniteMedia";
 export { useDebounce } from "./useDebounce";
 export { useGenres } from "./useGenres";
 export { useCountries } from "./useCountries";
-export { useMovie } from "./useMovie";
+export { useMovie } from "./useMedia";

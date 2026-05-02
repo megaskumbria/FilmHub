@@ -3,8 +3,8 @@
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 import { ActorsCarousel } from "@/widgets";
 import { motion } from "framer-motion";
-import { CalendarDays, Clock, Info, Link2, Plus } from "lucide-react";
-import { ICastMember, ITmdbMovie } from "@/shared/hooks/useMovie";
+import { CalendarDays, Clock, Info, Link2, Plus, Tv } from "lucide-react";
+import { ICastMember, ITmdbMovie } from "@/shared/hooks/useMedia";
 
 const formatDuration = (min: number) => {
   const h = Math.floor(min / 60);
@@ -19,7 +19,19 @@ interface MovieInfoPanelProps {
 }
 
 export const MovieInfoPanel = ({ movie, isUiHidden, actors }: MovieInfoPanelProps) => {
-  const { genres, overview, release_date, runtime, title } = movie;
+  const {
+    genres,
+    overview,
+    release_date,
+    runtime,
+    title,
+    original_name,
+    last_air_date,
+    number_of_seasons,
+  } = movie;
+
+  const titleToDisplay = original_name || title;
+  const yearOfRelease = new Date(release_date || last_air_date).getFullYear();
 
   return (
     <motion.div
@@ -31,15 +43,21 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: MovieInfoPanelProp
       <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-base font-medium">
         <span className="flex items-center gap-1.5 text-white/70">
           <CalendarDays className="size-3.5" />
-          {new Date(release_date).getFullYear()}
+          {yearOfRelease}
         </span>
 
         <span className="text-white/25">•</span>
 
-        <span className="flex items-center gap-1.5 text-white/70">
-          <Clock className="size-3.5" />
-          {formatDuration(runtime)}
-        </span>
+        {number_of_seasons ?
+          <span className="flex items-center gap-1.5 text-white/70">
+            <Tv className="size-3.5" />
+            {number_of_seasons} {number_of_seasons === 1 ? "Season" : "Seasons"}
+          </span>
+        : <span className="flex items-center gap-1.5 text-white/70">
+            <Clock className="size-3.5" />
+            {formatDuration(runtime)}
+          </span>
+        }
 
         <span className="text-white/25">•</span>
 
@@ -51,7 +69,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: MovieInfoPanelProp
         ))}
       </div>
 
-      <h1 className="text-6xl font-black text-white leading-none">{title}</h1>
+      <h1 className="text-6xl font-black text-white leading-none">{titleToDisplay}</h1>
 
       <p className="text-white/70 font-medium text-base leading-relaxed line-clamp-6">{overview}</p>
 

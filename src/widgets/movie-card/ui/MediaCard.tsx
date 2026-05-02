@@ -40,7 +40,15 @@ export const MediaCard = ({
 
   const locale = useLocale();
 
-  const { poster_url, original_name, original_title, release_date, first_air_date, id } = media;
+  const {
+    poster_url,
+    original_name,
+    original_title,
+    release_date,
+    first_air_date,
+    id,
+    media_type,
+  } = media;
   const { poster, body, hover } = layout;
 
   const rating_imdb = media.rating_imdb;
@@ -65,7 +73,7 @@ export const MediaCard = ({
 
   return (
     <article className="w-full border border-border rounded-xl relative">
-      <Link href={disableNavigation ? "" : `/${locale}/movies/${id}`}>
+      <Link href={disableNavigation ? "" : `/${locale}/movies/${id}?type=${media_type}`}>
         <div
           className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl"
           onMouseEnter={() => {
