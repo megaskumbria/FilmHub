@@ -31,6 +31,8 @@ export const PosterCarousel = ({
 
   const isIdle = useIdle(IDLE_TIMEOUT);
 
+  // console.log(selectedPoster);
+
   useEffect(() => {
     if (!swiperRef.current) return;
 
@@ -48,6 +50,7 @@ export const PosterCarousel = ({
   }, [isIdle]);
 
   const handlePosterSelect = (poster: IBackdrop) => {
+    // console.log("handlePosterSelect", poster);
     setSelectedPoster(poster);
     swiperRef.current?.autoplay.stop();
     userClickedRef.current = true;
@@ -77,7 +80,7 @@ export const PosterCarousel = ({
     <div className="w-[580px]">
       <Swiper
         className="h-[140px]"
-        slideToClickedSlide={true}
+        // slideToClickedSlide={true}
         loop={true}
         spaceBetween={10}
         slidesPerView={4}
@@ -94,7 +97,7 @@ export const PosterCarousel = ({
         onSlideChange={(swiper) => {
           if (!isIdle) return;
           if (userClickedRef.current) return;
-          setSelectedPoster(backdrops[swiper.realIndex]);
+          setSelectedPoster(updatePosters[swiper.realIndex]);
         }}
       >
         {updatePosters.map((backdrop, i) => (
@@ -106,7 +109,13 @@ export const PosterCarousel = ({
             }}
             className="relative rounded-xl overflow-hidden border border-white/30 cursor-pointer transition-all duration-200"
           >
-            <Image src={backdrop.url ?? ""} fill alt={title} className="object-cover" />
+            <Image
+              src={backdrop.url ?? ""}
+              fill
+              alt={title}
+              sizes="(max-width: 768px) 50vw, 145px"
+              className="object-cover"
+            />
           </SwiperSlide>
         ))}
       </Swiper>

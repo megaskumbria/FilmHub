@@ -7,21 +7,13 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
 import { Button } from "@/shared/ui/button";
+import { ICastMember } from "@/shared/hooks/useMovie";
 
-const MOCK_ACTORS = [
-  { id: 1, name: "Leonardo DiCaprio", role: "Dom Cobb" },
-  { id: 2, name: "Joseph Gordon-Levitt", role: "Arthur" },
-  { id: 3, name: "Elliot Page", role: "Ariadne" },
-  { id: 4, name: "Tom Hardy", role: "Eames" },
-  { id: 5, name: "Ken Watanabe", role: "Saito" },
-  { id: 6, name: "Dileep Rao", role: "Yusuf" },
-  { id: 7, name: "Cillian Murphy", role: "Robert Fischer" },
-  { id: 8, name: "Marion Cotillard", role: "Mal" },
-  { id: 9, name: "Michael Caine", role: "Miles" },
-  { id: 10, name: "Pete Postlethwaite", role: "Maurice Fischer" },
-];
+interface Props {
+  actors: ICastMember[];
+}
 
-export const ActorsCarousel = () => {
+export const ActorsCarousel = ({ actors }: Props) => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   const handleNext = () => {
@@ -34,10 +26,11 @@ export const ActorsCarousel = () => {
       swiper.slideNext();
     }
   };
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-3">
-        <p className="text-sm font-semibold text-white/50 uppercase tracking-widest">Cast</p>
+        <p className="text-sm font-semibold text-white/50 uppercase tracking-widest">Actors</p>
 
         <div className="flex items-center gap-1 pr-4">
           <Button
@@ -59,16 +52,18 @@ export const ActorsCarousel = () => {
       <Swiper
         spaceBetween={10}
         slidesPerView="auto"
+        // slidesPerGroup={4}
+        slidesPerGroupAuto={true}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
         }}
       >
-        {MOCK_ACTORS.map((actor) => (
+        {actors.map((actor) => (
           <SwiperSlide key={actor.id} className="w-auto!">
             <div className="flex flex-col items-center gap-2 w-[72px]">
               <div className="relative size-[60px] rounded-full overflow-hidden border border-white/60 shrink-0">
                 <Image
-                  src="/images/mock-avatar-actor.webp"
+                  src={actor.profile_url ?? ""}
                   alt={actor.name}
                   fill
                   className="object-cover"
@@ -80,7 +75,7 @@ export const ActorsCarousel = () => {
                   {actor.name}
                 </p>
 
-                <p className="text-zinc-muted text-[11px] mt-0.5">{actor.role}</p>
+                <p className="text-zinc-muted text-[11px] mt-0.5">{actor.character}</p>
               </div>
             </div>
           </SwiperSlide>

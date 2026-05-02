@@ -4,7 +4,7 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 import { ActorsCarousel } from "@/widgets";
 import { motion } from "framer-motion";
 import { CalendarDays, Clock, Info, Link2, Plus } from "lucide-react";
-import { ITmdbMovie } from "@/shared/hooks/useMovie";
+import { ICastMember, ITmdbMovie } from "@/shared/hooks/useMovie";
 
 const formatDuration = (min: number) => {
   const h = Math.floor(min / 60);
@@ -15,9 +15,10 @@ const formatDuration = (min: number) => {
 interface MovieInfoPanelProps {
   movie: ITmdbMovie;
   isUiHidden: boolean;
+  actors: ICastMember[];
 }
 
-export const MovieInfoPanel = ({ movie, isUiHidden }: MovieInfoPanelProps) => {
+export const MovieInfoPanel = ({ movie, isUiHidden, actors }: MovieInfoPanelProps) => {
   const { genres, overview, release_date, runtime, title } = movie;
 
   return (
@@ -86,7 +87,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden }: MovieInfoPanelProps) => {
         </div>
       </div>
 
-      <ActorsCarousel />
+      <ActorsCarousel actors={actors} />
     </motion.div>
   );
 };

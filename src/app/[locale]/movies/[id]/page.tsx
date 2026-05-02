@@ -2,13 +2,13 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
-import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MovieInfoPanel, PosterCarousel } from "@/widgets";
 import { useMovie } from "@/shared/hooks";
 import { IBackdrop } from "@/shared/hooks/useMovie";
+import { Button } from "@/shared/ui";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function MoviePage() {
   const [selectedPoster, setSelectedPoster] = useState<IBackdrop | null>(null);
@@ -20,17 +20,18 @@ export default function MoviePage() {
 
   if (!movie) return null;
 
-  const { poster_url, title, backdrop_url, images } = movie;
+  const { title, backdrop_url, images, credits } = movie;
   const { backdrops } = images;
+  const { cast } = credits;
 
-  // console.log("movie", movie);
+  console.log("movie", movie);
 
   return (
     <div className="relative w-full overflow-hidden h-screen">
       <div className="absolute inset-0 w-full">
         <AnimatePresence mode="sync">
           <motion.div
-            key={selectedPoster?.url ?? poster_url}
+            key={selectedPoster?.url ?? backdrop_url}
             className="absolute inset-0"
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -38,9 +39,10 @@ export default function MoviePage() {
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <Image
-              src={selectedPoster?.url ?? poster_url ?? ""}
+              src={selectedPoster?.url ?? backdrop_url ?? ""}
               alt={title}
               fill
+              sizes="100vw"
               className="object-cover"
               priority
             />
@@ -62,31 +64,19 @@ export default function MoviePage() {
 
       <div className="relative h-full flex flex-col justify-end">
         <div className="flex items-end justify-between gap-10 px-14 mb-10">
-          <MovieInfoPanel movie={movie} isUiHidden={isUiHidden} />
+          <MovieInfoPanel movie={movie} isUiHidden={isUiHidden} actors={cast} />
 
           {backdrop_url && (
             <div className="shrink-0 flex flex-col gap-3">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    onClick={() => setIsUiHidden((v) => !v)}
-                    className="self-end flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/60 hover:bg-white/18 hover:text-white transition-all duration-200 text-xs font-medium"
-                  >
-                    {isUiHidden ?
-                      <Eye className="size-3.5" />
-                    : <EyeOff className="size-3.5" />}
-                    <span>{isUiHidden ? "Show UI" : "Poster only"}</span>
-                  </Button>
-                </TooltipTrigger>
-
-                <TooltipContent side="left">
-                  <p className="text-sm">
-                    {isUiHidden ?
-                      "Bring back the interface"
-                    : "Hide the UI and show only the poster"}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
+              <Button
+                onClick={() => setIsUiHidden((v) => !v)}
+                className="self-end flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/60 hover:bg-white/18 hover:text-white transition-all duration-200 text-xs font-medium"
+              >
+                {isUiHidden ?
+                  <Eye className="size-3.5" />
+                : <EyeOff className="size-3.5" />}
+                <span>{isUiHidden ? "Show UI" : "Poster only"}</span>
+              </Button>
 
               <PosterCarousel
                 backdrops={backdrops}
