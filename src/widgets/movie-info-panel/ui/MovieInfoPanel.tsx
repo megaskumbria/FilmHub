@@ -4,7 +4,7 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 import { ActorsCarousel } from "@/widgets";
 import { motion } from "framer-motion";
 import { CalendarDays, Clock, Info, Link2, Plus } from "lucide-react";
-import { IMovieCardData } from "@/shared/model/movies";
+import { ITmdbMovie } from "@/shared/hooks/useMovie";
 
 const formatDuration = (min: number) => {
   const h = Math.floor(min / 60);
@@ -13,12 +13,12 @@ const formatDuration = (min: number) => {
 };
 
 interface MovieInfoPanelProps {
-  movie: IMovieCardData;
+  movie: ITmdbMovie;
   isUiHidden: boolean;
 }
 
 export const MovieInfoPanel = ({ movie, isUiHidden }: MovieInfoPanelProps) => {
-  const { genres, description, yearOfRelease, durationMinutes, title } = movie;
+  const { genres, overview, release_date, runtime, title } = movie;
 
   return (
     <motion.div
@@ -30,21 +30,21 @@ export const MovieInfoPanel = ({ movie, isUiHidden }: MovieInfoPanelProps) => {
       <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-base font-medium">
         <span className="flex items-center gap-1.5 text-white/70">
           <CalendarDays className="size-3.5" />
-          {yearOfRelease}
+          {new Date(release_date).getFullYear()}
         </span>
 
         <span className="text-white/25">•</span>
 
         <span className="flex items-center gap-1.5 text-white/70">
           <Clock className="size-3.5" />
-          {formatDuration(durationMinutes)}
+          {formatDuration(runtime)}
         </span>
 
         <span className="text-white/25">•</span>
 
         {genres.map((genre, i) => (
-          <span key={genre} className="flex items-center gap-x-2.5">
-            <span className="text-white/50">{genre}</span>
+          <span key={genre.id} className="flex items-center gap-x-2.5">
+            <span className="text-white/50">{genre.name}</span>
             {i < genres.length - 1 && <span className="text-white/25">•</span>}
           </span>
         ))}
@@ -52,9 +52,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden }: MovieInfoPanelProps) => {
 
       <h1 className="text-6xl font-black text-white leading-none">{title}</h1>
 
-      <p className="text-white/70 font-medium text-base leading-relaxed line-clamp-6">
-        {description}
-      </p>
+      <p className="text-white/70 font-medium text-base leading-relaxed line-clamp-6">{overview}</p>
 
       <div className="flex gap-3">
         <Button
@@ -82,9 +80,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden }: MovieInfoPanelProps) => {
             </TooltipTrigger>
 
             <TooltipContent>
-              <p className="text-sm">
-                Builds a link to a free source for watching the film.
-              </p>
+              <p className="text-sm">Builds a link to a free source for watching the film.</p>
             </TooltipContent>
           </Tooltip>
         </div>

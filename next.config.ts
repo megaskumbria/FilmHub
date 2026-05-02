@@ -9,21 +9,22 @@ const nextConfig: NextConfig = {
     position: "bottom-left",
   },
   images: {
-    unoptimized: true,
-    remotePatterns: [
+  localPatterns: [
+    {
+      pathname: "/api/image",
+    },
+    {
+      pathname: "/images/**",
+    },
+  ],
+  remotePatterns: [
     {
       protocol: "https",
       hostname: "image.tmdb.org",
       pathname: "/t/**",
     },
-    {
-      protocol: "http",
-      hostname: "localhost",
-      port: "3000",
-      pathname: "/images**",
-    },
   ],
-  },
+},
   reactStrictMode: false,
 }
 

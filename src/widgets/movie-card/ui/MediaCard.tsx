@@ -12,6 +12,7 @@ import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 import { AddFlagPopover } from "@/widgets";
 import { IMedia } from "@/shared/stores/movie-catalog";
+import { useLocale } from "next-intl";
 
 export type PopoverMode = "add-flag" | "add-collection";
 
@@ -37,7 +38,9 @@ export const MediaCard = ({
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
-  const { poster_url, original_name, original_title, release_date, first_air_date } = media;
+  const locale = useLocale();
+
+  const { poster_url, original_name, original_title, release_date, first_air_date, id } = media;
   const { poster, body, hover } = layout;
 
   const rating_imdb = media.rating_imdb;
@@ -62,7 +65,7 @@ export const MediaCard = ({
 
   return (
     <article className="w-full border border-border rounded-xl relative">
-      <Link href={disableNavigation ? "" : `/movies/${media.id}`}>
+      <Link href={disableNavigation ? "" : `/${locale}/movies/${id}`}>
         <div
           className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl"
           onMouseEnter={() => {

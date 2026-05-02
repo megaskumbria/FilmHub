@@ -7,20 +7,21 @@ import type { Swiper as SwiperType } from "swiper";
 import { useIdle } from "react-use";
 import Image from "next/image";
 import "swiper/css";
+import { IBackdrop } from "@/shared/hooks/useMovie";
 
 interface PosterCarouselProps {
-  posters: string[];
-  imgUrl: string;
-  selectedPoster: string | null;
-  setSelectedPoster: (poster: string | null) => void;
+  backdrops: IBackdrop[];
+  backdrop_url: string;
+  selectedPoster: IBackdrop | null;
+  setSelectedPoster: (poster: IBackdrop | null) => void;
   title: string;
 }
 
 const IDLE_TIMEOUT = 5000;
 
 export const PosterCarousel = ({
-  posters,
-  imgUrl,
+  backdrops,
+  backdrop_url,
   selectedPoster,
   setSelectedPoster,
   title,
@@ -34,7 +35,7 @@ export const PosterCarousel = ({
     if (!swiperRef.current) return;
 
     if (!isIdle && selectedPoster !== null) {
-      handlePosterSelect(imgUrl);
+      handlePosterSelect(updatePosters[0]);
     }
 
     if (isIdle) {
@@ -46,19 +47,31 @@ export const PosterCarousel = ({
     }
   }, [isIdle]);
 
-  const handlePosterSelect = (poster: string) => {
+  const handlePosterSelect = (poster: IBackdrop) => {
     setSelectedPoster(poster);
     swiperRef.current?.autoplay.stop();
     userClickedRef.current = true;
 
-    const index = posters.findIndex((p) => p === poster);
+    const index = updatePosters.findIndex((p) => p.url === poster.url);
 
     if (index >= 0) {
       swiperRef.current?.slideToLoop(index);
     }
   };
 
-  const updatePosters = useMemo(() => [imgUrl, ...(posters ?? [])], []);
+  const updatePosters = useMemo<IBackdrop[]>(
+    () => [
+      {
+        file_path: "",
+        height: 0,
+        width: 0,
+        vote_average: 0,
+        url: backdrop_url,
+      },
+      ...(backdrops ?? []),
+    ],
+    [backdrop_url, backdrops],
+  );
 
   return (
     <div className="w-[580px]">
@@ -81,19 +94,19 @@ export const PosterCarousel = ({
         onSlideChange={(swiper) => {
           if (!isIdle) return;
           if (userClickedRef.current) return;
-          setSelectedPoster(posters[swiper.realIndex]);
+          setSelectedPoster(backdrops[swiper.realIndex]);
         }}
       >
-        {updatePosters.map((poster, i) => (
+        {updatePosters.map((backdrop, i) => (
           <SwiperSlide
             key={i}
             onClick={() => {
               if (swiperRef.current?.animating) return;
-              handlePosterSelect(poster);
+              handlePosterSelect(backdrop);
             }}
             className="relative rounded-xl overflow-hidden border border-white/30 cursor-pointer transition-all duration-200"
           >
-            <Image src={poster} fill alt={title} className="object-cover" />
+            <Image src={backdrop.url ?? ""} fill alt={title} className="object-cover" />
           </SwiperSlide>
         ))}
       </Swiper>

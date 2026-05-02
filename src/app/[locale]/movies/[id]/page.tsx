@@ -1,41 +1,49 @@
 "use client";
 
-import { useParams, notFound } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
-import { mockMovies } from "@/shared/model/movies";
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MovieInfoPanel, PosterCarousel } from "@/widgets";
+import { useMovie } from "@/shared/hooks";
+import { IBackdrop } from "@/shared/hooks/useMovie";
 
 export default function MoviePage() {
-  const [selectedPoster, setSelectedPoster] = useState<string | null>(null);
+  const [selectedPoster, setSelectedPoster] = useState<IBackdrop | null>(null);
   const [isUiHidden, setIsUiHidden] = useState(false);
 
   const params = useParams();
   const id = params?.id != null ? Number(params.id) : NaN;
-  const movie = Number.isInteger(id) ? mockMovies.find((m) => m.id === id) : undefined;
+  const { data: movie } = useMovie(id);
 
-  if (!movie) notFound();
+  if (!movie) return null;
 
-  const { imgUrl, title, posters } = movie;
+  const { poster_url, title, backdrop_url, images } = movie;
+  const { backdrops } = images;
 
-  const realPoster = selectedPoster ?? imgUrl;
+  // console.log("movie", movie);
 
   return (
     <div className="relative w-full overflow-hidden h-screen">
       <div className="absolute inset-0 w-full">
         <AnimatePresence mode="sync">
           <motion.div
-            key={realPoster}
+            key={selectedPoster?.url ?? poster_url}
             className="absolute inset-0"
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            <Image src={realPoster} alt={title} fill className="object-cover" priority />
+            <Image
+              src={selectedPoster?.url ?? poster_url ?? ""}
+              alt={title}
+              fill
+              className="object-cover"
+              priority
+            />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -56,7 +64,7 @@ export default function MoviePage() {
         <div className="flex items-end justify-between gap-10 px-14 mb-10">
           <MovieInfoPanel movie={movie} isUiHidden={isUiHidden} />
 
-          {posters && posters.length > 0 && (
+          {backdrop_url && (
             <div className="shrink-0 flex flex-col gap-3">
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -81,8 +89,8 @@ export default function MoviePage() {
               </Tooltip>
 
               <PosterCarousel
-                posters={posters}
-                imgUrl={imgUrl}
+                backdrops={backdrops}
+                backdrop_url={backdrop_url}
                 selectedPoster={selectedPoster}
                 setSelectedPoster={setSelectedPoster}
                 title={title}
