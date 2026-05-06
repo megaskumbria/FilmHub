@@ -7,6 +7,7 @@ import { useMediaCatalog } from "@/shared/stores/movie-catalog";
 import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
 import { Skeleton } from "@/shared/ui";
 import { useFilterMedia } from "@/shared/stores/filter-media-store";
+import { extractUniqueMedia } from "@/shared/lib";
 
 export const MovieGrid = () => {
   const {
@@ -24,14 +25,14 @@ export const MovieGrid = () => {
     setFrozenFilterCountry(searchQuery.length > 0);
   }, [searchQuery]);
 
-  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia(
-    searchQuery,
+  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia({
     category,
-    selectedGenre.id,
-    selectedSort,
-    selectedYear,
-    searchQuery.length > 0 ? "" : selectedCountry.iso_3166_1,
-  );
+    searchQuery,
+    selectedGenre: selectedGenre.id,
+    selectedSort: selectedSort,
+    selectedYear: selectedYear,
+    selectedCountry: searchQuery.length > 0 ? "" : selectedCountry.iso_3166_1,
+  });
 
   const ref = useIntersectionObserver(
     () => {
@@ -40,8 +41,9 @@ export const MovieGrid = () => {
     { rootMargin: "500px" },
   );
 
-  const allMediaRaw = data?.pages.flatMap((page) => page.media) ?? [];
-  const allMedia = Array.from(new Map(allMediaRaw.map((m) => [m.id, m])).values());
+  const allMedia = extractUniqueMedia(data);
+  // const allMediaRaw = data?.pages.flatMap((page) => page.media) ?? [];
+  // const allMedia = Array.from(new Map(allMediaRaw.map((m) => [m.id, m])).values());
 
   // console.log("allMediaRaw", allMediaRaw);
   // console.log("allMedia", allMedia);
@@ -59,10 +61,10 @@ export const MovieGrid = () => {
   return (
     <>
       <ul className="grid grid-cols-5 gap-4">
-        {allMedia.map((movie) => (
-          <li key={movie.id}>
+        {allMedia.map((media) => (
+          <li key={media.id}>
             <MediaCard
-              media={movie}
+              media={media}
               layout={layout}
               blockOptions={{
                 poster: { flags: { showFlags: false } },
