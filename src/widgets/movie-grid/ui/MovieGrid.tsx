@@ -84,6 +84,12 @@ export const MovieGrid = () => {
           ))}
       </ul>
 
+      {allMedia.length === 0 && (
+        <div className="flex justify-center items-center h-full">
+          <p className="text-center text-sm text-muted">No results found</p>
+        </div>
+      )}
+
       <div ref={ref} style={{ height: 1 }} />
     </>
   );

@@ -41,11 +41,15 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isLoading: false,
 
   signUp: async (data: ISignUpData) => {
-    set({ isLoading: true });
-    const response = await axios.post<IAuthResponse>(`${API_URL}/auth/register`, data);
+    try {
+      set({ isLoading: true });
+      const response = await axios.post<IAuthResponse>(`${API_URL}/auth/register`, data);
 
-    const { username, email, id } = response.data.user;
-    set({ user: { username, email, id }, isLoading: false });
+      const { username, email, id } = response.data.user;
+      set({ user: { username, email, id }, isLoading: false });
+    } finally {
+      set({ isLoading: false });
+    }
   },
 
   signIn: async (data: ISignInData) => {

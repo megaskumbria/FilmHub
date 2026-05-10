@@ -17,6 +17,8 @@ import {
 import { GoogleIcon } from "@/shared/icons";
 import { signUpSchema, type SignUpSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
+import axios from "axios";
+import { IApiErrorMessage } from "@/shared/types/api-error-types";
 
 interface Props {
   onSuccess: () => void;
@@ -38,6 +40,9 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
       onSuccess();
     } catch (e) {
       console.error(e);
+      if (axios.isAxiosError<IApiErrorMessage>(e)) {
+        form.setError("root", { message: e.response?.data.message });
+      }
     }
   };
 
@@ -58,7 +63,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
 
               <FormControl>
                 <Input
-                  variant="accent"
+                  variant="neutral"
                   inputSize="lg"
                   placeholder="example@mail.ru"
                   className="rounded-lg"
@@ -82,7 +87,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
 
               <FormControl>
                 <Input
-                  variant="accent"
+                  variant="neutral"
                   inputSize="lg"
                   placeholder="username"
                   className="rounded-lg"
@@ -107,7 +112,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
               <FormControl>
                 <div className="relative">
                   <Input
-                    variant="accent"
+                    variant="neutral"
                     inputSize="lg"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
@@ -131,6 +136,10 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
             </FormItem>
           )}
         />
+
+        {form.formState.errors.root && (
+          <FormMessage className="text-sm">{form.formState.errors.root.message}</FormMessage>
+        )}
 
         <Button
           type="submit"

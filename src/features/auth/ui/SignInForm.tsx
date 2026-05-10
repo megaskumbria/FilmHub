@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import {
   Form,
@@ -17,6 +18,7 @@ import {
 import { GoogleIcon } from "@/shared/icons";
 import { signInSchema, type SignInSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
+import { IApiErrorMessage } from "@/shared/types/api-error-types";
 
 interface Props {
   onSuccess: () => void;
@@ -38,6 +40,9 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
       onSuccess();
     } catch (e) {
       console.error(e);
+      if (axios.isAxiosError<IApiErrorMessage>(e)) {
+        form.setError("root", { message: e.response?.data.message });
+      }
     }
   };
 
@@ -55,15 +60,17 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
               <FormLabel className="block text-foreground text-sm font-medium mb-0">
                 Email
               </FormLabel>
+
               <FormControl>
                 <Input
-                  variant="accent"
+                  variant="neutral"
                   inputSize="lg"
                   placeholder="example@mail.ru"
                   className="rounded-lg"
                   {...field}
                 />
               </FormControl>
+
               <FormMessage className="text-xs" />
             </FormItem>
           )}
@@ -78,20 +85,23 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
                 <FormLabel className="block text-light text-sm font-medium mb-0">
                   Password
                 </FormLabel>
+
                 <a href="#" className="text-accent text-xs font-medium hover:text-accent/80">
                   Forgot password?
                 </a>
               </div>
+
               <FormControl>
                 <div className="relative">
                   <Input
-                    variant="accent"
+                    variant="neutral"
                     inputSize="lg"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className="rounded-lg pr-11"
                     {...field}
                   />
+
                   <Button
                     type="button"
                     size="none"
@@ -104,10 +114,15 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
                   </Button>
                 </div>
               </FormControl>
+
               <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
+
+        {form.formState.errors.root && (
+          <FormMessage className="text-sm">{form.formState.errors.root.message}</FormMessage>
+        )}
 
         <Button
           type="submit"
