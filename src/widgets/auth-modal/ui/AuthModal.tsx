@@ -35,15 +35,16 @@ const TABS: Tab[] = [
   },
 ];
 
-interface AuthModalProps {
+interface Props {
   children: ReactNode;
 }
 
-export function AuthModal({ children }: AuthModalProps) {
+export function AuthModal({ children }: Props) {
+  const [openDialog, setOpenDialog] = useState(false);
   const [tab, setTab] = useState<Tab["value"]>("signin");
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogTitle className="sr-only">Authentication</DialogTitle>
@@ -91,7 +92,7 @@ export function AuthModal({ children }: AuthModalProps) {
           </TabsContent>
 
           <TabsContent value="signup" className="mt-0 p-6">
-            <AuthModalSignUpForm />
+            <AuthModalSignUpForm onSuccess={() => setOpenDialog(false)} />
           </TabsContent>
         </Tabs>
 

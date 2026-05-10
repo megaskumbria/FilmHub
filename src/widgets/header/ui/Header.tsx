@@ -5,10 +5,13 @@ import { useState, useEffect } from "react";
 import { Button } from "@/shared/ui";
 import { SearchMovieDrawer, AuthModal, UserMenu } from "@/widgets";
 import { cn } from "@/shared/lib/utils";
+import { useAuthStore } from "@/features/auth/model/auth.store";
 // import { LogoSvg } from "@/shared/assets/LogoSvg";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+
+  const { user } = useAuthStore();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
@@ -49,12 +52,6 @@ export const Header = () => {
           >
             Movies
           </Link>
-
-          <AuthModal>
-            <Button>
-              <span>Sign up (trigger)</span>
-            </Button>
-          </AuthModal>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -66,8 +63,19 @@ export const Header = () => {
           >
             <span>My collections</span>
           </Link>
-
-          <UserMenu />
+          {user.id ?
+            <UserMenu />
+          : <AuthModal>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-9 justify-center gap-0 rounded-lg border-border bg-input/40 px-4 text-foreground shadow-sm transition-colors hover:border-accent/45 hover:bg-accent/12 hover:text-accent-foreground"
+              >
+                <span className="text-sm font-semibold tracking-tight">Sign in</span>
+              </Button>
+            </AuthModal>
+          }
         </div>
       </div>
     </header>

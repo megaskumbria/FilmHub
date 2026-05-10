@@ -15,30 +15,47 @@ import {
   Button,
 } from "@/shared/ui";
 import { GoogleIcon } from "@/shared/icons";
-import { authModalSignUpSchema, type AuthModalSignUpSchema } from "../model/validation";
+import { signUpSchema, type SignUpSchema } from "../model/validation";
+import { useAuthStore } from "../model/auth.store";
 
-export function AuthModalSignUpForm() {
+interface Props {
+  onSuccess: () => void;
+}
+
+export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const form = useForm<AuthModalSignUpSchema>({
-    resolver: zodResolver(authModalSignUpSchema),
-    defaultValues: { emailOrPhone: "", username: "", password: "" },
+  const { signUp, isLoading } = useAuthStore();
+
+  const form = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { email: "", username: "", password: "" },
   });
+
+  const handleSubmitForm = async (data: SignUpSchema) => {
+    try {
+      await signUp(data);
+      onSuccess();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-5"
-        onSubmit={(e) => void form.handleSubmit((data) => console.log("signUp", data))(e)}
+        onSubmit={(e) => void form.handleSubmit(handleSubmitForm)(e)}
       >
         <FormField
           control={form.control}
-          name="emailOrPhone"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="block text-foreground text-sm font-medium mb-0">
-                Email or phone
+                Email
               </FormLabel>
+
               <FormControl>
                 <Input
                   variant="accent"
@@ -48,10 +65,12 @@ export function AuthModalSignUpForm() {
                   {...field}
                 />
               </FormControl>
+
               <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="username"
@@ -60,6 +79,7 @@ export function AuthModalSignUpForm() {
               <FormLabel className="block text-foreground text-sm font-medium mb-0">
                 Username
               </FormLabel>
+
               <FormControl>
                 <Input
                   variant="accent"
@@ -69,10 +89,12 @@ export function AuthModalSignUpForm() {
                   {...field}
                 />
               </FormControl>
+
               <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="password"
@@ -81,6 +103,7 @@ export function AuthModalSignUpForm() {
               <FormLabel className="block text-foreground text-sm font-medium mb-0">
                 Password
               </FormLabel>
+
               <FormControl>
                 <div className="relative">
                   <Input
@@ -103,6 +126,7 @@ export function AuthModalSignUpForm() {
                   </Button>
                 </div>
               </FormControl>
+
               <FormMessage className="text-xs" />
             </FormItem>
           )}
@@ -110,9 +134,10 @@ export function AuthModalSignUpForm() {
 
         <Button
           type="submit"
-          className="h-11 w-full justify-center rounded-lg bg-accent font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98]"
+          disabled={isLoading}
+          className="h-11 w-full justify-center rounded-lg bg-accent font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>Sign up</span>
+          <span>{isLoading ? "Signing up..." : "Sign up"}</span>
         </Button>
 
         <div className="relative flex items-center py-2">
@@ -131,4 +156,4 @@ export function AuthModalSignUpForm() {
       </form>
     </Form>
   );
-}
+};

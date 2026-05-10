@@ -12,8 +12,16 @@ import {
 import { UserActions } from "./UserActions";
 import { LangToggle } from "@/features";
 import { LogOut } from "lucide-react";
+import { useAuthStore } from "@/features/auth/model/auth.store";
 
 export const UserMenu = () => {
+  const { user, logout } = useAuthStore();
+  const { username, email } = user;
+
+  // console.log(user);
+
+  const firstAvatarLetter = username?.charAt(0).toUpperCase();
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -21,9 +29,9 @@ export const UserMenu = () => {
           size="lg"
           className="cursor-pointer border-2 border-border bg-muted/30 transition-[border-color,opacity] duration-200 hover:border-muted-foreground/30 hover:opacity-90"
         >
-          <AvatarImage src="frontend_chan_170.png" alt="Profile Avatar" className="object-cover" />
+          <AvatarImage alt="Avatar" className="object-cover" />
           <AvatarFallback className="bg-secondary text-primary font-medium text-sm">
-            A
+            {firstAvatarLetter}
           </AvatarFallback>
         </Avatar>
       </PopoverTrigger>
@@ -34,8 +42,8 @@ export const UserMenu = () => {
         sideOffset={5}
       >
         <section className="flex flex-col justify-start items-start">
-          <div className="text-2xl font-medium text-primary">Arnold</div>
-          <div className="text-sm text-muted">callme@tonight.uwu</div>
+          <div className="text-2xl font-medium text-primary">{username}</div>
+          <div className="text-sm text-muted">{email}</div>
         </section>
 
         <LangToggle />
@@ -47,6 +55,7 @@ export const UserMenu = () => {
         <Button
           size="sm"
           className="flex items-center group px-1 h-10 w-full justify-start gap-3 rounded-xl text-destructive transition-colors hover:bg-destructive/10"
+          onClick={logout}
         >
           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-destructive/15 text-destructive/80 transition-colors ">
             <LogOut size={16} strokeWidth={2} />

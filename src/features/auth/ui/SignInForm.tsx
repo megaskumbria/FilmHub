@@ -15,29 +15,45 @@ import {
   Button,
 } from "@/shared/ui";
 import { GoogleIcon } from "@/shared/icons";
-import { authModalSignInSchema, type AuthModalSignInSchema } from "../model/validation";
+import { signInSchema, type SignInSchema } from "../model/validation";
+import { useAuthStore } from "../model/auth.store";
 
-export function AuthModalSignInForm() {
+interface Props {
+  onSuccess: () => void;
+}
+
+export const AuthModalSignInForm = ({ onSuccess }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const form = useForm<AuthModalSignInSchema>({
-    resolver: zodResolver(authModalSignInSchema),
-    defaultValues: { emailOrPhone: "", password: "" },
+  const { signIn, isLoading } = useAuthStore();
+
+  const form = useForm<SignInSchema>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: { email: "", password: "" },
   });
+
+  const handleSubmitForm = async (data: SignInSchema) => {
+    try {
+      await signIn(data);
+      onSuccess();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-5"
-        onSubmit={(e) => void form.handleSubmit((data) => console.log("signIn", data))(e)}
+        onSubmit={(e) => void form.handleSubmit(handleSubmitForm)(e)}
       >
         <FormField
           control={form.control}
-          name="emailOrPhone"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="block text-foreground text-sm font-medium mb-0">
-                Email or phone
+                Email
               </FormLabel>
               <FormControl>
                 <Input
@@ -59,7 +75,9 @@ export function AuthModalSignInForm() {
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center justify-between">
-                <FormLabel className="block text-light text-sm font-medium mb-0">Password</FormLabel>
+                <FormLabel className="block text-light text-sm font-medium mb-0">
+                  Password
+                </FormLabel>
                 <a href="#" className="text-accent text-xs font-medium hover:text-accent/80">
                   Forgot password?
                 </a>
@@ -93,9 +111,10 @@ export function AuthModalSignInForm() {
 
         <Button
           type="submit"
-          className="h-11 w-full justify-center rounded-lg bg-accent font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98]"
+          disabled={isLoading}
+          className="h-11 w-full justify-center rounded-lg bg-accent font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>Sign in</span>
+          <span>{isLoading ? "Signing in..." : "Sign in"}</span>
         </Button>
 
         <div className="relative flex items-center py-2">
@@ -111,4 +130,4 @@ export function AuthModalSignInForm() {
       </form>
     </Form>
   );
-}
+};
