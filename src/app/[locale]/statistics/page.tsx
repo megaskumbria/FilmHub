@@ -387,8 +387,7 @@ const ARCHETYPES: Record<ArchetypeKey, IArchetype> = {
   escapist: {
     key: "escapist",
     title: "Escapist",
-    description:
-      "For you, film is travel to other worlds. Fantasy, adventure, and spectacle.",
+    description: "For you, film is travel to other worlds. Fantasy, adventure, and spectacle.",
     emoji: "🚀",
     color: "text-emerald-accent",
     bg: "bg-emerald-accent/10 border-emerald-accent/20",
@@ -441,7 +440,9 @@ function computeArchetype(movies: IUserMovie[]): IArchetype {
     )
       artHighRating++;
     if (
-      m.genres.includes("fantasy") || m.genres.includes("adventure") || m.genres.includes("sci-fi")
+      m.genres.includes("fantasy")
+      || m.genres.includes("adventure")
+      || m.genres.includes("sci-fi")
     )
       adventure++;
     if (m.genres.includes("melodrama")) emotional++;
@@ -710,7 +711,9 @@ export default function StatisticsPage() {
                   <span>PRO</span>
                 </span>
               </div>
-              <p className="text-sm text-zinc-muted">How your relationship with film changed over time</p>
+              <p className="text-sm text-zinc-muted">
+                How your relationship with film changed over time
+              </p>
             </div>
           </div>
 

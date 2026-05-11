@@ -53,3 +53,8 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Playwright MCP dumps (console logs, page snapshots, screenshots)
+.playwright-mcp/console-*
+.playwright-mcp/page-*.yml
+.playwright-mcp/home-stack*.png

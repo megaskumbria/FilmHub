@@ -30,3 +30,5 @@ Task:
 - Identify inconsistencies in spacing, typography, alignment
 - Compare with Linear / Vercel design level
 - After changes: re-screenshot and verify improvement
+
+В твоём распоряжении есть MCP клиент, ты можешь запустить его на 5175 порту, чтобы смотреть визуал. Есть framer-motion, есть огромные библиотеки иконок по типу tabler / material - не стесняйся это использовать чтобы сделать детализированные и красивые стопки

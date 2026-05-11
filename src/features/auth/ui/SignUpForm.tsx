@@ -49,15 +49,15 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-5"
+        className="flex flex-col gap-4"
         onSubmit={(e) => void form.handleSubmit(handleSubmitForm)(e)}
       >
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="block text-foreground text-sm font-medium mb-0">
+            <FormItem className="gap-1.5">
+              <FormLabel className="block text-foreground/80 text-sm font-medium mb-0 tracking-tight">
                 Email
               </FormLabel>
 
@@ -65,8 +65,8 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
                 <Input
                   variant="neutral"
                   inputSize="lg"
-                  placeholder="example@mail.ru"
-                  className="rounded-lg"
+                  placeholder="you@example.com"
+                  className="rounded-lg bg-input/60 border-border/80 focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-all"
                   {...field}
                 />
               </FormControl>
@@ -80,8 +80,8 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="block text-foreground text-sm font-medium mb-0">
+            <FormItem className="gap-1.5">
+              <FormLabel className="block text-foreground/80 text-sm font-medium mb-0 tracking-tight">
                 Username
               </FormLabel>
 
@@ -89,8 +89,8 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
                 <Input
                   variant="neutral"
                   inputSize="lg"
-                  placeholder="username"
-                  className="rounded-lg"
+                  placeholder="your_username"
+                  className="rounded-lg bg-input/60 border-border/80 focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-all"
                   {...field}
                 />
               </FormControl>
@@ -104,8 +104,8 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="block text-foreground text-sm font-medium mb-0">
+            <FormItem className="gap-1.5">
+              <FormLabel className="block text-foreground/80 text-sm font-medium mb-0 tracking-tight">
                 Password
               </FormLabel>
 
@@ -116,18 +116,18 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
                     inputSize="lg"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="rounded-lg pr-11"
+                    className="rounded-lg pr-11 bg-input/60 border-border/80 focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-all"
                     {...field}
                   />
                   <Button
                     type="button"
                     size="none"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-0 text-muted hover:text-accent transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-0 text-zinc-muted hover:text-accent transition-colors"
                     onClick={() => setShowPassword((prev) => !prev)}
                   >
                     {showPassword ?
-                      <EyeOffIcon className="size-[18px]" />
-                    : <EyeIcon className="size-[18px]" />}
+                      <EyeOffIcon className="size-[17px]" />
+                    : <EyeIcon className="size-[17px]" />}
                   </Button>
                 </div>
               </FormControl>
@@ -144,23 +144,23 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
         <Button
           type="submit"
           disabled={isLoading}
-          className="h-11 w-full justify-center rounded-lg bg-accent font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-1 h-10 w-full justify-center rounded-lg bg-accent font-semibold text-accent-foreground shadow-md shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>{isLoading ? "Signing up..." : "Sign up"}</span>
+          <span>{isLoading ? "Signing up..." : "Create account"}</span>
         </Button>
 
-        <div className="relative flex items-center py-2">
-          <div className="grow border-t border-border" />
-          <span className="mx-4 shrink text-sm font-medium text-muted">or</span>
-          <div className="grow border-t border-border" />
+        <div className="relative flex items-center gap-3 py-1">
+          <div className="h-px flex-1 bg-border/60" />
+          <span className="text-xs font-medium text-zinc-muted">or continue with</span>
+          <div className="h-px flex-1 bg-border/60" />
         </div>
 
         <Button
           type="button"
-          className="active:scale-[0.98] h-11 w-full justify-center gap-3 rounded-lg border border-border bg-input font-medium text-foreground transition-all hover:bg-white/5"
+          className="active:scale-[0.98] h-10 w-full justify-center gap-2.5 rounded-lg border border-border/80 bg-transparent font-medium text-foreground/80 transition-all hover:bg-white/5 hover:border-border hover:text-foreground"
         >
-          <GoogleIcon className="size-5 shrink-0" />
-          <span>Continue with Google</span>
+          <GoogleIcon className="size-[18px] shrink-0" />
+          <span>Google</span>
         </Button>
       </form>
     </Form>

@@ -7,6 +7,6 @@ Before any layout or UI code changes:
 
 Do not edit components or styles until you have read the above. Then proceed with the user’s task below.
 
-Icon libraries in this repo: `@tabler/icons-react`, `@mui/icons-material`, plus existing `lucide-react`. Prefer Tabler or Material for newly added icons unless the file already standardizes on Lucide.
+Icon libraries in this repo: `@tabler/icons-react`, `@mui/icons-material`, plus existing `lucide-react`. Prefer used Tabler or Material icons
 
 ---

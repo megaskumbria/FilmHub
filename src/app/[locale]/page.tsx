@@ -2,16 +2,15 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight, BookOpen, LayoutGrid, LayoutList } from "lucide-react";
 import {
-  Eye,
-  Heart,
-  Star,
-  ChevronLeft,
-  ChevronRight,
-  BookOpen,
-  LayoutGrid,
-  LayoutList,
-} from "lucide-react";
+  IconStack2,
+  IconStarFilled,
+  IconEye,
+  IconHeartFilled,
+  IconFlame,
+} from "@tabler/icons-react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { mockMovies, type IMovieCardData } from "@/shared/model/movies";
 import { cn } from "@/shared/lib/utils";
@@ -24,147 +23,7 @@ import { FilterPopover } from "@/widgets/movie-catalog-toolbar";
 
 const CARD_W = 220;
 const CARD_H = Math.round(CARD_W * (3 / 2));
-
-interface DeckMeta {
-  label: string;
-  genres: string[];
-  rating: number;
-  views: string;
-  likes: number;
-}
-
-interface DeckProps {
-  movies: IMovieCardData[];
-  meta: DeckMeta;
-  id: number;
-}
-
-const STACK_OFFSETS = [
-  { x: 0, y: 0, rotate: 0 },
-  { x: 12, y: 6, rotate: 3 },
-  { x: 22, y: 12, rotate: 6 },
-];
-
-const STACK_OFFSETS_HOVERED = [
-  { x: 0, y: -16, rotate: 0 },
-  { x: 16, y: 4, rotate: 5 },
-  { x: 28, y: 14, rotate: 9 },
-];
-
-const TopCard = ({ movie }: { movie: IMovieCardData }) => (
-  <div
-    className="w-full rounded-xl overflow-hidden border border-border shadow-xl relative"
-    style={{ height: CARD_H }}
-  >
-    <Image
-      src={movie.imgUrl}
-      alt={movie.title}
-      width={CARD_W}
-      height={CARD_H}
-      className="w-full h-full object-cover"
-    />
-  </div>
-);
-
-const BehindCard = ({ movie }: { movie: IMovieCardData }) => (
-  <div
-    className="w-full rounded-2xl overflow-hidden border border-accent/20 shadow-md"
-    style={{ height: CARD_H }}
-  >
-    <Image
-      src={movie.imgUrl}
-      alt={movie.title}
-      width={CARD_W}
-      height={CARD_H}
-      className="w-full h-full object-cover brightness-40"
-    />
-  </div>
-);
-
-const Deck = ({ movies, meta, id }: DeckProps) => {
-  const [hovered, setHovered] = useState(false);
-
-  const top3 = movies.slice(0, 3);
-  const offsets = hovered ? STACK_OFFSETS_HOVERED : STACK_OFFSETS;
-
-  return (
-    <Link href={`/user-collections/${id}`}>
-      <article
-        className="cursor-pointer select-none group"
-        style={{ width: CARD_W + STACK_OFFSETS[2].x }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        <div className="relative" style={{ height: CARD_H + STACK_OFFSETS[2].y + 16 }}>
-          {[...top3].reverse().map((movie, ri) => {
-            const idx = top3.length - 1 - ri;
-            const { x, y, rotate } = offsets[idx];
-            const isTop = idx === 0;
-
-            return (
-              <div
-                key={movie.id}
-                className="absolute top-0 left-0"
-                style={{
-                  width: CARD_W,
-                  transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)`,
-                  transition: "transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                  zIndex:
-                    idx === 0 ? 30
-                    : idx === 1 ? 20
-                    : 10,
-                  transformOrigin: "bottom center",
-                }}
-              >
-                {isTop ?
-                  <TopCard movie={movie} />
-                : <BehindCard movie={movie} />}
-              </div>
-            );
-          })}
-
-          <div
-            className="absolute inset-x-0 -bottom-2 mx-auto h-5 w-3/4 rounded-full blur-xl bg-black/50"
-            style={{ zIndex: 5 }}
-          />
-        </div>
-
-        <div className="mt-4 pl-0.5">
-          <div className="flex items-baseline justify-between gap-2">
-            <p
-              className={cn(
-                "text-base font-semibold leading-tight truncate transition-colors duration-200",
-                hovered ? "text-accent" : "text-foreground",
-              )}
-            >
-              {meta.label}
-            </p>
-            <span className="shrink-0 text-sm text-zinc-muted">{movies.length} movies</span>
-          </div>
-
-          <p className="mt-0.5 text-sm text-zinc-muted truncate">{meta.genres.join(" · ")}</p>
-
-          <div className="mt-2 flex items-center gap-3">
-            <span className="flex items-center gap-1 text-sm font-semibold text-gold">
-              <Star className="size-3.5 fill-gold text-gold" />
-              {meta.rating.toFixed(1)}
-            </span>
-
-            <span className="flex items-center gap-1 text-sm text-zinc-muted">
-              <Eye className="size-3.5" />
-              {meta.views}
-            </span>
-
-            <span className="flex items-center gap-1 text-sm text-zinc-muted">
-              <Heart className="size-3.5" />
-              {meta.likes}
-            </span>
-          </div>
-        </div>
-      </article>
-    </Link>
-  );
-};
+const TRENDING_LIKES_THRESHOLD = 2000;
 
 interface CollectionCardData {
   id: number;
@@ -176,36 +35,106 @@ interface CollectionCardData {
   movies: IMovieCardData[];
 }
 
-const COLLECTION_STACK_OFFSETS = [
+// Stack visual constants
+const STACK_RESERVE_X = 28;
+const STACK_RESERVE_Y = 24;
+const TOP_REVEAL_BACK = 10;
+const TOP_REVEAL_MID = 6;
+
+const restingPositions = [
   { x: 0, y: 0, rotate: 0 },
-  { x: 12, y: 6, rotate: 3 },
-  { x: 22, y: 12, rotate: 6 },
-];
+  { x: 6, y: -TOP_REVEAL_MID, rotate: 1.5 },
+  { x: 12, y: -TOP_REVEAL_BACK, rotate: 3 },
+] as const;
 
-const COLLECTION_STACK_OFFSETS_HOVERED = [
-  { x: 0, y: -16, rotate: 0 },
-  { x: 16, y: 4, rotate: 5 },
-  { x: 28, y: 14, rotate: 9 },
-];
+const hoveredPositions = [
+  { x: 0, y: -10, rotate: 0 },
+  { x: 42, y: 8, rotate: 8 },
+  { x: -36, y: 12, rotate: -8 },
+] as const;
 
-const COLL_CARD_W = 220;
-const COLL_CARD_H = Math.round(COLL_CARD_W * (3 / 2));
+interface StackPosterProps {
+  movie: IMovieCardData;
+  isTop: boolean;
+  filmsCount: number;
+  rating: number;
+  hovered: boolean;
+}
 
-const CollectionMiniCard = ({ movie, dim }: { movie: IMovieCardData; dim?: boolean }) => (
+const StackPoster = ({ movie, isTop, filmsCount, rating, hovered }: StackPosterProps) => (
   <div
     className={cn(
-      "w-full rounded-xl overflow-hidden border shadow-lg",
-      dim ? "border-accent/15" : "border-border",
+      "relative w-full overflow-hidden rounded-xl border",
+      isTop && "border-white/15 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.75)]",
+      !isTop && "border-white/8 shadow-[0_12px_24px_-12px_rgba(0,0,0,0.65)]",
     )}
-    style={{ height: COLL_CARD_H }}
+    style={{ height: CARD_H }}
   >
     <Image
       src={movie.imgUrl}
       alt={movie.title}
-      width={COLL_CARD_W}
-      height={COLL_CARD_H}
-      className={cn("w-full h-full object-cover", dim && "brightness-40")}
+      width={CARD_W}
+      height={CARD_H}
+      className={cn(
+        "w-full h-full object-cover transition-[transform,filter] duration-500",
+        isTop && hovered && "scale-[1.04]",
+        !isTop && "brightness-[0.6] saturate-[0.9]",
+      )}
     />
+
+    {/* Subtle inner vignette for depth */}
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_55%,rgba(0,0,0,0.45)_100%)]"
+    />
+
+    {/* Top reflective edge — gives the card a "surface" feel */}
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/30 to-transparent"
+    />
+
+    {/* Accent tint for the underlying cards — visually binds the stack */}
+    {!isTop && (
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-linear-to-br from-accent/22 via-transparent to-accent/8 mix-blend-overlay"
+      />
+    )}
+
+    {isTop && (
+      <>
+        {/* Top-left corner sheen — paper-like highlight */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-8 -top-8 size-28 rounded-full bg-white/10 blur-2xl"
+        />
+
+        {/* Rating pill — top-left */}
+        <div className="absolute left-2.5 top-2.5 flex items-center gap-1 rounded-full bg-black/55 px-2 py-1 ring-1 ring-white/15 shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+          <IconStarFilled className="size-3 text-gold" />
+          <span className="text-xs font-semibold leading-none text-foreground">
+            {rating.toFixed(1)}
+          </span>
+        </div>
+
+        {/* Films counter — top-right */}
+        <div className="absolute right-2.5 top-2.5 flex items-center gap-1 rounded-full bg-black/55 px-2 py-1 ring-1 ring-white/15 shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+          <IconStack2 className="size-3 text-accent" />
+          <span className="text-xs font-semibold leading-none text-foreground">{filmsCount}</span>
+        </div>
+
+        {/* Bottom gradient revealed only on hover */}
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/85 via-black/30 to-transparent transition-opacity duration-300",
+            hovered && "opacity-100",
+            !hovered && "opacity-0",
+          )}
+        />
+      </>
+    )}
   </div>
 );
 
@@ -219,67 +148,133 @@ const CollectionDeck = ({
   movies,
 }: CollectionCardData) => {
   const [hovered, setHovered] = useState(false);
+
   const top3 = movies.slice(0, 3);
-  const offsets = hovered ? COLLECTION_STACK_OFFSETS_HOVERED : COLLECTION_STACK_OFFSETS;
+  const positions = hovered ? hoveredPositions : restingPositions;
+  const isTrending = likes >= TRENDING_LIKES_THRESHOLD;
+
+  const stageWidth = CARD_W + STACK_RESERVE_X * 2;
+  const stageHeight = CARD_H + STACK_RESERVE_Y;
 
   return (
-    <Link href={`/user-collections/${id}`}>
+    <Link href={`/user-collections/${id}`} className="block">
       <article
-        className="cursor-pointer select-none"
+        className="group cursor-pointer select-none"
+        style={{ width: stageWidth }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
         <div
           className="relative"
-          style={{ height: COLL_CARD_H + COLLECTION_STACK_OFFSETS[2].y + 16 }}
+          style={{
+            height: stageHeight,
+            perspective: "1200px",
+          }}
         >
-          {[...top3].reverse().map((movie, ri) => {
-            const idx = top3.length - 1 - ri;
-            const { x, y, rotate } = offsets[idx];
-            const isTop = idx === 0;
+          {/* Stack stage — centered, so back cards can fan to both sides */}
+          <div
+            className="absolute left-1/2 top-2"
+            style={{
+              width: CARD_W,
+              transform: "translateX(-50%)",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {[...top3].reverse().map((movie, ri) => {
+              const idx = top3.length - 1 - ri;
+              const { x, y, rotate } = positions[idx];
+              const isTop = idx === 0;
 
-            return (
-              <div
-                key={movie.id}
-                className="absolute top-0 left-0"
-                style={{
-                  width: COLL_CARD_W,
-                  transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)`,
-                  transition: "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                  zIndex:
-                    idx === 0 ? 30
-                    : idx === 1 ? 20
-                    : 10,
-                  transformOrigin: "bottom center",
-                }}
-              >
-                <CollectionMiniCard movie={movie} dim={!isTop} />
-              </div>
-            );
-          })}
+              return (
+                <motion.div
+                  key={movie.id}
+                  className="absolute top-0 left-0"
+                  style={{
+                    width: CARD_W,
+                    zIndex:
+                      idx === 0 ? 30
+                      : idx === 1 ? 20
+                      : 10,
+                    transformOrigin: "50% 90%",
+                  }}
+                  animate={{ x, y, rotate }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 240,
+                    damping: 22,
+                    mass: 0.6,
+                  }}
+                >
+                  <StackPoster
+                    movie={movie}
+                    isTop={isTop}
+                    filmsCount={movies.length}
+                    rating={rating}
+                    hovered={hovered}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Soft ground shadow */}
+          <motion.div
+            aria-hidden
+            className="absolute left-1/2 bottom-1 -translate-x-1/2 rounded-full bg-black blur-2xl"
+            style={{ zIndex: 1 }}
+            animate={{
+              width: hovered ? CARD_W * 1.1 : CARD_W * 0.78,
+              height: hovered ? 24 : 16,
+              opacity: hovered ? 0.55 : 0.45,
+            }}
+            transition={{ duration: 0.35 }}
+          />
+
+          {/* Accent glow under the top card on hover */}
+          <motion.div
+            aria-hidden
+            className="absolute left-1/2 -translate-x-1/2 rounded-full bg-accent blur-3xl pointer-events-none"
+            style={{ top: "30%", width: CARD_W * 0.9, height: CARD_H * 0.4, zIndex: 0 }}
+            animate={{ opacity: hovered ? 0.18 : 0 }}
+            transition={{ duration: 0.4 }}
+          />
         </div>
 
-        <div className="mt-3 pl-0.5">
-          <p
-            className={cn(
-              "text-sm font-semibold leading-tight truncate transition-colors duration-200",
-              hovered ? "text-accent" : "text-foreground",
+        {/* Meta block */}
+        <div className="mt-6 px-1">
+          <div className="flex items-center gap-2">
+            <p
+              className={cn(
+                "min-w-0 flex-1 truncate text-base font-semibold leading-tight transition-colors duration-300",
+                hovered && "text-accent",
+                !hovered && "text-foreground",
+              )}
+            >
+              {label}
+            </p>
+            {isTrending && (
+              <span className="flex items-center gap-1 rounded-full bg-accent/12 px-2 py-0.5 ring-1 ring-accent/25">
+                <IconFlame className="size-3 text-accent" />
+                <span className="text-xs font-semibold leading-none text-accent">hot</span>
+              </span>
             )}
-          >
-            {label}
-          </p>
-          <p className="mt-0.5 text-sm text-zinc-muted truncate">{genres.join(" · ")}</p>
-          <div className="mt-1.5 flex items-center gap-2.5">
+          </div>
+
+          <p className="mt-1 truncate text-sm text-zinc-muted">{genres.join(" · ")}</p>
+
+          <div className="mt-2.5 flex items-center gap-3.5">
             <span className="flex items-center gap-1 text-sm font-semibold text-gold">
-              <Star className="size-3 fill-gold text-gold" />
+              <IconStarFilled className="size-3.5 text-gold" />
               {rating.toFixed(1)}
             </span>
+
             <span className="flex items-center gap-1 text-sm text-zinc-muted">
-              <Eye className="size-3" />
+              <IconEye className="size-3.5" />
               {views}
             </span>
+
             <span className="flex items-center gap-1 text-sm text-zinc-muted">
-              <Heart className="size-3" />
+              <IconHeartFilled className="size-3.5" />
               {likes}
             </span>
           </div>
@@ -419,7 +414,7 @@ const BestCollectionsSlider = () => {
         <Swiper
           modules={[Navigation]}
           slidesPerView={5}
-          spaceBetween={8}
+          spaceBetween={24}
           speed={500}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
@@ -435,97 +430,6 @@ const BestCollectionsSlider = () => {
     </section>
   );
 };
-
-const DECKS: DeckProps[] = [
-  {
-    id: 1,
-    movies: [mockMovies[0], mockMovies[2], mockMovies[7]],
-    meta: {
-      label: "Nightmares",
-      genres: ["horror", "thriller"],
-      rating: 7.1,
-      views: "18.2K",
-      likes: 934,
-    },
-  },
-  {
-    id: 2,
-    movies: [mockMovies[1], mockMovies[4], mockMovies[6]],
-    meta: {
-      label: "Age of adventure",
-      genres: ["fantasy", "action"],
-      rating: 8.0,
-      views: "41.5K",
-      likes: 2300,
-    },
-  },
-  {
-    id: 3,
-    movies: [mockMovies[3], mockMovies[5], mockMovies[7]],
-    meta: {
-      label: "Man and war",
-      genres: ["drama", "mystery"],
-      rating: 8.1,
-      views: "27.8K",
-      likes: 1540,
-    },
-  },
-  {
-    id: 4,
-    movies: [mockMovies[5], mockMovies[3], mockMovies[4]],
-    meta: {
-      label: "Great love",
-      genres: ["melodrama", "drama"],
-      rating: 7.9,
-      views: "55.0K",
-      likes: 4100,
-    },
-  },
-  {
-    id: 5,
-    movies: [mockMovies[6], mockMovies[0], mockMovies[1]],
-    meta: {
-      label: "Marvel and co.",
-      genres: ["sci-fi", "action"],
-      rating: 8.4,
-      views: "98.3K",
-      likes: 7200,
-    },
-  },
-  {
-    id: 6,
-    movies: [mockMovies[2], mockMovies[0], mockMovies[7]],
-    meta: {
-      label: "Dark stories",
-      genres: ["thriller", "horror"],
-      rating: 7.4,
-      views: "14.1K",
-      likes: 620,
-    },
-  },
-  {
-    id: 7,
-    movies: [mockMovies[1], mockMovies[5], mockMovies[3]],
-    meta: {
-      label: "Cult cinema",
-      genres: ["adventure", "drama"],
-      rating: 8.3,
-      views: "36.7K",
-      likes: 2890,
-    },
-  },
-  {
-    id: 8,
-    movies: [mockMovies[4], mockMovies[6], mockMovies[1]],
-    meta: {
-      label: "Best of the decade",
-      genres: ["fantasy", "sci-fi"],
-      rating: 8.5,
-      views: "72.4K",
-      likes: 5610,
-    },
-  },
-];
 
 type CatalogLayoutPreview = "grid" | "list";
 
@@ -562,6 +466,7 @@ const CatalogLayoutSwitch = () => {
           layout === "list" && "bg-surface text-accent shadow-sm ring-1 ring-border",
           layout !== "list" && "text-zinc-muted hover:bg-surface/50 hover:text-primary",
         )}
+        aria-pressed={layout === "list"}
       >
         <LayoutList className="size-4" aria-hidden />
       </Button>
@@ -586,9 +491,9 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="grid grid-cols-5 gap-x-1 gap-y-10">
-        {DECKS.map((deck, i) => (
-          <Deck key={i} {...deck} id={i} />
+      <div className="grid grid-cols-5 gap-x-4 gap-y-12 justify-items-center">
+        {BEST_COLLECTIONS.map((col) => (
+          <CollectionDeck key={col.id} {...col} />
         ))}
       </div>
     </main>
