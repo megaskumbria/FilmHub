@@ -34,3 +34,25 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ 
 [  390529ms] [WARNING] The resource http://localhost:5175/_next/static/media/d3fe2f289711ac3f-s.p.50575af1.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
 [  390529ms] [WARNING] The resource http://localhost:5175/_next/static/chunks/%5Broot-of-the-server%5D__e8293913._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
 [  396846ms] [LOG] [HMR] connected @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1510562ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1510786ms] [LOG] [HMR] connected @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1511508ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1511558ms] [WARNING] Image with src "/images/mock-movie-2.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1512524ms] [LOG] [Fast Refresh] done in 1127ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1629995ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1630228ms] [LOG] [Fast Refresh] done in 339ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1832827ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1832969ms] [LOG] [Fast Refresh] done in 251ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1835873ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1835983ms] [LOG] [Fast Refresh] done in 219ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2304221ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2304458ms] [LOG] [Fast Refresh] done in 345ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2390646ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2390953ms] [LOG] [Fast Refresh] done in 422ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2398452ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2399091ms] [LOG] [Fast Refresh] done in 707ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2606440ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2606632ms] [LOG] [Fast Refresh] done in 299ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2622603ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 2622746ms] [LOG] [Fast Refresh] done in 251ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297

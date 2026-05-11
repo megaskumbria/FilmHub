@@ -6,10 +6,12 @@ alwaysApply: true
 - Avoid using excessively small font sizes in layouts. Refrain from using classes like text-[10px] or text-xs where a larger, more readable font size is appropriate for content visibility.
 - Always use shadcn components when creating layouts: Label, Button, Textarea, Input, Dialog, Drawer, etc. This is the MOST important rule!
 - Always read the PRD.md file to understand what the application is about.
+- Before layout or any new visual/UI work (pages, widgets, styling passes), read `docs/design-system/REFERENCES.md` for visual targets and rules. Do not skip it.
 - When designing layouts, use colors from the global.css file.
 - Always use semantic HTML tags when designing layouts.
 - Always use the Button and Input components!!!!!! (these files exist in the project).
 - Use shadcn components in your layout; if there are any components you want to use that are missing, let me know which package to install.
+- Icons: the project includes `lucide-react`, `@tabler/icons-react`, and `@mui/icons-material`. For **new** icons, prefer **Tabler** or **Material** first (check their icon sets for a match). Do not add new icon libraries without asking. **Brand / social logos** stay as inline SVG components under `src/shared/icons/` (like `GoogleIcon`), not from icon packs.
 - Use the cn function in classNames to avoid unnecessary ternary conditions.
 - Do not write ternary conditions in className styles. Use base + conditional classes. Example: activeMenu === key && "bg-accent/10", activeMenu !== key && "text-zinc-muted"
 - If you use a button and its direct child is text, wrap the text in a <span> and apply the text styles directly to that <span>, not to the Button.

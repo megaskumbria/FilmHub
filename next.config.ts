@@ -25,11 +25,7 @@ const nextConfig: NextConfig = {
   ],
   },
   reactStrictMode: false,
-  // Next 16+: cross-origin dev; typings may omit `allowedDevOrigins`.
-  experimental: {
-    allowedDevOrigins: ["localhost:3000", "localhost:5175"],
-  } as NextConfig["experimental"],
-};
+}
 
 export default withNextIntl(nextConfig);
 

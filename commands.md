@@ -1,36 +1,32 @@
-Open localhost:3000 in browser.
+🚀 Что нужно добавить (самое важное)
 
-Analyze the current UI visually.
+1. Введи “Visual Quality Loop” (это game changer)
+   Каждый UI-фикс должен идти так:
 
-Improve:
+2. Open page in browser (Playwright)
+3. Take screenshot
+4. Analyze UI like a senior frontend engineer
+5. Identify visual issues:
+   - spacing
+   - alignment
+   - typography hierarchy
+   - color contrast
+   - consistency
+6. Apply small incremental fix
+7. Reload page
+8. Take new screenshot
+9. Compare before/after
+10. Repeat until clean
 
-- spacing
-- typography
-- hierarchy
-- colors
-- hover states
-- mobile responsiveness
+11. Добавь “Visual Review Prompt” (самый сильный хак)
 
-Aim for:
+Когда хочешь, чтобы агент улучшал UI, пиши так:
 
-- Linear
-- Vercel
-- Stripe-level polish
+Open the app and act as a senior product designer from Linear.
 
-After edits:
+Task:
 
-- reload
-- compare visually
-- iterate until polished
-
-6. Как заставить его реально “верстать красиво”
-
-Добавь такой workflow:
-
-1. Open page
-2. Analyze UI visually
-3. Identify layout problems
-4. Suggest fixes
-5. Apply code changes
-6. Reload page
-7. Verify visually again
+- Evaluate UI visually using Playwright screenshot
+- Identify inconsistencies in spacing, typography, alignment
+- Compare with Linear / Vercel design level
+- After changes: re-screenshot and verify improvement
