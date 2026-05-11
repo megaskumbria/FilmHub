@@ -24,25 +24,12 @@ const nextConfig: NextConfig = {
     },
   ],
   },
-  // images: {
-  // localPatterns: [
-  //   {
-  //     pathname: "/api/image",
-  //   },
-  //   {
-  //     pathname: "/images/**",
-  //   },
-  // ],
-  // remotePatterns: [
-  //   {
-  //     protocol: "https",
-  //     hostname: "image.tmdb.org",
-  //     pathname: "/t/**",
-  //   },
-  // ],
-// },
   reactStrictMode: false,
-}
+  // Next 16+: cross-origin dev; typings may omit `allowedDevOrigins`.
+  experimental: {
+    allowedDevOrigins: ["localhost:3000", "localhost:5175"],
+  } as NextConfig["experimental"],
+};
 
 export default withNextIntl(nextConfig);
 

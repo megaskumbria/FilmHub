@@ -1,0 +1,36 @@
+[   13418ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   13743ms] [LOG] [HMR] connected @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   14951ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5175/favicon.ico:0
+[   14993ms] [WARNING] Image with src "/images/mock-movie-2.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   18142ms] [WARNING] The resource http://localhost:5175/_next/static/chunks/%5Broot-of-the-server%5D__e8293913._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[   18852ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   19162ms] [LOG] [Fast Refresh] done in 425ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   22172ms] [WARNING] The resource http://localhost:5175/_next/static/chunks/%5Broot-of-the-server%5D__e8293913._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  158439ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  158869ms] [LOG] [Fast Refresh] done in 537ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  161753ms] [WARNING] The resource http://localhost:5175/_next/static/chunks/%5Broot-of-the-server%5D__e8293913._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  324606ms] [LOG] [HMR] connected @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  327612ms] [WARNING] The resource http://localhost:5175/_next/static/chunks/%5Broot-of-the-server%5D__e8293913._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  333675ms] [LOG] [HMR] connected @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  372884ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5175/ru:0
+[  373118ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  373350ms] Error: Couldn't find next-intl config file. Please follow the instructions at https://next-intl.dev/docs/getting-started/app-router
+    at RootLayout (about://React/Server/C:%5CUsers%5Cpavel%5CDesktop%5CProjects%5CFilmHub%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__e9d272e2._.js?0:7641:288)
+    at resolveErrorDev (http://localhost:5175/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:1894:148)
+    at processFullStringRow (http://localhost:5175/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2402:29)
+    at processFullBinaryRow (http://localhost:5175/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2361:9)
+    at processBinaryChunk (http://localhost:5175/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2470:221)
+    at progress (http://localhost:5175/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2640:13)
+[  373351ms] [LOG] [HMR] connected @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  373674ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  373827ms] [LOG] [Fast Refresh] done in 333ms @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  377345ms] [WARNING] The resource http://localhost:5175/_next/static/media/a343f882a40d2cc9-s.p.71e1367e.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  377345ms] [WARNING] The resource http://localhost:5175/_next/static/media/d3fe2f289711ac3f-s.p.50575af1.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  377345ms] [WARNING] The resource http://localhost:5175/_next/static/chunks/%5Broot-of-the-server%5D__e8293913._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  381715ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  387521ms] [LOG] [HMR] connected @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  390528ms] [WARNING] The resource http://localhost:5175/_next/static/media/a343f882a40d2cc9-s.p.71e1367e.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  390529ms] [WARNING] The resource http://localhost:5175/_next/static/media/d3fe2f289711ac3f-s.p.50575af1.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  390529ms] [WARNING] The resource http://localhost:5175/_next/static/chunks/%5Broot-of-the-server%5D__e8293913._.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:5175/ru:0
+[  396846ms] [LOG] [HMR] connected @ http://localhost:5175/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
