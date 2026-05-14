@@ -167,7 +167,9 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
               </div>
               <div className="flex flex-col items-start gap-0.5 flex-1">
                 <span className="text-sm font-medium text-foreground">Custom cover</span>
-                <span className="text-xs text-zinc-muted">Upload your own image for the folder</span>
+                <span className="text-xs text-zinc-muted">
+                  Upload your own image for the folder
+                </span>
               </div>
               <Lock className="size-4 text-zinc-muted group-hover:text-amber-400 transition-colors" />
             </Button>

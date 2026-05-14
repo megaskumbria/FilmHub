@@ -22,9 +22,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
 export const SearchMovieDrawer = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const { layout } = useMovieCardLayout();
 
@@ -33,7 +34,7 @@ export const SearchMovieDrawer = () => {
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia({
     category: "all",
     searchQuery: debouncedSearch,
-    enabled: open && debouncedSearch.length > 0,
+    enabled: open,
   });
 
   const ref = useIntersectionObserver(
@@ -46,7 +47,10 @@ export const SearchMovieDrawer = () => {
   const allMedia = extractUniqueMedia(data);
 
   const pathname = usePathname();
+
   useEffect(() => setOpen(false), [pathname]);
+
+  console.log(isLoading);
 
   return (
     <Drawer direction="top" open={open} onOpenChange={setOpen}>
@@ -95,46 +99,47 @@ export const SearchMovieDrawer = () => {
           </div>
         </DrawerHeader>
 
-        {allMedia.length === 0 ?
+        {!isLoading && allMedia.length === 0 && (
           <p className="text-center text-sm text-muted">No results found</p>
-        : <div
-            ref={scrollRef}
-            className="drawer-scroll overflow-y-auto px-6 pb-4 flex justify-center"
-          >
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-[1000px] w-full">
-              {isLoading ?
-                <>
-                  {Array.from({ length: 10 }).map((_, i) => (
-                    <Skeleton
-                      key={i}
-                      className="w-full border border-border aspect-2/3 rounded-xl"
-                    />
-                  ))}
-                </>
-              : allMedia.map((media) => (
-                  <MediaCard
-                    key={media.id}
-                    media={media}
-                    layout={layout}
-                    blockOptions={{
-                      poster: { flags: { showFlags: false } },
-                      hover: { flags: { showFlags: false } },
-                      body: { flags: { showFlags: false } },
-                    }}
-                    mode="add-collection"
-                  />
-                ))
-              }
+        )}
 
-              {isFetchingNextPage
-                && Array.from({ length: 10 }).map((_, i) => (
+        <div
+          ref={scrollRef}
+          className="drawer-scroll overflow-y-auto px-6 pb-4 flex justify-center"
+        >
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-[1000px] w-full">
+            {isLoading && (
+              <>
+                {Array.from({ length: 10 }).map((_, i) => (
                   <Skeleton key={i} className="w-full border border-border aspect-2/3 rounded-xl" />
                 ))}
+              </>
+            )}
 
-              <div ref={ref} style={{ height: 1 }} />
-            </div>
+            {!isLoading
+              && allMedia.length > 0
+              && allMedia.map((media) => (
+                <MediaCard
+                  key={media.id}
+                  media={media}
+                  layout={layout}
+                  blockOptions={{
+                    poster: { flags: { showFlags: false } },
+                    hover: { flags: { showFlags: false } },
+                    body: { flags: { showFlags: false } },
+                  }}
+                  mode="add-collection"
+                />
+              ))}
+
+            {isFetchingNextPage
+              && Array.from({ length: 10 }).map((_, i) => (
+                <Skeleton key={i} className="w-full border border-border aspect-2/3 rounded-xl" />
+              ))}
+
+            <div ref={ref} style={{ height: 1 }} />
           </div>
-        }
+        </div>
 
         <DrawerFooter className="border-t border-border/40 py-3">
           <Link
