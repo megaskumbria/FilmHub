@@ -10,3 +10,4 @@ export { GenreSelect } from "./genre-select";
 export { YearSelect } from "./year-select";
 export { SortSelect } from "./sort-select";
 export { CountrySelect } from "./country-select";
+export { CreateFolder } from "./create-folder";
