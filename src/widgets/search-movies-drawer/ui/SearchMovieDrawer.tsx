@@ -50,7 +50,7 @@ export const SearchMovieDrawer = () => {
 
   useEffect(() => setOpen(false), [pathname]);
 
-  console.log(isLoading);
+  // console.log(isLoading);
 
   return (
     <Drawer direction="top" open={open} onOpenChange={setOpen}>

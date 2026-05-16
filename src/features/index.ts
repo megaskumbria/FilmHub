@@ -11,3 +11,4 @@ export { YearSelect } from "./year-select";
 export { SortSelect } from "./sort-select";
 export { CountrySelect } from "./country-select";
 export { CreateFolder } from "./create-folder";
+export { FolderMetaBar } from "./folder-meta-bar";

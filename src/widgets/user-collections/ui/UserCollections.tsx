@@ -4,7 +4,7 @@ import { Button } from "@/shared/ui";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { CreateFolderModal } from "@/widgets";
 import { folders } from "../model/mock-folders";
-import { Folder } from "./Folder";
+import { Folder } from "@/entities";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useRef, useState } from "react";

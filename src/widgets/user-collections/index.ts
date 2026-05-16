@@ -1,2 +1,2 @@
 export { UserCollections } from "./ui/UserCollections";
-export { Folder } from "./ui/Folder";
+export { Folder } from "../../entities/folder/ui/Folder";

@@ -1,15 +1,21 @@
-import { Input, Label } from "@/shared/ui";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/shared/ui";
 import { ColorPreset } from "@/widgets/create-folder-modal/model/color-presets";
-import { ReactNode, useState } from "react";
+import { ComponentType } from "react";
+import { CreateFolderSchema } from "../model/create-folder-schema";
+import { UseFormReturn } from "react-hook-form";
+
+type IconProps = {
+  className?: string;
+  strokeWidth?: number;
+};
 
 interface Props {
   selectedPreset: ColorPreset;
-  selectedIcon: ReactNode;
+  Icon: ComponentType<IconProps>;
+  form: UseFormReturn<CreateFolderSchema>;
 }
 
-export const FolderNameRow = ({ selectedPreset, selectedIcon }: Props) => {
-  const [folderName, setFolderName] = useState("");
-
+export const FolderNameRow = ({ selectedPreset, Icon, form }: Props) => {
   return (
     <div className="flex gap-4 items-start">
       <div
@@ -19,19 +25,31 @@ export const FolderNameRow = ({ selectedPreset, selectedIcon }: Props) => {
           borderColor: `${selectedPreset.hex}66`,
         }}
       >
-        {selectedIcon}
+        <Icon className="size-7" strokeWidth={1.5} />
       </div>
 
-      <div className="flex-1 flex flex-col gap-1.5">
-        <Label className="text-xs font-medium text-zinc-muted uppercase tracking-wider">Name</Label>
-        <Input
-          variant="neutral"
-          inputSize="default"
-          placeholder="e.g. Favorite thrillers"
-          value={folderName}
-          onChange={(e) => setFolderName(e.target.value)}
-        />
-      </div>
+      <FormField
+        control={form.control}
+        name="name"
+        render={({ field }) => (
+          <FormItem className="flex-1 flex flex-col gap-1.5">
+            <FormLabel className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
+              Name
+            </FormLabel>
+
+            <FormControl>
+              <Input
+                variant="neutral"
+                inputSize="default"
+                placeholder="e.g. Favorite thrillers"
+                {...field}
+              />
+            </FormControl>
+
+            <FormMessage className="text-xs text-destructive" />
+          </FormItem>
+        )}
+      />
     </div>
   );
 };
