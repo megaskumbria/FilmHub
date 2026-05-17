@@ -20,24 +20,26 @@ export const FolderIconPicker = ({ form }: Props) => {
             Icon
           </FormLabel>
 
-          <FormControl className="grid grid-cols-8 justify-items-center gap-1.5 max-h-50 overflow-y-auto scrollbar-minimal">
-            {ICONS.map(({ icon: Icon, label }, i) => (
-              <Button
-                key={i}
-                title={label}
-                onClick={() => field.onChange(i)}
-                className={cn(
-                  "size-11 rounded-lg flex items-center justify-center transition-all duration-150",
-                  "border text-muted hover:text-foreground",
-                  field.value === i ?
-                    "bg-accent/15 border-accent/50 text-accent"
-                  : "bg-surface border-border hover:bg-surface-elevated",
-                )}
-                {...field}
-              >
-                <Icon className="size-6" />
-              </Button>
-            ))}
+          <FormControl>
+            <div className="grid grid-cols-8 justify-items-center gap-1.5 max-h-50 overflow-y-auto scrollbar-minimal">
+              {ICONS.map(({ icon: Icon, label, name }, i) => (
+                <Button
+                  type="button"
+                  key={i}
+                  title={label}
+                  onClick={() => field.onChange(name)}
+                  className={cn(
+                    "size-11 rounded-lg flex items-center justify-center transition-all duration-150",
+                    "border text-muted hover:text-foreground",
+                    field.value === name ?
+                      "bg-accent/15 border-accent/50 text-accent"
+                    : "bg-surface border-border hover:bg-surface-elevated",
+                  )}
+                >
+                  <Icon className="size-6" />
+                </Button>
+              ))}
+            </div>
           </FormControl>
         </FormItem>
       )}

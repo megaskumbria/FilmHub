@@ -1,5 +1,4 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/shared/ui";
-import { ColorPreset } from "@/widgets/create-folder-modal/model/color-presets";
 import { ComponentType } from "react";
 import { CreateFolderSchema } from "../model/create-folder-schema";
 import { UseFormReturn } from "react-hook-form";
@@ -10,7 +9,7 @@ type IconProps = {
 };
 
 interface Props {
-  selectedPreset: ColorPreset;
+  selectedPreset: string;
   Icon: ComponentType<IconProps>;
   form: UseFormReturn<CreateFolderSchema>;
 }
@@ -21,8 +20,8 @@ export const FolderNameRow = ({ selectedPreset, Icon, form }: Props) => {
       <div
         className="shrink-0 size-16 rounded-xl border overflow-hidden relative flex items-center justify-center"
         style={{
-          background: `linear-gradient(to top, ${selectedPreset.hex}18, ${selectedPreset.hex}55)`,
-          borderColor: `${selectedPreset.hex}66`,
+          background: `linear-gradient(to top, ${selectedPreset}18, ${selectedPreset}55)`,
+          borderColor: `${selectedPreset}66`,
         }}
       >
         <Icon className="size-7" strokeWidth={1.5} />

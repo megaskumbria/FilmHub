@@ -63,22 +63,6 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
         </DialogHeader>
 
         <CreateFolder />
-
-        <div className="px-5 py-4 border-t border-border flex items-center justify-end gap-2">
-          <DialogClose asChild>
-            <Button
-              variant="secondary"
-              size="sm"
-              className="rounded-lg text-sm text-muted hover:text-foreground"
-            >
-              <span>Cancel</span>
-            </Button>
-          </DialogClose>
-
-          <Button variant="accent" size="sm" className="rounded-lg text-sm">
-            <span className="font-medium">Create collection</span>
-          </Button>
-        </div>
       </DialogContent>
     </Dialog>
   );
