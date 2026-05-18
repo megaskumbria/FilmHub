@@ -4,13 +4,13 @@ import { Button } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
-import type { Folder as FolderType } from "../../../widgets/user-collections/model/mock-folders";
 import { useState } from "react";
 import { FolderMetaBar } from "@/features";
+import { IFolder } from "@/shared/hooks";
 
 interface FolderProps {
   isMyProfile: boolean;
-  folder: FolderType;
+  folder: IFolder;
   index: number;
   activeFolder: number;
   setActiveFolder: (index: number) => void;
@@ -28,14 +28,14 @@ export const Folder = ({
   const {
     id,
     icon: Icon,
-    borderBase,
-    borderActive,
-    glowColor,
-    accentColor,
+    // borderBase,
+    // borderActive,
+    // glowColor,
+    // accentColor,
     name,
     count,
-    posters,
-    iconColor,
+    // posters,
+    // iconColor,
     isVisible,
   } = folder;
 

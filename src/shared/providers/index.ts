@@ -1,1 +1,2 @@
-export { ReactQueryProvider } from "./react-query/ui/ReactQueryProvider";
+export { ReactQueryProvider } from "./react-query/ReactQueryProvider";
+export { AuthProvider } from "./auth/AuthProvider";

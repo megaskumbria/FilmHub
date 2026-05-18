@@ -5,9 +5,10 @@ import { NextIntlClientProvider } from "next-intl";
 import { Manrope } from "next/font/google";
 import { Header } from "@/widgets";
 import { TooltipProvider } from "@/shared/ui/tooltip";
-// import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/shared/ui/sonner";
-import { ReactQueryProvider } from "@/shared/providers";
+import { ReactQueryProvider, AuthProvider } from "@/shared/providers";
+import { cookies } from "next/headers";
+import { jwtDecode } from "jwt-decode";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -25,6 +26,11 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const messages = await getMessages();
   const locale = (await params).locale;
 
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
+  const user =
+    accessToken ? jwtDecode<{ sub: string; email: string; username: string }>(accessToken) : null;
+
   return (
     <html lang={locale} className={manrope.variable} suppressHydrationWarning>
       <body>
@@ -36,15 +42,12 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             enableSystem
             disableTransitionOnChange
           > */}
-            {/* <SidebarProvider> */}
             <TooltipProvider>
-              <Header />
-              {/* <Sidebar /> */}
-
-              {children}
-
-              {/* </SidebarProvider> */}
-              {/* </ThemeProvider> */}
+              <AuthProvider initialUser={user}>
+                <Header />
+                {children}
+                {/* </ThemeProvider> */}
+              </AuthProvider>
             </TooltipProvider>
             <Toaster />
           </NextIntlClientProvider>

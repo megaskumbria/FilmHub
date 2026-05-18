@@ -29,7 +29,7 @@ export const FolderNameRow = ({ selectedPreset, Icon, form }: Props) => {
 
       <FormField
         control={form.control}
-        name="name"
+        name="folderName"
         render={({ field }) => (
           <FormItem className="flex-1 flex flex-col gap-1.5">
             <FormLabel className="text-xs font-medium text-zinc-muted uppercase tracking-wider">

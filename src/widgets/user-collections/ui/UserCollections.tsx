@@ -3,7 +3,6 @@
 import { Button } from "@/shared/ui";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { CreateFolderModal } from "@/widgets";
-import { folders } from "../model/mock-folders";
 import { Folder } from "@/entities";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -11,6 +10,8 @@ import { useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 import { cn } from "@/shared/lib/utils";
+import { useFolders } from "@/shared/hooks";
+import { useAuthStore } from "@/features/auth/model/auth.store";
 
 interface UserCollectionsProps {
   setActiveFolder: (folder: number) => void;
@@ -25,6 +26,9 @@ export const UserCollections = ({
 }: UserCollectionsProps) => {
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
+
+  const { user } = useAuthStore();
+  const { data: folders } = useFolders(user.id ?? "");
 
   const handleNext = () => {
     const swiper = swiperRef.current;
@@ -82,7 +86,7 @@ export const UserCollections = ({
             <ChevronLeft className="size-5" />
           </Button>
 
-          {folders.map((folder, index) => {
+          {folders?.map((folder, index) => {
             const { id } = folder;
 
             return (

@@ -16,9 +16,9 @@ export const CreateFolder = () => {
   const form = useForm<CreateFolderSchema>({
     resolver: zodResolver(createFolderSchema),
     defaultValues: {
-      name: "",
-      icon: ICONS[0].name,
-      color: COLOR_PRESETS[0].hex,
+      folderName: "",
+      iconName: ICONS[0].iconName,
+      colorHex: COLOR_PRESETS[0].colorHex,
     },
   });
 
@@ -26,12 +26,12 @@ export const CreateFolder = () => {
 
   const handleSubmitForm = (data: CreateFolderSchema) => createFolder(data);
 
-  const name = form.watch("name");
-  const iconName = form.watch("icon");
-  const colorHex = form.watch("color");
+  const folderName = form.watch("folderName");
+  const iconNameField = form.watch("iconName");
+  const selectedColorHex = form.watch("colorHex");
 
-  const selectedPreset = colorHex;
-  const selectedIcon = (ICONS.find(({ name }) => name === iconName) ?? ICONS[0]).icon;
+  const selectedPreset = selectedColorHex;
+  const selectedIcon = (ICONS.find(({ iconName }) => iconName === iconNameField) ?? ICONS[0]).icon;
 
   return (
     <Form {...form}>
@@ -63,7 +63,7 @@ export const CreateFolder = () => {
             size="sm"
             className={cn(
               "rounded-lg text-sm",
-              name.length < 3 && "opacity-50 pointer-events-none",
+              folderName.length < 3 && "opacity-50 pointer-events-none",
               "transition-all duration-150",
             )}
             disabled={isPending}

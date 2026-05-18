@@ -13,7 +13,7 @@ export const FolderColorPicker = ({ form }: Props) => {
   return (
     <FormField
       control={form.control}
-      name="color"
+      name="colorHex"
       render={({ field }) => (
         <FormItem className="flex flex-col gap-2.5">
           <FormLabel className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
@@ -22,19 +22,19 @@ export const FolderColorPicker = ({ form }: Props) => {
 
           <FormControl>
             <div className="grid grid-cols-10 gap-1.5 justify-items-center">
-              {COLOR_PRESETS.map(({ hex, label }, i) => (
+              {COLOR_PRESETS.map(({ colorHex, label }, i) => (
                 <Button
                   type="button"
                   key={i}
                   title={label}
-                  onClick={() => field.onChange(hex)}
+                  onClick={() => field.onChange(colorHex)}
                   className={cn(
                     "size-7 rounded-full transition-all duration-150",
-                    field.value !== hex && "opacity-60 hover:opacity-90 hover:scale-105",
-                    field.value === hex && "scale-105",
+                    field.value !== colorHex && "opacity-60 hover:opacity-90 hover:scale-105",
+                    field.value === colorHex && "scale-105",
                   )}
                   style={{
-                    backgroundColor: hex,
+                    backgroundColor: colorHex,
                   }}
                 />
               ))}
