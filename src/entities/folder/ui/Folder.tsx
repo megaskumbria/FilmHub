@@ -1,12 +1,12 @@
 "use client";
 
 import { Button } from "@/shared/ui";
-import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { FolderMetaBar } from "@/features";
 import { IFolder } from "@/shared/hooks";
+import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 
 interface FolderProps {
   isMyProfile: boolean;
@@ -25,19 +25,9 @@ export const Folder = ({
 }: FolderProps) => {
   const [hoveredFolder, setHoveredFolder] = useState<number | null>(null);
 
-  const {
-    id,
-    icon: Icon,
-    // borderBase,
-    // borderActive,
-    // glowColor,
-    // accentColor,
-    name,
-    count,
-    // posters,
-    // iconColor,
-    isVisible,
-  } = folder;
+  const { id, iconName, name, posters, isVisible, colorHex } = folder;
+
+  const Icon = ICONS.find((i) => i.iconName === iconName)?.icon;
 
   const isActive = activeFolder === index;
   const isHovered = hoveredFolder === index;
@@ -56,6 +46,8 @@ export const Folder = ({
 
   const posterTransforms = isHovered || isActive ? fanOut : stacked;
 
+  // console.log("folder", folder);
+
   return (
     <div
       key={id}
@@ -64,22 +56,21 @@ export const Folder = ({
       onMouseLeave={() => setHoveredFolder(null)}
     >
       <div
-        className={cn(
-          "absolute top-0 left-4 h-3 w-16 rounded-t-md border-t border-l border-r transition-colors duration-300",
-          isActive ? borderActive : borderBase,
-          "bg-surface",
-        )}
+        className="absolute top-0 left-4 h-3 w-16 rounded-t-md border-t border-l border-r bg-surface transition-colors duration-300"
+        style={{
+          borderColor: isActive ? `${colorHex}99` : `${colorHex}4D`,
+        }}
       />
 
       <div
         role="button"
         tabIndex={0}
         onClick={() => setActiveFolder(index)}
-        className={cn(
-          "cursor-pointer relative flex-col shadow-lg items-stretch gap-0 h-auto p-0 rounded-b-xl rounded-tr-xl border overflow-hidden transition-all duration-300 w-full",
-          isActive ? borderActive : borderBase,
-          isActive && glowColor,
-        )}
+        className="cursor-pointer relative flex-col shadow-lg items-stretch gap-0 h-auto p-0 rounded-b-xl rounded-tr-xl border overflow-hidden transition-all duration-300 w-full"
+        style={{
+          borderColor: isActive ? `${colorHex}99` : `${colorHex}4D`,
+          boxShadow: isActive ? `0 4px 20px ${colorHex}66` : undefined,
+        }}
       >
         <div className="relative h-36 bg-surface overflow-hidden">
           {posters.map((src, i) => {
@@ -103,16 +94,16 @@ export const Folder = ({
             );
           })}
 
-          <div className={cn("absolute inset-0 bg-linear-to-t opacity-60", accentColor)} />
+          <div
+            className="absolute inset-0 opacity-60"
+            style={{
+              background: `linear-gradient(to top, color-mix(in srgb, ${colorHex} 30%, black) 0%, color-mix(in srgb, ${colorHex} 15%, black) 100%)`,
+            }}
+          />
 
           <div className="flex items-center absolute top-2.5 left-2.5 gap-2">
-            <div
-              className={cn(
-                "size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10",
-                iconColor,
-              )}
-            >
-              <Icon className="size-4" />
+            <div className="size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10">
+              {Icon && <Icon className="size-4" style={{ color: colorHex }} />}
             </div>
 
             {isMyProfile && (
@@ -125,7 +116,7 @@ export const Folder = ({
           </div>
         </div>
 
-        <FolderMetaBar name={name} count={count} isHovered={isHovered} isMyProfile={isMyProfile} />
+        <FolderMetaBar name={name} count={10} isHovered={isHovered} isMyProfile={isMyProfile} />
       </div>
     </div>
   );

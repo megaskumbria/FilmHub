@@ -10,7 +10,7 @@ interface Props {
   isMyProfile: boolean;
 }
 
-export const FolderMetaBar = ({ name, count, isHovered, isMyProfile }: Props) => {
+export const FolderMetaBar = ({ name, count = 10, isHovered, isMyProfile }: Props) => {
   return (
     <div className="px-3.5 py-2.5 bg-surface flex items-center justify-between">
       <span className="font-semibold text-foreground text-sm">{name}</span>

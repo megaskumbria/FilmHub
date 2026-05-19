@@ -6,15 +6,23 @@ import { apiClient } from "../api/api-client";
 export interface IFolder {
   id: number;
   name: string;
-  icon: string;
-  color: string;
+  iconName: string;
+  colorHex: string;
+  isVisible: boolean;
+  posters: string[];
+
+  position: number;
+
+  userId: string;
+  updatedAt: string;
+  createdAt: string;
 }
 
 export const useFolders = (userId: string) => {
   return useQuery({
     queryKey: ["folders", userId],
     queryFn: async () => {
-      const { data } = await apiClient.get<IFolder[]>(`${API_URL}/movie-folders/${userId}`);
+      const { data } = await apiClient.get<IFolder[]>(`${API_URL}/movie-folders`);
       return data;
     },
     staleTime: 1000 * 60 * 5,

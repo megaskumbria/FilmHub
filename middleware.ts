@@ -13,7 +13,7 @@ export default async function middleware(request: NextRequest) {
 
   if (!accessToken && refreshToken) {
     const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/refresh`,
       {
         method: "GET",
         headers: {
