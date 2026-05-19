@@ -8,23 +8,36 @@ import { DialogClose, Button, Form } from "@/shared/ui";
 import { useForm } from "react-hook-form";
 import { createFolderSchema, CreateFolderSchema } from "../model/create-folder-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateFolder } from "@/shared/hooks";
-import { Loader2 } from "lucide-react";
+import { IFolder, useCreateFolder, useEditFolder } from "@/shared/hooks";
 import { cn } from "@/shared/lib/utils";
 
-export const CreateFolder = () => {
+interface Props {
+  onSuccess: () => void;
+  initialData?: IFolder;
+}
+
+export const CreateFolder = ({ onSuccess, initialData }: Props) => {
   const form = useForm<CreateFolderSchema>({
     resolver: zodResolver(createFolderSchema),
     defaultValues: {
-      folderName: "",
-      iconName: ICONS[0].iconName,
-      colorHex: COLOR_PRESETS[0].colorHex,
+      id: initialData?.id ?? undefined,
+      folderName: initialData?.folderName ?? "",
+      iconName: initialData?.iconName ?? ICONS[0].iconName,
+      colorHex: initialData?.colorHex ?? COLOR_PRESETS[0].colorHex,
     },
   });
 
   const { mutate: createFolder, isPending } = useCreateFolder();
+  const { mutate: updateFolder, isPending: isUpdating } = useEditFolder();
 
-  const handleSubmitForm = (data: CreateFolderSchema) => createFolder(data);
+  const handleSubmitForm = (data: CreateFolderSchema) => {
+    console.log(initialData);
+    if (initialData) {
+      updateFolder({ id: initialData.id, data }, { onSuccess });
+    } else {
+      createFolder(data, { onSuccess });
+    }
+  };
 
   const folderName = form.watch("folderName");
   const iconNameField = form.watch("iconName");
@@ -49,9 +62,8 @@ export const CreateFolder = () => {
         <div className="px-5 py-4 border-t border-border flex items-center justify-end gap-2">
           <DialogClose asChild>
             <Button
-              variant="secondary"
               size="sm"
-              className="rounded-lg text-sm text-muted hover:text-foreground"
+              className="border border-border rounded-lg text-sm text-muted hover:text-foreground"
               disabled={isPending}
             >
               <span>Cancel</span>
@@ -62,16 +74,16 @@ export const CreateFolder = () => {
             variant="accent"
             size="sm"
             className={cn(
-              "rounded-lg text-sm",
-              folderName.length < 3 && "opacity-50 pointer-events-none",
-              "transition-all duration-150",
+              "rounded-lg text-sm transition-all duration-150",
+              folderName.trim().length < 3 && "opacity-50 pointer-events-none",
+              (isUpdating || isPending) && "opacity-50 pointer-events-none",
             )}
-            disabled={isPending}
+            disabled={isPending || isUpdating}
             type="submit"
           >
             {isPending ?
-              <Loader2 className="size-4 animate-spin" />
-            : <span className="font-medium">Create collection</span>}
+              <span className="font-medium">{isUpdating ? "Editing..." : "Creating..."}</span>
+            : <span className="font-medium">{initialData ? "Edit" : "Create"}</span>}
           </Button>
         </div>
       </form>

@@ -25,7 +25,7 @@ export const Folder = ({
 }: FolderProps) => {
   const [hoveredFolder, setHoveredFolder] = useState<number | null>(null);
 
-  const { id, iconName, name, posters, isVisible, colorHex } = folder;
+  const { id, iconName, folderName, posters, isVisible, colorHex } = folder;
 
   const Icon = ICONS.find((i) => i.iconName === iconName)?.icon;
 
@@ -116,7 +116,13 @@ export const Folder = ({
           </div>
         </div>
 
-        <FolderMetaBar name={name} count={10} isHovered={isHovered} isMyProfile={isMyProfile} />
+        <FolderMetaBar
+          folder={folder}
+          name={folderName}
+          count={10}
+          isHovered={isHovered}
+          isMyProfile={isMyProfile}
+        />
       </div>
     </div>
   );

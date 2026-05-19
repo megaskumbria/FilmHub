@@ -2,15 +2,19 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { CreateFolderModal } from "@/widgets/create-folder-modal";
 import { Settings } from "lucide-react";
+import { IFolder } from "@/shared/hooks";
 
 interface Props {
   name: string;
   count: number;
   isHovered: boolean;
   isMyProfile: boolean;
+  folder: IFolder;
 }
 
-export const FolderMetaBar = ({ name, count = 10, isHovered, isMyProfile }: Props) => {
+export const FolderMetaBar = ({ folder, name, count = 10, isHovered, isMyProfile }: Props) => {
+  // const { name, count, isVisible } = folder;
+
   return (
     <div className="px-3.5 py-2.5 bg-surface flex items-center justify-between">
       <span className="font-semibold text-foreground text-sm">{name}</span>
@@ -32,7 +36,7 @@ export const FolderMetaBar = ({ name, count = 10, isHovered, isMyProfile }: Prop
               isHovered ? "opacity-100" : "opacity-0",
             )}
           >
-            <CreateFolderModal isEditing={true}>
+            <CreateFolderModal isEditing={true} initialData={folder}>
               <Button
                 onClick={(e) => e.stopPropagation()}
                 className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-foreground hover:bg-white/10 transition-colors"

@@ -21,7 +21,7 @@ import { Check, HelpCircle, Plus, Search } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { IFlagItem } from "@/shared/model/flags";
 import Link from "next/link";
-import { folders } from "@/widgets/user-collections/model/mock-folders";
+// import { folders } from "@/widgets/user-collections/model/mock-folders";
 import Image from "next/image";
 
 interface AddFlagPopoverProps {
@@ -41,9 +41,9 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
     });
   };
 
-  const filteredFolders = folders.filter((f) =>
-    f.name.toLowerCase().includes(folderSearch.toLowerCase()),
-  );
+  // const filteredFolders = folders.filter((f) =>
+  //   f.name.toLowerCase().includes(folderSearch.toLowerCase()),
+  // );
 
   const handleSelectFlag = (category: string, value: string, flagItems: IFlagItem[]) => {
     const flag = flagItems.find((flag) => flag.id.toString() === value);
@@ -200,7 +200,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
             </div>
           </nav>
 
-          <div className="overflow-y-auto max-h-72 px-1.5 pb-1.5 drawer-scroll flex flex-col gap-0.5">
+          {/* <div className="overflow-y-auto max-h-72 px-1.5 pb-1.5 drawer-scroll flex flex-col gap-0.5">
             {filteredFolders.length === 0 ?
               <div className="py-6 text-center text-xs text-zinc-muted">No collections found</div>
             : filteredFolders.map((folder) => {
@@ -254,7 +254,7 @@ export const AddFlagPopover = ({ mode }: AddFlagPopoverProps) => {
                 );
               })
             }
-          </div>
+          </div> */}
 
           <footer className="px-2 py-2 border-t border-border/40 bg-linear-to-r from-accent/3 via-transparent to-transparent flex items-center gap-1.5">
             <Button

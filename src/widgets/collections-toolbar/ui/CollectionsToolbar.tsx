@@ -6,7 +6,7 @@ import { X, Clapperboard, Search, EyeOff, Eye, Share2, Heart } from "lucide-reac
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
 import { AddMovieModal } from "@/widgets/add-movie-modal";
-import { folders } from "@/widgets/user-collections/model/mock-folders";
+// import { folders } from "@/widgets/user-collections/model/mock-folders";
 
 interface CollectionsToolbarProps {
   activeFolder: number;
@@ -20,8 +20,8 @@ export const CollectionsToolbar = ({ activeFolder, isMyProfile }: CollectionsToo
 
   const focusRef = useRef<HTMLInputElement>(null);
 
-  const currentFolder = folders[activeFolder];
-  const { iconColor, name, count, icon: Icon, liked, shared } = currentFolder;
+  // const currentFolder = folders[activeFolder];
+  // const { iconColor, name, count, icon: Icon, liked, shared } = currentFolder;
 
   useEffect(() => {
     if (isSearchOpen) {
@@ -37,15 +37,15 @@ export const CollectionsToolbar = ({ activeFolder, isMyProfile }: CollectionsToo
   return (
     <div className="flex items-center justify-between mb-5 pt-5">
       <div className="flex items-center gap-2 pr-2">
-        {currentFolder && (
+        {/* {currentFolder && (
           <div className={cn("shrink-0", iconColor)}>
             <Icon className="size-5" />
           </div>
-        )}
+        )} */}
 
-        <h2 className={cn("text-lg font-bold", iconColor)}>{name}</h2>
+        <h2 className="text-lg font-bold">name</h2>
 
-        <Separator orientation="vertical" className="h-5 bg-border" />
+        {/* <Separator orientation="vertical" className="h-5 bg-border" />
 
         <span className="text-base font-normal text-foreground">{count}</span>
 
@@ -61,7 +61,7 @@ export const CollectionsToolbar = ({ activeFolder, isMyProfile }: CollectionsToo
             <Heart className="size-3.5 shrink-0" />
             <span className="text-sm tabular-nums">{liked}</span>
           </Button>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex items-center gap-2">

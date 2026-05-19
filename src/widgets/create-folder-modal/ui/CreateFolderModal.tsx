@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { IconX } from "@tabler/icons-react";
 import {
   Button,
@@ -13,6 +13,7 @@ import {
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { CreateFolder } from "@/features";
+import { IFolder } from "@/shared/hooks";
 
 const TOTAL_FOLDERS = 10;
 const USED_FOLDERS = 7;
@@ -20,14 +21,17 @@ const USED_FOLDERS = 7;
 interface CreateFolderModalProps {
   children: ReactNode;
   isEditing: boolean;
+  initialData?: IFolder;
 }
 
-export function CreateFolderModal({ children, isEditing }: CreateFolderModalProps) {
+export function CreateFolderModal({ children, isEditing, initialData }: CreateFolderModalProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   const remaining = TOTAL_FOLDERS - USED_FOLDERS;
   const isNearLimit = remaining <= 2;
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent
@@ -62,7 +66,7 @@ export function CreateFolderModal({ children, isEditing }: CreateFolderModalProp
           </DialogClose>
         </DialogHeader>
 
-        <CreateFolder />
+        <CreateFolder onSuccess={() => setIsOpen(false)} initialData={initialData} />
       </DialogContent>
     </Dialog>
   );

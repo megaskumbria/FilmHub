@@ -5,7 +5,7 @@ import { apiClient } from "../api/api-client";
 
 export interface IFolder {
   id: number;
-  name: string;
+  folderName: string;
   iconName: string;
   colorHex: string;
   isVisible: boolean;
@@ -36,6 +36,22 @@ export const useCreateFolder = () => {
     mutationFn: async (data: CreateFolderSchema) => {
       const { data: response } = await apiClient.post<IFolder>(
         `${API_URL}/movie-folders/create`,
+        data,
+      );
+
+      return response;
+    },
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["folders"] }),
+  });
+};
+
+export const useEditFolder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: CreateFolderSchema }) => {
+      const { data: response } = await apiClient.patch<IFolder>(
+        `${API_URL}/movie-folders/edit/${id}`,
         data,
       );
 

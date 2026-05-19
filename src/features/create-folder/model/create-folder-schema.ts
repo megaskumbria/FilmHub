@@ -1,7 +1,8 @@
 import { z } from "zod";
 
 export const createFolderSchema = z.object({
-  folderName: z.string().min(3, "Name must be at least 3 characters long"),
+  id: z.number().optional(),
+  folderName: z.string().trim().max(50, "Name must be less than 50 characters"),
   iconName: z.string(),
   colorHex: z.string(),
 });

@@ -8,4 +8,4 @@ export { useDebounce } from "./useDebounce";
 export { useGenres } from "./useGenres";
 export { useCountries } from "./useCountries";
 export { useMovie } from "./useMedia";
-export { useFolders, useCreateFolder, type IFolder } from "./useFolders";
+export { useFolders, useCreateFolder, useEditFolder, type IFolder } from "./useFolders";
