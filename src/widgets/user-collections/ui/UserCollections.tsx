@@ -40,6 +40,11 @@ export const UserCollections = ({
     swiper?.slidePrev();
   };
 
+  const foldersCount = folders?.length ?? 0;
+
+  const isLoop = foldersCount > 10;
+  const isHideButtons = foldersCount > 5;
+
   return (
     <>
       <div className="flex items-center justify-between mb-5 pt-5">
@@ -60,9 +65,10 @@ export const UserCollections = ({
         onMouseLeave={() => setIsNavigationVisible(false)}
       >
         <Swiper
+          key={isLoop ? "loop" : "no-loop"}
           spaceBetween={10}
           modules={[Navigation]}
-          loop={true}
+          loop={isLoop}
           slidesPerView={5}
           slidesPerGroup={2}
           onSwiper={(swiper) => {
@@ -70,21 +76,25 @@ export const UserCollections = ({
           }}
           className="relative min-h-[220px] h-full"
         >
-          <Button
-            onClick={handlePrev}
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center",
-              "size-10 rounded-full p-0",
-              "bg-surface border border-border",
-              "text-muted hover:text-foreground hover:border-accent/50 hover:bg-surface-elevated",
-              "shadow-md transition-all duration-200",
-              isNavigationVisible ? "opacity-100 left-1" : "opacity-0 -left-2 pointer-events-none",
-            )}
-          >
-            <ChevronLeft className="size-5" />
-          </Button>
+          {isHideButtons && (
+            <Button
+              onClick={handlePrev}
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center",
+                "size-10 rounded-full p-0",
+                "bg-surface border border-border",
+                "text-muted hover:text-foreground hover:border-accent/50 hover:bg-surface-elevated",
+                "shadow-md transition-all duration-200",
+                isNavigationVisible ? "opacity-100 left-1" : (
+                  "opacity-0 -left-2 pointer-events-none"
+                ),
+              )}
+            >
+              <ChevronLeft className="size-5" />
+            </Button>
+          )}
 
           {folders?.map((folder, index) => {
             const { id } = folder;
@@ -102,23 +112,25 @@ export const UserCollections = ({
             );
           })}
 
-          <Button
-            onClick={handleNext}
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center",
-              "size-10 rounded-full p-0",
-              "bg-surface border border-border",
-              "text-muted hover:text-foreground hover:border-accent/50 hover:bg-surface-elevated",
-              "shadow-md transition-all duration-200",
-              isNavigationVisible ? "opacity-100 right-1" : (
-                "opacity-0 -right-2 pointer-events-none"
-              ),
-            )}
-          >
-            <ChevronRight className="size-5" />
-          </Button>
+          {isHideButtons && (
+            <Button
+              onClick={handleNext}
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center",
+                "size-10 rounded-full p-0",
+                "bg-surface border border-border",
+                "text-muted hover:text-foreground hover:border-accent/50 hover:bg-surface-elevated",
+                "shadow-md transition-all duration-200",
+                isNavigationVisible ? "opacity-100 right-1" : (
+                  "opacity-0 -right-2 pointer-events-none"
+                ),
+              )}
+            >
+              <ChevronRight className="size-5" />
+            </Button>
+          )}
         </Swiper>
       </div>
     </>

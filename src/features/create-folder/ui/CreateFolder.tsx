@@ -20,7 +20,6 @@ export const CreateFolder = ({ onSuccess, initialData }: Props) => {
   const form = useForm<CreateFolderSchema>({
     resolver: zodResolver(createFolderSchema),
     defaultValues: {
-      id: initialData?.id ?? undefined,
       folderName: initialData?.folderName ?? "",
       iconName: initialData?.iconName ?? ICONS[0].iconName,
       colorHex: initialData?.colorHex ?? COLOR_PRESETS[0].colorHex,
@@ -31,7 +30,6 @@ export const CreateFolder = ({ onSuccess, initialData }: Props) => {
   const { mutate: updateFolder, isPending: isUpdating } = useEditFolder();
 
   const handleSubmitForm = (data: CreateFolderSchema) => {
-    console.log(initialData);
     if (initialData) {
       updateFolder({ id: initialData.id, data }, { onSuccess });
     } else {

@@ -1,8 +1,9 @@
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { CreateFolderModal } from "@/widgets/create-folder-modal";
-import { Settings } from "lucide-react";
-import { IFolder } from "@/shared/hooks";
+import { Loader2, Settings, Trash2 } from "lucide-react";
+import { IFolder, useDeleteFolder } from "@/shared/hooks";
+import { toast } from "sonner";
 
 interface Props {
   name: string;
@@ -13,7 +14,21 @@ interface Props {
 }
 
 export const FolderMetaBar = ({ folder, name, count = 10, isHovered, isMyProfile }: Props) => {
-  // const { name, count, isVisible } = folder;
+  const { mutate: deleteFolder, isPending: isDeleting } = useDeleteFolder();
+
+  const { id } = folder;
+
+  const handleDeleteFolder = () => {
+    deleteFolder(id, {
+      onSuccess: () => {
+        toast.success("Folder deleted successfully", { position: "bottom-left" });
+      },
+
+      onError: () => {
+        toast.error("Failed to delete folder", { position: "bottom-left" });
+      },
+    });
+  };
 
   return (
     <div className="px-3.5 py-2.5 bg-surface flex items-center justify-between">
@@ -44,6 +59,16 @@ export const FolderMetaBar = ({ folder, name, count = 10, isHovered, isMyProfile
                 <Settings className="size-4" />
               </Button>
             </CreateFolderModal>
+
+            <Button
+              onClick={handleDeleteFolder}
+              disabled={isDeleting}
+              className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
+            >
+              {isDeleting ?
+                <Loader2 className="size-4 animate-spin" />
+              : <Trash2 className="size-4" />}
+            </Button>
           </div>
         )}
       </div>

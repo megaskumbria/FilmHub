@@ -4,7 +4,7 @@ import { CreateFolderSchema } from "@/features/create-folder/model/create-folder
 import { apiClient } from "../api/api-client";
 
 export interface IFolder {
-  id: number;
+  id: string;
   folderName: string;
   iconName: string;
   colorHex: string;
@@ -49,10 +49,25 @@ export const useEditFolder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, data }: { id: number; data: CreateFolderSchema }) => {
+    mutationFn: async ({ id, data }: { id: string; data: CreateFolderSchema }) => {
       const { data: response } = await apiClient.patch<IFolder>(
         `${API_URL}/movie-folders/edit/${id}`,
         data,
+      );
+
+      return response;
+    },
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["folders"] }),
+  });
+};
+
+export const useDeleteFolder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { data: response } = await apiClient.delete<IFolder>(
+        `${API_URL}/movie-folders/delete/${id}`,
       );
 
       return response;
