@@ -51,7 +51,7 @@ export const Folder = ({
   return (
     <div
       key={id}
-      className="relative pt-3 flex-1"
+      className="relative pt-3"
       onMouseEnter={() => setHoveredFolder(index)}
       onMouseLeave={() => setHoveredFolder(null)}
     >

@@ -50,6 +50,7 @@ export const FolderMetaBar = ({ folder, name, count = 10, isHovered, isMyProfile
               "absolute right-0 flex items-center gap-1 transition-opacity duration-200",
               isHovered ? "opacity-100" : "opacity-0",
             )}
+            onClick={(e) => e.stopPropagation()}
           >
             <CreateFolderModal isEditing={true} initialData={folder}>
               <Button
