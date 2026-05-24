@@ -1,2 +1,2 @@
-export { Folder } from "./ui/Folder";
+export { CollectionFolder } from "./ui/CollectionFolder";
 export { FolderSkeleton } from "./ui/FolderSkeleton";

@@ -2,21 +2,21 @@
 
 import { cn } from "@/shared/lib/utils";
 import { Input, Button, Separator } from "@/shared/ui";
-import { X, Clapperboard, Search, EyeOff, Eye, Share2, Heart } from "lucide-react";
+import { X, Clapperboard, Search, EyeOff, Eye } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
 import { AddMovieModal } from "@/widgets/add-movie-modal";
-import { useFolders } from "@/shared/hooks";
+import { useCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 
 interface CollectionsToolbarProps {
-  activeFolderId: string;
+  activeCollectionId: string;
   isMyProfile: boolean;
   userId: string;
 }
 
 export const CollectionsToolbar = ({
-  activeFolderId,
+  activeCollectionId,
   isMyProfile,
   userId,
 }: CollectionsToolbarProps) => {
@@ -26,10 +26,10 @@ export const CollectionsToolbar = ({
 
   const focusRef = useRef<HTMLInputElement>(null);
 
-  const { data: folders } = useFolders(userId);
-  const folder = folders?.find((folder) => folder.id === activeFolderId);
+  const { data: collections } = useCollection(userId);
+  const collection = collections?.find((collection) => collection.id === activeCollectionId);
 
-  const { folderName, iconName, colorHex } = folder ?? {};
+  const { collectionName, iconName, colorHex } = collection ?? {};
 
   const Icon = ICONS.find((icon) => icon.iconName === iconName)?.icon;
 
@@ -47,9 +47,9 @@ export const CollectionsToolbar = ({
   return (
     <div className="flex items-center justify-between mb-5 pt-5">
       <div className="flex items-center gap-2 pr-2">
-        {folder && Icon && <Icon className="size-5 shrink-0" style={{ color: colorHex }} />}
+        {collection && Icon && <Icon className="size-5 shrink-0" style={{ color: colorHex }} />}
 
-        <h2 className="text-lg font-bold">{folderName}</h2>
+        <h2 className="text-lg font-bold">{collectionName}</h2>
 
         <Separator orientation="vertical" className="h-5 bg-border" />
 

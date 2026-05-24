@@ -127,7 +127,7 @@ export const MediaCard = ({
 
           <PopoverContent className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full">
             {mode === "add-flag" && <SetMovieFlags />}
-            {mode === "add-collection" && <AddMovieCollection />}
+            {mode === "add-collection" && <AddMovieCollection mediaId={id} />}
           </PopoverContent>
         </Popover>
       )}

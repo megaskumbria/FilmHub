@@ -2,7 +2,7 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui";
 import { IconCamera, IconCrown, IconLock } from "@tabler/icons-react";
 
-export const FolderCustomCover = () => {
+export const CollectionCustomCover = () => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-2">

@@ -9,10 +9,10 @@ export { useGenres } from "./useGenres";
 export { useCountries } from "./useCountries";
 export { useMovie } from "./useMedia";
 export {
-  useFolders,
-  useCreateFolder,
-  useEditFolder,
-  useDeleteFolder,
-  useAddMovieToFolder,
-  type IFolder,
-} from "./useFolders";
+  useCollection,
+  useCreateCollection,
+  useEditCollection,
+  useDeleteCollection,
+  useAddMediaToCollection,
+  type ICollection,
+} from "./useCollection";

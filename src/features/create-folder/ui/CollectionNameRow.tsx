@@ -1,6 +1,6 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/shared/ui";
 import { ComponentType } from "react";
-import { CreateFolderSchema } from "../model/create-folder-schema";
+import { CreateCollectionSchema } from "../model/create-collection-schema";
 import { UseFormReturn } from "react-hook-form";
 
 type IconProps = {
@@ -11,10 +11,10 @@ type IconProps = {
 interface Props {
   selectedPreset: string;
   Icon: ComponentType<IconProps>;
-  form: UseFormReturn<CreateFolderSchema>;
+  form: UseFormReturn<CreateCollectionSchema>;
 }
 
-export const FolderNameRow = ({ selectedPreset, Icon, form }: Props) => {
+export const CollectionNameRow = ({ selectedPreset, Icon, form }: Props) => {
   return (
     <div className="flex gap-4 items-start">
       <div
@@ -29,7 +29,7 @@ export const FolderNameRow = ({ selectedPreset, Icon, form }: Props) => {
 
       <FormField
         control={form.control}
-        name="folderName"
+        name="collectionName"
         render={({ field }) => (
           <FormItem className="flex-1 flex flex-col gap-1.5">
             <FormLabel className="text-xs font-medium text-zinc-muted uppercase tracking-wider">

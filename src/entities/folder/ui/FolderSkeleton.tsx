@@ -1,10 +1,10 @@
 import { Skeleton } from "@/shared/ui";
 
-interface FolderSkeletonProps {
+interface Props {
   isMyProfile?: boolean;
 }
 
-export const FolderSkeleton = ({ isMyProfile = false }: FolderSkeletonProps) => {
+export const FolderSkeleton = ({ isMyProfile = false }: Props) => {
   return (
     <div className="relative pt-3 flex-1">
       <Skeleton className="absolute top-0 left-4 h-3 w-16 rounded-b-none rounded-t-md border-t border-l border-r border-border" />

@@ -3,13 +3,13 @@ import { FormControl, FormField, FormItem, FormLabel } from "@/shared/ui";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { Button } from "@/shared/ui";
 import { UseFormReturn } from "react-hook-form";
-import { CreateFolderSchema } from "../model/create-folder-schema";
+import { CreateCollectionSchema } from "../model/create-collection-schema";
 
 interface Props {
-  form: UseFormReturn<CreateFolderSchema>;
+  form: UseFormReturn<CreateCollectionSchema>;
 }
 
-export const FolderIconPicker = ({ form }: Props) => {
+export const CollectionIconPicker = ({ form }: Props) => {
   return (
     <FormField
       control={form.control}

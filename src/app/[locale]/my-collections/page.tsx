@@ -3,7 +3,7 @@ import { MyCollectionsClient } from "./MyCollectionsClient";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { API_URL } from "@/shared/constants/constants";
-import { IFolder } from "@/shared/hooks/useFolders";
+import { ICollection } from "@/shared/hooks/useCollection";
 import { IUser } from "@/features/auth/model/auth.store";
 import { jwtDecode } from "jwt-decode";
 
@@ -47,10 +47,10 @@ export default async function MyCollectionsPage() {
     userId = me.id ?? "";
 
     await queryClient.prefetchQuery({
-      queryKey: ["folders", userId],
+      queryKey: ["collection", userId],
 
       queryFn: async () => {
-        const { data } = await axios.get<IFolder[]>(`${API_URL}/movie-folders`, {
+        const { data } = await axios.get<ICollection[]>(`${API_URL}/collection`, {
           headers: { Cookie: `accessToken=${validToken}` },
         });
         return data;

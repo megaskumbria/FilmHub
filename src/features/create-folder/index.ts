@@ -1,5 +1,5 @@
-export { CreateFolder } from "./ui/CreateFolder";
-export { FolderNameRow } from "./ui/FolderNameRow";
-export { FolderIconPicker } from "./ui/FolderIconPicker";
-export { FolderColorPicker } from "./ui/FolderColorPicker";
-export { FolderCustomCover } from "./ui/FolderCustomCover";
+export { CollectionNameRow } from "./ui/CollectionNameRow";
+export { CollectionCustomCover } from "./ui/CollectionCustomCover";
+export { CollectionIconPicker } from "./ui/CollectionIconPicker";
+export { CollectionColorPicker } from "./ui/CollectionColorPicker";
+export { CreateCollection } from "./ui/CreateCollection";

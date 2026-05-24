@@ -12,19 +12,19 @@ import {
   DialogTrigger,
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
-import { CreateFolder } from "@/features";
-import { IFolder } from "@/shared/hooks";
+import { CreateCollection } from "@/features";
+import { ICollection } from "@/shared/hooks";
 
 const TOTAL_FOLDERS = 10;
 const USED_FOLDERS = 7;
 
-interface CreateFolderModalProps {
+interface Props {
   children: ReactNode;
   isEditing: boolean;
-  initialData?: IFolder;
+  initialData?: ICollection;
 }
 
-export function CreateFolderModal({ children, isEditing, initialData }: CreateFolderModalProps) {
+export function CreateFolderModal({ children, isEditing, initialData }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const remaining = TOTAL_FOLDERS - USED_FOLDERS;
@@ -66,7 +66,7 @@ export function CreateFolderModal({ children, isEditing, initialData }: CreateFo
           </DialogClose>
         </DialogHeader>
 
-        <CreateFolder onSuccess={() => setIsOpen(false)} initialData={initialData} />
+        <CreateCollection onSuccess={() => setIsOpen(false)} initialData={initialData} />
       </DialogContent>
     </Dialog>
   );

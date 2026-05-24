@@ -3,14 +3,14 @@
 import { Button } from "@/shared/ui";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { CreateFolderModal } from "@/widgets";
-import { Folder, FolderSkeleton } from "@/entities";
+import { CollectionFolder, FolderSkeleton } from "@/entities";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 import { cn } from "@/shared/lib/utils";
-import { useFolders } from "@/shared/hooks";
+import { useCollection } from "@/shared/hooks";
 import { EmptyStateCollections } from "./EmptyStateCollections";
 
 const sliderNavigationButton = (isVisible: boolean, side: "left" | "right") =>
@@ -22,22 +22,22 @@ const sliderNavigationButton = (isVisible: boolean, side: "left" | "right") =>
   );
 
 interface Props {
-  setActiveFolderId: (folderId: string) => void;
-  activeFolderId: string;
+  setActiveCollectionId: (collectionId: string) => void;
+  activeCollectionId: string;
   isMyProfile: boolean;
   userId: string;
 }
 
 export const UserCollections = ({
   isMyProfile,
-  setActiveFolderId,
-  activeFolderId,
+  setActiveCollectionId,
+  activeCollectionId,
   userId,
 }: Props) => {
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
 
-  const { data: folders, isPending } = useFolders(userId);
+  const { data: collections, isPending } = useCollection(userId);
 
   const handleNext = () => {
     const swiper = swiperRef.current;
@@ -49,16 +49,16 @@ export const UserCollections = ({
     swiper?.slidePrev();
   };
 
-  const foldersCount = folders?.length ?? 0;
+  const collectionsCount = collections?.length ?? 0;
 
-  const isLoop = foldersCount > 10;
-  const isHideButtons = foldersCount > 5;
+  const isLoop = collectionsCount > 10;
+  const isHideButtons = collectionsCount > 5;
 
   // console.log({ userId, isPending, foldersCount });
 
   return (
     <>
-      {!isPending && foldersCount === 0 ?
+      {!isPending && collectionsCount === 0 ?
         <EmptyStateCollections />
       : <>
           <div className="flex items-center justify-between mb-5 pt-5">
@@ -108,16 +108,16 @@ export const UserCollections = ({
                     </Button>
                   )}
 
-                  {folders?.map((folder) => {
-                    const { id } = folder;
+                  {collections?.map((collection) => {
+                    const { id } = collection;
 
                     return (
                       <SwiperSlide key={id} className="w-[calc(20%-8px)]!">
-                        <Folder
+                        <CollectionFolder
                           isMyProfile={isMyProfile}
-                          folder={folder}
-                          activeFolderId={activeFolderId}
-                          setActiveFolderId={setActiveFolderId}
+                          collection={collection}
+                          activeCollectionId={activeCollectionId}
+                          setActiveCollectionId={setActiveCollectionId}
                         />
                       </SwiperSlide>
                     );

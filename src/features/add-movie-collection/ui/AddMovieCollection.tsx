@@ -3,19 +3,21 @@
 import { Button, Input } from "@/shared/ui";
 import Link from "next/link";
 import { Plus, Search } from "lucide-react";
-import { cn } from "@/shared/lib/utils";
-import { Check } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
-import { useFolders } from "@/shared/hooks";
+import { useAddMediaToCollection, useCollection } from "@/shared/hooks";
+import { CollectionCompactCard } from "@/entities";
 
-export const AddMovieCollection = () => {
-  const [selectedFolders, setSelectedFolders] = useState<Set<string>>(new Set());
-  const [folderSearch, setFolderSearch] = useState("");
+interface Props {
+  mediaId: number;
+}
 
-  const toggleFolder = (id: string) => {
-    setSelectedFolders((prev) => {
+export const AddMovieCollection = ({ mediaId }: Props) => {
+  const [selectedCollections, setSelectedCollections] = useState<Set<string>>(new Set());
+  const [collectionSearch, setCollectionSearch] = useState("");
+
+  const toggleCollection = (id: string) => {
+    setSelectedCollections((prev) => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
@@ -25,7 +27,18 @@ export const AddMovieCollection = () => {
   const { user } = useAuthStore();
   const userId = user?.id ?? "";
 
-  const { data: folders } = useFolders(userId);
+  const { data: collections } = useCollection(userId);
+  const { mutate: addMediaToCollection } = useAddMediaToCollection();
+
+  const filteredCollections = collections?.filter((collection) =>
+    collection.collectionName.toLowerCase().includes(collectionSearch.toLowerCase()),
+  );
+
+  const handleAddMediaToCollection = () => {
+    const collectionId = selectedCollections.values().next().value;
+    if (!collectionId) return;
+    addMediaToCollection({ collectionId, mediaId });
+  };
 
   return (
     <div className="flex flex-col w-80">
@@ -35,8 +48,8 @@ export const AddMovieCollection = () => {
           <span className="text-sm font-semibold text-foreground tracking-wide">Collections</span>
         </div>
 
-        {selectedFolders.size > 0 && (
-          <span className="text-xs text-accent font-medium">{selectedFolders.size} selected</span>
+        {selectedCollections.size > 0 && (
+          <span className="text-xs text-zinc-muted">{selectedCollections.size} selected</span>
         )}
       </header>
 
@@ -47,82 +60,42 @@ export const AddMovieCollection = () => {
             variant="neutral"
             placeholder="Search collections..."
             className="pl-7 pr-2 text-sm h-9"
-            value={folderSearch}
-            onChange={(e) => setFolderSearch(e.target.value)}
+            value={collectionSearch}
+            onChange={(e) => setCollectionSearch(e.target.value)}
           />
         </div>
       </nav>
 
-      <div className="overflow-y-auto max-h-72 px-1.5 pb-1.5 drawer-scroll flex flex-col gap-0.5">
-        {folders?.length === 0 ?
+      <div className="overflow-y-auto max-h-80 px-2 pb-2 drawer-scroll flex flex-col gap-2">
+        {filteredCollections?.length === 0 ?
           <div className="py-6 text-center text-xs text-zinc-muted">No collections found</div>
-        : folders?.map((folder) => {
-            const { id, folderName, colorHex, posters } = folder;
-            const isSelected = selectedFolders.has(id);
-
-            return (
-              <button
-                key={id}
-                onClick={() => toggleFolder(id)}
-                className={cn(
-                  "flex items-center gap-3 px-2 py-2 rounded-xl transition-all cursor-pointer w-full text-left",
-                  "hover:bg-white/4",
-                  isSelected && "bg-accent/8 shadow-[inset_0_0_0_1px_rgba(155,86,240,0.25)]",
-                )}
-              >
-                <div
-                  className="relative size-10 shrink-0 rounded-lg overflow-hidden border"
-                  style={{
-                    borderColor: `${colorHex}4D`,
-                  }}
-                >
-                  {posters[0] && (
-                    <Image
-                      src={posters[0]}
-                      alt={folderName}
-                      fill
-                      className="object-cover"
-                      sizes="40px"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-black/30" />
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{folderName}</p>
-                  <p className="text-xs text-zinc-muted">N films</p>
-                </div>
-
-                <div
-                  className={cn(
-                    "size-4.5 rounded-md border shrink-0 flex items-center justify-center transition-all",
-                    isSelected ?
-                      "border-accent bg-accent text-white shadow-[0_0_6px_rgba(155,86,240,0.4)]"
-                    : "border-border/50",
-                  )}
-                >
-                  {isSelected && <Check className="size-3" />}
-                </div>
-              </button>
-            );
-          })
+        : filteredCollections?.map((collection) => (
+            <CollectionCompactCard
+              key={collection.id}
+              collection={collection}
+              isSelected={selectedCollections.has(collection.id)}
+              toggleCollection={toggleCollection}
+            />
+          ))
         }
       </div>
 
-      <footer className="px-2 py-2 border-t border-border/40 bg-linear-to-r from-accent/3 via-transparent to-transparent flex items-center gap-1.5">
-        <Button
-          disabled={selectedFolders.size === 0}
-          className="flex-1 h-8 px-2 text-sm rounded-lg bg-accent/10 hover:bg-accent/20 text-accent hover:text-accent border border-accent/20 transition-all disabled:opacity-40 disabled:pointer-events-none"
+      <footer className="px-3 py-2.5 border-t border-border/40 flex items-center justify-between">
+        <Link
+          href="/my-collections"
+          className="flex items-center gap-1.5 text-zinc-muted hover:text-foreground transition-colors"
         >
-          <span>Add</span>
-        </Button>
-
-        <Link href="/my-collections" className="shrink-0">
-          <Button className="h-8 px-2.5 text-zinc-muted hover:text-accent hover:bg-accent/10 transition-all rounded-lg gap-1.5">
-            <Plus className="size-3 shrink-0" />
-            <span className="text-sm">New</span>
-          </Button>
+          <Plus className="size-3.5 shrink-0" />
+          <span className="text-sm">New collection</span>
         </Link>
+
+        <Button
+          disabled={selectedCollections.size === 0}
+          className="h-8 px-4 text-sm rounded-lg bg-accent hover:bg-accent/90 text-white transition-all disabled:opacity-30 disabled:pointer-events-none"
+          onClick={handleAddMediaToCollection}
+        >
+          <span>Add{selectedCollections.size > 0 ? ` (${selectedCollections.size})` : ""}</span>
+        </Button>
       </footer>
     </div>
   );

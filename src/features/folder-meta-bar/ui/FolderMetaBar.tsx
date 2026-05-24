@@ -2,7 +2,7 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { CreateFolderModal } from "@/widgets/create-folder-modal";
 import { Loader2, Settings, Trash2 } from "lucide-react";
-import { IFolder, useDeleteFolder } from "@/shared/hooks";
+import { ICollection, useDeleteCollection } from "@/shared/hooks";
 import { toast } from "sonner";
 
 interface Props {
@@ -10,22 +10,22 @@ interface Props {
   count: number;
   isHovered: boolean;
   isMyProfile: boolean;
-  folder: IFolder;
+  collection: ICollection;
 }
 
-export const FolderMetaBar = ({ folder, name, count = 10, isHovered, isMyProfile }: Props) => {
-  const { mutate: deleteFolder, isPending: isDeleting } = useDeleteFolder();
+export const FolderMetaBar = ({ collection, name, count = 10, isHovered, isMyProfile }: Props) => {
+  const { mutate: deleteCollection, isPending: isDeleting } = useDeleteCollection();
 
-  const { id } = folder;
+  const { id } = collection;
 
-  const handleDeleteFolder = () => {
-    deleteFolder(id, {
+  const handleDeleteCollection = () => {
+    deleteCollection(id, {
       onSuccess: () => {
-        toast.success("Folder deleted successfully", { position: "bottom-left" });
+        toast.success("Collection deleted successfully", { position: "bottom-left" });
       },
 
       onError: () => {
-        toast.error("Failed to delete folder", { position: "bottom-left" });
+        toast.error("Failed to delete collection", { position: "bottom-left" });
       },
     });
   };
@@ -52,7 +52,7 @@ export const FolderMetaBar = ({ folder, name, count = 10, isHovered, isMyProfile
             )}
             onClick={(e) => e.stopPropagation()}
           >
-            <CreateFolderModal isEditing={true} initialData={folder}>
+            <CreateFolderModal isEditing={true} initialData={collection}>
               <Button
                 onClick={(e) => e.stopPropagation()}
                 className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-foreground hover:bg-white/10 transition-colors"
@@ -62,7 +62,7 @@ export const FolderMetaBar = ({ folder, name, count = 10, isHovered, isMyProfile
             </CreateFolderModal>
 
             <Button
-              onClick={handleDeleteFolder}
+              onClick={handleDeleteCollection}
               disabled={isDeleting}
               className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
             >

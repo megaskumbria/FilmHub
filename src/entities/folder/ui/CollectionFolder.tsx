@@ -5,24 +5,29 @@ import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { FolderMetaBar } from "@/features";
-import { IFolder } from "@/shared/hooks";
+import { ICollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 
-interface FolderProps {
+interface Props {
   isMyProfile: boolean;
-  folder: IFolder;
-  activeFolderId: string;
-  setActiveFolderId: (folderId: string) => void;
+  collection: ICollection;
+  activeCollectionId: string;
+  setActiveCollectionId: (collectionId: string) => void;
 }
 
-export const Folder = ({ isMyProfile, folder, activeFolderId, setActiveFolderId }: FolderProps) => {
+export const CollectionFolder = ({
+  isMyProfile,
+  collection,
+  activeCollectionId,
+  setActiveCollectionId,
+}: Props) => {
   const [hoveredFolderId, setHoveredFolderId] = useState<string | null>(null);
 
-  const { id, iconName, folderName, posters, isVisible, colorHex } = folder;
+  const { id, iconName, collectionName, posters, isVisible, colorHex } = collection;
 
   const Icon = ICONS.find((i) => i.iconName === iconName)?.icon;
 
-  const isActive = activeFolderId === id;
+  const isActive = activeCollectionId === id;
   const isHovered = hoveredFolderId === id;
 
   const fanOut = [
@@ -56,7 +61,7 @@ export const Folder = ({ isMyProfile, folder, activeFolderId, setActiveFolderId 
       <div
         role="button"
         tabIndex={0}
-        onClick={() => setActiveFolderId(id)}
+        onClick={() => setActiveCollectionId(id)}
         className="cursor-pointer relative flex-col shadow-lg items-stretch gap-0 h-auto p-0 rounded-b-xl rounded-tr-xl border overflow-hidden transition-all duration-300 w-full"
         style={{
           borderColor: isActive ? `${colorHex}99` : `${colorHex}4D`,
@@ -108,8 +113,8 @@ export const Folder = ({ isMyProfile, folder, activeFolderId, setActiveFolderId 
         </div>
 
         <FolderMetaBar
-          folder={folder}
-          name={folderName}
+          collection={collection}
+          name={collectionName}
           count={10}
           isHovered={isHovered}
           isMyProfile={isMyProfile}
