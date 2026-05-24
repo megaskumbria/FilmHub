@@ -15,7 +15,7 @@ interface CardBlocksMapProps {
 
 export const cardBlocksMap = {
   rating: ({ media }: CardBlocksMapProps) => (
-    <Rating rating_imdb={media.rating_imdb} vote_average={media.vote_average} />
+    <Rating ratingImdb={media.ratingImdb} voteAverage={media.voteAverage} />
   ),
 
   flags: ({ hoverHeight, hasHover, placement, options }: CardBlocksMapProps) => {

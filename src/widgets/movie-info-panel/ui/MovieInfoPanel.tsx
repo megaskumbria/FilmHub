@@ -22,16 +22,16 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: MovieInfoPanelProp
   const {
     genres,
     overview,
-    release_date,
+    releaseDate,
     runtime,
     title,
-    original_name,
-    last_air_date,
-    number_of_seasons,
+    originalName,
+    lastAirDate,
+    numberOfSeasons,
   } = movie;
 
-  const titleToDisplay = original_name || title;
-  const yearOfRelease = new Date(release_date || last_air_date).getFullYear();
+  const titleToDisplay = originalName || title;
+  const yearOfRelease = new Date(releaseDate || lastAirDate).getFullYear();
 
   return (
     <motion.div
@@ -48,10 +48,10 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: MovieInfoPanelProp
 
         <span className="text-white/25">•</span>
 
-        {number_of_seasons ?
+        {numberOfSeasons ?
           <span className="flex items-center gap-1.5 text-white/70">
             <Tv className="size-3.5" />
-            {number_of_seasons} {number_of_seasons === 1 ? "Season" : "Seasons"}
+            {numberOfSeasons} {numberOfSeasons === 1 ? "Season" : "Seasons"}
           </span>
         : <span className="flex items-center gap-1.5 text-white/70">
             <Clock className="size-3.5" />

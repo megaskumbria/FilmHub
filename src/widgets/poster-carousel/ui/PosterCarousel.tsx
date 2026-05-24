@@ -11,7 +11,7 @@ import { IBackdrop } from "@/shared/hooks/useMedia";
 
 interface PosterCarouselProps {
   backdrops: IBackdrop[];
-  backdrop_url: string;
+  backdropUrl: string;
   selectedPoster: IBackdrop | null;
   setSelectedPoster: (poster: IBackdrop | null) => void;
   titleToDisplay: string;
@@ -21,7 +21,7 @@ const IDLE_TIMEOUT = 5000;
 
 export const PosterCarousel = ({
   backdrops,
-  backdrop_url,
+  backdropUrl,
   selectedPoster,
   setSelectedPoster,
   titleToDisplay,
@@ -65,15 +65,15 @@ export const PosterCarousel = ({
   const updatePosters = useMemo<IBackdrop[]>(
     () => [
       {
-        file_path: "",
+        filePath: "",
         height: 0,
         width: 0,
-        vote_average: 0,
-        url: backdrop_url,
+        voteAverage: 0,
+        url: backdropUrl,
       },
       ...(backdrops ?? []),
     ],
-    [backdrop_url, backdrops],
+    [backdropUrl, backdrops],
   );
 
   return (

@@ -11,25 +11,25 @@ export interface IGenre {
 export interface ICollection {
   id: number;
   name: string;
-  poster_path: string | null;
-  backdrop_path: string | null;
+  posterPath: string | null;
+  backdropPath: string | null;
 }
 
 export interface IProductionCompany {
   id: number;
-  logo_path: string | null;
+  logoPath: string | null;
   name: string;
-  origin_country: string;
+  originCountry: string;
 }
 
 export interface IProductionCountry {
-  iso_3166_1: string;
+  iso31661: string;
   name: string;
 }
 
 export interface ISpokenLanguage {
-  english_name: string;
-  iso_639_1: string;
+  englishName: string;
+  iso6391: string;
   name: string;
 }
 
@@ -37,17 +37,17 @@ export interface ICastMember {
   id: number;
   name: string;
   character: string;
-  profile_path: string | null;
-  profile_url: string | null;
+  profilePath: string | null;
+  profileUrl: string | null;
   order: number;
-  known_for_department: string;
+  knownForDepartment: string;
 }
 
 export interface IBackdrop {
-  file_path: string;
+  filePath: string;
   width: number;
   height: number;
-  vote_average: number;
+  voteAverage: number;
   url: string | null;
 }
 
@@ -62,12 +62,12 @@ export interface IMovieImages {
 
 export interface IVideoResult {
   id: string;
-  iso_639_1?: string;
-  iso_3166_1?: string;
+  iso6391?: string;
+  iso31661?: string;
   key: string;
   name: string;
   official: boolean;
-  published_at: string;
+  publishedAt: string;
   site: string;
   size: number;
   type: string;
@@ -79,98 +79,98 @@ export interface IMediaVideos {
 
 export interface ITvCreator {
   id: number;
-  credit_id: string;
+  creditId: string;
   name: string;
   gender: number;
-  profile_path: string | null;
+  profilePath: string | null;
 }
 
 export interface ITvNetwork {
   id: number;
-  logo_path: string | null;
+  logoPath: string | null;
   name: string;
-  origin_country: string;
+  originCountry: string;
 }
 
-/** Эпизод в last_episode_to_air / next_episode_to_air. */
+/** Эпизод в lastEpisodeToAir / nextEpisodeToAir. */
 export interface ITvEpisodeAir {
   id: number;
   name: string;
   overview: string;
-  air_date: string | null;
-  episode_number: number;
+  airDate: string | null;
+  episodeNumber: number;
   runtime: number | null;
-  season_number: number;
-  show_id: number;
-  still_path: string | null;
-  vote_average: number;
-  vote_count: number;
+  seasonNumber: number;
+  showId: number;
+  stillPath: string | null;
+  voteAverage: number;
+  voteCount: number;
 }
 
 export interface ITvSeason {
-  air_date: string | null;
-  episode_count: number;
+  airDate: string | null;
+  episodeCount: number;
   id: number;
   name: string;
   overview: string;
-  poster_path: string | null;
-  season_number: number;
-  vote_average: number;
+  posterPath: string | null;
+  seasonNumber: number;
+  voteAverage: number;
 }
 
 export interface ITmdbMovie {
   // ——— Common ———
 
   adult: boolean;
-  backdrop_path: string | null;
-  backdrop_url: string | null;
+  backdropPath: string | null;
+  backdropUrl: string | null;
   genres: IGenre[];
   homepage: string;
   id: number;
-  original_language: string;
+  originalLanguage: string;
   overview: string;
   popularity: number;
-  poster_path: string | null;
-  poster_url: string | null;
-  production_companies: IProductionCompany[];
-  production_countries: IProductionCountry[];
-  spoken_languages: ISpokenLanguage[];
+  posterPath: string | null;
+  posterUrl: string | null;
+  productionCompanies: IProductionCompany[];
+  productionCountries: IProductionCountry[];
+  spokenLanguages: ISpokenLanguage[];
   status: string;
   tagline: string;
-  vote_average: number;
-  vote_count: number;
+  voteAverage: number;
+  voteCount: number;
   credits: IMovieCredits;
   images: IMovieImages;
   languages?: string[];
 
   /** У сериалов основное имя; у фильмов чаще смотрите title. */
   name?: string;
-  origin_country?: string[];
+  originCountry?: string[];
   videos?: IMediaVideos;
 
   // ——— Movie only ———
-  belongs_to_collection: ICollection | null;
+  belongsToCollection: ICollection | null;
   budget: number;
-  imdb_id: string | null;
+  imdbId: string | null;
   revenue: number;
   runtime: number;
   title: string;
   video: boolean;
-  original_title: string;
-  release_date: string;
+  originalTitle: string;
+  releaseDate: string;
 
   // ——— TV only ———
-  created_by?: ITvCreator[];
-  episode_run_time?: number[];
-  first_air_date?: string;
-  in_production?: boolean;
-  last_air_date: string;
-  last_episode_to_air?: ITvEpisodeAir | null;
+  createdBy?: ITvCreator[];
+  episodeRunTime?: number[];
+  firstAirDate?: string;
+  inProduction?: boolean;
+  lastAirDate: string;
+  lastEpisodeToAir?: ITvEpisodeAir | null;
   networks?: ITvNetwork[];
-  next_episode_to_air?: ITvEpisodeAir | null;
-  number_of_episodes?: number;
-  number_of_seasons?: number;
-  original_name: string;
+  nextEpisodeToAir?: ITvEpisodeAir | null;
+  numberOfEpisodes?: number;
+  numberOfSeasons?: number;
+  originalName: string;
   seasons?: ITvSeason[];
 
   /** Тип шоу TMDB (например Scripted); не путать с query type=movie|tv. */

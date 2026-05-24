@@ -3,9 +3,9 @@ import axios from "axios";
 import { API_URL } from "../constants/constants";
 
 export interface ICountry {
-  iso_3166_1: string;
-  english_name: string;
-  native_name: string;
+  iso31661: string;
+  englishName: string;
+  nativeName: string;
 }
 
 export const useCountries = () => {

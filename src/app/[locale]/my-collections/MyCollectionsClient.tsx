@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MediaCard, CollectionsToolbar, UserCollections, ProfileHeader } from "@/widgets";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import { useCollection } from "@/shared/hooks";
+import { useCollection, useGetMediaCollection } from "@/shared/hooks";
 
 interface Props {
   userId: string;
@@ -16,7 +16,11 @@ export const MyCollectionsClient = ({ userId }: Props) => {
   const [activeCollectionId, setActiveCollectionId] = useState(firstCollectionId);
 
   const { layout, blockOptions } = useMovieCardLayout();
-  // const { data: movies } = useGetMediaCollection(activeCollectionId);
+  const { data: movies } = useGetMediaCollection(activeCollectionId);
+
+  // console.log({ activeCollectionId, movies });
+
+  // console.log(movies);
 
   return (
     <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
@@ -38,17 +42,17 @@ export const MyCollectionsClient = ({ userId }: Props) => {
       )}
 
       <ul className="grid grid-cols-5 gap-2 justify-items-center">
-        {/* {movies?.map((movie) => (
-          <li key={movie.tmdbId}>
+        {movies?.map((movie) => (
+          <li key={movie.id}>
             <MediaCard
               cardWidth={310}
-              media={media}
+              media={movie}
               layout={layout}
               blockOptions={blockOptions}
               mode="add-flag"
             />
           </li>
-        ))} */}
+        ))}
       </ul>
     </div>
   );

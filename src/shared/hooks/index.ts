@@ -14,5 +14,6 @@ export {
   useEditCollection,
   useDeleteCollection,
   useAddMediaToCollection,
+  useGetMediaCollection,
   type ICollection,
 } from "./useCollection";

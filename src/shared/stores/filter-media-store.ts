@@ -22,7 +22,7 @@ interface FilterMediaStore {
   setSelectedSort: (sort: FilterSortType) => void;
 
   selectedCountry: ICountry;
-  setSelectedCountry: ({ iso_3166_1, english_name, native_name }: ICountry) => void;
+  setSelectedCountry: ({ iso31661, englishName, nativeName }: ICountry) => void;
 
   searchQuery: string;
   setSearchQuery: (searchQuery: string) => void;
@@ -41,9 +41,9 @@ export const useFilterMedia = create<FilterMediaStore>((set) => ({
   selectedSort: "",
   setSelectedSort: (selectedSort) => set({ selectedSort }),
 
-  selectedCountry: { iso_3166_1: "", english_name: "", native_name: "" },
-  setSelectedCountry: ({ iso_3166_1, english_name, native_name }: ICountry) =>
-    set({ selectedCountry: { iso_3166_1, english_name, native_name } }),
+  selectedCountry: { iso31661: "", englishName: "", nativeName: "" },
+  setSelectedCountry: ({ iso31661, englishName, nativeName }: ICountry) =>
+    set({ selectedCountry: { iso31661, englishName, nativeName } }),
 
   searchQuery: "",
   setSearchQuery: (searchQuery) => set({ searchQuery }),

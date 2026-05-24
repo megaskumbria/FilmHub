@@ -31,7 +31,7 @@ export const MovieGrid = () => {
     selectedGenre: selectedGenre.id,
     selectedSort: selectedSort,
     selectedYear: selectedYear,
-    selectedCountry: searchQuery.length > 0 ? "" : selectedCountry.iso_3166_1,
+    selectedCountry: searchQuery.length > 0 ? "" : selectedCountry.iso31661,
   });
 
   const ref = useIntersectionObserver(

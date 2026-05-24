@@ -7,12 +7,14 @@ import { useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
 import { useAddMediaToCollection, useCollection } from "@/shared/hooks";
 import { CollectionCompactCard } from "@/entities";
+import { MediaType } from "@/shared/stores/movie-catalog";
 
 interface Props {
   mediaId: number;
+  mediaType: MediaType;
 }
 
-export const AddMovieCollection = ({ mediaId }: Props) => {
+export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
   const [selectedCollections, setSelectedCollections] = useState<Set<string>>(new Set());
   const [collectionSearch, setCollectionSearch] = useState("");
 
@@ -37,7 +39,7 @@ export const AddMovieCollection = ({ mediaId }: Props) => {
   const handleAddMediaToCollection = () => {
     const collectionId = selectedCollections.values().next().value;
     if (!collectionId) return;
-    addMediaToCollection({ collectionId, mediaId });
+    addMediaToCollection({ collectionId, mediaId, mediaType });
   };
 
   return (

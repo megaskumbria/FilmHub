@@ -44,11 +44,11 @@ export const useInfiniteMedia = ({
     },
 
     getNextPageParam: (lastPage) => {
-      const { page, total_pages } = lastPage;
+      const { page, totalPages } = lastPage;
       // console.log("page", page);
-      // console.log("total_pages", total_pages);
-      // console.log("page >= total_pages", page >= total_pages);
-      if (page >= total_pages) return undefined;
+      // console.log("totalPages", totalPages);
+      // console.log("page >= totalPages", page >= totalPages);
+      if (page >= totalPages) return undefined;
       return page + 1;
     },
 

@@ -67,12 +67,12 @@ export const CountrySelect = () => {
           </motion.div>
         )}
         <Combobox
-          value={selectedCountry.iso_3166_1 ? selectedCountry : null}
+          value={selectedCountry.iso31661 ? selectedCountry : null}
           onValueChange={(country) => country && setSelectedCountry(country)}
           items={dataCountries}
-          itemToStringLabel={(country) => country.english_name}
-          itemToStringValue={(country) => country.iso_3166_1}
-          isItemEqualToValue={(a, b) => a.iso_3166_1 === b.iso_3166_1}
+          itemToStringLabel={(country) => country.englishName}
+          itemToStringValue={(country) => country.iso31661}
+          isItemEqualToValue={(a, b) => a.iso31661 === b.iso31661}
         >
           <ComboboxInput
             placeholder="Select country"
@@ -96,8 +96,8 @@ export const CountrySelect = () => {
                   ))}
                 </div>
               : (country: ICountry) => (
-                  <ComboboxItem key={country.iso_3166_1} value={country}>
-                    {country.english_name}
+                  <ComboboxItem key={country.iso31661} value={country}>
+                    {country.englishName}
                   </ComboboxItem>
                 )
               }

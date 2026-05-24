@@ -63,7 +63,7 @@ export const ActorsCarousel = ({ actors }: Props) => {
             <div className="flex flex-col items-center gap-2 w-[72px]">
               <div className="relative size-[60px] rounded-full overflow-hidden border border-white/60 shrink-0">
                 <Image
-                  src={actor.profile_url ?? ""}
+                  src={actor.profileUrl ?? ""}
                   alt={actor.name}
                   fill
                   className="object-cover"

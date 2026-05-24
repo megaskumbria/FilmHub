@@ -8,30 +8,30 @@ export interface IMedia {
   titleToDisplay: string;
 
   adult: boolean;
-  backdrop_url: string;
+  backdropUrl: string;
   genres: string[];
   id: number;
-  original_language: string;
-  original_title: string; // movie title
-  original_name: string; // series title
+  originalLanguage: string;
+  originalTitle: string; // movie title
+  originalName: string; // series title
   overview: string;
   popularity: number;
-  poster_url: string;
-  release_date: string; // movie release date
-  first_air_date: string; // series release date
+  posterUrl: string;
+  releaseDate: string; // movie release date
+  firstAirDate: string; // series release date
   title: string;
   video: boolean;
-  vote_average: number;
-  vote_count: number;
+  voteAverage: number;
+  voteCount: number;
 
-  rating_imdb: string | null;
+  ratingImdb: string | null;
 
-  media_type: MediaType;
+  mediaType: MediaType;
 }
 
 export interface IMediaData {
   page: number;
-  total_pages: number;
+  totalPages: number;
   media: IMedia[];
 }
 

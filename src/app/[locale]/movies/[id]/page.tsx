@@ -25,11 +25,11 @@ export default function MoviePage() {
 
   if (!movie) return null;
 
-  const { title, backdrop_url, images, credits, original_name } = movie;
+  const { title, backdropUrl, images, credits, originalName } = movie;
   const { backdrops } = images;
   const { cast } = credits;
 
-  const titleToDisplay = original_name || title;
+  const titleToDisplay = originalName || title;
 
   // console.log("movie", movie);
 
@@ -38,7 +38,7 @@ export default function MoviePage() {
       <div className="absolute inset-0 w-full">
         <AnimatePresence mode="sync">
           <motion.div
-            key={selectedPoster?.url ?? backdrop_url}
+            key={selectedPoster?.url ?? backdropUrl}
             className="absolute inset-0"
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -46,7 +46,7 @@ export default function MoviePage() {
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <Image
-              src={selectedPoster?.url ?? backdrop_url ?? ""}
+              src={selectedPoster?.url ?? backdropUrl ?? ""}
               alt={titleToDisplay}
               fill
               sizes="100vw"
@@ -73,7 +73,7 @@ export default function MoviePage() {
         <div className="flex items-end justify-between gap-10 px-14 mb-10">
           <MovieInfoPanel movie={movie} isUiHidden={isUiHidden} actors={cast} />
 
-          {backdrop_url && (
+          {backdropUrl && (
             <div className="shrink-0 flex flex-col gap-3">
               <Button
                 onClick={() => setIsUiHidden((v) => !v)}
@@ -87,7 +87,7 @@ export default function MoviePage() {
 
               <PosterCarousel
                 backdrops={backdrops}
-                backdrop_url={backdrop_url}
+                backdropUrl={backdropUrl}
                 selectedPoster={selectedPoster}
                 setSelectedPoster={setSelectedPoster}
                 titleToDisplay={titleToDisplay}

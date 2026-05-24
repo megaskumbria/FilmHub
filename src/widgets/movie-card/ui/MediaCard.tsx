@@ -37,36 +37,31 @@ export const MediaCard = ({
 
   const locale = useLocale();
 
-  const {
-    poster_url,
-    original_name,
-    original_title,
-    release_date,
-    first_air_date,
-    id,
-    media_type,
-  } = media;
+  // console.log("media", media);
+
+  const { posterUrl, originalName, originalTitle, releaseDate, firstAirDate, id, mediaType } =
+    media;
   const { poster, body, hover } = layout;
 
-  const rating_imdb = media.rating_imdb;
-  const vote_average = media.vote_average;
+  const ratingImdb = media.ratingImdb;
+  const voteAverage = media.voteAverage;
 
-  const titleToDisplay = original_name || original_title;
-  const yearOfRelease = new Date(release_date || first_air_date).getFullYear();
+  const titleToDisplay = originalName || originalTitle;
+  const yearOfRelease = new Date(releaseDate || firstAirDate).getFullYear();
 
   const mediaForBlocks = {
     ...media,
     titleToDisplay,
     yearOfRelease,
-    rating_imdb,
-    vote_average,
+    ratingImdb,
+    voteAverage,
   };
 
   const hasHover = hover.length > 0;
 
   return (
     <article className="w-full border border-border rounded-xl relative">
-      <Link href={disableNavigation ? "" : `/${locale}/movies/${id}?type=${media_type}`}>
+      <Link href={disableNavigation ? "" : `/${locale}/movies/${id}?type=${mediaType}`}>
         <div
           className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl"
           onMouseEnter={() => {
@@ -75,9 +70,9 @@ export const MediaCard = ({
           }}
           onMouseLeave={() => setHoverHeight(0)}
         >
-          {poster_url && (
+          {posterUrl && (
             <Image
-              src={poster_url}
+              src={posterUrl}
               alt={titleToDisplay}
               width={cardWidth}
               height={435}
@@ -127,7 +122,7 @@ export const MediaCard = ({
 
           <PopoverContent className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full">
             {mode === "add-flag" && <SetMovieFlags />}
-            {mode === "add-collection" && <AddMovieCollection mediaId={id} />}
+            {mode === "add-collection" && <AddMovieCollection mediaId={id} mediaType={mediaType} />}
           </PopoverContent>
         </Popover>
       )}

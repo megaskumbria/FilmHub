@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
 import { CreateCollectionSchema } from "@/features/create-folder/model/create-collection-schema";
 import { apiClient } from "../api/api-client";
-import { IMedia } from "../stores/movie-catalog";
+import { IMedia, MediaType } from "../stores/movie-catalog";
 
 export interface ICollection {
   id: string;
@@ -18,42 +18,6 @@ export interface ICollection {
   updatedAt: string;
   createdAt: string;
 }
-
-// export interface IMovie {
-//   tmdbId: number;
-//   title: string;
-//   originalTitle: string;
-//   posterPath: string;
-//   backdropPath: string | null;
-//   overview: string;
-//   releaseYear: number;
-//   ratingTmdb: number;
-//   ratingImdb: number;
-//   imdbId: string | null;
-//   popularity: number;
-//   voteCount: number;
-//   originalLanguage: string;
-//   durationMinutes: number | null;
-//   mediaType: string;
-//   genres: string[];
-
-//   tmdbId          Int     @id @map("tmdb_id")
-// title           String
-// originalTitle   String  @map("original_title")
-// posterPath      String  @map("poster_path")
-// backdropPath    String? @map("backdrop_path")
-// overview        String
-// releaseYear     Int     @map("release_year")
-// ratingTmdb      Float   @map("rating_tmdb")
-// ratingImdb      Float   @map("rating_imdb")
-// imdbId          String? @map("imdb_id")
-// popularity      Float   @default(0) @map("popularity")
-// voteCount       Int     @default(0) @map("vote_count")
-// originalLanguage String @map("original_language")
-// durationMinutes Int?    @map("duration_minutes")
-// mediaType       String  @map("media_type")
-// genres          String[]
-// }
 
 export const useCollection = (userId: string) => {
   return useQuery({
@@ -120,17 +84,21 @@ export const useDeleteCollection = () => {
  * Когда я создаю новую коллекцию, старый кеш уже неактуален поэтому invalidate запрашивает новые данные
  */
 
+interface AddMediaToCollectionParams {
+  collectionId: string;
+  mediaId: number;
+  mediaType: MediaType;
+}
+
 export const useAddMediaToCollection = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ collectionId, mediaId }: { collectionId: string; mediaId: number }) => {
-      const { data: response } = await apiClient.post<void>(
-        `${API_URL}/collection/add-item/${collectionId}`,
-        { mediaId },
-      );
-
-      return response;
+    mutationFn: async ({ collectionId, mediaId, mediaType }: AddMediaToCollectionParams) => {
+      return await apiClient.post(`${API_URL}/collection/add-item/${collectionId}`, {
+        mediaId,
+        mediaType,
+      });
     },
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["collection"] }),
   });

@@ -19,13 +19,13 @@ export const FilterPopover = () => {
   } = useFilterMedia();
 
   const hasActiveFilters =
-    selectedGenre.id || selectedYear || selectedSort || selectedCountry.iso_3166_1;
+    selectedGenre.id || selectedYear || selectedSort || selectedCountry.iso31661;
 
   const handleReset = () => {
     setSelectedGenre({ id: "", name: "" });
     setSelectedYear("");
     setSelectedSort("");
-    setSelectedCountry({ iso_3166_1: "", english_name: "", native_name: "" });
+    setSelectedCountry({ iso31661: "", englishName: "", nativeName: "" });
   };
 
   return (
@@ -46,12 +46,9 @@ export const FilterPopover = () => {
               >
                 <span className="text-[10px] font-bold text-white">
                   {
-                    [
-                      selectedGenre.id,
-                      selectedYear,
-                      selectedSort,
-                      selectedCountry.iso_3166_1,
-                    ].filter(Boolean).length
+                    [selectedGenre.id, selectedYear, selectedSort, selectedCountry.iso31661].filter(
+                      Boolean,
+                    ).length
                   }
                 </span>
               </motion.div>
