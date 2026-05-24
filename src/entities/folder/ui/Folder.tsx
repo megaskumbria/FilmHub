@@ -11,26 +11,19 @@ import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 interface FolderProps {
   isMyProfile: boolean;
   folder: IFolder;
-  index: number;
-  activeFolder: number;
-  setActiveFolder: (index: number) => void;
+  activeFolderId: string;
+  setActiveFolderId: (folderId: string) => void;
 }
 
-export const Folder = ({
-  isMyProfile,
-  folder,
-  index,
-  activeFolder,
-  setActiveFolder,
-}: FolderProps) => {
-  const [hoveredFolder, setHoveredFolder] = useState<number | null>(null);
+export const Folder = ({ isMyProfile, folder, activeFolderId, setActiveFolderId }: FolderProps) => {
+  const [hoveredFolderId, setHoveredFolderId] = useState<string | null>(null);
 
   const { id, iconName, folderName, posters, isVisible, colorHex } = folder;
 
   const Icon = ICONS.find((i) => i.iconName === iconName)?.icon;
 
-  const isActive = activeFolder === index;
-  const isHovered = hoveredFolder === index;
+  const isActive = activeFolderId === id;
+  const isHovered = hoveredFolderId === id;
 
   const fanOut = [
     { x: -26, rot: -8, scale: 0.88 },
@@ -46,14 +39,12 @@ export const Folder = ({
 
   const posterTransforms = isHovered || isActive ? fanOut : stacked;
 
-  // console.log("folder", folder);
-
   return (
     <div
       key={id}
       className="relative pt-3"
-      onMouseEnter={() => setHoveredFolder(index)}
-      onMouseLeave={() => setHoveredFolder(null)}
+      onMouseEnter={() => setHoveredFolderId(id)}
+      onMouseLeave={() => setHoveredFolderId(null)}
     >
       <div
         className="absolute top-0 left-4 h-3 w-16 rounded-t-md border-t border-l border-r bg-surface transition-colors duration-300"
@@ -65,7 +56,7 @@ export const Folder = ({
       <div
         role="button"
         tabIndex={0}
-        onClick={() => setActiveFolder(index)}
+        onClick={() => setActiveFolderId(id)}
         className="cursor-pointer relative flex-col shadow-lg items-stretch gap-0 h-auto p-0 rounded-b-xl rounded-tr-xl border overflow-hidden transition-all duration-300 w-full"
         style={{
           borderColor: isActive ? `${colorHex}99` : `${colorHex}4D`,
