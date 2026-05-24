@@ -87,7 +87,7 @@ export const UserCollections = ({
               >
                 <Swiper
                   key={isLoop ? "loop" : "no-loop"}
-                  spaceBetween={10}
+                  spaceBetween={0}
                   modules={[Navigation]}
                   loop={isLoop}
                   slidesPerView={5}
@@ -95,7 +95,7 @@ export const UserCollections = ({
                   onSwiper={(swiper) => {
                     swiperRef.current = swiper;
                   }}
-                  className="relative min-h-[220px] h-full"
+                  className="relative min-h-[220px] h-full [&_.swiper-wrapper]:gap-2.5"
                 >
                   {isHideButtons && (
                     <Button

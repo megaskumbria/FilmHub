@@ -71,6 +71,7 @@ export const MovieGrid = () => {
                 hover: { flags: { showFlags: false } },
                 body: { flags: { showFlags: false } },
               }}
+              mode="add-collection"
             />
           </li>
         ))}

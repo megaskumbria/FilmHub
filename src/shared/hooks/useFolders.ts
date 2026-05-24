@@ -82,3 +82,19 @@ export const useDeleteFolder = () => {
  * invalidateQueries - Данные с ключом folders устарели, нужно заново их запросить
  * Когда я создаю новую папку, старый кеш уже неактуален поэтому invalidate запрашивает новые данные
  */
+
+export const useAddMovieToFolder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ folderId, movieId }: { folderId: string; movieId: string }) => {
+      const { data: response } = await apiClient.post<void>(
+        `${API_URL}/movie-folders/add-movie-to-folder/${folderId}`,
+        { movieId },
+      );
+
+      return response;
+    },
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["folders"] }),
+  });
+};

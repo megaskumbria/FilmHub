@@ -8,3 +8,4 @@ export { FlagBadge } from "../../entities/flag-badge/ui/FlagBadge";
 export { FlagWithCategory } from "./ui/FlagWithCategory";
 
 export { cardBlocksMap, type BlockPlacement } from "./model/cardBlocksMap";
+export { renderBlocks } from "./lib/render-blocks";

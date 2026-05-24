@@ -13,5 +13,6 @@ export {
   useCreateFolder,
   useEditFolder,
   useDeleteFolder,
+  useAddMovieToFolder,
   type IFolder,
 } from "./useFolders";

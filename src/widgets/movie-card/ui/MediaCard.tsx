@@ -1,18 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { cardBlocksMap } from "@/widgets/movie-card";
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { Fragment } from "react/jsx-runtime";
 import { useRef, useState } from "react";
-import { BlockPlacement } from "../model/cardBlocksMap";
 import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
-import { BlockKey } from "@/shared/types/movie-card-blocks";
-import { AddFlagPopover } from "@/widgets";
 import { IMedia } from "@/shared/stores/movie-catalog";
 import { useLocale } from "next-intl";
+import { renderBlocks } from "../lib/render-blocks";
+import { AddMovieCollection, SetMovieFlags } from "@/features";
 
 export type PopoverMode = "add-flag" | "add-collection";
 
@@ -54,12 +51,8 @@ export const MediaCard = ({
   const rating_imdb = media.rating_imdb;
   const vote_average = media.vote_average;
 
-  // console.log("original_name", original_name);
-  // console.log("original_title", original_title);
   const titleToDisplay = original_name || original_title;
   const yearOfRelease = new Date(release_date || first_air_date).getFullYear();
-
-  // console.log("titleToDisplay", titleToDisplay);
 
   const mediaForBlocks = {
     ...media,
@@ -133,7 +126,8 @@ export const MediaCard = ({
           </PopoverTrigger>
 
           <PopoverContent className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full">
-            <AddFlagPopover mode={mode} />
+            {mode === "add-flag" && <SetMovieFlags />}
+            {mode === "add-collection" && <AddMovieCollection />}
           </PopoverContent>
         </Popover>
       )}
@@ -150,40 +144,4 @@ export const MediaCard = ({
       )}
     </article>
   );
-};
-
-interface RenderBlocksProps {
-  keys: BlockKey[];
-  media: IMedia;
-  hoverHeight?: number;
-  hasHover?: boolean;
-  placement?: BlockPlacement;
-  blockOptions?: BlockOptions;
-}
-
-const renderBlocks = ({
-  keys,
-  media,
-  hoverHeight,
-  hasHover,
-  placement,
-  blockOptions,
-}: RenderBlocksProps) => {
-  return keys.map((key) => {
-    const block = cardBlocksMap[key];
-
-    const options = placement ? blockOptions?.[placement]?.[key] : undefined;
-
-    return (
-      <Fragment key={key}>
-        {block({
-          media,
-          hoverHeight,
-          hasHover,
-          placement,
-          options,
-        })}
-      </Fragment>
-    );
-  });
 };
