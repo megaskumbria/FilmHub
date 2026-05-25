@@ -6,6 +6,7 @@ import { API_URL } from "@/shared/constants/constants";
 import { ICollection } from "@/shared/hooks/useCollection";
 import { IUser } from "@/features/auth/model/auth.store";
 import { jwtDecode } from "jwt-decode";
+import { IMedia } from "@/shared/stores/movie-catalog";
 
 interface AccessTokenPayload {
   sub: string;
@@ -56,9 +57,23 @@ export default async function MyCollectionsPage() {
         return data;
       },
     });
-  }
 
-  // console.log(userId);
+    const collections = queryClient.getQueryData<ICollection[]>(["collection", userId]);
+    const firstCollectionId = collections?.[0]?.id;
+
+    if (firstCollectionId) {
+      await queryClient.prefetchQuery({
+        queryKey: ["media-collection", firstCollectionId],
+        queryFn: async () => {
+          const { data } = await axios.get<IMedia[]>(
+            `${API_URL}/collection/items/${firstCollectionId}`,
+            { headers: { Cookie: `accessToken=${validToken}` } },
+          );
+          return data;
+        },
+      });
+    }
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -32,6 +32,7 @@ export const MediaCard = ({
   cardWidth = 290,
   disableNavigation = false,
 }: Props) => {
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
@@ -110,7 +111,7 @@ export const MediaCard = ({
       </Link>
 
       {shouldShowAddButton && mode && (
-        <Popover>
+        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="rounded"
@@ -122,7 +123,9 @@ export const MediaCard = ({
 
           <PopoverContent className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full">
             {mode === "add-flag" && <SetMovieFlags />}
-            {mode === "add-collection" && <AddMovieCollection mediaId={id} mediaType={mediaType} />}
+            {mode === "add-collection" && (
+              <AddMovieCollection popoverOpen={popoverOpen} mediaId={id} mediaType={mediaType} />
+            )}
           </PopoverContent>
         </Popover>
       )}

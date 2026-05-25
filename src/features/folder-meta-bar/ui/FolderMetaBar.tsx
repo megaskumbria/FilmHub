@@ -1,6 +1,7 @@
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { CreateFolderModal } from "@/widgets/create-folder-modal";
+import { DeleteFolderModal } from "@/features/delete-folder-modal";
 import { Loader2, Settings, Trash2 } from "lucide-react";
 import { ICollection, useDeleteCollection } from "@/shared/hooks";
 import { toast } from "sonner";
@@ -61,15 +62,16 @@ export const FolderMetaBar = ({ collection, name, count = 10, isHovered, isMyPro
               </Button>
             </CreateFolderModal>
 
-            <Button
-              onClick={handleDeleteCollection}
-              disabled={isDeleting}
-              className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
-            >
-              {isDeleting ?
-                <Loader2 className="size-4 animate-spin" />
-              : <Trash2 className="size-4" />}
-            </Button>
+            <DeleteFolderModal onConfirm={handleDeleteCollection} isDeleting={isDeleting}>
+              <Button
+                disabled={isDeleting}
+                className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
+              >
+                {isDeleting ?
+                  <Loader2 className="size-4 animate-spin" />
+                : <Trash2 className="size-4" />}
+              </Button>
+            </DeleteFolderModal>
           </div>
         )}
       </div>

@@ -25,3 +25,4 @@ export { PopularFlagsCarousel } from "./popular-flags-carousel";
 export { UserProfileHeader } from "./user-profile-header";
 export { FollowersSheet } from "./followers-sheet";
 export { MovieGrid } from "./movie-grid";
+export { EmptyStateCollectionFilms } from "./empty-state-collection-films";

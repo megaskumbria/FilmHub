@@ -12,6 +12,7 @@ export interface ICollection {
   isVisible: boolean;
   posters: string[];
 
+  hasMedia: boolean;
   position: number;
 
   userId: string;
@@ -19,11 +20,13 @@ export interface ICollection {
   createdAt: string;
 }
 
-export const useCollection = (userId: string) => {
+export const useCollection = (userId: string, mediaId?: number) => {
   return useQuery({
     queryKey: ["collection", userId],
     queryFn: async () => {
-      const { data } = await apiClient.get<ICollection[]>(`${API_URL}/collection`);
+      const { data } = await apiClient.get<ICollection[]>(
+        `${API_URL}/collection?mediaId=${mediaId}`,
+      );
       return data;
     },
     staleTime: 1000 * 60 * 5,
@@ -85,7 +88,7 @@ export const useDeleteCollection = () => {
  */
 
 interface AddMediaToCollectionParams {
-  collectionId: string;
+  collectionIds: string[];
   mediaId: number;
   mediaType: MediaType;
 }
@@ -94,10 +97,11 @@ export const useAddMediaToCollection = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ collectionId, mediaId, mediaType }: AddMediaToCollectionParams) => {
-      return await apiClient.post(`${API_URL}/collection/add-item/${collectionId}`, {
+    mutationFn: async ({ collectionIds, mediaId, mediaType }: AddMediaToCollectionParams) => {
+      return await apiClient.post(`${API_URL}/collection/add-item`, {
         mediaId,
         mediaType,
+        collectionIds,
       });
     },
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["collection"] }),
@@ -115,5 +119,6 @@ export const useGetMediaCollection = (collectionId: string) => {
       return response;
     },
     staleTime: 1000 * 60 * 5,
+    enabled: !!collectionId,
   });
 };

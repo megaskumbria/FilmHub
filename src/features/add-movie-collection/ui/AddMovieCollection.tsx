@@ -3,7 +3,7 @@
 import { Button, Input } from "@/shared/ui";
 import Link from "next/link";
 import { Plus, Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
 import { useAddMediaToCollection, useCollection } from "@/shared/hooks";
 import { CollectionCompactCard } from "@/entities";
@@ -12,9 +12,10 @@ import { MediaType } from "@/shared/stores/movie-catalog";
 interface Props {
   mediaId: number;
   mediaType: MediaType;
+  popoverOpen: boolean;
 }
 
-export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
+export const AddMovieCollection = ({ mediaId, mediaType, popoverOpen }: Props) => {
   const [selectedCollections, setSelectedCollections] = useState<Set<string>>(new Set());
   const [collectionSearch, setCollectionSearch] = useState("");
 
@@ -29,7 +30,7 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
   const { user } = useAuthStore();
   const userId = user?.id ?? "";
 
-  const { data: collections } = useCollection(userId);
+  const { data: collections, refetch } = useCollection(userId, mediaId);
   const { mutate: addMediaToCollection } = useAddMediaToCollection();
 
   const filteredCollections = collections?.filter((collection) =>
@@ -37,10 +38,15 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
   );
 
   const handleAddMediaToCollection = () => {
-    const collectionId = selectedCollections.values().next().value;
-    if (!collectionId) return;
-    addMediaToCollection({ collectionId, mediaId, mediaType });
+    const collectionIds = Array.from(selectedCollections);
+    if (collectionIds.length === 0) return;
+    addMediaToCollection({ collectionIds, mediaId, mediaType });
+    setSelectedCollections(new Set());
   };
+
+  useEffect(() => {
+    void refetch();
+  }, [popoverOpen]);
 
   return (
     <div className="flex flex-col w-80">
