@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { CreateFolderModal } from "@/widgets/create-folder-modal";
@@ -5,6 +7,7 @@ import { DeleteFolderModal } from "@/features/delete-folder-modal";
 import { Loader2, Settings, Trash2 } from "lucide-react";
 import { ICollection, useDeleteCollection } from "@/shared/hooks";
 import { toast } from "sonner";
+import { useSkipDeleteConfirm } from "@/shared/hooks";
 
 interface Props {
   name: string;
@@ -16,8 +19,7 @@ interface Props {
 
 export const FolderMetaBar = ({ collection, name, count = 10, isHovered, isMyProfile }: Props) => {
   const { mutate: deleteCollection, isPending: isDeleting } = useDeleteCollection();
-
-  const { id } = collection;
+  const { id, posters } = collection;
 
   const handleDeleteCollection = () => {
     deleteCollection(id, {
@@ -30,6 +32,7 @@ export const FolderMetaBar = ({ collection, name, count = 10, isHovered, isMyPro
       },
     });
   };
+  const isForceDelete = posters.length === 0 || useSkipDeleteConfirm();
 
   return (
     <div className="px-3.5 py-2.5 bg-surface flex items-center justify-between">
@@ -62,16 +65,27 @@ export const FolderMetaBar = ({ collection, name, count = 10, isHovered, isMyPro
               </Button>
             </CreateFolderModal>
 
-            <DeleteFolderModal onConfirm={handleDeleteCollection} isDeleting={isDeleting}>
+            {isForceDelete ?
               <Button
                 disabled={isDeleting}
+                onClick={handleDeleteCollection}
                 className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
               >
                 {isDeleting ?
                   <Loader2 className="size-4 animate-spin" />
                 : <Trash2 className="size-4" />}
               </Button>
-            </DeleteFolderModal>
+            : <DeleteFolderModal onConfirm={handleDeleteCollection} isDeleting={isDeleting}>
+                <Button
+                  disabled={isDeleting}
+                  className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                >
+                  {isDeleting ?
+                    <Loader2 className="size-4 animate-spin" />
+                  : <Trash2 className="size-4" />}
+                </Button>
+              </DeleteFolderModal>
+            }
           </div>
         )}
       </div>

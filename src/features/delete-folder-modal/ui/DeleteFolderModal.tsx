@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Loader2, Trash2 } from "lucide-react";
+import { IconAlertTriangle } from "@tabler/icons-react";
 import {
   Button,
   Checkbox,
@@ -11,41 +11,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/ui";
-
-const SKIP_CONFIRM_KEY = "delete-folder-skip-confirm";
+import { setSkipDeleteConfirm } from "@/shared/hooks";
 
 interface Props {
   children: ReactNode;
-  onConfirm: () => void;
   isDeleting?: boolean;
+  onConfirm: () => void;
 }
 
-export function DeleteFolderModal({ children, onConfirm, isDeleting }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [skipNext, setSkipNext] = useState(false);
+export function DeleteFolderModal({ children, isDeleting, onConfirm }: Props) {
+  const [isSkip, setIsSkip] = useState(false);
 
-  const handleOpenChange = (open: boolean) => {
-    if (open) {
-      const shouldSkip = localStorage.getItem(SKIP_CONFIRM_KEY) === "true";
-      if (shouldSkip) {
-        onConfirm();
-        return;
-      }
-    }
-    setIsOpen(open);
-    if (!open) setSkipNext(false);
-  };
+  const handleSkip = (checked: boolean) => setIsSkip(checked);
 
   const handleConfirm = () => {
-    if (skipNext) {
-      localStorage.setItem(SKIP_CONFIRM_KEY, "true");
-    }
+    if (isSkip) setSkipDeleteConfirm(true);
     onConfirm();
-    setIsOpen(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+    <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent
@@ -53,29 +38,27 @@ export function DeleteFolderModal({ children, onConfirm, isDeleting }: Props) {
         aria-describedby={undefined}
         className="sm:max-w-[380px] gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
       >
-        {/* Red danger stripe */}
         <div className="relative flex items-end px-6 pt-10 pb-6 bg-red-500/[0.07] border-b border-red-500/15 overflow-hidden">
-          {/* Decorative large faded icon */}
-          <Trash2
+          <IconAlertTriangle
             className="absolute -right-3 -bottom-4 size-28 text-red-500/10 -rotate-12"
             strokeWidth={1.5}
           />
 
           <div className="relative flex items-center gap-4">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-red-500/15 border border-red-500/20">
-              <Trash2 className="size-4 text-red-400" strokeWidth={2} />
+              <IconAlertTriangle className="size-5 text-red-400" stroke={1.75} />
             </div>
 
             <div className="flex flex-col gap-0.5">
               <DialogTitle className="text-base font-semibold text-foreground leading-tight">
                 Delete collection?
               </DialogTitle>
+
               <p className="text-sm text-zinc-muted">This cannot be undone.</p>
             </div>
           </div>
         </div>
 
-        {/* Body */}
         <div className="flex flex-col gap-5 px-6 py-5">
           <p className="text-sm text-zinc-muted leading-relaxed">
             The collection and all its contents will be permanently removed from your account.
@@ -85,16 +68,11 @@ export function DeleteFolderModal({ children, onConfirm, isDeleting }: Props) {
             htmlFor="skip-confirm"
             className="flex cursor-pointer items-center gap-2.5 select-none w-fit"
           >
-            <Checkbox
-              id="skip-confirm"
-              checked={skipNext}
-              onCheckedChange={(v) => setSkipNext(v === true)}
-            />
+            <Checkbox id="skip-confirm" onCheckedChange={handleSkip} />
             <span className="text-sm text-zinc-muted">Don't ask again</span>
           </label>
         </div>
 
-        {/* Actions */}
         <div className="flex items-center justify-end gap-2 px-6 pb-5">
           <DialogClose asChild>
             <Button
@@ -110,9 +88,7 @@ export function DeleteFolderModal({ children, onConfirm, isDeleting }: Props) {
             disabled={isDeleting}
             className="h-9 px-4 rounded-xl text-sm font-semibold bg-red-500 hover:bg-red-600 text-white border-0 min-w-[80px]"
           >
-            {isDeleting ?
-              <Loader2 className="size-4 animate-spin" />
-            : <span>Delete</span>}
+            <span>{isDeleting ? "Deleting..." : "Delete"}</span>
           </Button>
         </div>
       </DialogContent>
