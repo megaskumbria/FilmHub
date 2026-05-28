@@ -2,7 +2,7 @@
 
 import { Button } from "@/shared/ui";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import { CreateFolderModal } from "@/widgets";
+import { CreateCollectionModal } from "@/widgets";
 import { CollectionFolder, FolderSkeleton } from "@/entities";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -65,12 +65,12 @@ export const UserCollections = ({
             <h2 className="text-lg font-semibold text-foreground">My collections</h2>
 
             {isMyProfile && (
-              <CreateFolderModal isEditing={false}>
+              <CreateCollectionModal isEditing={false}>
                 <Button variant="accent" size="sm" className="rounded-lg gap-2">
                   <Plus className="size-4" />
                   <span className="text-sm font-medium">Create</span>
                 </Button>
-              </CreateFolderModal>
+              </CreateCollectionModal>
             )}
           </div>
 

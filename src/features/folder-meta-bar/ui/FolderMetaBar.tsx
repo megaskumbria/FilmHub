@@ -2,7 +2,7 @@
 
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
-import { CreateFolderModal } from "@/widgets/create-folder-modal";
+import { CreateCollectionModal } from "@/widgets/create-folder-modal";
 import { DeleteFolderModal } from "@/features/delete-folder-modal";
 import { Loader2, Settings, Trash2 } from "lucide-react";
 import { ICollection, useDeleteCollection } from "@/shared/hooks";
@@ -11,15 +11,14 @@ import { useSkipDeleteConfirm } from "@/shared/hooks";
 
 interface Props {
   name: string;
-  count: number;
   isHovered: boolean;
   isMyProfile: boolean;
   collection: ICollection;
 }
 
-export const FolderMetaBar = ({ collection, name, count = 10, isHovered, isMyProfile }: Props) => {
+export const FolderMetaBar = ({ collection, name, isHovered, isMyProfile }: Props) => {
   const { mutate: deleteCollection, isPending: isDeleting } = useDeleteCollection();
-  const { id, posters } = collection;
+  const { id, posters, mediaCount } = collection;
 
   const handleDeleteCollection = () => {
     deleteCollection(id, {
@@ -45,7 +44,7 @@ export const FolderMetaBar = ({ collection, name, count = 10, isHovered, isMyPro
             isHovered && isMyProfile ? "opacity-0" : "opacity-100",
           )}
         >
-          {count}
+          {mediaCount}
         </span>
 
         {isMyProfile && (
@@ -56,15 +55,16 @@ export const FolderMetaBar = ({ collection, name, count = 10, isHovered, isMyPro
             )}
             onClick={(e) => e.stopPropagation()}
           >
-            <CreateFolderModal isEditing={true} initialData={collection}>
+            <CreateCollectionModal isEditing={true} initialData={collection}>
               <Button
                 onClick={(e) => e.stopPropagation()}
                 className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-foreground hover:bg-white/10 transition-colors"
               >
                 <Settings className="size-4" />
               </Button>
-            </CreateFolderModal>
+            </CreateCollectionModal>
 
+            {/* TODO: FIX DOUBLE BUTTON */}
             {isForceDelete ?
               <Button
                 disabled={isDeleting}

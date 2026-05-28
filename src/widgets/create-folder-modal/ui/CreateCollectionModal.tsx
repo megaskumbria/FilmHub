@@ -24,7 +24,7 @@ interface Props {
   initialData?: ICollection;
 }
 
-export function CreateFolderModal({ children, isEditing, initialData }: Props) {
+export function CreateCollectionModal({ children, isEditing, initialData }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const remaining = TOTAL_FOLDERS - USED_FOLDERS;

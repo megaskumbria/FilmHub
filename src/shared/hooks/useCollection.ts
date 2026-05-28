@@ -13,6 +13,7 @@ export interface ICollection {
   posters: string[];
 
   hasMedia: boolean;
+  mediaCount: number;
   position: number;
 
   userId: string;

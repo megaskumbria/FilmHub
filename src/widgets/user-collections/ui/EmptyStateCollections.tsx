@@ -1,7 +1,7 @@
 import { Button } from "@/shared/ui";
 import { Plus } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-import { CreateFolderModal } from "@/widgets";
+import { CreateCollectionModal } from "@/widgets";
 import { EMPTY_STATE_COLLECTION_PREVIEWS } from "../model/empty-state-collections-data";
 
 export const EmptyStateCollections = () => {
@@ -10,7 +10,7 @@ export const EmptyStateCollections = () => {
       <div className="flex items-end justify-center gap-3 px-10 pb-0 select-none">
         {EMPTY_STATE_COLLECTION_PREVIEWS.map((item, i) =>
           item === null ?
-            <CreateFolderModal key={i} isEditing={false}>
+            <CreateCollectionModal key={i} isEditing={false}>
               <Button
                 variant="transparent"
                 size="none"
@@ -32,7 +32,7 @@ export const EmptyStateCollections = () => {
                   </div>
                 </div>
               </Button>
-            </CreateFolderModal>
+            </CreateCollectionModal>
           : <div
               key={i}
               className={cn(

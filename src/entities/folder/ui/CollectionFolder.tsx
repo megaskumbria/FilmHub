@@ -44,6 +44,8 @@ export const CollectionFolder = ({
 
   const posterTransforms = isHovered || isActive ? fanOut : stacked;
 
+  const shouldTransform = posters.length > 1;
+
   return (
     <div
       key={id}
@@ -81,7 +83,10 @@ export const CollectionFolder = ({
                 <div
                   className="relative w-20 h-28 rounded-md overflow-hidden shadow-xl ring-1 ring-white/10 transition-all duration-350 ease-out"
                   style={{
-                    transform: `translateX(${x}px) rotate(${rot}deg) scale(${scale})`,
+                    transform:
+                      shouldTransform ?
+                        `translateX(${x}px) rotate(${rot}deg) scale(${scale})`
+                      : `scale(0.92)`,
                   }}
                 >
                   <Image src={src} alt="" fill className="object-cover" sizes="80px" />
@@ -115,7 +120,6 @@ export const CollectionFolder = ({
         <FolderMetaBar
           collection={collection}
           name={collectionName}
-          count={10}
           isHovered={isHovered}
           isMyProfile={isMyProfile}
         />

@@ -42,11 +42,6 @@ export const MovieGrid = () => {
   );
 
   const allMedia = extractUniqueMedia(data);
-  // const allMediaRaw = data?.pages.flatMap((page) => page.media) ?? [];
-  // const allMedia = Array.from(new Map(allMediaRaw.map((m) => [m.id, m])).values());
-
-  // console.log("allMediaRaw", allMediaRaw);
-  // console.log("allMedia", allMedia);
 
   if (isLoading) {
     return (

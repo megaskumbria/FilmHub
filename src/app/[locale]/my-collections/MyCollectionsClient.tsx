@@ -24,8 +24,7 @@ export const MyCollectionsClient = ({ userId }: Props) => {
   const { layout, blockOptions } = useMovieCardLayout();
   const { data: movies } = useGetMediaCollection(activeCollectionId);
 
-  // console.log({ activeCollectionId, movies });
-  // console.log("collections", collections);
+  const isShowToolbar = !isPending && collections && collections.length > 0;
 
   return (
     <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
@@ -38,7 +37,7 @@ export const MyCollectionsClient = ({ userId }: Props) => {
         userId={userId}
       />
 
-      {!isPending && collections && collections.length > 0 && (
+      {isShowToolbar && (
         <CollectionsToolbar
           isMyProfile={true}
           activeCollectionId={activeCollectionId}

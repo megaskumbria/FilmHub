@@ -29,7 +29,7 @@ export const CollectionsToolbar = ({
   const { data: collections } = useCollection(userId);
   const collection = collections?.find((collection) => collection.id === activeCollectionId);
 
-  const { collectionName, iconName, colorHex } = collection ?? {};
+  const { collectionName, iconName, colorHex, mediaCount } = collection ?? {};
 
   const Icon = ICONS.find((icon) => icon.iconName === iconName)?.icon;
 
@@ -53,7 +53,7 @@ export const CollectionsToolbar = ({
 
         <Separator orientation="vertical" className="h-5 bg-border" />
 
-        {/* <span className="text-base font-normal text-foreground">{count}</span> */}
+        <span className="text-base font-normal text-foreground">{mediaCount}</span>
 
         <Separator orientation="vertical" className="h-5 bg-border" />
 

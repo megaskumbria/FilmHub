@@ -15,7 +15,7 @@ export { CollectionsToolbar } from "./collections-toolbar";
 export { FilterPopover } from "./movie-catalog-toolbar/ui/FilterPopover";
 export { UserCollections } from "./user-collections";
 export { ProfileHeader } from "./profile-header";
-export { CreateFolderModal } from "./create-folder-modal";
+export { CreateCollectionModal } from "./create-folder-modal";
 export { AddMovieModal } from "./add-movie-modal";
 export { FlagCategoriesSidebar } from "./flag-categories-sidebar";
 export { PosterUploadSection } from "./poster-upload-section";

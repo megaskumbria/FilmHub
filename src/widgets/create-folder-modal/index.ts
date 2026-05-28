@@ -1,1 +1,1 @@
-export { CreateFolderModal } from "./ui/CreateFolderModal";
+export { CreateCollectionModal } from "./ui/CreateCollectionModal";

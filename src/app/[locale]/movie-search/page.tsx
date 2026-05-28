@@ -8,7 +8,7 @@ export default async function MovieSearchPage() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["media", "movie", ""],
+    queryKey: ["media", "all", "", "", "", "", ""],
     queryFn: async () => {
       const { data } = await axios.get<IMediaData>(`${API_URL}/movies?type=movie&page=1`);
       return data;
@@ -16,27 +16,15 @@ export default async function MovieSearchPage() {
     initialPageParam: 1,
   });
 
-  /*
-   * prefetchInfiniteQuery - метод, который делает запросы на сервере и ложит в cache
-   * queryKey: ["media", "movie"] - это переменная с ключём под которым лежит запрос
-   * React Query хранит всё вот так:
-   * {
-   *   "media-movie": { data },
-   *   "media-tv": { data },
-   *   "media-cartoon": { data }
-   * }
-   * "movie" → один кеш
-   * "tv" → другой кеш
-   * "cartoon" → третий кеш
-   * При попадании в квери запрос существующего квери ключа, данные будут взяты из кеша
-   *
-   * dehydrate(queryClient) - превращает кеш в JSON
-   */
+  // const data = queryClient.getQueryData<IMediaData>(["media", "all", "", "", "", "", ""]);
+
+  // console.log(222);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="max-w-[1640px] w-full mx-auto p-4 pt-16">
         <MovieCatalogToolbar />
+        {/* <MovieGrid data={data ?? { page: 1, totalPages: 1, media: [] }} /> */}
         <MovieGrid />
       </div>
     </HydrationBoundary>
