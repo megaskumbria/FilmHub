@@ -2,10 +2,9 @@
 
 import { cn } from "@/shared/lib/utils";
 import { Input, Button, Separator } from "@/shared/ui";
-import { X, Clapperboard, Search, EyeOff, Eye } from "lucide-react";
+import { X, Search, EyeOff, Eye, Pencil } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
-import { AddMovieModal } from "@/widgets/add-movie-modal";
 import { useCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 
@@ -13,12 +12,16 @@ interface CollectionsToolbarProps {
   activeCollectionId: string;
   isMyProfile: boolean;
   userId: string;
+  isEditMode?: boolean;
+  onEditModeChange?: (value: boolean) => void;
 }
 
 export const CollectionsToolbar = ({
   activeCollectionId,
   isMyProfile,
   userId,
+  isEditMode = false,
+  onEditModeChange,
 }: CollectionsToolbarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -109,16 +112,6 @@ export const CollectionsToolbar = ({
 
         {isMyProfile && (
           <>
-            <AddMovieModal>
-              <Button
-                size="sm"
-                className="transition-colors duration-200 h-9 shrink-0 whitespace-nowrap rounded-lg gap-2 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
-              >
-                <Clapperboard className="size-4 shrink-0" />
-                <span className="text-sm">Add a movie manually</span>
-              </Button>
-            </AddMovieModal>
-
             <Button
               size="sm"
               onClick={() => setIsCollectionVisible((prev) => !prev)}
@@ -132,6 +125,20 @@ export const CollectionsToolbar = ({
               {isCollectionVisible ?
                 <EyeOff className="shrink-0 size-4" />
               : <Eye className="shrink-0 size-4" />}
+            </Button>
+
+            <Button
+              size="sm"
+              onClick={() => onEditModeChange?.(!isEditMode)}
+              className={cn(
+                "rounded-lg h-9 px-3 border transition-colors duration-200 gap-1.5",
+                isEditMode ?
+                  "bg-accent/10 border-accent/30 text-accent"
+                : "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted",
+              )}
+            >
+              <Pencil className="shrink-0 size-4" />
+              <span className="text-sm">{isEditMode ? "Done" : "Edit"}</span>
             </Button>
 
             <Separator orientation="vertical" className="h-5 bg-border" />

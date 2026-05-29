@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Button, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
+import { Button, Checkbox, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { useRef, useState } from "react";
@@ -10,8 +10,9 @@ import { IMedia } from "@/shared/stores/movie-catalog";
 import { useLocale } from "next-intl";
 import { renderBlocks } from "../lib/render-blocks";
 import { AddMovieCollection, SetMovieFlags } from "@/features";
+import { cn } from "@/shared/lib/utils";
 
-export type PopoverMode = "add-flag" | "add-collection";
+export type PopoverMode = "add-flag" | "add-collection" | "edit-collection";
 
 interface Props {
   media: IMedia;
@@ -21,6 +22,8 @@ interface Props {
   mode?: PopoverMode;
   cardWidth?: number;
   disableNavigation?: boolean;
+  isChecked?: boolean;
+  onCheckedChange?: (id: number, checked: boolean) => void;
 }
 
 export const MediaCard = ({
@@ -31,14 +34,14 @@ export const MediaCard = ({
   mode,
   cardWidth = 290,
   disableNavigation = false,
+  isChecked = false,
+  onCheckedChange,
 }: Props) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [hoverHeight, setHoverHeight] = useState(0);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
   const locale = useLocale();
-
-  // console.log("media", media);
 
   const { posterUrl, originalName, originalTitle, releaseDate, firstAirDate, id, mediaType } =
     media;
@@ -60,9 +63,26 @@ export const MediaCard = ({
 
   const hasHover = hover.length > 0;
 
+  const isEditMode = mode === "edit-collection";
+
   return (
-    <article className="w-full border border-border rounded-xl relative">
-      <Link href={disableNavigation ? "" : `/${locale}/movies/${id}?type=${mediaType}`}>
+    <article
+      className={cn(
+        "w-full border rounded-xl relative transition-all duration-200",
+        isEditMode && isChecked ? "border-accent/50 ring-2 ring-accent/30" : "border-border",
+      )}
+    >
+      {isEditMode && (
+        <Checkbox
+          onCheckedChange={() => onCheckedChange?.(id, !isChecked)}
+          checked={isChecked}
+          className="absolute size-5 top-2 right-2 z-10 border-border bg-surface transition-all duration-200 cursor-pointer"
+        />
+      )}
+
+      <Link
+        href={disableNavigation || isEditMode ? "" : `/${locale}/movies/${id}?type=${mediaType}`}
+      >
         <div
           className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl"
           onMouseEnter={() => {
@@ -110,7 +130,7 @@ export const MediaCard = ({
         </div>
       </Link>
 
-      {shouldShowAddButton && mode && (
+      {shouldShowAddButton && mode && !isEditMode && (
         <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -128,6 +148,13 @@ export const MediaCard = ({
             )}
           </PopoverContent>
         </Popover>
+      )}
+
+      {isEditMode && (
+        <div
+          className="absolute inset-0 z-20 cursor-pointer rounded-xl"
+          onClick={() => onCheckedChange?.(id, !isChecked)}
+        />
       )}
 
       {body.length > 0 && (

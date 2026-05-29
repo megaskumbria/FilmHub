@@ -6,7 +6,7 @@ import { Plus, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
 import { useAddMediaToCollection, useCollection } from "@/shared/hooks";
-import { CollectionCompactCard } from "@/entities";
+import { CollectionCompactCard, CollectionCompactCardSkeleton } from "@/entities";
 import { MediaType } from "@/shared/stores/movie-catalog";
 
 interface Props {
@@ -30,7 +30,7 @@ export const AddMovieCollection = ({ mediaId, mediaType, popoverOpen }: Props) =
   const { user } = useAuthStore();
   const userId = user?.id ?? "";
 
-  const { data: collections, refetch } = useCollection(userId, mediaId);
+  const { data: collections, refetch, isFetching: isLoading } = useCollection(userId, mediaId);
   const { mutate: addMediaToCollection } = useAddMediaToCollection();
 
   const filteredCollections = collections?.filter((collection) =>
@@ -47,6 +47,8 @@ export const AddMovieCollection = ({ mediaId, mediaType, popoverOpen }: Props) =
   useEffect(() => {
     void refetch();
   }, [popoverOpen]);
+
+  // console.log(isLoading);
 
   return (
     <div className="flex flex-col w-80">
@@ -75,7 +77,9 @@ export const AddMovieCollection = ({ mediaId, mediaType, popoverOpen }: Props) =
       </nav>
 
       <div className="overflow-y-auto max-h-80 px-2 pb-2 drawer-scroll flex flex-col gap-2">
-        {filteredCollections?.length === 0 ?
+        {isLoading ?
+          Array.from({ length: 3 }).map((_, i) => <CollectionCompactCardSkeleton key={i} />)
+        : filteredCollections?.length === 0 ?
           <div className="py-6 text-center text-xs text-zinc-muted">No collections found</div>
         : filteredCollections?.map((collection) => (
             <CollectionCompactCard
