@@ -82,12 +82,6 @@ export const useDeleteCollection = () => {
   });
 };
 
-/**
- * mutationFn - Это функция которая изменяет данные
- * invalidateQueries - Данные с ключом collections устарели, нужно заново их запросить
- * Когда я создаю новую коллекцию, старый кеш уже неактуален поэтому invalidate запрашивает новые данные
- */
-
 interface AddMediaToCollectionParams {
   collectionIds: string[];
   mediaId: number;
@@ -121,5 +115,23 @@ export const useGetMediaCollection = (collectionId: string) => {
     },
     staleTime: 1000 * 60 * 5,
     enabled: !!collectionId,
+  });
+};
+
+interface DeleteMediaFromCollectionParams {
+  mediaIds: number[];
+  collectionId: string;
+}
+
+export const useDeleteMediaFromCollection = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ mediaIds, collectionId }: DeleteMediaFromCollectionParams) => {
+      return await apiClient.delete(`${API_URL}/collection/delete-item`, {
+        data: { mediaIds, collectionId },
+      });
+    },
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["media-collection"] }),
   });
 };

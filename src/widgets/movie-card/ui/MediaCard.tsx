@@ -22,8 +22,8 @@ interface Props {
   mode?: PopoverMode;
   cardWidth?: number;
   disableNavigation?: boolean;
-  isChecked?: boolean;
   onCheckedChange?: (id: number, checked: boolean) => void;
+  isChecked?: boolean;
 }
 
 export const MediaCard = ({
@@ -34,8 +34,8 @@ export const MediaCard = ({
   mode,
   cardWidth = 290,
   disableNavigation = false,
-  isChecked = false,
   onCheckedChange,
+  isChecked = false,
 }: Props) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [hoverHeight, setHoverHeight] = useState(0);
@@ -74,7 +74,7 @@ export const MediaCard = ({
     >
       {isEditMode && (
         <Checkbox
-          onCheckedChange={() => onCheckedChange?.(id, !isChecked)}
+          onCheckedChange={() => onCheckedChange?.(id, isChecked)}
           checked={isChecked}
           className="absolute size-5 top-2 right-2 z-10 border-border bg-surface transition-all duration-200 cursor-pointer"
         />

@@ -13,7 +13,7 @@ interface CollectionsToolbarProps {
   isMyProfile: boolean;
   userId: string;
   isEditMode?: boolean;
-  onEditModeChange?: (value: boolean) => void;
+  onToggleEditMode: () => void;
 }
 
 export const CollectionsToolbar = ({
@@ -21,7 +21,7 @@ export const CollectionsToolbar = ({
   isMyProfile,
   userId,
   isEditMode = false,
-  onEditModeChange,
+  onToggleEditMode,
 }: CollectionsToolbarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -129,7 +129,7 @@ export const CollectionsToolbar = ({
 
             <Button
               size="sm"
-              onClick={() => onEditModeChange?.(!isEditMode)}
+              onClick={onToggleEditMode}
               className={cn(
                 "rounded-lg h-9 px-3 border transition-colors duration-200 gap-1.5",
                 isEditMode ?

@@ -14,3 +14,4 @@ export { CreateCollection } from "./create-folder";
 export { FolderMetaBar } from "./folder-meta-bar";
 export { SetMovieFlags } from "./set-movie-flags";
 export { AddMovieCollection } from "./add-movie-collection";
+export { FloatingEditBar } from "./floating-edit-bar";

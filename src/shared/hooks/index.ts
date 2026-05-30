@@ -15,6 +15,7 @@ export {
   useDeleteCollection,
   useAddMediaToCollection,
   useGetMediaCollection,
+  useDeleteMediaFromCollection,
   type ICollection,
 } from "./useCollection";
 export { useSkipDeleteConfirm, setSkipDeleteConfirm } from "./useSkipDeleteConfirm";

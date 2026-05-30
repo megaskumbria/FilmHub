@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MediaCard,
   CollectionsToolbar,
   UserCollections,
   ProfileHeader,
   EmptyStateCollectionFilms,
-  FloatingEditBar,
 } from "@/widgets";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import { useCollection, useGetMediaCollection } from "@/shared/hooks";
+import { useCollection, useDeleteMediaFromCollection, useGetMediaCollection } from "@/shared/hooks";
+import { FloatingEditBar } from "@/features";
 
 interface Props {
   userId: string;
@@ -19,33 +19,43 @@ interface Props {
 export const MyCollectionsClient = ({ userId }: Props) => {
   const { data: collections, isPending } = useCollection(userId);
   const firstCollectionId = collections?.[0]?.id ?? "";
-
   const [activeCollectionId, setActiveCollectionId] = useState(firstCollectionId);
+
+  const { layout, blockOptions } = useMovieCardLayout();
+
+  const { data: movies } = useGetMediaCollection(activeCollectionId);
+  const { mutate: deleteMediaFromCollection } = useDeleteMediaFromCollection();
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
-  const { layout, blockOptions } = useMovieCardLayout();
-  const { data: movies } = useGetMediaCollection(activeCollectionId);
-
   const isShowToolbar = !isPending && collections && collections.length > 0;
-  const totalCount = movies?.length ?? 0;
-  const isAllSelected = selectedIds.size === totalCount && totalCount > 0;
+  const totalCountsMedia = movies?.length ?? 0;
+  const isAllSelected = selectedIds.size === totalCountsMedia && totalCountsMedia > 0;
 
-  const handleEditModeChange = (value: boolean) => {
-    setIsEditMode(value);
-    if (!value) setSelectedIds(new Set());
+  const handleToggleEditMode = () => {
+    setIsEditMode((prev) => !prev);
   };
 
+  useEffect(() => {
+    if (!isEditMode) {
+      const timer = setTimeout(() => {
+        setSelectedIds(new Set());
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isEditMode]);
+
   const handleCheckedChange = (id: number, checked: boolean) => {
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      if (checked) next.add(id);
-      else next.delete(id);
-      return next;
+    setSelectedIds((prevIds) => {
+      const nextIds = new Set(prevIds);
+      checked ? nextIds.add(id) : nextIds.delete(id);
+      return nextIds;
     });
   };
 
-  const handleSelectAll = () => {
+  const handleSelectAllMedia = () => {
     if (isAllSelected) {
       setSelectedIds(new Set());
     } else {
@@ -53,8 +63,12 @@ export const MyCollectionsClient = ({ userId }: Props) => {
     }
   };
 
-  const handleDelete = () => {
-    // TODO: implement delete logic
+  const handleDeleteMedia = () => {
+    deleteMediaFromCollection({
+      mediaIds: Array.from(selectedIds),
+      collectionId: activeCollectionId,
+    });
+    setSelectedIds(new Set());
   };
 
   return (
@@ -74,7 +88,7 @@ export const MyCollectionsClient = ({ userId }: Props) => {
           activeCollectionId={activeCollectionId}
           userId={userId}
           isEditMode={isEditMode}
-          onEditModeChange={handleEditModeChange}
+          onToggleEditMode={handleToggleEditMode}
         />
       )}
 
@@ -89,8 +103,8 @@ export const MyCollectionsClient = ({ userId }: Props) => {
                 layout={layout}
                 blockOptions={blockOptions}
                 mode={isEditMode ? "edit-collection" : undefined}
-                isChecked={selectedIds.has(movie.id)}
                 onCheckedChange={handleCheckedChange}
+                isChecked={selectedIds.has(movie.id)}
               />
             </li>
           ))}
@@ -99,11 +113,11 @@ export const MyCollectionsClient = ({ userId }: Props) => {
 
       <FloatingEditBar
         isVisible={isEditMode}
-        selectedCount={selectedIds.size}
-        totalCount={totalCount}
+        selectedCountsMedia={selectedIds.size}
+        totalCountsMedia={totalCountsMedia}
         isAllSelected={isAllSelected}
-        onSelectAll={handleSelectAll}
-        onDelete={handleDelete}
+        onSelectAll={handleSelectAllMedia}
+        onDelete={handleDeleteMedia}
       />
     </div>
   );

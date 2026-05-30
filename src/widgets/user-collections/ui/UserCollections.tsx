@@ -60,7 +60,7 @@ export const UserCollections = ({
     <>
       {!isPending && collectionsCount === 0 ?
         <EmptyStateCollections />
-      : <>
+      : <section>
           <div className="flex items-center justify-between mb-5 pt-5">
             <h2 className="text-lg font-semibold text-foreground">My collections</h2>
 
@@ -137,7 +137,7 @@ export const UserCollections = ({
               </div>
             </>
           }
-        </>
+        </section>
       }
     </>
   );
