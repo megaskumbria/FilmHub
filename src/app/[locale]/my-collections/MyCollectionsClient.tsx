@@ -11,6 +11,7 @@ import {
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { useCollection, useDeleteMediaFromCollection, useGetMediaCollection } from "@/shared/hooks";
 import { FloatingEditBar } from "@/features";
+import { Skeleton } from "@/shared/ui";
 
 interface Props {
   userId: string;
@@ -23,8 +24,9 @@ export const MyCollectionsClient = ({ userId }: Props) => {
 
   const { layout, blockOptions } = useMovieCardLayout();
 
-  const { data: movies } = useGetMediaCollection(activeCollectionId);
-  const { mutate: deleteMediaFromCollection } = useDeleteMediaFromCollection();
+  const { data: movies, isLoading } = useGetMediaCollection(activeCollectionId);
+  const { mutate: deleteMediaFromCollection, isPending: isDeleting } =
+    useDeleteMediaFromCollection();
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
@@ -38,6 +40,10 @@ export const MyCollectionsClient = ({ userId }: Props) => {
   };
 
   useEffect(() => {
+    if (collections?.length === 1) setActiveCollectionId(collections[0].id);
+  }, [collections?.length]);
+
+  useEffect(() => {
     if (!isEditMode) {
       const timer = setTimeout(() => {
         setSelectedIds(new Set());
@@ -46,6 +52,8 @@ export const MyCollectionsClient = ({ userId }: Props) => {
       return () => clearTimeout(timer);
     }
   }, [isEditMode]);
+
+  useEffect(() => setSelectedIds(new Set()), [activeCollectionId]);
 
   const handleCheckedChange = (id: number, checked: boolean) => {
     setSelectedIds((prevIds) => {
@@ -71,6 +79,10 @@ export const MyCollectionsClient = ({ userId }: Props) => {
     setSelectedIds(new Set());
   };
 
+  const isMediaEmpty = movies?.length === 0 && collections?.length !== 0;
+
+  console.log(movies);
+
   return (
     <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
       <ProfileHeader isMyProfile={true} />
@@ -92,32 +104,41 @@ export const MyCollectionsClient = ({ userId }: Props) => {
         />
       )}
 
-      {movies?.length === 0 ?
+      {isMediaEmpty ?
         <EmptyStateCollectionFilms />
       : <ul className="grid grid-cols-5 gap-2 justify-items-center">
-          {movies?.map((movie) => (
-            <li key={movie.id}>
-              <MediaCard
-                cardWidth={310}
-                media={movie}
-                layout={layout}
-                blockOptions={blockOptions}
-                mode={isEditMode ? "edit-collection" : undefined}
-                onCheckedChange={handleCheckedChange}
-                isChecked={selectedIds.has(movie.id)}
+          {isLoading ?
+            Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton
+                key={`skeleton-${i}`}
+                className="w-full border border-border aspect-2/3 rounded-xl"
               />
-            </li>
-          ))}
+            ))
+          : movies?.map((movie) => (
+              <li key={movie.id}>
+                <MediaCard
+                  cardWidth={310}
+                  media={movie}
+                  layout={layout}
+                  blockOptions={blockOptions}
+                  mode={isEditMode ? "edit-collection" : undefined}
+                  onCheckedChange={handleCheckedChange}
+                  isChecked={selectedIds.has(movie.id)}
+                />
+              </li>
+            ))
+          }
         </ul>
       }
 
       <FloatingEditBar
-        isVisible={isEditMode}
+        isEditMode={isEditMode}
         selectedCountsMedia={selectedIds.size}
         totalCountsMedia={totalCountsMedia}
         isAllSelected={isAllSelected}
         onSelectAll={handleSelectAllMedia}
         onDelete={handleDeleteMedia}
+        isDeleting={isDeleting}
       />
     </div>
   );

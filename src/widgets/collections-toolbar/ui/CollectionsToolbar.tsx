@@ -34,6 +34,8 @@ export const CollectionsToolbar = ({
 
   const { collectionName, iconName, colorHex, mediaCount } = collection ?? {};
 
+  const isMediaEmpty = mediaCount === 0;
+
   const Icon = ICONS.find((icon) => icon.iconName === iconName)?.icon;
 
   useEffect(() => {
@@ -130,9 +132,10 @@ export const CollectionsToolbar = ({
             <Button
               size="sm"
               onClick={onToggleEditMode}
+              disabled={isMediaEmpty}
               className={cn(
-                "rounded-lg h-9 px-3 border transition-colors duration-200 gap-1.5",
-                isEditMode ?
+                "rounded-lg h-9 px-3 border transition-colors duration-200 gap-1.5 disabled:pointer-events-none disabled:opacity-50 select-none",
+                isEditMode && !isMediaEmpty ?
                   "bg-accent/10 border-accent/30 text-accent"
                 : "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted",
               )}

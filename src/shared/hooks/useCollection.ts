@@ -78,7 +78,10 @@ export const useDeleteCollection = () => {
 
       return response;
     },
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["collection"] }),
+    onSuccess: (_, id: string) => {
+      queryClient.removeQueries({ queryKey: ["media-collection", id] });
+      void queryClient.invalidateQueries({ queryKey: ["collection"] });
+    },
   });
 };
 
@@ -99,7 +102,12 @@ export const useAddMediaToCollection = () => {
         collectionIds,
       });
     },
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["collection"] }),
+    onSuccess: (_, { collectionIds }) => {
+      collectionIds.forEach(
+        (id) => void queryClient.invalidateQueries({ queryKey: ["media-collection", id] }),
+      );
+      void queryClient.invalidateQueries({ queryKey: ["collection"] });
+    },
   });
 };
 
@@ -132,6 +140,12 @@ export const useDeleteMediaFromCollection = () => {
         data: { mediaIds, collectionId },
       });
     },
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["media-collection"] }),
+
+    onSuccess: (_, { collectionId, mediaIds }) => {
+      queryClient.setQueryData<IMedia[]>(["media-collection", collectionId], (old) =>
+        old?.filter((o) => !mediaIds.includes(o.id)),
+      );
+      void queryClient.invalidateQueries({ queryKey: ["collection"] });
+    },
   });
 };

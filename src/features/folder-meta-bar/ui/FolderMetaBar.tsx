@@ -31,7 +31,9 @@ export const FolderMetaBar = ({ collection, name, isHovered, isMyProfile }: Prop
       },
     });
   };
-  const isForceDelete = posters.length === 0 || useSkipDeleteConfirm();
+
+  const skipDeleteConfirm = useSkipDeleteConfirm();
+  const isForceDelete = posters.length === 0 || skipDeleteConfirm;
 
   return (
     <div className="px-3.5 py-2.5 bg-surface flex items-center justify-between">

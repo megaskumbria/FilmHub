@@ -5,22 +5,26 @@ import { Button, Checkbox, Label, Separator } from "@/shared/ui";
 import { Trash2 } from "lucide-react";
 
 interface Props {
-  isVisible: boolean;
+  isEditMode: boolean;
   selectedCountsMedia: number;
   totalCountsMedia: number;
   isAllSelected: boolean;
   onSelectAll: () => void;
   onDelete: () => void;
+  isDeleting: boolean;
 }
 
 export const FloatingEditBar = ({
-  isVisible,
+  isEditMode,
   selectedCountsMedia,
   totalCountsMedia,
   isAllSelected,
   onSelectAll,
   onDelete,
+  isDeleting,
 }: Props) => {
+  const isVisible = isEditMode && totalCountsMedia > 0;
+
   return (
     <div
       className={cn(
@@ -29,11 +33,19 @@ export const FloatingEditBar = ({
       )}
     >
       <div className="flex items-center gap-3 px-5 py-3 rounded-2xl border border-border bg-surface shadow-[0_8px_32px_-4px_rgba(0,0,0,0.8),0_0_0_1px_rgba(155,86,240,0.12)]">
-        <Label className="cursor-pointer text-sm text-zinc-muted hover:text-foreground transition-colors duration-150">
+        <Label
+          className={cn(
+            "text-sm text-zinc-muted transition-colors duration-150",
+            isDeleting ?
+              "pointer-events-none opacity-50 cursor-not-allowed"
+            : "cursor-pointer hover:text-foreground",
+          )}
+        >
           <Checkbox
             checked={isAllSelected}
-            className="flex items-center gap-2.5 cursor-pointer"
+            className="flex items-center gap-2.5"
             onCheckedChange={onSelectAll}
+            disabled={isDeleting}
           />
           <span>{isAllSelected ? "Deselect all" : "Select all"}</span>
         </Label>
@@ -64,7 +76,7 @@ export const FloatingEditBar = ({
           )}
         >
           <Trash2 className="size-3.5 shrink-0" />
-          <span>Remove</span>
+          <span>{isDeleting ? "Removing..." : "Remove"}</span>
         </Button>
       </div>
     </div>
