@@ -4,7 +4,7 @@ import { IMediaData, MediaCategory } from "../stores/movie-catalog";
 import { API_URL } from "../constants/constants";
 import { FilterSortType, FilterYearType } from "../stores/filter-media-store";
 
-interface UseInfiniteMediaProps {
+interface UseInfiniteMediaArgs {
   category: MediaCategory;
   searchQuery?: string;
   selectedGenre?: string;
@@ -22,16 +22,18 @@ export const useInfiniteMedia = ({
   selectedYear = "",
   selectedCountry = "",
   enabled = true,
-}: UseInfiniteMediaProps) => {
+}: UseInfiniteMediaArgs) => {
   return useInfiniteQuery({
     queryKey: [
       "media",
-      category,
-      searchQuery,
-      selectedGenre,
-      selectedSort,
-      selectedYear,
-      selectedCountry,
+      {
+        category,
+        searchQuery,
+        selectedGenre,
+        selectedSort,
+        selectedYear,
+        selectedCountry,
+      },
     ],
 
     queryFn: async ({ pageParam = 1, signal }) => {

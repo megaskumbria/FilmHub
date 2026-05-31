@@ -8,6 +8,7 @@ export default async function MovieSearchPage() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery({
+    // TODO thinking how to write cleanly
     queryKey: ["media", "all", "", "", "", "", ""],
     queryFn: async () => {
       const { data } = await axios.get<IMediaData>(`${API_URL}/movies?type=movie&page=1`);
@@ -15,10 +16,6 @@ export default async function MovieSearchPage() {
     },
     initialPageParam: 1,
   });
-
-  // const data = queryClient.getQueryData<IMediaData>(["media", "all", "", "", "", "", ""]);
-
-  // console.log(222);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

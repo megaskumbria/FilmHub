@@ -2,8 +2,8 @@
 
 import { Button, Input } from "@/shared/ui";
 import Link from "next/link";
-import { Plus, Search } from "lucide-react";
-import { useState } from "react";
+import { Loader2, Plus, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
 import { useAddMediaToCollection, useCollection } from "@/shared/hooks";
 import { CollectionCompactCard, CollectionCompactCardSkeleton } from "@/entities";
@@ -30,8 +30,8 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
   const { user } = useAuthStore();
   const userId = user?.id ?? "";
 
-  const { data: collections, isLoading } = useCollection(userId, mediaId);
-  const { mutate: addMediaToCollection } = useAddMediaToCollection();
+  const { data: collections, isLoading, isFetching } = useCollection(userId, mediaId);
+  const { mutate: addMediaToCollection, isPending } = useAddMediaToCollection();
 
   const filteredCollections = collections?.filter((collection) =>
     collection.collectionName.toLowerCase().includes(collectionSearch.toLowerCase()),
@@ -41,14 +41,13 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
     const collectionIds = Array.from(selectedCollections);
     if (collectionIds.length === 0) return;
     addMediaToCollection({ collectionIds, mediaId, mediaType });
-    setSelectedCollections(new Set());
   };
 
-  // useEffect(() => {
-  //   void refetch();
-  // }, [popoverOpen]);
+  useEffect(() => {
+    if (!isPending && !isFetching) setSelectedCollections(new Set());
+  }, [isPending, isFetching]);
 
-  // console.log(isLoading);
+  const selectedCount = selectedCollections.size > 0 ? ` (${selectedCollections.size})` : "";
 
   return (
     <div className="flex flex-col w-80">
@@ -106,7 +105,12 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
           className="h-8 px-4 text-sm rounded-lg bg-accent hover:bg-accent/90 text-white transition-all disabled:opacity-30 disabled:pointer-events-none"
           onClick={handleAddMediaToCollection}
         >
-          <span>Add{selectedCollections.size > 0 ? ` (${selectedCollections.size})` : ""}</span>
+          {isPending || isFetching ?
+            <div className="flex items-center gap-1.5">
+              <Loader2 className="size-3.5 animate-spin" />
+              <span>Adding...</span>
+            </div>
+          : <span>Add{selectedCount}</span>}
         </Button>
       </footer>
     </div>

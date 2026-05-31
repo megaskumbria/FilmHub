@@ -1,10 +1,20 @@
 "use client";
 
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/ui";
 import { ActorsCarousel } from "@/widgets";
 import { motion } from "framer-motion";
 import { CalendarDays, Clock, Info, Link2, Plus, Tv } from "lucide-react";
 import { ICastMember, ITmdbMovie } from "@/shared/hooks/useMedia";
+import { AddMovieCollection } from "@/features";
+import { useState } from "react";
 
 const formatDuration = (min: number) => {
   const h = Math.floor(min / 60);
@@ -12,13 +22,15 @@ const formatDuration = (min: number) => {
   return h > 0 ? `${h}h ${m}m` : `${m}m`;
 };
 
-interface MovieInfoPanelProps {
+interface Props {
   movie: ITmdbMovie;
   isUiHidden: boolean;
   actors: ICastMember[];
 }
 
-export const MovieInfoPanel = ({ movie, isUiHidden, actors }: MovieInfoPanelProps) => {
+export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
   const {
     genres,
     overview,
@@ -74,14 +86,26 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: MovieInfoPanelProp
       <p className="text-white/70 font-medium text-base leading-relaxed line-clamp-6">{overview}</p>
 
       <div className="flex gap-3">
-        <Button
-          variant="accent"
-          size="lg"
-          className="transition-all duration-200 gap-2 rounded-lg font-semibold shadow-lg shadow-accent/30"
-        >
-          <Plus className="size-4" />
-          <span>Add to collection</span>
-        </Button>
+        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="accent"
+              size="lg"
+              className="transition-all duration-200 gap-2 rounded-lg font-semibold shadow-lg shadow-accent/30"
+            >
+              <Plus className="size-4" />
+              <span>Add to collection</span>
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent
+            align="start"
+            alignOffset={0}
+            className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full"
+          >
+            <AddMovieCollection mediaId={movie.id} mediaType="movie" popoverOpen={popoverOpen} />
+          </PopoverContent>
+        </Popover>
 
         <div className="flex items-stretch h-10 rounded-lg border border-white/20 bg-white/10 overflow-hidden">
           <Button className="transition-all duration-200 gap-2 h-full rounded-none bg-transparent hover:bg-white/10 font-semibold text-white border-none shadow-none px-4">

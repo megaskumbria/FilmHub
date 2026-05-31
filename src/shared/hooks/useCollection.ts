@@ -68,7 +68,12 @@ export const useEditCollection = () => {
 
       return response;
     },
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["collection"] }),
+    onSuccess: (updatedCollection) => {
+      queryClient.setQueriesData<ICollection[]>(
+        { queryKey: ["collection", updatedCollection.userId] },
+        (old) => old?.map((c) => (c.id === updatedCollection.id ? updatedCollection : c)),
+      );
+    },
   });
 };
 
@@ -90,7 +95,7 @@ export const useDeleteCollection = () => {
   });
 };
 
-interface AddMediaToCollectionParams {
+interface AddMediaToCollectionArgs {
   collectionIds: string[];
   mediaId: number;
   mediaType: MediaType;
@@ -100,7 +105,7 @@ export const useAddMediaToCollection = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ collectionIds, mediaId, mediaType }: AddMediaToCollectionParams) => {
+    mutationFn: async ({ collectionIds, mediaId, mediaType }: AddMediaToCollectionArgs) => {
       return await apiClient.post(`${API_URL}/collection/add-item`, {
         mediaId,
         mediaType,
@@ -131,7 +136,7 @@ export const useGetMediaCollection = (collectionId: string) => {
   });
 };
 
-interface DeleteMediaFromCollectionParams {
+interface DeleteMediaFromCollectionArgs {
   mediaIds: number[];
   collectionId: string;
 }
@@ -140,7 +145,7 @@ export const useDeleteMediaFromCollection = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ mediaIds, collectionId }: DeleteMediaFromCollectionParams) => {
+    mutationFn: async ({ mediaIds, collectionId }: DeleteMediaFromCollectionArgs) => {
       return await apiClient.delete(`${API_URL}/collection/delete-item`, {
         data: { mediaIds, collectionId },
       });
