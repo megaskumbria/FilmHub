@@ -20,9 +20,11 @@ export const EmptyStateCollectionFilms = () => {
 
           <div className="flex-1 flex items-center justify-center gap-3">
             <div className="h-px flex-1 bg-border/30" />
+
             <p className="text-sm text-muted/60 tracking-widest uppercase whitespace-nowrap select-none">
               no films added
             </p>
+
             <div className="h-px flex-1 bg-border/30" />
           </div>
 

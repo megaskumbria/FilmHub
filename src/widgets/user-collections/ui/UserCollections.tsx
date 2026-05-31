@@ -26,6 +26,7 @@ interface Props {
   activeCollectionId: string;
   isMyProfile: boolean;
   userId: string;
+  hasCollections: boolean;
 }
 
 export const UserCollections = ({
@@ -33,6 +34,7 @@ export const UserCollections = ({
   setActiveCollectionId,
   activeCollectionId,
   userId,
+  hasCollections,
 }: Props) => {
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
@@ -54,11 +56,9 @@ export const UserCollections = ({
   const isLoop = collectionsCount > 10;
   const isHideButtons = collectionsCount > 5;
 
-  // console.log({ userId, isPending, foldersCount });
-
   return (
     <>
-      {!isPending && collectionsCount === 0 ?
+      {!hasCollections ?
         <EmptyStateCollections />
       : <section>
           <div className="flex items-center justify-between mb-5 pt-5">
@@ -86,6 +86,7 @@ export const UserCollections = ({
                 onMouseLeave={() => setIsNavigationVisible(false)}
               >
                 <Swiper
+                  a11y={{ enabled: false }}
                   key={isLoop ? "loop" : "no-loop"}
                   spaceBetween={0}
                   modules={[Navigation]}

@@ -3,7 +3,7 @@
 import { Button, Input } from "@/shared/ui";
 import Link from "next/link";
 import { Plus, Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
 import { useAddMediaToCollection, useCollection } from "@/shared/hooks";
 import { CollectionCompactCard, CollectionCompactCardSkeleton } from "@/entities";
@@ -15,7 +15,7 @@ interface Props {
   popoverOpen: boolean;
 }
 
-export const AddMovieCollection = ({ mediaId, mediaType, popoverOpen }: Props) => {
+export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
   const [selectedCollections, setSelectedCollections] = useState<Set<string>>(new Set());
   const [collectionSearch, setCollectionSearch] = useState("");
 
@@ -30,7 +30,7 @@ export const AddMovieCollection = ({ mediaId, mediaType, popoverOpen }: Props) =
   const { user } = useAuthStore();
   const userId = user?.id ?? "";
 
-  const { data: collections, refetch, isFetching: isLoading } = useCollection(userId, mediaId);
+  const { data: collections, isLoading } = useCollection(userId, mediaId);
   const { mutate: addMediaToCollection } = useAddMediaToCollection();
 
   const filteredCollections = collections?.filter((collection) =>
@@ -44,9 +44,9 @@ export const AddMovieCollection = ({ mediaId, mediaType, popoverOpen }: Props) =
     setSelectedCollections(new Set());
   };
 
-  useEffect(() => {
-    void refetch();
-  }, [popoverOpen]);
+  // useEffect(() => {
+  //   void refetch();
+  // }, [popoverOpen]);
 
   // console.log(isLoading);
 

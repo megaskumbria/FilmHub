@@ -23,7 +23,7 @@ export interface ICollection {
 
 export const useCollection = (userId: string, mediaId?: number) => {
   return useQuery({
-    queryKey: ["collection", userId],
+    queryKey: ["collection", userId, mediaId],
     queryFn: async () => {
       const { data } = await apiClient.get<ICollection[]>(
         `${API_URL}/collection?mediaId=${mediaId}`,
@@ -47,7 +47,12 @@ export const useCreateCollection = () => {
 
       return response;
     },
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["collection"] }),
+    onSuccess: (newCollection) => {
+      queryClient.setQueriesData<ICollection[]>(
+        { queryKey: ["collection", newCollection.userId] },
+        (old) => [...(old ?? []), newCollection],
+      );
+    },
   });
 };
 

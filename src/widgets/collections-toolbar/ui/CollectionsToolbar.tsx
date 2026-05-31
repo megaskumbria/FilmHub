@@ -2,11 +2,12 @@
 
 import { cn } from "@/shared/lib/utils";
 import { Input, Button, Separator } from "@/shared/ui";
-import { X, Search, EyeOff, Eye, Pencil } from "lucide-react";
+import { X, Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
 import { useCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
+import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 
 interface CollectionsToolbarProps {
   activeCollectionId: string;
@@ -14,6 +15,7 @@ interface CollectionsToolbarProps {
   userId: string;
   isEditMode?: boolean;
   onToggleEditMode: () => void;
+  isLoading: boolean;
 }
 
 export const CollectionsToolbar = ({
@@ -22,6 +24,7 @@ export const CollectionsToolbar = ({
   userId,
   isEditMode = false,
   onToggleEditMode,
+  isLoading = false,
 }: CollectionsToolbarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -51,29 +54,32 @@ export const CollectionsToolbar = ({
 
   return (
     <div className="flex items-center justify-between mb-5 pt-5">
-      <div className="flex items-center gap-2 pr-2">
-        {collection && Icon && <Icon className="size-5 shrink-0" style={{ color: colorHex }} />}
+      {isLoading ?
+        <CollectionsToolbarSkeleton />
+      : <div className="flex items-center gap-2 pr-2">
+          {collection && Icon && <Icon className="size-5 shrink-0" style={{ color: colorHex }} />}
 
-        <h2 className="text-lg font-bold">{collectionName}</h2>
+          <h2 className="text-lg font-bold">{collectionName}</h2>
 
-        <Separator orientation="vertical" className="h-5 bg-border" />
+          <Separator orientation="vertical" className="h-5 bg-border" />
 
-        <span className="text-base font-normal text-foreground">{mediaCount}</span>
+          <span className="text-base font-normal text-foreground">{mediaCount}</span>
 
-        <Separator orientation="vertical" className="h-5 bg-border" />
+          <Separator orientation="vertical" className="h-5 bg-border" />
 
-        {/* <div className="flex items-center gap-1.5">
-          <Button className="flex items-center gap-1.5 h-8 px-1 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/5 transition-colors duration-200">
-            <Share2 className="size-3.5 shrink-0" />
-            <span className="text-sm tabular-nums">{shared}</span>
-          </Button>
+          <div className="flex items-center gap-1.5">
+            <Button className="flex items-center gap-1.5 h-8 px-1 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/5 transition-colors duration-200">
+              <Share2 className="size-3.5 shrink-0" />
+              <span className="text-sm tabular-nums">0</span>
+            </Button>
 
-          <Button className="flex items-center gap-1.5 h-8 px-1 rounded-lg text-zinc-muted hover:text-rose-400 hover:bg-rose-400/5 transition-colors duration-200">
-            <Heart className="size-3.5 shrink-0" />
-            <span className="text-sm tabular-nums">{liked}</span>
-          </Button>
-        </div> */}
-      </div>
+            <Button className="flex items-center gap-1.5 h-8 px-1 rounded-lg text-zinc-muted hover:text-rose-400 hover:bg-rose-400/5 transition-colors duration-200">
+              <Heart className="size-3.5 shrink-0" />
+              <span className="text-sm tabular-nums">0</span>
+            </Button>
+          </div>
+        </div>
+      }
 
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-2">

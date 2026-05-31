@@ -51,8 +51,6 @@ function Button({
   }) {
   const Comp = asChild ? Slot : "button";
 
-  // console.log(buttonVariants());
-
   return (
     <Comp
       data-slot="button"

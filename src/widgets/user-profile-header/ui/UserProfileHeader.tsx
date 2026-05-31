@@ -39,7 +39,7 @@ export const UserProfileHeader = () => {
           </Avatar>
 
           <div className="flex-1 min-w-0 pb-1">
-            <h1 className="text-2xl font-bold text-foreground truncate">Pavel Ivanov</h1>
+            <h1 className="text-2xl font-bold text-foreground truncate">Pavel</h1>
             <p className="text-zinc-muted text-sm">@pavel_films · Film enthusiast since 2019</p>
           </div>
 

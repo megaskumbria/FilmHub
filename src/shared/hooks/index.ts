@@ -19,3 +19,5 @@ export {
   type ICollection,
 } from "./useCollection";
 export { useSkipDeleteConfirm, setSkipDeleteConfirm } from "./useSkipDeleteConfirm";
+export { useDeferredLoading } from "./useDeferredLoading";
+export { useScrollRestoration } from "./useScrollRestoration";

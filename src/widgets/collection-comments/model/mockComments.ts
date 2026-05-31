@@ -25,7 +25,7 @@ export interface Comment {
 }
 
 const PAVEL: CommentAuthor = {
-  name: "Pavel Ivanov",
+  name: "Pavel",
   handle: "@pavel_films",
   initials: "PI",
   color: "#9b56f0",

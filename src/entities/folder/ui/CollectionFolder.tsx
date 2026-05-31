@@ -61,8 +61,6 @@ export const CollectionFolder = ({
       />
 
       <div
-        role="button"
-        tabIndex={0}
         onClick={() => setActiveCollectionId(id)}
         className="cursor-pointer relative flex-col shadow-lg items-stretch gap-0 h-auto p-0 rounded-b-xl rounded-tr-xl border overflow-hidden transition-all duration-300 w-full"
         style={{

@@ -58,7 +58,7 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
 
           <div className="flex-1 min-w-0 pb-1">
             <h1 className="text-2xl font-bold text-foreground truncate">
-              {isMyProfile ? "Pavel Ivanov" : "John Doe"}
+              {isMyProfile ? "Pavel" : "John Doe"}
             </h1>
 
             <p className="text-zinc-muted text-sm">

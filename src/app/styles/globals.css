@@ -160,6 +160,10 @@
     @apply bg-background text-foreground;
     font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   }
+
+  body {
+    overflow-y: scroll;
+  }
 }
 
 /* react-best-gradient-color-picker overrides */
