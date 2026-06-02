@@ -1,11 +1,10 @@
 import { Button, Label } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
-import { ICON_MAP } from "@/shared/model/icons";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
-import { getIconByName } from "@/shared/lib";
 import { memo } from "react";
 import { useShallow } from "zustand/shallow";
-// import * as icons from "@lucide/icons";
+import { useIcons } from "@/shared/hooks";
+import { InlineSvg } from "@/shared/ui";
 
 export const FlagIconPicker = memo(() => {
   const { selectedIcon, setSelectedIcon } = useCreationFlagStore(
@@ -15,10 +14,9 @@ export const FlagIconPicker = memo(() => {
     })),
   );
 
-  const SelectedIconComponent = getIconByName(selectedIcon);
+  const { data: icons } = useIcons();
 
-  // Don't forget to migrate icons to the backend API
-  // console.log(Object.keys(icons));
+  // const SelectedIconComponent = getIconByName(selectedIcon);
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 w-full">
@@ -32,17 +30,17 @@ export const FlagIconPicker = memo(() => {
           <span className="text-xs text-zinc-muted">Selected:</span>
 
           <span className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
-            {SelectedIconComponent && <SelectedIconComponent className="size-4 text-accent" />}
+            {/* {SelectedIconComponent && <SelectedIconComponent className="size-4 text-accent" />} */}
           </span>
 
           <span className="text-xs text-zinc-muted">{selectedIcon}</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-10 gap-1.5">
-        {ICON_MAP.map(({ name, icon: Icon }) => (
+      <div className="grid grid-cols-10 gap-1.5 max-h-64 overflow-y-auto scrollbar-minimal ">
+        {icons?.map(({ id, name, svgContent }) => (
           <Button
-            key={name}
+            key={id}
             onClick={() => setSelectedIcon(selectedIcon === name ? null : name)}
             className={cn(
               "flex items-center justify-center size-10 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
@@ -52,7 +50,7 @@ export const FlagIconPicker = memo(() => {
             )}
             title={name}
           >
-            <Icon className="size-5" />
+            <InlineSvg svg={svgContent} className="size-6" />
           </Button>
         ))}
       </div>

@@ -25,11 +25,7 @@ export const FlagCategoriesSidebar = memo(() => {
         </div>
 
         <div className="flex gap-2">
-          <Input
-            variant="neutral"
-            placeholder="Category name..."
-            className="text-sm h-8 flex-1"
-          />
+          <Input variant="neutral" placeholder="Category name..." className="text-sm h-8 flex-1" />
           <Button variant="accent" size="sm" className="shrink-0 rounded-lg text-xs font-medium">
             <Plus className="size-3.5" />
             <span>Create</span>

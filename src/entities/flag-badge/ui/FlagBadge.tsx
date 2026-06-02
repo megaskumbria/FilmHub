@@ -1,6 +1,6 @@
 "use client";
 
-import { getIconByName, flagSoftBackground } from "@/shared/lib";
+import { flagSoftBackground } from "@/shared/lib";
 import { IFlagItem } from "@/shared/model/flags/mockFlags";
 
 interface FlagBadgeProps {
@@ -9,11 +9,11 @@ interface FlagBadgeProps {
 }
 
 export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
-  const { flagName, color, bgOpacity, fontFamily, icon } = flagItem;
+  const { flagName, color, bgOpacity, fontFamily } = flagItem;
 
   const computedBg = flagSoftBackground(color, bgOpacity);
 
-  const IconComponent = getIconByName(icon || "");
+  // const IconComponent = getIconByName(icon || "");
 
   return (
     <span
@@ -32,7 +32,7 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
           fontFamily: fontFamily || "Manrope",
         }}
       >
-        {IconComponent && <IconComponent className="size-5 shrink-0" style={{ color: color }} />}
+        {/* {IconComponent && <IconComponent className="size-5 shrink-0" style={{ color: color }} />} */}
 
         {flagName}
       </span>

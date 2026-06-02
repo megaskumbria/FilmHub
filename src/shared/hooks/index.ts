@@ -21,3 +21,4 @@ export {
 export { useSkipDeleteConfirm, setSkipDeleteConfirm } from "./useSkipDeleteConfirm";
 export { useDeferredLoading } from "./useDeferredLoading";
 export { useScrollRestoration } from "./useScrollRestoration";
+export { useIcons } from "./useIcons";
