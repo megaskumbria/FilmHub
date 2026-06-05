@@ -1,10 +1,9 @@
-import { Button, Label } from "@/shared/ui";
+import { Button, Label, InlineSvg } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { memo } from "react";
 import { useShallow } from "zustand/shallow";
-import { useIcons } from "@/shared/hooks";
-import { InlineSvg } from "@/shared/ui";
+import { useInfiniteIcons, useIntersectionObserver } from "@/shared/hooks";
 
 export const FlagIconPicker = memo(() => {
   const { selectedIcon, setSelectedIcon } = useCreationFlagStore(
@@ -14,7 +13,23 @@ export const FlagIconPicker = memo(() => {
     })),
   );
 
-  const { data: icons } = useIcons();
+  const {
+    data: dataIcons,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteIcons({ limit: 60 });
+
+  const ref = useIntersectionObserver(
+    () => {
+      if (hasNextPage && !isFetchingNextPage) void fetchNextPage();
+    },
+    { rootMargin: "10px" },
+  );
+
+  console.log(dataIcons);
+  // const { icons, total, page, limit, totalPages } = dataIcons;
+  // console.log(icons);
 
   // const SelectedIconComponent = getIconByName(selectedIcon);
 
@@ -38,7 +53,7 @@ export const FlagIconPicker = memo(() => {
       </div>
 
       <div className="grid grid-cols-10 gap-1.5 max-h-64 overflow-y-auto scrollbar-minimal ">
-        {icons?.map(({ id, name, svgContent }) => (
+        {/* {icons?.map(({ id, name, svgContent }) => (
           <Button
             key={id}
             onClick={() => setSelectedIcon(selectedIcon === name ? null : name)}
@@ -52,7 +67,9 @@ export const FlagIconPicker = memo(() => {
           >
             <InlineSvg svg={svgContent} className="size-6" />
           </Button>
-        ))}
+        ))} */}
+
+        <div ref={ref} style={{ height: 1 }} />
       </div>
 
       <span className="text-base text-zinc-muted text-center w-full block">
