@@ -1,7 +1,7 @@
 "use client";
 
 import { PosterPreviewActions, PosterUpload } from "@/features";
-import { useImageUpload } from "@/shared/hooks";
+import { useImageUpload, useRandomPoster } from "@/shared/hooks";
 import { Button, DotGrid } from "@/shared/ui";
 import { SettingsModal } from "@/widgets";
 import { Settings } from "lucide-react";
@@ -15,8 +15,17 @@ export const PosterUploadSection = () => {
 
   const isFlagEnabled = Object.values(layout).some((blocks) => blocks.includes("flags"));
 
+  const { mutate: getRandomPoster, data: randomPosterMedia, isPending } = useRandomPoster();
+
+  const handleGetRandomPoster = () => {
+    getRandomPoster();
+    if (preview) handleReset();
+  };
+
+  console.log(randomPosterMedia?.data);
+
   return (
-    <section className="relative row-span-2 rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3">
+    <section className="relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1 max-w-80">
       <DotGrid />
 
       <div className="flex items-center justify-between z-10">
@@ -42,10 +51,15 @@ export const PosterUploadSection = () => {
         handleDrop={handleDrop}
         flagPreview
         disableNavigation={true}
+        randomPosterMedia={randomPosterMedia?.data ?? null}
       />
 
-      <div className="flex items-center gap-2 z-10">
-        <PosterPreviewActions onResetPreview={handleReset} />
+      <div className="flex items-center gap-2 z-10 justify-center">
+        <PosterPreviewActions
+          onResetPreview={handleReset}
+          onGetRandomPoster={handleGetRandomPoster}
+          isLoading={isPending}
+        />
       </div>
 
       {preview && !isFlagEnabled && (

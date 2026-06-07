@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { useRef } from "react";
-import { ChangeEvent } from "react";
-import { DragEvent } from "react";
+import { useState, DragEvent, useRef, ChangeEvent, useEffect } from "react";
 import { MOVIE_CARD_PREVIEW_KEY } from "@/shared/storages/storage-keys";
 import { toast } from "sonner";
 
 export const useImageUpload = () => {
-  const [preview, setPreview] = useState<string | null>(() => {
-    const preview = localStorage.getItem(MOVIE_CARD_PREVIEW_KEY);
-    return preview ?? null;
-  });
+  const [preview, setPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(MOVIE_CARD_PREVIEW_KEY);
+    if (saved) setPreview(saved);
+  }, []);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 

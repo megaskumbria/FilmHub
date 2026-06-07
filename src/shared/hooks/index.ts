@@ -22,3 +22,4 @@ export { useSkipDeleteConfirm, setSkipDeleteConfirm } from "./useSkipDeleteConfi
 export { useDeferredLoading } from "./useDeferredLoading";
 export { useScrollRestoration } from "./useScrollRestoration";
 export { useInfiniteIcons } from "./useInfiniteIcons";
+export { useRandomPoster, type IRandomPosterMedia } from "./useRandomPoster";

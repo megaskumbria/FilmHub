@@ -23,14 +23,14 @@ export const FlagPreview = memo(() => {
   const selectedColorBg = flagSoftBackground(selectedColor, bgOpacity);
 
   return (
-    <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3">
+    <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1">
       <div className="flex items-center gap-2">
         <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
 
         <span className="text-sm font-semibold text-foreground tracking-wide">Flag preview</span>
       </div>
 
-      <div className="relative flex-1 flex flex-col items-center justify-center gap-5 rounded-lg bg-obsidian/60 border border-border/30 py-8">
+      <div className="relative h-full flex flex-col items-center justify-center gap-4 rounded-lg bg-obsidian/60 border border-border/30 py-4">
         <DotGrid />
 
         <div className="flex items-center gap-1.5">

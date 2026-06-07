@@ -43,12 +43,19 @@ export const MediaCard = ({
 
   const locale = useLocale();
 
-  const { posterUrl, originalName, originalTitle, releaseDate, firstAirDate, id, mediaType } =
-    media;
-  const { poster, body, hover } = layout;
+  const {
+    posterUrl,
+    originalName,
+    originalTitle,
+    releaseDate,
+    firstAirDate,
+    id,
+    mediaType,
+    ratingImdb,
+    voteAverage,
+  } = media;
 
-  const ratingImdb = media.ratingImdb;
-  const voteAverage = media.voteAverage;
+  const { poster, body, hover } = layout;
 
   const titleToDisplay = originalName || originalTitle;
   const yearOfRelease = new Date(releaseDate || firstAirDate).getFullYear();

@@ -1,9 +1,10 @@
 import { DragOverlay, MovieCardPlaceholder } from "@/widgets/movie-card-settings";
 import { MediaCard } from "@/widgets/movie-card";
 import { BlockOptions, useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import { mockMovies } from "@/shared/model/movies";
 import { useWindowFileDrag } from "@/shared/hooks";
+import type { IMedia } from "@/shared/stores/movie-catalog";
 import { RefObject, ChangeEvent, DragEvent } from "react";
+import { plugMedia } from "../model/plugMedia";
 
 interface Props {
   fileInputRef: RefObject<HTMLInputElement | null>;
@@ -12,6 +13,7 @@ interface Props {
   handleDrop: (e: DragEvent<HTMLDivElement>) => void;
   flagPreview?: boolean;
   disableNavigation?: boolean;
+  randomPosterMedia: IMedia | null;
 }
 
 export const PosterUpload = ({
@@ -21,6 +23,7 @@ export const PosterUpload = ({
   handleDrop,
   flagPreview = false,
   disableNavigation = false,
+  randomPosterMedia,
 }: Props) => {
   const isWindowDragOver = useWindowFileDrag();
 
@@ -46,6 +49,10 @@ export const PosterUpload = ({
       }
     : blockOptions;
 
+  const media = preview ? { ...plugMedia, posterUrl: preview } : randomPosterMedia;
+
+  const hasPreview = Boolean(preview || randomPosterMedia);
+
   return (
     <article
       className="flex flex-col group cursor-pointer w-full shrink-0"
@@ -59,26 +66,26 @@ export const PosterUpload = ({
         onChange={handleFileInputChange}
       />
 
-      {preview && (
+      {hasPreview && media && (
         <div
           className="relative rounded-xl"
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
           <MediaCard
-            key={mockMovies[0].id}
-            movie={{ ...mockMovies[0], imgUrl: preview }}
             layout={layout}
             blockOptions={activeBlockOptions}
             shouldShowAddButton={false}
             disableNavigation={disableNavigation}
+            media={media}
+            key={media.id}
           />
 
           <DragOverlay visible={isWindowDragOver} />
         </div>
       )}
 
-      {!preview && (
+      {!hasPreview && (
         <div className="relative w-full" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
           <MovieCardPlaceholder />
           <DragOverlay visible={isWindowDragOver} />
