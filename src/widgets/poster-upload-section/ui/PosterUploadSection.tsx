@@ -6,9 +6,10 @@ import { Button, DotGrid } from "@/shared/ui";
 import { SettingsModal } from "@/widgets";
 import { Settings } from "lucide-react";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
+import { toast } from "sonner";
 
 export const PosterUploadSection = () => {
-  const { preview, fileInputRef, handleFileInputChange, handleDrop, handleReset } =
+  const { preview, fileInputRef, handleFileInputChange, handleDrop, handleReset, setPreviewUrl } =
     useImageUpload();
 
   const { layout } = useMovieCardLayout();
@@ -18,11 +19,15 @@ export const PosterUploadSection = () => {
   const { mutate: getRandomPoster, data: randomPosterMedia, isPending } = useRandomPoster();
 
   const handleGetRandomPoster = () => {
-    getRandomPoster();
-    if (preview) handleReset();
+    getRandomPoster(undefined, {
+      onSuccess: ({ posterUrl }) => {
+        setPreviewUrl(posterUrl);
+      },
+      onError: () => {
+        toast.error("Failed to get random poster");
+      },
+    });
   };
-
-  console.log(randomPosterMedia?.data);
 
   return (
     <section className="relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1 max-w-80">
@@ -51,7 +56,7 @@ export const PosterUploadSection = () => {
         handleDrop={handleDrop}
         flagPreview
         disableNavigation={true}
-        randomPosterMedia={randomPosterMedia?.data ?? null}
+        randomPosterMedia={randomPosterMedia ?? null}
       />
 
       <div className="flex items-center gap-2 z-10 justify-center">

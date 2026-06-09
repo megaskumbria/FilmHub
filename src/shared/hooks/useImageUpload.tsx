@@ -37,8 +37,8 @@ export const useImageUpload = () => {
   };
 
   const handleReset = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    if (fileInputRef.current || preview) {
+      if (fileInputRef.current) fileInputRef.current.value = "";
       setPreview(null);
       localStorage.removeItem(MOVIE_CARD_PREVIEW_KEY);
 
@@ -48,11 +48,17 @@ export const useImageUpload = () => {
     toast.error("Could not reset preview", { position: "bottom-left" });
   };
 
+  const setPreviewUrl = (url: string) => {
+    setPreview(url);
+    localStorage.setItem(MOVIE_CARD_PREVIEW_KEY, url);
+  };
+
   return {
     preview,
     fileInputRef,
     handleFileInputChange,
     handleDrop,
     handleReset,
+    setPreviewUrl,
   };
 };
