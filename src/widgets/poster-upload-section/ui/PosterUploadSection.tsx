@@ -16,7 +16,7 @@ export const PosterUploadSection = () => {
 
   const isFlagEnabled = Object.values(layout).some((blocks) => blocks.includes("flags"));
 
-  const { mutate: getRandomPoster, data: randomPosterMedia, isPending } = useRandomPoster();
+  const { mutate: getRandomPoster, isPending } = useRandomPoster();
 
   const handleGetRandomPoster = () => {
     getRandomPoster(undefined, {
@@ -56,7 +56,6 @@ export const PosterUploadSection = () => {
         handleDrop={handleDrop}
         flagPreview
         disableNavigation={true}
-        randomPosterMedia={randomPosterMedia ?? null}
       />
 
       <div className="flex items-center gap-2 z-10 justify-center">

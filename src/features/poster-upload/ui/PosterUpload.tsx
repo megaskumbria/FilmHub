@@ -2,7 +2,6 @@ import { DragOverlay, MovieCardPlaceholder } from "@/widgets/movie-card-settings
 import { MediaCard } from "@/widgets/movie-card";
 import { BlockOptions, useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { useWindowFileDrag } from "@/shared/hooks";
-import type { IMedia } from "@/shared/stores/movie-catalog";
 import { RefObject, ChangeEvent, DragEvent } from "react";
 import { plugMedia } from "../model/plugMedia";
 
@@ -13,7 +12,6 @@ interface Props {
   handleDrop: (e: DragEvent<HTMLDivElement>) => void;
   flagPreview?: boolean;
   disableNavigation?: boolean;
-  randomPosterMedia: IMedia | null;
 }
 
 export const PosterUpload = ({
@@ -23,7 +21,6 @@ export const PosterUpload = ({
   handleDrop,
   flagPreview = false,
   disableNavigation = false,
-  randomPosterMedia,
 }: Props) => {
   const isWindowDragOver = useWindowFileDrag();
 
@@ -49,9 +46,9 @@ export const PosterUpload = ({
       }
     : blockOptions;
 
-  const media = preview ? { ...plugMedia, posterUrl: preview } : randomPosterMedia;
+  const media = preview ? { ...plugMedia, posterUrl: preview } : null;
 
-  const hasPreview = Boolean(preview || randomPosterMedia);
+  const hasPreview = Boolean(preview);
 
   return (
     <article
