@@ -4,10 +4,11 @@ import { BlockOptions, useMovieCardLayout } from "@/shared/stores/movie-card-lay
 import { useWindowFileDrag } from "@/shared/hooks";
 import { RefObject, ChangeEvent, DragEvent } from "react";
 import { plugMedia } from "../model/plugMedia";
+import { IPreviewInfo } from "@/shared/hooks/useImageUpload";
 
 interface Props {
   fileInputRef: RefObject<HTMLInputElement | null>;
-  preview: string | null;
+  previewInfo: IPreviewInfo | null;
   handleFileInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleDrop: (e: DragEvent<HTMLDivElement>) => void;
   flagPreview?: boolean;
@@ -16,7 +17,7 @@ interface Props {
 
 export const PosterUpload = ({
   fileInputRef,
-  preview,
+  previewInfo,
   handleFileInputChange,
   handleDrop,
   flagPreview = false,
@@ -46,9 +47,13 @@ export const PosterUpload = ({
       }
     : blockOptions;
 
-  const media = preview ? { ...plugMedia, posterUrl: preview } : null;
+  const media = previewInfo ? previewInfo : plugMedia;
 
-  const hasPreview = Boolean(preview);
+  const hasPreview = Object.values(media).every((value) => value !== "");
+  const shouldShowPreview = hasPreview && media;
+
+  console.log("media", media);
+  console.log("plugMedia", plugMedia);
 
   return (
     <article
@@ -63,7 +68,7 @@ export const PosterUpload = ({
         onChange={handleFileInputChange}
       />
 
-      {hasPreview && media && (
+      {shouldShowPreview && (
         <div
           className="relative rounded-xl"
           onDrop={handleDrop}

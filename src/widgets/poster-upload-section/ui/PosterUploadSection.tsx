@@ -9,8 +9,14 @@ import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { toast } from "sonner";
 
 export const PosterUploadSection = () => {
-  const { preview, fileInputRef, handleFileInputChange, handleDrop, handleReset, setPreviewUrl } =
-    useImageUpload();
+  const {
+    previewInfo,
+    fileInputRef,
+    handleFileInputChange,
+    handleDrop,
+    handleReset,
+    handleSetPreviewInfo,
+  } = useImageUpload();
 
   const { layout } = useMovieCardLayout();
 
@@ -20,14 +26,40 @@ export const PosterUploadSection = () => {
 
   const handleGetRandomPoster = () => {
     getRandomPoster(undefined, {
-      onSuccess: ({ posterUrl }) => {
-        setPreviewUrl(posterUrl);
+      onSuccess: ({
+        backdropUrl,
+        genres,
+        id,
+        originalTitle,
+        originalName,
+        overview,
+        posterUrl,
+        releaseDate,
+        firstAirDate,
+        voteAverage,
+        ratingImdb,
+      }) => {
+        handleSetPreviewInfo({
+          backdropUrl,
+          genres,
+          id,
+          originalTitle,
+          originalName,
+          overview,
+          posterUrl,
+          releaseDate,
+          firstAirDate,
+          voteAverage,
+          ratingImdb,
+        });
       },
       onError: () => {
         toast.error("Failed to get random poster");
       },
     });
   };
+
+  const shouldShowText = previewInfo && !isFlagEnabled;
 
   return (
     <section className="relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1 max-w-80">
@@ -51,7 +83,7 @@ export const PosterUploadSection = () => {
 
       <PosterUpload
         fileInputRef={fileInputRef}
-        preview={preview}
+        previewInfo={previewInfo}
         handleFileInputChange={handleFileInputChange}
         handleDrop={handleDrop}
         flagPreview
@@ -66,7 +98,7 @@ export const PosterUploadSection = () => {
         />
       </div>
 
-      {preview && !isFlagEnabled && (
+      {shouldShowText && (
         <SettingsModal defaultMenu="movie-card">
           <Button className="w-full pt-4 z-10">
             <span className="text-xs text-center hover:text-foreground/70 text-zinc-muted/90 font-semibold tracking-widest transition-colors ">
