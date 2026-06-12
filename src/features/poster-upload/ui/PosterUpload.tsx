@@ -1,30 +1,15 @@
-import { DragOverlay, MovieCardPlaceholder } from "@/widgets/movie-card-settings";
+import { MovieCardPlaceholder } from "@/widgets/movie-card-settings";
 import { MediaCard } from "@/widgets/movie-card";
 import { BlockOptions, useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import { useWindowFileDrag } from "@/shared/hooks";
-import { RefObject, ChangeEvent, DragEvent } from "react";
-import { plugMedia } from "../model/plugMedia";
-import { IPreviewInfo } from "@/shared/hooks/useImageUpload";
+import { IMedia } from "@/shared/stores/movie-catalog";
 
 interface Props {
-  fileInputRef: RefObject<HTMLInputElement | null>;
-  previewInfo: IPreviewInfo | null;
-  handleFileInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleDrop: (e: DragEvent<HTMLDivElement>) => void;
   flagPreview?: boolean;
   disableNavigation?: boolean;
+  media: IMedia | null;
 }
 
-export const PosterUpload = ({
-  fileInputRef,
-  previewInfo,
-  handleFileInputChange,
-  handleDrop,
-  flagPreview = false,
-  disableNavigation = false,
-}: Props) => {
-  const isWindowDragOver = useWindowFileDrag();
-
+export const PosterUpload = ({ flagPreview = false, disableNavigation = false, media }: Props) => {
   const { layout, blockOptions } = useMovieCardLayout();
 
   // Do cleanup
@@ -47,50 +32,24 @@ export const PosterUpload = ({
       }
     : blockOptions;
 
-  const media = previewInfo ? previewInfo : plugMedia;
-
-  const hasPreview = Object.values(media).every((value) => value !== "");
-  const shouldShowPreview = hasPreview && media;
-
-  console.log("media", media);
-  console.log("plugMedia", plugMedia);
+  const shouldShowPreview = Boolean(media);
 
   return (
-    <article
-      className="flex flex-col group cursor-pointer w-full shrink-0"
-      onClick={() => fileInputRef.current?.click()}
-    >
-      <input
-        type="file"
-        ref={fileInputRef}
-        accept="image/*"
-        className="hidden"
-        onChange={handleFileInputChange}
-      />
-
+    <article className="flex flex-col group cursor-pointer w-full shrink-0">
       {shouldShowPreview && (
-        <div
-          className="relative rounded-xl"
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-        >
-          <MediaCard
-            layout={layout}
-            blockOptions={activeBlockOptions}
-            shouldShowAddButton={false}
-            disableNavigation={disableNavigation}
-            media={media}
-            key={media.id}
-          />
-
-          <DragOverlay visible={isWindowDragOver} />
-        </div>
+        <MediaCard
+          layout={layout}
+          blockOptions={activeBlockOptions}
+          shouldShowAddButton={false}
+          disableNavigation={disableNavigation}
+          media={media!}
+          key={media!.id}
+        />
       )}
 
-      {!hasPreview && (
-        <div className="relative w-full" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
+      {!shouldShowPreview && (
+        <div className="relative w-full">
           <MovieCardPlaceholder />
-          <DragOverlay visible={isWindowDragOver} />
         </div>
       )}
     </article>

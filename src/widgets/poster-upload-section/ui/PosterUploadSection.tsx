@@ -1,23 +1,16 @@
 "use client";
 
 import { PosterPreviewActions, PosterUpload } from "@/features";
-import { useImageUpload, useRandomPoster } from "@/shared/hooks";
+import { useRandomPoster } from "@/shared/hooks";
 import { Button, DotGrid } from "@/shared/ui";
 import { SettingsModal } from "@/widgets";
 import { Settings } from "lucide-react";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { toast } from "sonner";
+import { useRandomPosterStore } from "@/features";
 
 export const PosterUploadSection = () => {
-  const {
-    previewInfo,
-    fileInputRef,
-    handleFileInputChange,
-    handleDrop,
-    handleReset,
-    handleSetPreviewInfo,
-  } = useImageUpload();
-
+  const { setMediaPreviewInfo, mediaPreviewInfo, resetPosterPreview } = useRandomPosterStore();
   const { layout } = useMovieCardLayout();
 
   const isFlagEnabled = Object.values(layout).some((blocks) => blocks.includes("flags"));
@@ -26,40 +19,14 @@ export const PosterUploadSection = () => {
 
   const handleGetRandomPoster = () => {
     getRandomPoster(undefined, {
-      onSuccess: ({
-        backdropUrl,
-        genres,
-        id,
-        originalTitle,
-        originalName,
-        overview,
-        posterUrl,
-        releaseDate,
-        firstAirDate,
-        voteAverage,
-        ratingImdb,
-      }) => {
-        handleSetPreviewInfo({
-          backdropUrl,
-          genres,
-          id,
-          originalTitle,
-          originalName,
-          overview,
-          posterUrl,
-          releaseDate,
-          firstAirDate,
-          voteAverage,
-          ratingImdb,
-        });
-      },
+      onSuccess: (media) => setMediaPreviewInfo(media),
       onError: () => {
         toast.error("Failed to get random poster");
       },
     });
   };
 
-  const shouldShowText = previewInfo && !isFlagEnabled;
+  const shouldShowText = mediaPreviewInfo && !isFlagEnabled;
 
   return (
     <section className="relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1 max-w-80">
@@ -74,6 +41,7 @@ export const PosterUploadSection = () => {
         <SettingsModal defaultMenu="movie-card">
           <Button className="flex items-center gap-1.5 group">
             <Settings className="size-4 text-zinc-muted/90 group-hover:text-foreground/70 transition-colors" />
+
             <span className="text-xs text-zinc-muted/90 font-semibold tracking-widest transition-colors group-hover:text-foreground/70 ">
               Configure
             </span>
@@ -81,18 +49,11 @@ export const PosterUploadSection = () => {
         </SettingsModal>
       </div>
 
-      <PosterUpload
-        fileInputRef={fileInputRef}
-        previewInfo={previewInfo}
-        handleFileInputChange={handleFileInputChange}
-        handleDrop={handleDrop}
-        flagPreview
-        disableNavigation={true}
-      />
+      <PosterUpload flagPreview disableNavigation={true} media={mediaPreviewInfo} />
 
       <div className="flex items-center gap-2 z-10 justify-center">
         <PosterPreviewActions
-          onResetPreview={handleReset}
+          onResetPreview={resetPosterPreview}
           onGetRandomPoster={handleGetRandomPoster}
           isLoading={isPending}
         />

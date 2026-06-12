@@ -1,13 +1,20 @@
 "use client";
 
-import { PosterPreviewActions, PosterUpload } from "@/features";
+import { PosterPreviewActions, PosterUpload, useRandomPosterStore } from "@/features";
 import { DotGrid } from "@/shared/ui";
-import { useImageUpload } from "@/shared/hooks";
 import { ZONES } from "../model/zones";
+import { useRandomPoster } from "@/shared/hooks";
 
 export const CardPreview = () => {
-  const { fileInputRef, handleReset, preview, handleFileInputChange, handleDrop } =
-    useImageUpload();
+  const { mediaPreviewInfo, resetPosterPreview, setMediaPreviewInfo } = useRandomPosterStore();
+
+  const { mutate: getRandomPoster, isPending } = useRandomPoster();
+
+  const handleGetRandomPoster = () => {
+    getRandomPoster(undefined, {
+      onSuccess: (media) => setMediaPreviewInfo(media),
+    });
+  };
 
   return (
     <section className="relative flex flex-col items-center bg-obsidian p-4 gap-7 overflow-y-auto drawer-scroll min-h-0">
@@ -20,16 +27,15 @@ export const CardPreview = () => {
       </p>
 
       <div className="max-w-[270px] w-full">
-        <PosterUpload
-          fileInputRef={fileInputRef}
-          preview={preview}
-          handleFileInputChange={handleFileInputChange}
-          handleDrop={handleDrop}
-        />
+        <PosterUpload media={mediaPreviewInfo} />
       </div>
 
       <div className="relative flex items-center gap-2">
-        <PosterPreviewActions onResetPreview={handleReset} />
+        <PosterPreviewActions
+          onResetPreview={resetPosterPreview}
+          onGetRandomPoster={handleGetRandomPoster}
+          isLoading={isPending}
+        />
       </div>
 
       <div className="relative flex items-center gap-4">

@@ -1,27 +1,8 @@
-import { ImageIcon, Upload } from "lucide-react";
-
 export const MovieCardPlaceholder = () => {
   return (
     <>
       <div className="relative w-full shrink-0 aspect-2/3 rounded-xl border border-white/8 bg-zinc-900 flex items-center justify-center overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/5">
         <div className="absolute inset-0 bg-linear-to-br from-zinc-800/60 via-zinc-900/80 to-zinc-950" />
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10 px-4">
-          <div className="relative flex items-center justify-center size-14 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-accent/10 group-hover:border-accent/30">
-            <ImageIcon className="size-6 text-white/50 group-hover:hidden" />
-            <Upload className="size-6 text-accent hidden group-hover:block" />
-          </div>
-
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-[11px] font-medium text-white/70 group-hover:text-white/90 text-center leading-tight">
-              Upload a poster
-            </span>
-
-            <span className="text-[9px] text-white/30 group-hover:text-white/50 text-center">
-              or drop a file here
-            </span>
-          </div>
-        </div>
 
         <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-accent/5 to-transparent" />
 

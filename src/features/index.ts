@@ -5,7 +5,7 @@ export { PosterPreviewActions } from "./poster-preview-actions";
 export { FlagColorPicker } from "./flag-color-picker";
 export { FlagIconPicker } from "./flag-icon-picker";
 export { OpacitySlider } from "./opacity-slider";
-export { PosterUpload } from "./poster-upload";
+export { PosterUpload, useRandomPosterStore } from "./poster-upload";
 export { GenreSelect } from "./genre-select";
 export { YearSelect } from "./year-select";
 export { SortSelect } from "./sort-select";

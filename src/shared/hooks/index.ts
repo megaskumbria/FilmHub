@@ -1,6 +1,5 @@
 export { useWindowFileDrag } from "./useWindowFileDrag";
 export { useIsMobile } from "./use-mobile";
-export { useImageUpload } from "./useImageUpload";
 export { useThrottle } from "./use-throttle";
 export { useIntersectionObserver } from "./useIntersectionObserver";
 export { useInfiniteMedia } from "./useInfiniteMedia";
@@ -22,4 +21,4 @@ export { useSkipDeleteConfirm, setSkipDeleteConfirm } from "./useSkipDeleteConfi
 export { useDeferredLoading } from "./useDeferredLoading";
 export { useScrollRestoration } from "./useScrollRestoration";
 export { useInfiniteIcons } from "./useInfiniteIcons";
-export { useRandomPoster, type IRandomPosterMedia } from "./useRandomPoster";
+export { useRandomPoster } from "./useRandomPoster";

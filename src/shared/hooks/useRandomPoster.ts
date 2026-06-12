@@ -10,35 +10,9 @@ export const useRandomPoster = () => {
       const { data } = await axios.get<IMedia>(`${API_URL}/random-poster`);
       return data;
     },
-    onSuccess: ({
-      backdropUrl,
-      genres,
-      id,
-      originalTitle,
-      originalName,
-      overview,
-      posterUrl,
-      releaseDate,
-      firstAirDate,
-      voteAverage,
-      ratingImdb,
-    }) => {
-      localStorage.setItem(
-        MOVIE_CARD_PREVIEW_KEY,
-        JSON.stringify({
-          backdropUrl,
-          genres,
-          id,
-          originalTitle,
-          originalName,
-          overview,
-          posterUrl,
-          releaseDate,
-          firstAirDate,
-          voteAverage,
-          ratingImdb,
-        }),
-      );
+
+    onSuccess: (media) => {
+      localStorage.setItem(MOVIE_CARD_PREVIEW_KEY, JSON.stringify(media));
     },
   });
 };
