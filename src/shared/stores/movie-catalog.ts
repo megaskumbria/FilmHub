@@ -14,6 +14,7 @@ export interface IMedia {
   originalLanguage: string;
   originalTitle: string; // movie title
   originalName: string; // series title
+  name: string; // movie title
   overview: string;
   popularity: number;
   posterUrl: string;

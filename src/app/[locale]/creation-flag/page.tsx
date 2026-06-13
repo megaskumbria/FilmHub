@@ -5,7 +5,7 @@ import {
   FlagCategoriesSidebar,
   FlagNameFontForm,
   FlagPreview,
-  // PopularFlagsCarousel,
+  PopularFlagsCarousel,
   PosterUploadSection,
 } from "@/widgets";
 import { FlagColorPicker } from "@/features";
@@ -24,29 +24,31 @@ export default function CreationFlagPage() {
         </div>
       </header>
 
-      <main className="flex gap-4">
+      <main className="flex gap-4 items-start">
         <FlagCategoriesSidebar />
 
-        <FlagColorPicker />
+        <div className="flex-1 min-w-0 grid grid-cols-[minmax(0,1fr)_1fr_auto] gap-4 ">
+          <FlagColorPicker />
 
-        <div className="flex flex-col gap-4 shrink-0 w-72 flex-1">
-          <FlagPreview />
-          <FlagNameFontForm />
+          <div className="flex flex-col gap-4 shrink-0 w-full">
+            <FlagPreview />
+            <FlagNameFontForm />
+          </div>
+
+          <PosterUploadSection />
+
+          <div className="col-span-full flex items-center justify-end">
+            <Button variant="accent" size="default" className="gap-2 rounded-lg">
+              <Save className="size-4" />
+              <span>Save flag</span>
+            </Button>
+          </div>
         </div>
-
-        <PosterUploadSection />
       </main>
-
-      <div className="flex items-center justify-end pt-3">
-        <Button variant="accent" size="default" className="gap-2 rounded-lg">
-          <Save className="size-4" />
-          <span>Save flag</span>
-        </Button>
-      </div>
 
       <Separator className="my-8 bg-border/40" />
 
-      {/* <PopularFlagsCarousel /> */}
+      <PopularFlagsCarousel />
     </div>
   );
 }

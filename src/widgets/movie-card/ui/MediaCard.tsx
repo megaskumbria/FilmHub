@@ -45,7 +45,7 @@ export const MediaCard = ({
 
   const {
     posterUrl,
-    originalName,
+    name,
     originalTitle,
     releaseDate,
     firstAirDate,
@@ -57,7 +57,7 @@ export const MediaCard = ({
 
   const { poster, body, hover } = layout;
 
-  const titleToDisplay = originalName || originalTitle;
+  const titleToDisplay = name || originalTitle;
   const yearOfRelease = new Date(releaseDate || firstAirDate).getFullYear();
 
   const mediaForBlocks = {

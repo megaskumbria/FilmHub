@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/shared/ui";
+import { Button, Input, Separator } from "@/shared/ui";
 import {
   ArrowDownAZ,
   ArrowUpAZ,
@@ -26,6 +26,7 @@ export const FlagCategoriesSidebar = memo(() => {
 
         <div className="flex gap-2">
           <Input variant="neutral" placeholder="Category name..." className="text-sm h-8 flex-1" />
+
           <Button variant="accent" size="sm" className="shrink-0 rounded-lg text-xs font-medium">
             <Plus className="size-3.5" />
             <span>Create</span>
@@ -48,7 +49,7 @@ export const FlagCategoriesSidebar = memo(() => {
             Sort
           </span>
 
-          <div className="flex-1 h-px bg-border/30" />
+          <Separator className="flex-1 bg-border/30" />
 
           <div className="flex items-center gap-1">
             <Button
@@ -92,7 +93,7 @@ export const FlagCategoriesSidebar = memo(() => {
         </div>
       </nav>
 
-      <div className="overflow-y-auto max-h-[540px] px-2 scrollbar-minimal">
+      <div className="overflow-y-auto max-h-[540px] scrollbar-minimal">
         <FlagCategoryAccordion />
       </div>
     </aside>

@@ -11,8 +11,6 @@ export const PosterUploadSection = () => {
   const { mediaPreviewInfo, resetPosterPreview } = useRandomPosterStore();
   const { isPending, handleGetRandomPoster } = useRandomPosterAction();
 
-  console.log(mediaPreviewInfo); // null
-
   const { layout } = useMovieCardLayout();
 
   const isFlagEnabled = Object.values(layout).some((blocks) => blocks.includes("flags"));
@@ -20,7 +18,7 @@ export const PosterUploadSection = () => {
   const shouldShowText = mediaPreviewInfo && !isFlagEnabled;
 
   return (
-    <section className="relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1 max-w-86">
+    <section className="relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 w-86">
       <DotGrid />
 
       <div className="flex items-center justify-between z-10">
