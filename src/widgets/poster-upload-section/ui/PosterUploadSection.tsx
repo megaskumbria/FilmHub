@@ -1,35 +1,26 @@
 "use client";
 
-import { PosterPreviewActions, PosterUpload } from "@/features";
-import { useRandomPoster } from "@/shared/hooks";
+import { PosterPreviewActions, PosterUpload, useRandomPosterStore } from "@/features";
 import { Button, DotGrid } from "@/shared/ui";
 import { SettingsModal } from "@/widgets";
 import { Settings } from "lucide-react";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import { toast } from "sonner";
-import { useRandomPosterStore } from "@/features";
+import { useRandomPosterAction } from "@/shared/hooks";
 
 export const PosterUploadSection = () => {
-  const { setMediaPreviewInfo, mediaPreviewInfo, resetPosterPreview } = useRandomPosterStore();
+  const { mediaPreviewInfo, resetPosterPreview } = useRandomPosterStore();
+  const { isPending, handleGetRandomPoster } = useRandomPosterAction();
+
+  console.log(mediaPreviewInfo); // null
+
   const { layout } = useMovieCardLayout();
 
   const isFlagEnabled = Object.values(layout).some((blocks) => blocks.includes("flags"));
 
-  const { mutate: getRandomPoster, isPending } = useRandomPoster();
-
-  const handleGetRandomPoster = () => {
-    getRandomPoster(undefined, {
-      onSuccess: (media) => setMediaPreviewInfo(media),
-      onError: () => {
-        toast.error("Failed to get random poster");
-      },
-    });
-  };
-
   const shouldShowText = mediaPreviewInfo && !isFlagEnabled;
 
   return (
-    <section className="relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1 max-w-80">
+    <section className="relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1 max-w-86">
       <DotGrid />
 
       <div className="flex items-center justify-between z-10">

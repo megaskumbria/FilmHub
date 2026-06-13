@@ -3,18 +3,11 @@
 import { PosterPreviewActions, PosterUpload, useRandomPosterStore } from "@/features";
 import { DotGrid } from "@/shared/ui";
 import { ZONES } from "../model/zones";
-import { useRandomPoster } from "@/shared/hooks";
+import { useRandomPosterAction } from "@/shared/hooks";
 
 export const CardPreview = () => {
-  const { mediaPreviewInfo, resetPosterPreview, setMediaPreviewInfo } = useRandomPosterStore();
-
-  const { mutate: getRandomPoster, isPending } = useRandomPoster();
-
-  const handleGetRandomPoster = () => {
-    getRandomPoster(undefined, {
-      onSuccess: (media) => setMediaPreviewInfo(media),
-    });
-  };
+  const { mediaPreviewInfo, resetPosterPreview } = useRandomPosterStore();
+  const { isPending, handleGetRandomPoster } = useRandomPosterAction();
 
   return (
     <section className="relative flex flex-col items-center bg-obsidian p-4 gap-7 overflow-y-auto drawer-scroll min-h-0">

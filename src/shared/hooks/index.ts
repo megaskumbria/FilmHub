@@ -22,3 +22,4 @@ export { useDeferredLoading } from "./useDeferredLoading";
 export { useScrollRestoration } from "./useScrollRestoration";
 export { useInfiniteIcons } from "./useInfiniteIcons";
 export { useRandomPoster } from "./useRandomPoster";
+export { useRandomPosterAction } from "./useRandomPosterAction";

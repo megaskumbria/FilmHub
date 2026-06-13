@@ -35,7 +35,7 @@ export const PosterUpload = ({ flagPreview = false, disableNavigation = false, m
   const shouldShowPreview = Boolean(media);
 
   return (
-    <article className="flex flex-col group cursor-pointer w-full shrink-0">
+    <article className="flex flex-col w-full">
       {shouldShowPreview && (
         <MediaCard
           layout={layout}
