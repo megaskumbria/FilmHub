@@ -1,14 +1,12 @@
 "use client";
 
-import { flagsData } from "@/shared/model/flags";
-import { IFlagItem } from "@/shared/model/flags/mockFlags";
+import { useFlags } from "@/shared/hooks";
 import { BlockPlacement } from "../model/cardBlocksMap";
 import { FlagBadge, FlagWithCategory } from "@/widgets/movie-card";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
-import { flagSoftBackground } from "@/shared/lib";
 import { useShallow } from "zustand/shallow";
 
-interface FlagGroupProps {
+interface Props {
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
@@ -22,11 +20,11 @@ export const FlagGroup = ({
   placement,
   showCategories = true,
   isPreview = false,
-}: FlagGroupProps) => {
-  const { category, selectedColor, selectedFont, selectedIcon, flagName, bgOpacity } =
+}: Props) => {
+  const { categoryName, selectedColor, selectedFont, selectedIcon, flagName, bgOpacity } =
     useCreationFlagStore(
       useShallow((state) => ({
-        category: state.category,
+        categoryName: state.categoryName,
         selectedColor: state.selectedColor,
         selectedFont: state.selectedFont,
         selectedIcon: state.selectedIcon,
@@ -34,6 +32,8 @@ export const FlagGroup = ({
         bgOpacity: state.bgOpacity,
       })),
     );
+
+  const { data: flagsData = [] } = useFlags();
 
   const shouldLift = placement === "poster" && hasHover;
 
@@ -43,39 +43,40 @@ export const FlagGroup = ({
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {isPreview ?
-        <FlagWithCategory category={category} showCategory={showCategories}>
+        <FlagWithCategory categoryName={categoryName} showCategory={showCategories}>
           <FlagBadge
             flagItem={{
-              id: 0,
+              id: "0",
               flagName: flagName || "New flag",
               color: selectedColor,
-              bg: flagSoftBackground(selectedColor),
+              // bg: flagSoftBackground(selectedColor),
               fontFamily: selectedFont,
-              icon: selectedIcon,
+              iconId: selectedIcon,
               bgOpacity: bgOpacity,
+              position: 0,
+              categoryId: "0",
+              userId: "0",
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
             }}
-            category={category}
+            categoryName={categoryName}
           />
         </FlagWithCategory>
       : <>
-          {flagsData.map((flagData) => {
-            const { flagItems, category } = flagData;
+          {flagsData.map(({ flags, categoryName }) => {
+            return flags.map((flag, index) => {
+              const { id } = flag;
 
-            return flagItems
-              .filter((FlagItem) => FlagItem.isUsed)
-              .map((FlagItem: IFlagItem, index: number) => {
-                const { id } = FlagItem;
-
-                return (
-                  <FlagWithCategory
-                    key={index + id}
-                    category={category}
-                    showCategory={showCategories}
-                  >
-                    <FlagBadge flagItem={FlagItem} category={category} />
-                  </FlagWithCategory>
-                );
-              });
+              return (
+                <FlagWithCategory
+                  key={index + id}
+                  categoryName={categoryName}
+                  showCategory={showCategories}
+                >
+                  <FlagBadge flagItem={flag} categoryName={categoryName} />
+                </FlagWithCategory>
+              );
+            });
           })}
         </>
       }

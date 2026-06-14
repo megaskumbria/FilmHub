@@ -1,3 +1,5 @@
+"use client";
+
 import { useSyncExternalStore } from "react";
 import { SKIP_CONFIRM_KEY } from "@/shared/constants/constants";
 

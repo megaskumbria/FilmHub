@@ -1,4 +1,3 @@
-import { flagsData } from "@/shared/model/flags/mockFlags";
 import {
   Accordion,
   AccordionItem,
@@ -11,25 +10,35 @@ import { Plus, PencilLine, Trash2 } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { FlagBadge } from "@/entities";
+import { useFlags } from "@/shared/hooks";
 
 export const FlagCategoryAccordion = () => {
   const {
-    setCategory,
+    setCategoryName,
     setFlagName,
     flagName: activeFlagName,
     addPresetColor,
     presetColors,
+    setBgOpacity,
   } = useCreationFlagStore();
 
-  const handleSelectFlag = (flagName: string, category: string, color: string) => {
+  const { data: flagsData = [] } = useFlags();
+
+  const handleSelectFlag = (
+    flagName: string,
+    categoryName: string,
+    color: string,
+    bgOpacity: number,
+  ) => {
     addPresetColor(color);
     setFlagName(flagName, color);
-    setCategory(category);
+    setCategoryName(categoryName);
+    setBgOpacity(bgOpacity);
   };
 
-  const handleAddFlag = (category: string) => {
+  const handleAddFlag = (categoryName: string) => {
     setFlagName("", presetColors[0]);
-    setCategory(category);
+    setCategoryName(categoryName);
   };
 
   return (
@@ -37,19 +46,19 @@ export const FlagCategoryAccordion = () => {
       {flagsData.length === 0 ?
         <div className="py-8 text-center text-xs text-zinc-muted">Nothing found</div>
       : <Accordion type="multiple">
-          {flagsData.map(({ category, flagItems }) => (
+          {flagsData.map(({ categoryName, flags }) => (
             <AccordionItem
-              key={category}
-              value={category}
+              key={categoryName}
+              value={categoryName}
               className="border-b border-border/40 last:border-0"
             >
               <AccordionTrigger className="items-center px-2 py-2 text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <span className="truncate">{category}</span>
+                  <span className="truncate">{categoryName}</span>
 
                   <div className="ml-auto flex items-center gap-1.5 shrink-0">
                     <span className="px-1.5 py-0.5 rounded text-xs font-medium tabular-nums text-zinc-muted bg-white/6 border border-border/30">
-                      {flagItems.length}
+                      {flags.length}
                     </span>
 
                     <Button
@@ -59,7 +68,7 @@ export const FlagCategoryAccordion = () => {
                       className="flex items-center justify-center shrink-0 rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-accent hover:border-accent/40 hover:bg-accent/10 transition-colors"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleAddFlag(category);
+                        handleAddFlag(categoryName);
                       }}
                     >
                       <Plus className="size-3" />
@@ -70,14 +79,14 @@ export const FlagCategoryAccordion = () => {
 
               <AccordionContent className="pb-1">
                 <ul className="flex flex-col gap-0.5">
-                  {flagItems.map((flag) => {
-                    const { flagName, color } = flag;
+                  {flags.map((flag) => {
+                    const { flagName, color, bgOpacity } = flag;
                     const isActive = activeFlagName === flagName;
 
                     return (
-                      <li key={`${category}-${flag.id}`}>
+                      <li key={`${categoryName}-${flag.id}`}>
                         <Label
-                          onClick={() => handleSelectFlag(flagName, category, color)}
+                          onClick={() => handleSelectFlag(flagName, categoryName, color, bgOpacity)}
                           className={cn(
                             "group hover:bg-white/5 flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all select-none",
                             isActive && "bg-white/6",

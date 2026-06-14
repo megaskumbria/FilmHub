@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
 export const useDeferredLoading = (isLoading: boolean, delay = 250) => {

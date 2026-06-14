@@ -4,6 +4,7 @@ import { useShallow } from "zustand/shallow";
 import { FLAG_BACKGROUND_ALPHA } from "@/shared/constants/constants";
 import { RotateCcw } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
+// import { applyOpacity } from "@/shared/lib";
 
 export const OpacitySlider = () => {
   const { selectedColor, bgOpacity, setBgOpacity } = useCreationFlagStore(
@@ -15,6 +16,8 @@ export const OpacitySlider = () => {
   );
 
   const isModified = Math.round(bgOpacity * 100) !== Math.round(FLAG_BACKGROUND_ALPHA * 100);
+
+  // const bgColor = applyOpacity(selectedColor, bgOpacity);
 
   return (
     <div className="mt-4 pt-4 border-t border-border/40 flex flex-col gap-2">
@@ -38,7 +41,7 @@ export const OpacitySlider = () => {
           </Button>
 
           <span
-            className="size-4 rounded border border-white/10 shrink-0"
+            className="size-4 rounded shrink-0"
             style={{
               background: `linear-gradient(to right, transparent, ${selectedColor})`,
             }}

@@ -1,14 +1,14 @@
 "use client";
 
 import { flagSoftBackground } from "@/shared/lib";
-import { IFlagItem } from "@/shared/model/flags/mockFlags";
+import { IFlag } from "@/shared/hooks";
 
-interface FlagBadgeProps {
-  flagItem: IFlagItem;
-  category?: string | null;
+interface Props {
+  flagItem: IFlag;
+  categoryName?: string | null;
 }
 
-export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
+export const FlagBadge = ({ flagItem, categoryName }: Props) => {
   const { flagName, color, bgOpacity, fontFamily } = flagItem;
 
   const computedBg = flagSoftBackground(color, bgOpacity);
@@ -18,7 +18,7 @@ export const FlagBadge = ({ flagItem, category }: FlagBadgeProps) => {
   return (
     <span
       className="relative inline-flex items-stretch w-fit overflow-visible backdrop-blur-md"
-      title={category || ""}
+      title={categoryName || ""}
       style={{ isolation: "isolate", transform: "translateZ(0)" }}
       // style={{ transform: "translateZ(0)", willChange: "transform" }}
     >

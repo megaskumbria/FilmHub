@@ -1,3 +1,5 @@
+"use client";
+
 import { COLOR_PRESETS } from "@/widgets/create-folder-modal/model/color-presets";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionNameRow } from "./CollectionNameRow";

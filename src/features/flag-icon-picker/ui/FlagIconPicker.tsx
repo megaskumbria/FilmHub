@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Label, InlineSvg } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";

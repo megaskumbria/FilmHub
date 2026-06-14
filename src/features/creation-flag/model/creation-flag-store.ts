@@ -1,17 +1,22 @@
 import { PRESET_COLORS } from "@/features/flag-color-picker/model/preset-colors";
 import { create } from "zustand";
 
-interface CreationFlagStore {
+interface Store {
   flagName: string;
   setFlagName: (flagName: string, color: string) => void;
+
   selectedColor: string;
   setSelectedColor: (selectedColor: string) => void;
+
   bgOpacity: number;
   setBgOpacity: (bgOpacity: number) => void;
-  category: string | null;
-  setCategory: (category: string) => void;
+
+  categoryName: string | null;
+  setCategoryName: (categoryName: string) => void;
+
   selectedIcon: string | null;
   setSelectedIcon: (selectedIcon: string | null) => void;
+
   selectedFont: string;
   setSelectedFont: (selectedFont: string) => void;
 
@@ -19,18 +24,23 @@ interface CreationFlagStore {
   addPresetColor: (color: string) => void;
 }
 
-export const useCreationFlagStore = create<CreationFlagStore>((set) => {
+export const useCreationFlagStore = create<Store>((set) => {
   return {
     flagName: "New flag",
     setFlagName: (flagName, color) => set({ flagName, selectedColor: color }),
+
     selectedColor: "rgba(139, 92, 246, 1)",
     setSelectedColor: (selectedColor) => set({ selectedColor }),
+
     bgOpacity: 0.38,
     setBgOpacity: (bgOpacity) => set({ bgOpacity }),
-    category: null,
-    setCategory: (category) => set({ category }),
+
+    categoryName: null,
+    setCategoryName: (categoryName) => set({ categoryName }),
+
     selectedIcon: null,
     setSelectedIcon: (selectedIcon) => set({ selectedIcon }),
+
     selectedFont: "Manrope",
     setSelectedFont: (selectedFont) => set({ selectedFont }),
 
