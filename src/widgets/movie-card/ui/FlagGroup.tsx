@@ -33,6 +33,16 @@ export const FlagGroup = ({
       })),
     );
 
+  const flagItem = {
+    id: "0",
+    flagName: flagName || "New flag",
+    color: selectedColor,
+    fontFamily: selectedFont,
+    iconId: selectedIcon,
+    bgOpacity: bgOpacity,
+    position: 0,
+  };
+
   const { data: flagsData = [] } = useFlags();
 
   const shouldLift = placement === "poster" && hasHover;
@@ -44,23 +54,7 @@ export const FlagGroup = ({
     >
       {isPreview ?
         <FlagWithCategory categoryName={categoryName} showCategory={showCategories}>
-          <FlagBadge
-            flagItem={{
-              id: "0",
-              flagName: flagName || "New flag",
-              color: selectedColor,
-              // bg: flagSoftBackground(selectedColor),
-              fontFamily: selectedFont,
-              iconId: selectedIcon,
-              bgOpacity: bgOpacity,
-              position: 0,
-              categoryId: "0",
-              userId: "0",
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            }}
-            categoryName={categoryName}
-          />
+          <FlagBadge flagItem={flagItem} categoryName={categoryName} />
         </FlagWithCategory>
       : <>
           {flagsData.map(({ flags, categoryName }) => {

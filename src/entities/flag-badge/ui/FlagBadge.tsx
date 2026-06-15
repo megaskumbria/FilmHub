@@ -3,8 +3,10 @@
 import { flagSoftBackground } from "@/shared/lib";
 import { IFlag } from "@/shared/hooks";
 
+type FlagItemData = Pick<IFlag, "flagName" | "color" | "bgOpacity" | "fontFamily">;
+
 interface Props {
-  flagItem: IFlag;
+  flagItem: FlagItemData;
   categoryName?: string | null;
 }
 
