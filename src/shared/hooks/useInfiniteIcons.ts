@@ -19,13 +19,13 @@ interface IDataIcons {
   totalPages: number;
 }
 
-export const useInfiniteIcons = (limit: number) => {
+export const useInfiniteIcons = (limit: number, searchQuery?: string) => {
   return useInfiniteQuery({
-    queryKey: ["icons", limit],
+    queryKey: ["icons", limit, searchQuery],
 
     queryFn: async ({ pageParam = 1, signal }) => {
       const { data } = await apiClient.get<IDataIcons>(
-        `${API_URL}/icons?page=${pageParam}&limit=${limit}`,
+        `${API_URL}/icons?page=${pageParam}&limit=${limit}&search=${searchQuery}`,
         { signal },
       );
       return data;

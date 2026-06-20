@@ -16,7 +16,7 @@ export const MovieSearchPanel = () => {
   const debouncedSearch = useDebounce(input, 300);
 
   useEffect(() => {
-    setSearchQuery(debouncedSearch); // React query can cache and don't make new request
+    setSearchQuery(debouncedSearch);
   }, [debouncedSearch]);
 
   return (

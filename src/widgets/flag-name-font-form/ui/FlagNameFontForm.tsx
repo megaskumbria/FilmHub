@@ -11,12 +11,13 @@ import {
   SheetHeader,
   SheetTitle,
   InlineSvg,
+  SheetClose,
 } from "@/shared/ui";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { useShallow } from "zustand/shallow";
 import { memo } from "react";
 import { FlagIconPicker } from "@/features";
-import { IconPhoto } from "@tabler/icons-react";
+import { IconPhoto, IconChevronsLeft } from "@tabler/icons-react";
 
 export const FlagNameFontForm = memo(() => {
   const { flagName, selectedFont, selectedColor, selectedIcon, setFlagName, setSelectedFont } =
@@ -87,14 +88,19 @@ export const FlagNameFontForm = memo(() => {
           </SheetTrigger>
 
           <SheetContent
+            showCloseButton={false}
             isHideOverlay={true}
             side="left"
             className="w-full p-0 border-border/60 bg-surface-subtle flex flex-col gap-0 z-1000 h-screen overflow-hidden"
           >
-            <SheetHeader className="px-4 pt-4 pb-3 border-b border-border/60">
+            <SheetHeader className="px-4 pt-4 pb-3 border-b border-border/60 flex items-center justify-between flex-row">
               <SheetTitle className="text-sm font-semibold text-foreground">
                 Choose an icon
               </SheetTitle>
+
+              <SheetClose className="cursor-pointer">
+                <IconChevronsLeft className="size-5 shrink-0" />
+              </SheetClose>
             </SheetHeader>
 
             <FlagIconPicker />

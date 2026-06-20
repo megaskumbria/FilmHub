@@ -1,11 +1,12 @@
 "use client";
 
-import { Button, Label, InlineSvg } from "@/shared/ui";
+import { Button, InlineSvg, Input, Separator } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
+import { IconSearch } from "@tabler/icons-react";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
-import { memo, useRef } from "react";
+import { memo, useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
-import { useInfiniteIcons, useIntersectionObserver } from "@/shared/hooks";
+import { useInfiniteIcons, useIntersectionObserver, useDebounce } from "@/shared/hooks";
 import { useVirtualizer } from "@tanstack/react-virtual";
 
 const COLS = 8;
@@ -13,6 +14,7 @@ const ROW_HEIGHT = 42;
 const LIMIT = 120;
 
 export const FlagIconPicker = memo(() => {
+  const [searchQuery, setSearchQuery] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { selectedIcon, setSelectedIcon } = useCreationFlagStore(
@@ -22,7 +24,12 @@ export const FlagIconPicker = memo(() => {
     })),
   );
 
-  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteIcons(LIMIT);
+  const debouncedSearch = useDebounce(searchQuery, 300);
+
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteIcons(
+    LIMIT,
+    debouncedSearch,
+  );
 
   const dataIcons = data?.pages.flatMap((page) => page.data) ?? [];
 
@@ -48,13 +55,21 @@ export const FlagIconPicker = memo(() => {
 
   return (
     <section className="flex flex-1 flex-col min-h-0 p-4">
-      <header className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <Label className="text-sm font-semibold text-foreground">Icon</Label>
+      <header className="flex gap-3 mb-4 flex-col">
+        <div className="relative">
+          <IconSearch className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
+
+          <Input
+            variant="neutral"
+            placeholder="Search icons…"
+            className="pl-8"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
 
-        <div className="flex items-center gap-2">
+        <Separator />
+
+        <div className="flex items-center gap-2 shrink-0">
           <span className="text-sm text-foreground">Selected:</span>
 
           <div className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
