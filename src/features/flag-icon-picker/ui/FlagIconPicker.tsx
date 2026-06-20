@@ -44,7 +44,7 @@ export const FlagIconPicker = memo(() => {
 
   const virtualRows = virtualizer.getVirtualItems();
 
-  const { name: iconName, svgContent } = selectedIcon ?? {};
+  const { iconName, svgContent } = selectedIcon ?? {};
 
   return (
     <section className="flex flex-1 flex-col min-h-0 p-4">
@@ -84,10 +84,12 @@ export const FlagIconPicker = memo(() => {
                 }}
                 className="grid grid-cols-8 gap-1.5"
               >
-                {rowIcons.map(({ id, name, svgContent }) => (
+                {rowIcons.map(({ id, iconName: name, svgContent }) => (
                   <Button
                     key={id}
-                    onClick={() => setSelectedIcon(iconName === name ? null : { name, svgContent })}
+                    onClick={() =>
+                      setSelectedIcon(iconName === name ? null : { iconName: name, svgContent })
+                    }
                     className={cn(
                       "flex items-center justify-center w-9 h-9 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
                       iconName === name ?

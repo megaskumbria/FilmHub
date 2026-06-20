@@ -31,7 +31,7 @@ export const FlagNameFontForm = memo(() => {
       })),
     );
 
-  const { name: iconName, svgContent } = selectedIcon ?? {};
+  const { iconName, svgContent } = selectedIcon ?? {};
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4 flex-1">

@@ -4,7 +4,7 @@ import { API_URL } from "../constants/constants";
 
 interface IIcon {
   id: string;
-  name: string;
+  iconName: string;
   style: "filled" | "outlined";
   svgContent: string;
   tags: string[];
