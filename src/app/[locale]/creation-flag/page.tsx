@@ -14,20 +14,18 @@ import { Save } from "lucide-react";
 export default function CreationFlagPage() {
   return (
     <div className="max-w-[1640px] w-full px-4 mx-auto pt-20 pb-16">
-      <header className="mb-8 flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">Create flag</h1>
+      <div className="mb-8 flex flex-col">
+        <h1 className="text-2xl font-bold text-foreground tracking-tight">Create flag</h1>
 
-          <p className="text-base text-zinc-muted mt-1">
-            Flags are a graded scale from weak to strong; the category defines what you measure
-          </p>
-        </div>
-      </header>
+        <p className="text-base text-zinc-muted mt-1">
+          Flags are a graded scale from weak to strong; the category defines what you measure
+        </p>
+      </div>
 
       <main className="flex gap-4 items-start">
         <FlagCategoriesSidebar />
 
-        <div className="flex-1 min-w-0 grid grid-cols-[minmax(0,1fr)_1fr_auto] gap-4 ">
+        <div className="flex-1 min-w-0 grid grid-cols-[minmax(0,1fr)_1fr_auto] gap-4 h-full">
           <FlagColorPicker />
 
           <div className="flex flex-col gap-4 shrink-0 w-full">

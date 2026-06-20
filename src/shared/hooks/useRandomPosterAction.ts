@@ -11,7 +11,7 @@ export const useRandomPosterAction = () => {
       onSuccess: (media) => setMediaPreviewInfo(media),
 
       onError: () => {
-        toast.error("Failed to get random poster");
+        toast.error("Failed to get random poster", { position: "bottom-left" });
       },
     });
   };

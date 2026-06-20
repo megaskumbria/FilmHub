@@ -24,6 +24,7 @@ interface Props {
   disableNavigation?: boolean;
   onCheckedChange?: (id: number, checked: boolean) => void;
   isChecked?: boolean;
+  fillHeight?: boolean;
 }
 
 export const MediaCard = ({
@@ -36,6 +37,7 @@ export const MediaCard = ({
   disableNavigation = false,
   onCheckedChange,
   isChecked = false,
+  fillHeight = false,
 }: Props) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [hoverHeight, setHoverHeight] = useState(0);
@@ -72,11 +74,13 @@ export const MediaCard = ({
 
   const isEditMode = mode === "edit-collection";
 
+  const shouldAccessBorder = isEditMode && isChecked;
+
   return (
     <article
       className={cn(
-        "w-full border rounded-xl relative transition-all duration-200",
-        isEditMode && isChecked ? "border-accent/50 ring-2 ring-accent/30" : "border-border",
+        "h-full w-full border rounded-xl relative transition-all duration-200 flex flex-col",
+        shouldAccessBorder ? "border-accent/50 ring-2 ring-accent/30" : "border-border",
       )}
     >
       {isEditMode && (
@@ -88,10 +92,14 @@ export const MediaCard = ({
       )}
 
       <Link
+        className={cn(fillHeight && "flex-1 min-h-0")}
         href={disableNavigation || isEditMode ? "" : `/${locale}/movies/${id}?type=${mediaType}`}
       >
         <div
-          className="group relative aspect-2/3 cursor-pointer overflow-hidden rounded-xl"
+          className={cn(
+            "group relative cursor-pointer overflow-hidden rounded-xl",
+            fillHeight ? "h-full" : "aspect-2/3",
+          )}
           onMouseEnter={() => {
             const contentHeight = hoverContentRef.current?.clientHeight || 0;
             setHoverHeight(contentHeight);

@@ -4,7 +4,6 @@ import { useShallow } from "zustand/shallow";
 import { FLAG_BACKGROUND_ALPHA } from "@/shared/constants/constants";
 import { RotateCcw } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-// import { applyOpacity } from "@/shared/lib";
 
 export const OpacitySlider = () => {
   const { selectedColor, bgOpacity, setBgOpacity } = useCreationFlagStore(
@@ -17,10 +16,8 @@ export const OpacitySlider = () => {
 
   const isModified = Math.round(bgOpacity * 100) !== Math.round(FLAG_BACKGROUND_ALPHA * 100);
 
-  // const bgColor = applyOpacity(selectedColor, bgOpacity);
-
   return (
-    <div className="mt-4 pt-4 border-t border-border/40 flex flex-col gap-2">
+    <footer className="mt-auto pt-4 border-t border-border/40 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-3.5 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
@@ -33,8 +30,9 @@ export const OpacitySlider = () => {
             onClick={() => setBgOpacity(FLAG_BACKGROUND_ALPHA)}
             className={cn(
               "size-6 rounded-md text-zinc-muted transition-all justify-center",
-              isModified && "opacity-100 hover:text-foreground hover:bg-white/6",
-              !isModified && "opacity-0 pointer-events-none",
+              isModified ?
+                "opacity-100 hover:text-foreground hover:bg-white/6"
+              : "opacity-0 pointer-events-none",
             )}
           >
             <RotateCcw className="size-4" strokeWidth={1.5} />
@@ -70,6 +68,6 @@ export const OpacitySlider = () => {
           style={{ "--flag-color": selectedColor } as React.CSSProperties}
         />
       </div>
-    </div>
+    </footer>
   );
 };

@@ -35,16 +35,19 @@ export const PosterUpload = ({ flagPreview = false, disableNavigation = false, m
   const shouldShowPreview = Boolean(media);
 
   return (
-    <article className="flex flex-col w-full">
+    <article className="flex flex-col w-full h-full">
       {shouldShowPreview && (
-        <MediaCard
-          layout={layout}
-          blockOptions={activeBlockOptions}
-          shouldShowAddButton={false}
-          disableNavigation={disableNavigation}
-          media={media!}
-          key={media!.id}
-        />
+        <div className="h-full">
+          <MediaCard
+            layout={layout}
+            blockOptions={activeBlockOptions}
+            shouldShowAddButton={false}
+            disableNavigation={disableNavigation}
+            media={media!}
+            key={media!.id}
+            fillHeight
+          />
+        </div>
       )}
 
       {!shouldShowPreview && (
