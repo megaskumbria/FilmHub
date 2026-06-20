@@ -10,6 +10,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 
 const COLS = 8;
 const ROW_HEIGHT = 42;
+const LIMIT = 120;
 
 export const FlagIconPicker = memo(() => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -21,7 +22,7 @@ export const FlagIconPicker = memo(() => {
     })),
   );
 
-  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteIcons({ limit: 60 });
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteIcons(LIMIT);
 
   const dataIcons = data?.pages.flatMap((page) => page.data) ?? [];
 
@@ -29,7 +30,7 @@ export const FlagIconPicker = memo(() => {
     () => {
       if (hasNextPage && !isFetchingNextPage) void fetchNextPage();
     },
-    { rootMargin: "10px" },
+    { root: scrollRef.current, rootMargin: "120px" },
   );
 
   const rowCount = Math.ceil(dataIcons.length / COLS);
@@ -38,37 +39,40 @@ export const FlagIconPicker = memo(() => {
     count: rowCount,
     getScrollElement: () => scrollRef.current,
     estimateSize: () => ROW_HEIGHT,
-    overscan: 5,
+    overscan: 3,
   });
 
   const virtualRows = virtualizer.getVirtualItems();
 
+  const { name: iconName, svgContent } = selectedIcon ?? {};
+
   return (
-    <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 w-96">
-      <div className="flex items-center justify-between mb-4">
+    <section className="flex flex-1 flex-col min-h-0 p-4">
+      <header className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
           <Label className="text-sm font-semibold text-foreground">Icon</Label>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-muted">Selected:</span>
+          <span className="text-sm text-foreground">Selected:</span>
 
-          <span className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
-            {/* {SelectedIconComponent && <SelectedIconComponent className="size-4 text-accent" />} */}
-          </span>
+          <div className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
+            {svgContent && <InlineSvg svg={svgContent} className="size-5 text-accent" />}
+          </div>
 
-          <span className="text-xs text-zinc-muted">{selectedIcon}</span>
+          <span className="text-sm text-foreground">{iconName}</span>
         </div>
-      </div>
+      </header>
 
-      <div ref={scrollRef} className="overflow-y-auto max-h-138 scrollbar-minimal">
+      <div ref={scrollRef} className="overflow-y-auto flex-1 min-h-0 scrollbar-minimal">
         <div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
           {virtualRows.map((virtualRow) => {
             const rowIcons = dataIcons.slice(
               virtualRow.index * COLS,
               (virtualRow.index + 1) * COLS,
             );
+
             return (
               <div
                 key={virtualRow.key}
@@ -83,10 +87,10 @@ export const FlagIconPicker = memo(() => {
                 {rowIcons.map(({ id, name, svgContent }) => (
                   <Button
                     key={id}
-                    onClick={() => setSelectedIcon(selectedIcon === name ? null : name)}
+                    onClick={() => setSelectedIcon(iconName === name ? null : { name, svgContent })}
                     className={cn(
                       "flex items-center justify-center w-9 h-9 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
-                      selectedIcon === name ?
+                      iconName === name ?
                         "border-accent bg-accent/10 text-accent "
                       : "border-border/40 text-zinc-muted hover:text-foreground",
                     )}

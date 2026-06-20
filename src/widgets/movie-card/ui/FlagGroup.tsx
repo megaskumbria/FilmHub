@@ -33,6 +33,8 @@ export const FlagGroup = ({
       })),
     );
 
+  const { svgContent } = selectedIcon ?? {};
+
   const flagItem = {
     id: "0",
     flagName: flagName || "New flag",
@@ -54,7 +56,7 @@ export const FlagGroup = ({
     >
       {isPreview ?
         <FlagWithCategory categoryName={categoryName} showCategory={showCategories}>
-          <FlagBadge flagItem={flagItem} categoryName={categoryName} />
+          <FlagBadge flagItem={flagItem} categoryName={categoryName} svgContent={svgContent} />
         </FlagWithCategory>
       : <>
           {flagsData.map(({ flags, categoryName }) => {
@@ -67,7 +69,7 @@ export const FlagGroup = ({
                   categoryName={categoryName}
                   showCategory={showCategories}
                 >
-                  <FlagBadge flagItem={flag} categoryName={categoryName} />
+                  <FlagBadge flagItem={flag} categoryName={categoryName} svgContent={svgContent} />
                 </FlagWithCategory>
               );
             });

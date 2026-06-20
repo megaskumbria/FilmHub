@@ -5,15 +5,18 @@ import {
   Input,
   FontPicker,
   Button,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  InlineSvg,
 } from "@/shared/ui";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { useShallow } from "zustand/shallow";
 import { memo } from "react";
 import { FlagIconPicker } from "@/features";
-import { IconPhoto, IconChevronDown } from "@tabler/icons-react";
+import { IconPhoto } from "@tabler/icons-react";
 
 export const FlagNameFontForm = memo(() => {
   const { flagName, selectedFont, selectedColor, selectedIcon, setFlagName, setSelectedFont } =
@@ -27,6 +30,8 @@ export const FlagNameFontForm = memo(() => {
         setSelectedFont: state.setSelectedFont,
       })),
     );
+
+  const { name: iconName, svgContent } = selectedIcon ?? {};
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4 flex-1">
@@ -65,30 +70,36 @@ export const FlagNameFontForm = memo(() => {
           Icon
         </Label>
 
-        <Popover>
-          <PopoverTrigger asChild>
+        <Sheet>
+          <SheetTrigger asChild>
             <Button
               variant="outline"
               className="w-full h-9 justify-between px-3 border-border/60 bg-surface text-zinc-muted hover:bg-white/5 hover:text-foreground transition-colors"
             >
-              <span className="flex items-center gap-2">
-                <IconPhoto className="size-4 shrink-0 text-zinc-muted" />
-                <span className="text-sm truncate">{selectedIcon ?? "Choose an icon..."}</span>
-              </span>
-              <IconChevronDown className="size-4 shrink-0 opacity-50" />
+              <div className="flex items-center gap-2">
+                {svgContent ?
+                  <InlineSvg svg={svgContent} className="size-6 shrink-0 text-zinc-muted" />
+                : <IconPhoto className="size-6 shrink-0 text-zinc-muted" />}
+
+                <span className="text-sm truncate">{iconName ?? "Choose an icon..."}</span>
+              </div>
             </Button>
-          </PopoverTrigger>
+          </SheetTrigger>
 
-          <PopoverContent
-            align="start"
-            sideOffset={6}
-            className="max-w-130 w-full p-0 border-border/60 bg-surface-subtle shadow-xl shadow-black/40 rounded-xl"
+          <SheetContent
+            isHideOverlay={true}
+            side="left"
+            className="w-full p-0 border-border/60 bg-surface-subtle flex flex-col gap-0 z-1000 h-screen overflow-hidden"
           >
-            <FlagIconPicker />
-          </PopoverContent>
-        </Popover>
+            <SheetHeader className="px-4 pt-4 pb-3 border-b border-border/60">
+              <SheetTitle className="text-sm font-semibold text-foreground">
+                Choose an icon
+              </SheetTitle>
+            </SheetHeader>
 
-        <p className="text-xs text-zinc-muted/50">Selected: {selectedIcon ?? "—"}</p>
+            <FlagIconPicker />
+          </SheetContent>
+        </Sheet>
       </div>
     </section>
   );

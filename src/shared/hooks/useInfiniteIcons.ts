@@ -19,13 +19,9 @@ interface IDataIcons {
   totalPages: number;
 }
 
-interface UseInfiniteIconsArgs {
-  limit: number;
-}
-
-export const useInfiniteIcons = ({ limit }: UseInfiniteIconsArgs) => {
+export const useInfiniteIcons = (limit: number) => {
   return useInfiniteQuery({
-    queryKey: ["icons"],
+    queryKey: ["icons", limit],
 
     queryFn: async ({ pageParam = 1, signal }) => {
       const { data } = await apiClient.get<IDataIcons>(

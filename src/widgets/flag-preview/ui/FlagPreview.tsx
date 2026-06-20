@@ -2,25 +2,26 @@ import { useCreationFlagStore } from "@/features/creation-flag/model/creation-fl
 import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
 import { flagSoftBackground } from "@/shared/lib";
 import { FolderOpen } from "lucide-react";
-import { DotGrid } from "@/shared/ui";
+import { DotGrid, InlineSvg } from "@/shared/ui";
 import { useShallow } from "zustand/shallow";
 import { memo } from "react";
 
 export const FlagPreview = memo(() => {
-  const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } =
+  const { flagName, selectedColor, selectedFont, selectedIcon, categoryName, bgOpacity } =
     useCreationFlagStore(
       useShallow((state) => ({
         flagName: state.flagName,
         selectedColor: state.selectedColor,
         selectedFont: state.selectedFont,
         selectedIcon: state.selectedIcon,
-        category: state.category,
+        categoryName: state.categoryName,
         bgOpacity: state.bgOpacity,
       })),
     );
 
-  // const SelectedIconComponent = getIconByName(selectedIcon);
   const selectedColorBg = flagSoftBackground(selectedColor, bgOpacity);
+
+  const { svgContent } = selectedIcon ?? {};
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1">
@@ -38,20 +39,20 @@ export const FlagPreview = memo(() => {
 
           <span className="text-sm font-medium text-zinc-muted">Category:</span>
 
-          <span className="text-foreground font-medium">{category || "Not selected"}</span>
+          <span className="text-foreground font-medium">{categoryName || "Not selected"}</span>
         </div>
 
         <div
           className="inline-flex items-center gap-1.5 p-2 rounded-lg border"
           style={{
+            color: selectedColor,
             backgroundColor: selectedColorBg,
             borderColor: selectedColor,
+            textShadow: "0 1px 2px rgba(0, 0, 0, 0.8)",
             fontFamily: selectedFont || "Manrope",
           }}
         >
-          {/* {SelectedIconComponent && (
-            <SelectedIconComponent className="size-8 shrink-0" style={{ color: selectedColor }} />
-          )} */}
+          {svgContent && <InlineSvg svg={svgContent} className="size-8 shrink-0" />}
 
           <span
             className="text-lg font-bold"
@@ -66,15 +67,12 @@ export const FlagPreview = memo(() => {
 
           <FlagBadge
             flagItem={{
-              id: 0,
               flagName: flagName || "New flag",
               color: selectedColor,
-              bg: selectedColorBg,
               bgOpacity,
-              isUsed: false,
               fontFamily: selectedFont || "Manrope",
-              icon: selectedIcon,
             }}
+            svgContent={svgContent}
           />
         </div>
       </div>

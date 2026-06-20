@@ -109,10 +109,6 @@ export const FlagColorPicker = memo(() => {
         ))}
       </div>
 
-      <span className="text-base text-zinc-muted text-center w-full block">
-        Many preset colors will live here (stored on the backend)
-      </span>
-
       <OpacitySlider />
     </section>
   );

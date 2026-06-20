@@ -2,20 +2,20 @@
 
 import { flagSoftBackground } from "@/shared/lib";
 import { IFlag } from "@/shared/hooks";
+import { InlineSvg } from "@/shared/ui";
 
 type FlagItemData = Pick<IFlag, "flagName" | "color" | "bgOpacity" | "fontFamily">;
 
 interface Props {
   flagItem: FlagItemData;
   categoryName?: string | null;
+  svgContent?: string;
 }
 
-export const FlagBadge = ({ flagItem, categoryName }: Props) => {
+export const FlagBadge = ({ flagItem, categoryName, svgContent }: Props) => {
   const { flagName, color, bgOpacity, fontFamily } = flagItem;
 
   const computedBg = flagSoftBackground(color, bgOpacity);
-
-  // const IconComponent = getIconByName(icon || "");
 
   return (
     <span
@@ -34,7 +34,7 @@ export const FlagBadge = ({ flagItem, categoryName }: Props) => {
           fontFamily: fontFamily || "Manrope",
         }}
       >
-        {/* {IconComponent && <IconComponent className="size-5 shrink-0" style={{ color: color }} />} */}
+        {svgContent && <InlineSvg svg={svgContent} className="size-5 shrink-0" />}
 
         {flagName}
       </span>
