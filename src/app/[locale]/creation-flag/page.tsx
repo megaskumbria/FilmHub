@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Separator } from "@/shared/ui";
+import { Separator } from "@/shared/ui";
 import {
   FlagCategoriesSidebar,
   FlagNameFontForm,
@@ -8,8 +8,7 @@ import {
   PopularFlagsCarousel,
   PosterUploadSection,
 } from "@/widgets";
-import { FlagColorPicker } from "@/features";
-import { Save } from "lucide-react";
+import { FlagColorPicker, FlagCreationActions } from "@/features";
 
 export default function CreationFlagPage() {
   return (
@@ -35,12 +34,7 @@ export default function CreationFlagPage() {
 
           <PosterUploadSection />
 
-          <div className="col-span-full flex items-center justify-end">
-            <Button variant="accent" size="default" className="gap-2 rounded-lg">
-              <Save className="size-4" />
-              <span>Save flag</span>
-            </Button>
-          </div>
+          <FlagCreationActions />
         </div>
       </main>
 
