@@ -1,11 +1,18 @@
+"use client";
+
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent, Button } from "@/shared/ui";
 import { Plus } from "lucide-react";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
-import { useFlags } from "@/shared/hooks";
+import { IFlagData, useFlags, useUpdateFlagPosition } from "@/shared/hooks";
 import { FlagCategoriesSkeleton } from "@/widgets/flag-categories-sidebar";
 import { FlagListItem } from "@/features";
+import { useEffect, useState } from "react";
+import { isSortable } from "@dnd-kit/react/sortable";
+import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react";
 
 export const FlagCategoryAccordion = () => {
+  const [localFlagsData, setLocalFlagsData] = useState<IFlagData[]>([]);
+
   const {
     setCategoryName,
     setFlagName,
@@ -15,19 +22,52 @@ export const FlagCategoryAccordion = () => {
 
   const { data: flagsData = [], isLoading } = useFlags();
 
+  useEffect(() => setLocalFlagsData(flagsData), [flagsData]);
+
+  const { mutate: updateFlagPosition } = useUpdateFlagPosition();
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    if (event.canceled) return;
+
+    const { source } = event.operation;
+
+    if (!isSortable(source)) return;
+
+    const { initialIndex, index, type: categoryName } = source;
+    if (initialIndex === index) return;
+
+    setLocalFlagsData((prev) =>
+      prev.map((category) => {
+        if (category.categoryName !== categoryName) return category;
+
+        const newFlags = [...category.flags];
+        const [moved] = newFlags.splice(initialIndex, 1);
+
+        newFlags.splice(index, 0, moved);
+
+        updateFlagPosition({
+          categoryId: category.id,
+          flagIds: newFlags.map((f) => f.id),
+        });
+
+        return { ...category, flags: newFlags };
+      }),
+    );
+  };
+
   const handleAddFlag = (categoryName: string) => {
     setFlagName("", presetColors[0]);
     setCategoryName(categoryName);
   };
 
   return (
-    <>
+    <DragDropProvider onDragEnd={handleDragEnd}>
       {isLoading ?
         Array.from({ length: 5 }).map((_, index) => <FlagCategoriesSkeleton key={index} />)
-      : flagsData.length === 0 ?
+      : localFlagsData.length === 0 ?
         <div className="py-8 text-center text-xs text-zinc-muted">Nothing found</div>
       : <Accordion type="multiple">
-          {flagsData.map(({ categoryName, flags }) => (
+          {localFlagsData.map(({ categoryName, flags }) => (
             <AccordionItem
               key={categoryName}
               value={categoryName}
@@ -57,12 +97,13 @@ export const FlagCategoryAccordion = () => {
 
               <AccordionContent className="pb-1">
                 <ul className="flex flex-col gap-0.5">
-                  {flags.map((flag) => (
+                  {flags.map((flag, index) => (
                     <FlagListItem
                       key={flag.id}
                       flagItem={flag}
                       categoryName={categoryName}
                       isActive={activeFlagName === flag.flagName}
+                      index={index}
                     />
                   ))}
                 </ul>
@@ -71,6 +112,6 @@ export const FlagCategoryAccordion = () => {
           ))}
         </Accordion>
       }
-    </>
+    </DragDropProvider>
   );
 };

@@ -1,5 +1,5 @@
 import { apiClient } from "../api/api-client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
 
 export interface IFlag {
@@ -32,6 +32,23 @@ export const useFlags = () => {
 
     queryFn: async () => {
       const { data } = await apiClient.get<IFlagData[]>(`${API_URL}/flags`);
+      return data;
+    },
+  });
+};
+
+interface IUpdateFlagPositionArgs {
+  categoryId: string;
+  flagIds: string[];
+}
+
+export const useUpdateFlagPosition = () => {
+  return useMutation({
+    mutationFn: async ({ categoryId, flagIds }: IUpdateFlagPositionArgs) => {
+      const { data } = await apiClient.patch<IFlagData>(`${API_URL}/flags/reorder`, {
+        categoryId,
+        flagIds,
+      });
       return data;
     },
   });
