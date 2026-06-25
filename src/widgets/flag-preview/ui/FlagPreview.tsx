@@ -7,14 +7,14 @@ import { useShallow } from "zustand/shallow";
 import { memo } from "react";
 
 export const FlagPreview = memo(() => {
-  const { flagName, selectedColor, selectedFont, selectedIcon, categoryName, bgOpacity } =
+  const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } =
     useCreationFlagStore(
       useShallow((state) => ({
         flagName: state.flagName,
         selectedColor: state.selectedColor,
         selectedFont: state.selectedFont,
         selectedIcon: state.selectedIcon,
-        categoryName: state.categoryName,
+        category: state.category,
         bgOpacity: state.bgOpacity,
       })),
     );
@@ -39,7 +39,7 @@ export const FlagPreview = memo(() => {
 
           <span className="text-sm font-medium text-zinc-muted">Category:</span>
 
-          <span className="text-foreground font-medium">{categoryName || "Not selected"}</span>
+          <span className="text-foreground font-medium">{category.name || "Not selected"}</span>
         </div>
 
         <div

@@ -23,4 +23,10 @@ export { useScrollRestoration } from "./useScrollRestoration";
 export { useInfiniteIcons } from "./useInfiniteIcons";
 export { useRandomPoster } from "./useRandomPoster";
 export { useRandomPosterAction } from "./useRandomPosterAction";
-export { useFlags, type IFlag, type IFlagData, useUpdateFlagPosition } from "./useFlags";
+export {
+  useFlags,
+  type IFlag,
+  type IFlagData,
+  useUpdateFlagPosition,
+  useCreateFlag,
+} from "./useFlags";

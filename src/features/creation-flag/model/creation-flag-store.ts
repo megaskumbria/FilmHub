@@ -11,8 +11,8 @@ interface Store {
   bgOpacity: number;
   setBgOpacity: (bgOpacity: number) => void;
 
-  categoryName: string | null;
-  setCategoryName: (categoryName: string) => void;
+  category: { name: string; id: string };
+  setCategory: (category: { name: string; id: string }) => void;
 
   selectedIcon: { iconName: string; svgContent: string } | null;
   setSelectedIcon: (selectedIcon: { iconName: string; svgContent: string } | null) => void;
@@ -35,8 +35,8 @@ export const useCreationFlagStore = create<Store>((set) => {
     bgOpacity: 0.38,
     setBgOpacity: (bgOpacity) => set({ bgOpacity }),
 
-    categoryName: null,
-    setCategoryName: (categoryName) => set({ categoryName }),
+    category: { name: "", id: "" },
+    setCategory: (category) => set({ category }),
 
     selectedIcon: null,
     setSelectedIcon: (selectedIcon) => set({ selectedIcon }),

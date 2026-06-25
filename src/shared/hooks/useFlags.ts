@@ -53,3 +53,35 @@ export const useUpdateFlagPosition = () => {
     },
   });
 };
+
+interface ICreateFlagArgs {
+  flagName: string;
+  color: string;
+  bgOpacity: number;
+  fontFamily: string;
+  iconId?: string | null;
+  categoryId: string;
+}
+
+export const useCreateFlag = () => {
+  return useMutation({
+    mutationFn: async ({
+      flagName,
+      color,
+      bgOpacity,
+      fontFamily,
+      iconId,
+      categoryId,
+    }: ICreateFlagArgs) => {
+      const { data } = await apiClient.post<IFlag>(`${API_URL}/flags/create`, {
+        flagName,
+        color,
+        bgOpacity,
+        fontFamily,
+        iconId,
+        categoryId,
+      });
+      return data;
+    },
+  });
+};

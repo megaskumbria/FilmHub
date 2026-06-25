@@ -14,7 +14,7 @@ export const FlagCategoryAccordion = () => {
   const [localFlagsData, setLocalFlagsData] = useState<IFlagData[]>([]);
 
   const {
-    setCategoryName,
+    setCategory,
     setFlagName,
     flagName: activeFlagName,
     presetColors,
@@ -33,12 +33,12 @@ export const FlagCategoryAccordion = () => {
 
     if (!isSortable(source)) return;
 
-    const { initialIndex, index, type: categoryName } = source;
+    const { initialIndex, index, type: categoryId } = source;
     if (initialIndex === index) return;
 
     setLocalFlagsData((prev) =>
       prev.map((category) => {
-        if (category.categoryName !== categoryName) return category;
+        if (category.id !== categoryId) return category;
 
         const newFlags = [...category.flags];
         const [moved] = newFlags.splice(initialIndex, 1);
@@ -55,9 +55,9 @@ export const FlagCategoryAccordion = () => {
     );
   };
 
-  const handleAddFlag = (categoryName: string) => {
+  const handleAddFlag = (category: { name: string; id: string }) => {
     setFlagName("", presetColors[0]);
-    setCategoryName(categoryName);
+    setCategory(category);
   };
 
   return (
@@ -67,12 +67,8 @@ export const FlagCategoryAccordion = () => {
       : localFlagsData.length === 0 ?
         <div className="py-8 text-center text-xs text-zinc-muted">Nothing found</div>
       : <Accordion type="multiple">
-          {localFlagsData.map(({ categoryName, flags }) => (
-            <AccordionItem
-              key={categoryName}
-              value={categoryName}
-              className="border-b border-border/40 last:border-0"
-            >
+          {localFlagsData.map(({ id, categoryName, flags }) => (
+            <AccordionItem key={id} value={id} className="border-b border-border/40 last:border-0">
               <AccordionTrigger className="rounded-none items-center px-2 py-2 text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                   <span className="truncate">{categoryName}</span>
@@ -87,7 +83,7 @@ export const FlagCategoryAccordion = () => {
                       size="icon-xs"
                       variant="transparent"
                       className="flex items-center justify-center shrink-0 rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-accent hover:border-accent/40 hover:bg-accent/10 transition-colors"
-                      onClick={() => handleAddFlag(categoryName)}
+                      onClick={() => handleAddFlag({ name: categoryName, id })}
                     >
                       <Plus className="size-3" />
                     </Button>
@@ -101,7 +97,7 @@ export const FlagCategoryAccordion = () => {
                     <FlagListItem
                       key={flag.id}
                       flagItem={flag}
-                      categoryName={categoryName}
+                      category={{ name: categoryName, id }}
                       isActive={activeFlagName === flag.flagName}
                       index={index}
                     />

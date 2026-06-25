@@ -50,10 +50,21 @@ export const FlagNameFontForm = memo(() => {
           variant="neutral"
           placeholder="Enter a name..."
           className="h-9 text-sm"
+          maxLength={30}
           value={flagName}
           onChange={(e) => setFlagName(e.target.value, selectedColor)}
         />
-        <p className="text-xs text-zinc-muted/50">Up to 30 characters</p>
+
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs text-zinc-muted/50">Up to 30 characters</p>
+
+          <span
+            data-max-length={flagName.length >= 30}
+            className="data-[max-length=true]:text-red-500 text-xs text-zinc-muted/50"
+          >
+            {flagName.length}/30
+          </span>
+        </div>
       </div>
 
       <div className="flex flex-col gap-1.5 w-full">

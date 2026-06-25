@@ -10,32 +10,32 @@ import { useSortable } from "@dnd-kit/react/sortable";
 
 interface Props {
   flagItem: IFlag;
-  categoryName: string;
+  category: { name: string; id: string };
   isActive: boolean;
   index: number;
 }
 
-export const FlagListItem = ({ flagItem, categoryName, isActive, index }: Props) => {
+export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => {
   const { flagName, color, bgOpacity, id } = flagItem;
 
   const { ref, isDragging } = useSortable({
     id,
     index,
-    type: categoryName,
-    accept: [categoryName],
+    type: category.id,
+    accept: [category.id],
   });
 
-  const { setCategoryName, setFlagName, addPresetColor, setBgOpacity } = useCreationFlagStore();
+  const { setCategory, setFlagName, addPresetColor, setBgOpacity } = useCreationFlagStore();
 
   const handleSelectFlag = (
     flagName: string,
-    categoryName: string,
+    category: { name: string; id: string },
     color: string,
     bgOpacity: number,
   ) => {
     addPresetColor(color);
     setFlagName(flagName, color);
-    setCategoryName(categoryName);
+    setCategory(category);
     setBgOpacity(bgOpacity);
   };
 
@@ -44,7 +44,7 @@ export const FlagListItem = ({ flagItem, categoryName, isActive, index }: Props)
       <Label
         data-dragging={isDragging}
         data-active={isActive}
-        onClick={() => handleSelectFlag(flagName, categoryName, color, bgOpacity)}
+        onClick={() => handleSelectFlag(flagName, category, color, bgOpacity)}
         className={cn(
           "data-[dragging=true]:bg-white/5 data-[active=true]:bg-white/6 group hover:bg-white/5 flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all select-none",
         )}
