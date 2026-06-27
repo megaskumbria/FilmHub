@@ -24,8 +24,10 @@ interface Store {
   category: { name: string; id: string };
   setCategory: (category: { name: string; id: string }) => void;
 
-  selectedIcon: { iconName: string; svgContent: string } | null;
-  setSelectedIcon: (selectedIcon: { iconName: string; svgContent: string } | null) => void;
+  selectedIcon: { iconName: string; svgContent: string; iconId: string } | null;
+  setSelectedIcon: (
+    selectedIcon: { iconName: string; svgContent: string; iconId: string } | null,
+  ) => void;
 
   selectedFont: string;
   setSelectedFont: (selectedFont: string) => void;

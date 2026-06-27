@@ -3,12 +3,12 @@
 import { cn } from "@/shared/lib/utils";
 import { Button, Separator } from "@/shared/ui";
 import { Save, X } from "lucide-react";
-import { useCreateFlag, useUpdateFlag } from "@/shared/hooks";
+import { useCreateFlag, useEditFlag } from "@/shared/hooks";
 import { useCreationFlagStore } from "@/features/creation-flag";
 
 export const FloatingCreationFlagBar = () => {
   const { mutate: createFlag, isPending: isCreating } = useCreateFlag();
-  const { mutate: updateFlag, isPending: isUpdating } = useUpdateFlag();
+  const { mutate: editFlag, isPending: isUpdating } = useEditFlag();
 
   const {
     flagName,
@@ -43,12 +43,12 @@ export const FloatingCreationFlagBar = () => {
       color: selectedColor,
       bgOpacity,
       fontFamily: selectedFont,
-      iconId: selectedIcon?.iconName ?? null,
+      iconId: selectedIcon?.iconId,
       categoryId: category.id,
     };
 
     if (editingFlagId) {
-      updateFlag({ id: editingFlagId, ...payload });
+      editFlag({ flagId: editingFlagId, ...payload }, { onSuccess: () => cancelCreationFlag() });
     } else {
       createFlag(payload, { onSuccess: () => cancelCreationFlag() });
     }

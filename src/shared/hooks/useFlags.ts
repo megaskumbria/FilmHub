@@ -8,13 +8,15 @@ export interface IFlag {
   flagName: string;
   color: string;
   bgOpacity: number;
-  fontFamily?: string;
-  iconId?: string | null;
   position: number;
   categoryId: string;
   userId: string;
   createdAt: string;
   updatedAt: string;
+  fontFamily: string;
+
+  iconId?: string | null;
+  svgContent?: string;
 }
 
 export interface IFlagData {
@@ -35,6 +37,8 @@ export const useGetFlags = () => {
       const { data } = await apiClient.get<IFlagData[]>(`${API_URL}/flags`);
       return data;
     },
+
+    refetchOnWindowFocus: false,
   });
 };
 
@@ -55,8 +59,8 @@ export const useUpdateFlagPosition = () => {
   });
 };
 
-interface IUpdateFlagArgs {
-  id: string;
+interface IEditFlagArgs {
+  flagId: string;
   flagName: string;
   color: string;
   bgOpacity: number;
@@ -65,27 +69,18 @@ interface IUpdateFlagArgs {
   categoryId: string;
 }
 
-export const useUpdateFlag = () => {
+export const useEditFlag = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: async ({
-      id,
-      flagName,
-      color,
-      bgOpacity,
-      fontFamily,
-      iconId,
-      categoryId,
-    }: IUpdateFlagArgs) => {
-      const { data } = await apiClient.patch<IFlag>(`${API_URL}/flags/${id}`, {
-        flagName,
-        color,
-        bgOpacity,
-        fontFamily,
-        iconId,
-        categoryId,
+    mutationFn: async ({ flagId, ...editFlagPayload }: IEditFlagArgs) => {
+      const { data } = await apiClient.patch<IFlag>(`${API_URL}/flags/edit-flag/${flagId}`, {
+        ...editFlagPayload,
       });
       return data;
     },
+
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
   });
 };
 
@@ -102,22 +97,8 @@ export const useCreateFlag = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      flagName,
-      color,
-      bgOpacity,
-      fontFamily,
-      iconId,
-      categoryId,
-    }: ICreateFlagArgs) => {
-      const { data } = await apiClient.post<IFlag>(`${API_URL}/flags/create`, {
-        flagName,
-        color,
-        bgOpacity,
-        fontFamily,
-        iconId,
-        categoryId,
-      });
+    mutationFn: async (createFlagPayload: ICreateFlagArgs) => {
+      const { data } = await apiClient.post<IFlag>(`${API_URL}/flags/create`, createFlagPayload);
       return data;
     },
 

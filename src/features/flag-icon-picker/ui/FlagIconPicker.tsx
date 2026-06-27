@@ -103,7 +103,9 @@ export const FlagIconPicker = memo(() => {
                   <Button
                     key={id}
                     onClick={() =>
-                      setSelectedIcon(iconName === name ? null : { iconName: name, svgContent })
+                      setSelectedIcon(
+                        iconName === name ? null : { iconName: name, svgContent, iconId: id },
+                      )
                     }
                     className={cn(
                       "flex items-center justify-center w-9 h-9 rounded-lg border transition-all cursor-pointer hover:bg-white/6",

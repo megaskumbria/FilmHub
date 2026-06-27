@@ -29,6 +29,6 @@ export {
   type IFlagData,
   useUpdateFlagPosition,
   useCreateFlag,
-  useUpdateFlag,
+  useEditFlag,
   useDeleteFlag,
 } from "./useFlags";

@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => {
-  const { flagName, color, bgOpacity, id } = flagItem;
+  const { flagName, color, bgOpacity, id, svgContent } = flagItem;
 
   const { ref, isDragging } = useSortable({
     id,
@@ -68,22 +68,27 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
         )}
         style={isActive ? { boxShadow: `inset 0 0 0 1px ${color}40` } : undefined}
       >
-        <FlagBadge flagItem={flagItem} />
+        <FlagBadge flagItem={flagItem} svgContent={svgContent} />
 
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-x-1 shrink-0">
           <div className="flex items-center gap-x-2">
-            <PencilLine
-              className={cn(
-                "size-3.5 transition-all duration-150",
-                isActive ? "opacity-70" : "opacity-0 group-hover:opacity-40",
-              )}
-              style={{ color: isActive ? color : undefined }}
-            />
+            <div className="size-5 flex items-center justify-center">
+              <PencilLine
+                className={cn(
+                  "size-4 transition-all duration-150",
+                  isActive ? "opacity-70" : "opacity-0 group-hover:opacity-40",
+                )}
+                style={{ color: isActive ? color : undefined }}
+              />
+            </div>
 
-            <Button onClick={(e) => handleDeleteFlag(e)}>
+            <Button
+              onClick={(e) => handleDeleteFlag(e)}
+              className="size-5 flex items-center justify-center group"
+            >
               {isDeleting ?
-                <Loader2 className="size-3.5 animate-spin text-zinc-muted" />
-              : <Trash2 className="size-3.5 text-zinc-muted opacity-0 group-hover:opacity-100 hover:text-red-400 transition-all duration-150 cursor-pointer" />
+                <Loader2 className="size-4 animate-spin text-zinc-muted" />
+              : <Trash2 className="size-4 text-zinc-muted opacity-0 group-hover:opacity-100 hover:text-red-400 transition-all duration-150 cursor-pointer" />
               }
             </Button>
           </div>
@@ -93,7 +98,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
             className="h-3 bg-border/40 transition-all duration-150 opacity-0 group-hover:opacity-100"
           />
 
-          <GripVertical className="cursor-grab size-5 text-zinc-muted opacity-0 group-hover:opacity-100 transition-all duration-150" />
+          <GripVertical className="cursor-grab size-4.5 text-zinc-muted opacity-0 group-hover:opacity-100 transition-all duration-150" />
         </div>
       </div>
     </li>
