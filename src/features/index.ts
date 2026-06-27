@@ -15,5 +15,5 @@ export { FolderMetaBar } from "./folder-meta-bar";
 export { SetMovieFlags } from "./set-movie-flags";
 export { AddMovieCollection } from "./add-movie-collection";
 export { FloatingEditBar } from "./floating-edit-bar";
-export { FlagCreationActions } from "./flag-creation-actions";
+export { FloatingCreationFlagBar } from "./floating-creation-flag-bar";
 export { FlagListItem } from "./flag-list-item";

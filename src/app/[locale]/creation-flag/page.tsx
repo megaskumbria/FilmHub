@@ -8,7 +8,7 @@ import {
   PopularFlagsCarousel,
   PosterUploadSection,
 } from "@/widgets";
-import { FlagColorPicker, FlagCreationActions } from "@/features";
+import { FlagColorPicker, FloatingCreationFlagBar } from "@/features";
 
 export default function CreationFlagPage() {
   return (
@@ -34,7 +34,7 @@ export default function CreationFlagPage() {
 
           <PosterUploadSection />
 
-          <FlagCreationActions />
+          <FloatingCreationFlagBar />
         </div>
       </main>
 

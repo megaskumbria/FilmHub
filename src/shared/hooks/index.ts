@@ -24,9 +24,11 @@ export { useInfiniteIcons } from "./useInfiniteIcons";
 export { useRandomPoster } from "./useRandomPoster";
 export { useRandomPosterAction } from "./useRandomPosterAction";
 export {
-  useFlags,
+  useGetFlags,
   type IFlag,
   type IFlagData,
   useUpdateFlagPosition,
   useCreateFlag,
+  useUpdateFlag,
+  useDeleteFlag,
 } from "./useFlags";

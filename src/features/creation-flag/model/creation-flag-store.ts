@@ -1,6 +1,16 @@
 import { PRESET_COLORS } from "@/features/flag-color-picker/model/preset-colors";
 import { create } from "zustand";
 
+interface LastSnapshotFlag {
+  flagName: string;
+  selectedColor: string;
+  bgOpacity: number;
+  selectedFont: string;
+  selectedIcon: { iconName: string; svgContent: string } | null;
+  category: { name: string; id: string };
+  isCreatingNew: boolean;
+}
+
 interface Store {
   flagName: string;
   setFlagName: (flagName: string, color: string) => void;
@@ -22,6 +32,15 @@ interface Store {
 
   presetColors: string[];
   addPresetColor: (color: string) => void;
+
+  isCreatingNew: boolean;
+  setIsCreatingNew: (val: boolean) => void;
+
+  editingFlagId: string | null;
+  setEditingFlagId: (id: string | null) => void;
+
+  lastSnapshotFlag: LastSnapshotFlag | null;
+  cancelCreationFlag: () => void;
 }
 
 export const useCreationFlagStore = create<Store>((set) => {
@@ -50,5 +69,40 @@ export const useCreationFlagStore = create<Store>((set) => {
         presetColors:
           state.presetColors.includes(color) ? state.presetColors : [...state.presetColors, color],
       })),
+
+    isCreatingNew: false,
+    setIsCreatingNew: (val) => set({ isCreatingNew: val }),
+
+    editingFlagId: null,
+    setEditingFlagId: (id) => set({ editingFlagId: id }),
+
+    lastSnapshotFlag: null,
+    cancelCreationFlag: () =>
+      set((state) => {
+        setTimeout(() => {
+          useCreationFlagStore.setState({ lastSnapshotFlag: null });
+        }, 300);
+
+        return {
+          lastSnapshotFlag: {
+            flagName: state.flagName,
+            selectedColor: state.selectedColor,
+            bgOpacity: state.bgOpacity,
+            selectedFont: state.selectedFont,
+            selectedIcon: state.selectedIcon,
+            category: state.category,
+            isCreatingNew: state.isCreatingNew,
+          },
+
+          isCreatingNew: false,
+          editingFlagId: null,
+          flagName: "",
+          selectedColor: PRESET_COLORS[0],
+          bgOpacity: 0.38,
+          selectedFont: "Manrope",
+          selectedIcon: null,
+          category: { name: "", id: "" },
+        };
+      }),
   };
 });

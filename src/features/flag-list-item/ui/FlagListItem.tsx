@@ -1,12 +1,13 @@
 "use client";
 
-import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
-import { IFlag } from "@/shared/hooks";
-import { Label, Separator } from "@/shared/ui";
+import { useCreationFlagStore } from "@/features/creation-flag";
+import { Separator, Button } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { FlagBadge } from "@/entities";
-import { PencilLine, Trash2, GripVertical } from "lucide-react";
+import { PencilLine, Trash2, GripVertical, Loader2 } from "lucide-react";
 import { useSortable } from "@dnd-kit/react/sortable";
+import { useDeleteFlag, type IFlag } from "@/shared/hooks";
+import { type MouseEvent } from "react";
 
 interface Props {
   flagItem: IFlag;
@@ -25,7 +26,16 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
     accept: [category.id],
   });
 
-  const { setCategory, setFlagName, addPresetColor, setBgOpacity } = useCreationFlagStore();
+  const {
+    setCategory,
+    setFlagName,
+    addPresetColor,
+    setBgOpacity,
+    setIsCreatingNew,
+    setEditingFlagId,
+  } = useCreationFlagStore();
+
+  const { mutate: deleteFlag, isPending: isDeleting } = useDeleteFlag();
 
   const handleSelectFlag = (
     flagName: string,
@@ -33,15 +43,23 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
     color: string,
     bgOpacity: number,
   ) => {
+    setIsCreatingNew(false);
+    setEditingFlagId(id);
     addPresetColor(color);
     setFlagName(flagName, color);
     setCategory(category);
     setBgOpacity(bgOpacity);
   };
 
+  const handleDeleteFlag = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    deleteFlag({ flagId: id, categoryId: category.id });
+  };
+
   return (
     <li ref={ref}>
-      <Label
+      <div
+        role="button"
         data-dragging={isDragging}
         data-active={isActive}
         onClick={() => handleSelectFlag(flagName, category, color, bgOpacity)}
@@ -62,10 +80,12 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
               style={{ color: isActive ? color : undefined }}
             />
 
-            <Trash2
-              onClick={(e) => e.stopPropagation()}
-              className="size-3.5 text-zinc-muted opacity-0 group-hover:opacity-100 hover:text-red-400 transition-all duration-150 cursor-pointer"
-            />
+            <Button onClick={(e) => handleDeleteFlag(e)}>
+              {isDeleting ?
+                <Loader2 className="size-3.5 animate-spin text-zinc-muted" />
+              : <Trash2 className="size-3.5 text-zinc-muted opacity-0 group-hover:opacity-100 hover:text-red-400 transition-all duration-150 cursor-pointer" />
+              }
+            </Button>
           </div>
 
           <Separator
@@ -75,7 +95,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
 
           <GripVertical className="cursor-grab size-5 text-zinc-muted opacity-0 group-hover:opacity-100 transition-all duration-150" />
         </div>
-      </Label>
+      </div>
     </li>
   );
 };

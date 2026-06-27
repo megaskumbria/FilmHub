@@ -22,7 +22,7 @@ export const ThemeToggle = () => {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       variant="outline"
       size="icon"
-      className="border-0 bg-[#2C2C2C] text-[#e5e5e5]"
+      className="border-0 bg-[#2C2C2C] text-zinc-light"
     >
       {isDark ?
         <Sun size={20} />

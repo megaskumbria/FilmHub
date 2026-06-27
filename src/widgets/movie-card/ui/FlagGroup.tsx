@@ -1,6 +1,6 @@
 "use client";
 
-import { useFlags } from "@/shared/hooks";
+import { useGetFlags } from "@/shared/hooks";
 import { BlockPlacement } from "../model/cardBlocksMap";
 import { FlagBadge, FlagWithCategory } from "@/widgets/movie-card";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
@@ -21,10 +21,10 @@ export const FlagGroup = ({
   showCategories = true,
   isPreview = false,
 }: Props) => {
-  const { categoryName, selectedColor, selectedFont, selectedIcon, flagName, bgOpacity } =
+  const { category, selectedColor, selectedFont, selectedIcon, flagName, bgOpacity } =
     useCreationFlagStore(
       useShallow((state) => ({
-        categoryName: state.categoryName,
+        category: state.category,
         selectedColor: state.selectedColor,
         selectedFont: state.selectedFont,
         selectedIcon: state.selectedIcon,
@@ -45,7 +45,7 @@ export const FlagGroup = ({
     position: 0,
   };
 
-  const { data: flagsData = [] } = useFlags();
+  const { data: flagsData = [] } = useGetFlags();
 
   const shouldLift = placement === "poster" && hasHover;
 
@@ -55,8 +55,8 @@ export const FlagGroup = ({
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {isPreview ?
-        <FlagWithCategory categoryName={categoryName} showCategory={showCategories}>
-          <FlagBadge flagItem={flagItem} categoryName={categoryName} svgContent={svgContent} />
+        <FlagWithCategory categoryName={category.name} showCategory={showCategories}>
+          <FlagBadge flagItem={flagItem} categoryName={category.name} svgContent={svgContent} />
         </FlagWithCategory>
       : <>
           {flagsData.map(({ flags, categoryName }) => {
