@@ -16,7 +16,8 @@ export interface IFlag {
   fontFamily: string;
 
   iconId?: string | null;
-  svgContent?: string;
+  iconName?: string | null;
+  svgContent?: string | null;
 }
 
 export interface IFlagData {

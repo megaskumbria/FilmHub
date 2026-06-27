@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => {
-  const { flagName, color, bgOpacity, id, svgContent } = flagItem;
+  const { flagName, color, bgOpacity, id, svgContent, iconName } = flagItem;
 
   const { ref, isDragging } = useSortable({
     id,
@@ -33,6 +33,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
     setBgOpacity,
     setIsCreatingNew,
     setEditingFlagId,
+    setSelectedIcon,
   } = useCreationFlagStore();
 
   const { mutate: deleteFlag, isPending: isDeleting } = useDeleteFlag();
@@ -40,8 +41,11 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
   const handleSelectFlag = (
     flagName: string,
     category: { name: string; id: string },
+    iconName: string | null,
     color: string,
     bgOpacity: number,
+    svgContent: string | null,
+    iconId: string,
   ) => {
     setIsCreatingNew(false);
     setEditingFlagId(id);
@@ -49,6 +53,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
     setFlagName(flagName, color);
     setCategory(category);
     setBgOpacity(bgOpacity);
+    setSelectedIcon({ iconName, svgContent, iconId });
   };
 
   const handleDeleteFlag = (e: MouseEvent<HTMLButtonElement>) => {
@@ -62,7 +67,17 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
         role="button"
         data-dragging={isDragging}
         data-active={isActive}
-        onClick={() => handleSelectFlag(flagName, category, color, bgOpacity)}
+        onClick={() =>
+          handleSelectFlag(
+            flagName,
+            category,
+            iconName ?? null,
+            color,
+            bgOpacity,
+            svgContent ?? null,
+            id,
+          )
+        }
         className={cn(
           "data-[dragging=true]:bg-white/5 data-[active=true]:bg-white/6 group hover:bg-white/5 flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all select-none",
         )}

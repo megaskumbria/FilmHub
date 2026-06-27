@@ -9,7 +9,7 @@ type FlagItemData = Pick<IFlag, "flagName" | "color" | "bgOpacity" | "fontFamily
 interface Props {
   flagItem: FlagItemData;
   categoryName?: string | null;
-  svgContent?: string;
+  svgContent?: string | null;
 }
 
 export const FlagBadge = ({ flagItem, categoryName, svgContent }: Props) => {
