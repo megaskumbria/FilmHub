@@ -1,4 +1,4 @@
-// Only external feature components are exported; child components are not
+// Features
 export { ThemeToggle } from "./theme-toggle";
 export { LangToggle } from "./lang-toggle";
 export { PosterPreviewActions } from "./poster-preview-actions";
@@ -17,3 +17,4 @@ export { AddMovieCollection } from "./add-movie-collection";
 export { FloatingEditBar } from "./floating-edit-bar";
 export { FloatingCreationFlagBar } from "./floating-creation-flag-bar";
 export { FlagListItem } from "./flag-list-item";
+export { CreateFlagCategory } from "./create-flag-category";

@@ -1,38 +1,15 @@
 "use client";
 
 import { Button, Input, Separator } from "@/shared/ui";
-import {
-  ArrowDownAZ,
-  ArrowUpAZ,
-  CalendarArrowDown,
-  CalendarArrowUp,
-  Plus,
-  Search,
-} from "lucide-react";
+import { ArrowDownAZ, ArrowUpAZ, CalendarArrowDown, CalendarArrowUp, Search } from "lucide-react";
 import { FlagCategoryAccordion } from "./FlagCategoryAccordion";
 import { memo } from "react";
+import { CreateFlagCategory } from "@/features";
 
 export const FlagCategoriesSidebar = memo(() => {
   return (
     <aside className="sticky top-18 w-80 h-fit shrink-0 rounded-xl border border-border/60 bg-surface-subtle flex flex-col overflow-hidden">
-      <div className="px-4 py-3.5 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
-        <div className="flex items-center gap-2.5 mb-3">
-          <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-
-          <span className="text-sm font-semibold text-foreground tracking-wide">
-            Flag categories
-          </span>
-        </div>
-
-        <div className="flex gap-2">
-          <Input variant="neutral" placeholder="Category name..." className="text-sm h-8 flex-1" />
-
-          <Button variant="accent" size="sm" className="shrink-0 rounded-lg text-xs font-medium">
-            <Plus className="size-3.5" />
-            <span>Create</span>
-          </Button>
-        </div>
-      </div>
+      <CreateFlagCategory />
 
       <nav className="px-3 py-2.5 flex flex-col gap-2">
         <div className="relative">

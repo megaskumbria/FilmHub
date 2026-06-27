@@ -185,3 +185,20 @@ export const useDeleteFlag = () => {
     },
   });
 };
+
+export const useCreateFlagCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (categoryName: string) => {
+      const { data } = await apiClient.post<IFlagData>(`${API_URL}/flags/create-category`, {
+        categoryName,
+      });
+      return data;
+    },
+
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["flags"] });
+    },
+  });
+};

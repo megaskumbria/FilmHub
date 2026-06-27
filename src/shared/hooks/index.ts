@@ -31,4 +31,5 @@ export {
   useCreateFlag,
   useEditFlag,
   useDeleteFlag,
+  useCreateFlagCategory,
 } from "./useFlags";
