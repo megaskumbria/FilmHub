@@ -2,6 +2,7 @@ import { apiClient } from "../api/api-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
 import { toast } from "sonner";
+import { SortBy } from "@/widgets/flag-categories-sidebar";
 
 export interface IFlagItem {
   id: string;
@@ -30,12 +31,14 @@ export interface IFlagData {
   updatedAt: string;
 }
 
-export const useGetFlags = () => {
+export const useGetFlags = (searchQuery?: string, sortBy: SortBy = "default") => {
   return useQuery({
-    queryKey: ["flags"],
+    queryKey: ["flags", searchQuery, sortBy],
 
     queryFn: async () => {
-      const { data } = await apiClient.get<IFlagData[]>(`${API_URL}/flags`);
+      const { data } = await apiClient.get<IFlagData[]>(
+        `${API_URL}/flags?search=${searchQuery}&sortBy=${sortBy}`,
+      );
       return data;
     },
 

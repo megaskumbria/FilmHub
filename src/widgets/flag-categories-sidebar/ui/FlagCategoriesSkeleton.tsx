@@ -1,20 +1,24 @@
-import { Skeleton } from "@/shared/ui/skeleton";
+import { cn } from "@/shared/lib/utils";
 
-export const FlagCategoriesSkeleton = () => {
+interface Props {
+  index?: number;
+}
+
+export const FlagCategoriesSkeleton = ({ index = 0 }: Props) => {
+  const widths = ["w-28", "w-20", "w-32", "w-24", "w-16"];
+
   return (
-    <Skeleton className="border-b border-border/40 last:border-0 py-2 px-2 rounded-t-none">
-      <div className="flex items-center gap-2 flex-1 min-w-0">
-        <Skeleton className="w-24 h-5 rounded bg-white/11" />
+    <div className="relative border-b border-border/40 last:border-0 px-2 py-2  flex items-center gap-2 overflow-hidden">
+      <div className="absolute inset-0 animate-shimmer pointer-events-none" />
 
-        <div className="ml-auto flex items-center gap-2 shrink-0">
-          <div className="flex items-center gap-1.5">
-            <Skeleton className="w-6 h-6 rounded bg-white/11 border border-border/40" />
-            <Skeleton className="w-6 h-6 rounded bg-white/11 border border-border/40" />
-          </div>
+      <div className={cn("h-4 rounded-md bg-white/8", widths[index % 5])} />
 
-          <Skeleton className="size-3 rounded bg-white/11 border border-border/40" />
-        </div>
+      <div className="ml-auto flex items-center gap-2 shrink-0">
+        <div className="w-6 h-6 rounded-md bg-white/8 border border-border/30" />
+        <div className="w-6 h-6 rounded bg-white/6 border border-border/30" />
       </div>
-    </Skeleton>
+
+      <div className="w-4 h-4 rounded bg-white/5" />
+    </div>
   );
 };

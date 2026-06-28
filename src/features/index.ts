@@ -19,3 +19,4 @@ export { FloatingCreationFlagBar } from "./floating-creation-flag-bar";
 export { FlagListItem } from "./flag-list-item";
 export { CreateFlagCategory } from "./create-flag-category";
 export { FlagCategoryActions } from "./flag-category-actions";
+export { FlagCategoriesFilter } from "./flag-categories-filter";

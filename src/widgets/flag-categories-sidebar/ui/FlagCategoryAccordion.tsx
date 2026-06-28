@@ -2,15 +2,20 @@
 
 import { Accordion } from "@/shared/ui";
 import { IFlagData, useGetFlags, useUpdateFlagPosition } from "@/shared/hooks";
-import { CategoryItem, FlagCategoriesSkeleton } from "@/widgets/flag-categories-sidebar";
+import { CategoryItem, FlagCategoriesSkeleton, SortBy } from "@/widgets/flag-categories-sidebar";
 import { useEffect, useState } from "react";
 import { isSortable } from "@dnd-kit/react/sortable";
 import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react";
 
-export const FlagCategoryAccordion = () => {
+interface Props {
+  searchQuery: string;
+  sortBy: SortBy;
+}
+
+export const FlagCategoryAccordion = ({ searchQuery, sortBy }: Props) => {
   const [, setLocalFlagsData] = useState<IFlagData[]>([]);
 
-  const { data: flagsData = [], isLoading } = useGetFlags();
+  const { data: flagsData = [], isLoading } = useGetFlags(searchQuery, sortBy);
 
   useEffect(() => setLocalFlagsData(flagsData), [flagsData]);
 
@@ -50,13 +55,11 @@ export const FlagCategoryAccordion = () => {
       {isLoading ?
         Array.from({ length: 5 }).map((_, index) => <FlagCategoriesSkeleton key={index} />)
       : flagsData.length === 0 ?
-        <div className="py-8 text-center text-xs text-zinc-muted">Nothing found</div>
+        <div className="py-24 text-center text-sm text-zinc-muted">Nothing found</div>
       : <Accordion type="multiple">
-          {flagsData.map(({ id, categoryName, flags }) => {
-            return (
-              <CategoryItem key={id} flags={flags} categoryId={id} categoryName={categoryName} />
-            );
-          })}
+          {flagsData.map(({ id, categoryName, flags }) => (
+            <CategoryItem key={id} flags={flags} categoryId={id} categoryName={categoryName} />
+          ))}
         </Accordion>
       }
     </DragDropProvider>
