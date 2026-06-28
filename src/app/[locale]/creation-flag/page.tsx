@@ -21,7 +21,7 @@ export default function CreationFlagPage() {
         </p>
       </div>
 
-      <main className="flex gap-4 items-start">
+      <main className="flex gap-4 items-start w-full">
         <FlagCategoriesSidebar />
 
         <div className="flex-1 min-w-0 grid grid-cols-[minmax(0,1fr)_1fr_auto] gap-4 h-full">

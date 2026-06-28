@@ -8,7 +8,7 @@ import { CreateFlagCategory } from "@/features";
 
 export const FlagCategoriesSidebar = memo(() => {
   return (
-    <aside className="sticky top-18 w-80 h-fit shrink-0 rounded-xl border border-border/60 bg-surface-subtle flex flex-col overflow-hidden">
+    <aside className="sticky top-18 max-w-92 w-full h-fit shrink-0 rounded-xl border border-border/60 bg-surface-subtle flex flex-1 flex-col overflow-hidden">
       <CreateFlagCategory />
 
       <nav className="px-3 py-2.5 flex flex-col gap-2">

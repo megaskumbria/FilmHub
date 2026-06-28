@@ -25,11 +25,14 @@ export { useRandomPoster } from "./useRandomPoster";
 export { useRandomPosterAction } from "./useRandomPosterAction";
 export {
   useGetFlags,
-  type IFlag,
+  type IFlagItem,
   type IFlagData,
   useUpdateFlagPosition,
   useCreateFlag,
   useEditFlag,
   useDeleteFlag,
   useCreateFlagCategory,
+  useDeleteFlagCategory,
+  useRenameFlagCategory,
 } from "./useFlags";
+export { useRenameCategory } from "./useRenameCategory";

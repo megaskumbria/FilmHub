@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
 import { toast } from "sonner";
 
-export interface IFlag {
+export interface IFlagItem {
   id: string;
   flagName: string;
   color: string;
@@ -23,7 +23,7 @@ export interface IFlag {
 export interface IFlagData {
   id: string;
   categoryName: string;
-  flags: IFlag[];
+  flags: IFlagItem[];
   position: number;
   userId: string;
   createdAt: string;
@@ -75,7 +75,7 @@ export const useEditFlag = () => {
 
   return useMutation({
     mutationFn: async ({ flagId, ...editFlagPayload }: IEditFlagArgs) => {
-      const { data } = await apiClient.patch<IFlag>(`${API_URL}/flags/edit-flag/${flagId}`, {
+      const { data } = await apiClient.patch<IFlagItem>(`${API_URL}/flags/edit-flag/${flagId}`, {
         ...editFlagPayload,
       });
       return data;
@@ -99,7 +99,10 @@ export const useCreateFlag = () => {
 
   return useMutation({
     mutationFn: async (createFlagPayload: ICreateFlagArgs) => {
-      const { data } = await apiClient.post<IFlag>(`${API_URL}/flags/create`, createFlagPayload);
+      const { data } = await apiClient.post<IFlagItem>(
+        `${API_URL}/flags/create`,
+        createFlagPayload,
+      );
       return data;
     },
 
@@ -114,7 +117,7 @@ export const useCreateFlag = () => {
           old?.map((category) => {
             if (category.id !== newFlag.categoryId) return category;
 
-            const optimisticFlag: IFlag = {
+            const optimisticFlag: IFlagItem = {
               ...newFlag,
               id: "__optimistic__",
               position: category.flags.length,
@@ -151,7 +154,7 @@ export const useDeleteFlag = () => {
 
   return useMutation({
     mutationFn: async ({ flagId, categoryId }: IDeleteFlagArgs) => {
-      const { data } = await apiClient.delete<IFlag>(`${API_URL}/flags/delete-flag`, {
+      const { data } = await apiClient.delete<IFlagItem>(`${API_URL}/flags/delete-flag`, {
         data: {
           categoryId,
           flagId,
@@ -200,5 +203,64 @@ export const useCreateFlagCategory = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["flags"] });
     },
+  });
+};
+
+export const useDeleteFlagCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (categoryId: string) => {
+      const { data } = await apiClient.delete<IFlagData>(
+        `${API_URL}/flags/delete-category/${categoryId}`,
+      );
+      return data;
+    },
+
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["flags"] });
+    },
+  });
+};
+
+interface IRenameFlagCategoryArgs {
+  categoryId: string;
+  categoryName: string;
+}
+
+export const useRenameFlagCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ categoryId, categoryName }: IRenameFlagCategoryArgs) => {
+      const { data } = await apiClient.patch<IFlagData>(
+        `${API_URL}/flags/rename-category/${categoryId}`,
+        { categoryName },
+      );
+      return data;
+    },
+
+    onMutate: async ({ categoryId, categoryName }) => {
+      await queryClient.cancelQueries({ queryKey: ["flags"] });
+
+      const previousFlags = queryClient.getQueryData<IFlagData[]>(["flags"]);
+
+      queryClient.setQueryData<IFlagData[]>(["flags"], (old) =>
+        old?.map((category) =>
+          category.id === categoryId ? { ...category, categoryName } : category,
+        ),
+      );
+
+      return { previousFlags };
+    },
+
+    onError: (_err, _vars, context) => {
+      queryClient.setQueryData(["flags"], context?.previousFlags);
+      toast.error("Failed to rename category", { position: "bottom-left" });
+    },
+
+    // onSuccess: () => {
+    // void queryClient.invalidateQueries({ queryKey: ["flags"] });
+    // },
   });
 };

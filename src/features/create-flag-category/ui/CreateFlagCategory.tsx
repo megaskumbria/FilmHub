@@ -7,9 +7,11 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/shared/lib/utils";
 import { useCreateFlagCategory } from "@/shared/hooks";
+import axios from "axios";
+import type { IApiErrorMessage } from "@/shared/types/api-error-types";
 
 export const CreateFlagCategory = () => {
-  const { mutate: createFlagCategory, isPending: isCreating } = useCreateFlagCategory();
+  const { mutateAsync: createFlagCategoryAsync, isPending: isCreating } = useCreateFlagCategory();
 
   const form = useForm<CreateCategorySchema>({
     resolver: zodResolver(createCategorySchema),
@@ -21,10 +23,20 @@ export const CreateFlagCategory = () => {
     name: "categoryName",
   });
 
-  const charsCount = categoryName?.length;
+  const charsCount = categoryName?.trim().length;
 
-  const handleSubmitForm = (data: CreateCategorySchema) => {
-    createFlagCategory(data.categoryName, { onSuccess: () => form.reset() });
+  const handleSubmitForm = async (data: CreateCategorySchema) => {
+    const newCategoryName = data.categoryName.trim();
+
+    try {
+      await createFlagCategoryAsync(newCategoryName, { onSuccess: () => form.reset() });
+    } catch (error) {
+      console.error(error);
+
+      if (axios.isAxiosError<IApiErrorMessage>(error)) {
+        form.setError("categoryName", { message: error.response?.data.message });
+      }
+    }
   };
 
   return (

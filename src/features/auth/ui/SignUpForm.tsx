@@ -40,6 +40,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
       onSuccess();
     } catch (e) {
       console.error(e);
+
       if (axios.isAxiosError<IApiErrorMessage>(e)) {
         form.setError("root", { message: e.response?.data.message });
       }

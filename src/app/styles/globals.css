@@ -43,6 +43,10 @@
     --button: #9b56f0;
     --button-hover: #8d4ed9;
 
+    /* Popover */
+    --popover: #18181b;
+    --popover-foreground: #fafafa;
+
     /* Extras */
     --gold: #f59e0b;
     --neutral: #1f2937;
@@ -118,6 +122,8 @@
   --color-success: var(--success);
 
   --color-card: var(--card);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
 
   --color-primary: var(--primary);
 
