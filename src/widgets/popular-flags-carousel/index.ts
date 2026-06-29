@@ -1,4 +1,4 @@
 export { PopularFlagsCarousel } from "./ui/PopularFlagsCarousel";
-export { POPULAR_FLAGS } from "./model/popular-flags-data";
 export { PRESET_PACKS } from "./model/preset-packs-data";
+export { getPackAccentColor, getPackAccentRgb } from "./model/getPackAccentColor";
 export type { IPresetPack } from "./model/preset-packs-data";

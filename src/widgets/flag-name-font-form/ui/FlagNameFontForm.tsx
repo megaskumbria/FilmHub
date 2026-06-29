@@ -13,7 +13,7 @@ import {
   InlineSvg,
   SheetClose,
 } from "@/shared/ui";
-import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
+import { useCreationFlagStore } from "@/features/creation-flag";
 import { useShallow } from "zustand/shallow";
 import { memo } from "react";
 import { FlagIconPicker } from "@/features";
@@ -86,12 +86,14 @@ export const FlagNameFontForm = memo(() => {
           <SheetTrigger asChild>
             <Button
               variant="outline"
-              className="w-full h-9 justify-between px-3 border-border/60 bg-surface text-zinc-muted hover:bg-white/5 hover:text-foreground transition-colors"
+              className="w-full h-12 justify-between px-2 border-border/60 bg-surface text-zinc-muted hover:bg-white/5 hover:text-foreground transition-colors"
             >
-              <div className="flex items-center gap-2">
-                {svgContent ?
-                  <InlineSvg svg={svgContent} className="size-6 shrink-0 text-zinc-muted" />
-                : <IconPhoto className="size-6 shrink-0 text-zinc-muted" />}
+              <div className="flex items-center gap-3">
+                <div className="size-8 rounded-lg bg-surface-subtle border border-border/60 flex items-center justify-center shrink-0">
+                  {svgContent ?
+                    <InlineSvg svg={svgContent} className="size-5 shrink-0 text-zinc-muted" />
+                  : <IconPhoto className="size-5 shrink-0 text-zinc-muted" />}
+                </div>
 
                 <span className="text-sm truncate">{iconName ?? "Choose an icon..."}</span>
               </div>
