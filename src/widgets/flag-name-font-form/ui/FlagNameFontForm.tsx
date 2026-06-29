@@ -34,8 +34,6 @@ export const FlagNameFontForm = memo(() => {
 
   const { iconName, svgContent } = selectedIcon ?? {};
 
-  console.log(iconName);
-
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4 flex-1">
       <div className="flex items-center gap-2">

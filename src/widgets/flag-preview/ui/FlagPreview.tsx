@@ -43,7 +43,7 @@ export const FlagPreview = memo(() => {
         </div>
 
         <div
-          className="inline-flex items-center gap-1.5 p-2 rounded-lg border"
+          className="inline-flex items-center gap-1.5 p-2 rounded-lg border max-h-11.5"
           style={{
             color: selectedColor,
             backgroundColor: selectedColorBg,
@@ -63,7 +63,7 @@ export const FlagPreview = memo(() => {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs text-zinc-muted">Badge style:</span>
+          <span className="text-sm text-zinc-muted">Badge style:</span>
 
           <FlagBadge
             flagItem={{

@@ -39,7 +39,7 @@ export const PosterUploadSection = () => {
       </div>
 
       <div className="flex-1 min-h-0 z-10">
-        <PosterUpload flagPreview disableNavigation={true} media={mediaPreviewInfo} />
+        <PosterUpload flagPreview media={mediaPreviewInfo} />
       </div>
 
       <div className="flex items-center gap-2 z-10 justify-center pt-2">
