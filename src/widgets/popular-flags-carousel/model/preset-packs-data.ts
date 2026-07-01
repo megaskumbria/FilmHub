@@ -4,6 +4,7 @@ export interface IPresetFlagItem {
   color: string;
   bgOpacity: number;
   fontFamily: string;
+  iconName?: string;
 }
 
 export interface IPresetPack {
@@ -29,6 +30,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(148, 163, 184, 1)",
         fontFamily: "Roboto",
         bgOpacity: 0.38,
+        iconName: "zzz",
       },
       {
         id: "302",
@@ -36,6 +38,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(100, 116, 139, 1)",
         fontFamily: "Roboto",
         bgOpacity: 0.38,
+        iconName: "walk",
       },
       {
         id: "303",
@@ -43,6 +46,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(99, 102, 241, 1)",
         fontFamily: "Roboto",
         bgOpacity: 0.38,
+        iconName: "player-play",
       },
       {
         id: "304",
@@ -50,6 +54,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(139, 92, 246, 1)",
         fontFamily: "Roboto",
         bgOpacity: 0.38,
+        iconName: "bolt",
       },
       {
         id: "305",
@@ -57,6 +62,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(217, 70, 239, 1)",
         fontFamily: "Roboto",
         bgOpacity: 0.38,
+        iconName: "rocket",
       },
     ],
   },
@@ -161,6 +167,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(209, 213, 219, 1)",
         fontFamily: "Spectral",
         bgOpacity: 0.38,
+        iconName: "sun",
       },
       {
         id: "317",
@@ -168,6 +175,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(156, 163, 175, 1)",
         fontFamily: "Spectral",
         bgOpacity: 0.38,
+        iconName: "cloud",
       },
       {
         id: "318",
@@ -175,6 +183,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(107, 114, 128, 1)",
         fontFamily: "Spectral",
         bgOpacity: 0.38,
+        iconName: "cloud-rain",
       },
       {
         id: "319",
@@ -182,6 +191,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(75, 85, 99, 1)",
         fontFamily: "Spectral",
         bgOpacity: 0.38,
+        iconName: "storm",
       },
       {
         id: "320",
@@ -189,6 +199,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(100, 116, 139, 1)",
         fontFamily: "Spectral",
         bgOpacity: 0.38,
+        iconName: "moon-stars",
       },
     ],
   },
@@ -205,6 +216,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(209, 213, 219, 1)",
         fontFamily: "Fredoka",
         bgOpacity: 0.38,
+        iconName: "home",
       },
       {
         id: "322",
@@ -212,6 +224,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(253, 186, 116, 1)",
         fontFamily: "Fredoka",
         bgOpacity: 0.38,
+        iconName: "star-half",
       },
       {
         id: "323",
@@ -219,6 +232,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(249, 115, 22, 1)",
         fontFamily: "Fredoka",
         bgOpacity: 0.38,
+        iconName: "skull",
       },
       {
         id: "324",
@@ -226,6 +240,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(234, 88, 12, 1)",
         fontFamily: "Fredoka",
         bgOpacity: 0.38,
+        iconName: "alien",
       },
       {
         id: "325",
@@ -233,6 +248,7 @@ export const PRESET_PACKS: IPresetPack[] = [
         color: "rgba(194, 65, 12, 1)",
         fontFamily: "Fredoka",
         bgOpacity: 0.38,
+        iconName: "confetti",
       },
     ],
   },

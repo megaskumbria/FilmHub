@@ -6,18 +6,18 @@ import { cn } from "@/shared/lib/utils";
 import { FlagBadge } from "@/entities";
 import { PencilLine, Trash2, GripVertical, Loader2 } from "lucide-react";
 import { useSortable } from "@dnd-kit/react/sortable";
-import { useDeleteFlag, type IFlag } from "@/shared/hooks";
+import { useDeleteFlag, type IFlagItem } from "@/shared/hooks";
 import { type MouseEvent } from "react";
 
 interface Props {
-  flagItem: IFlag;
+  flagItem: IFlagItem;
   category: { name: string; id: string };
   isActive: boolean;
   index: number;
 }
 
 export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => {
-  const { flagName, color, bgOpacity, id, svgContent, iconName } = flagItem;
+  const { flagName, color, bgOpacity, id, svgContent, iconName, iconId } = flagItem;
 
   const { ref, isDragging } = useSortable({
     id,
@@ -41,11 +41,11 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
   const handleSelectFlag = (
     flagName: string,
     category: { name: string; id: string },
-    iconName: string | null,
+    iconName: string,
     color: string,
     bgOpacity: number,
-    svgContent: string | null,
-    iconId: string,
+    svgContent: string,
+    iconId: string | null,
   ) => {
     setIsCreatingNew(false);
     setEditingFlagId(id);
@@ -71,11 +71,11 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
           handleSelectFlag(
             flagName,
             category,
-            iconName ?? null,
+            iconName ?? "",
             color,
             bgOpacity,
-            svgContent ?? null,
-            id,
+            svgContent ?? "",
+            iconId ?? null,
           )
         }
         className={cn(

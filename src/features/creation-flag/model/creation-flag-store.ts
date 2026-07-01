@@ -6,7 +6,11 @@ interface LastSnapshotFlag {
   selectedColor: string;
   bgOpacity: number;
   selectedFont: string;
-  selectedIcon: { iconName: string | null; svgContent: string | null; iconId: string } | null;
+  selectedIcon: {
+    iconName: string | null;
+    svgContent: string | null;
+    iconId: string | null;
+  } | null;
   category: { name: string; id: string };
   isCreatingNew: boolean;
 }
@@ -24,9 +28,17 @@ interface Store {
   category: { name: string; id: string };
   setCategory: (category: { name: string; id: string }) => void;
 
-  selectedIcon: { iconName: string | null; svgContent: string | null; iconId: string } | null;
+  selectedIcon: {
+    iconName: string | null;
+    svgContent: string | null;
+    iconId: string | null;
+  } | null;
   setSelectedIcon: (
-    selectedIcon: { iconName: string | null; svgContent: string | null; iconId: string } | null,
+    selectedIcon: {
+      iconName: string | null;
+      svgContent: string | null;
+      iconId: string | null;
+    } | null,
   ) => void;
 
   selectedFont: string;

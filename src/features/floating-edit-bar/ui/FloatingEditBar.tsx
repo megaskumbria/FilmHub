@@ -60,6 +60,7 @@ export const FloatingEditBar = ({
           >
             {selectedCountsMedia}
           </span>
+
           <span> / {totalCountsMedia}</span>
         </div>
 
