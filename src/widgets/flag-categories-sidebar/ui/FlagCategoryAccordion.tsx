@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const FlagCategoryAccordion = ({ searchQuery, sortBy }: Props) => {
-  const [, setLocalFlagsData] = useState<IFlagData[]>([]);
+  const [localFlagsData, setLocalFlagsData] = useState<IFlagData[]>([]);
 
   const { data: flagsData = [], isLoading } = useGetFlags(searchQuery, sortBy);
 
@@ -54,10 +54,10 @@ export const FlagCategoryAccordion = ({ searchQuery, sortBy }: Props) => {
     <DragDropProvider onDragEnd={handleDragEnd}>
       {isLoading ?
         Array.from({ length: 5 }).map((_, index) => <FlagCategoriesSkeleton key={index} />)
-      : flagsData.length === 0 ?
+      : localFlagsData.length === 0 ?
         <div className="py-24 text-center text-sm text-zinc-muted">Nothing found</div>
       : <Accordion type="multiple">
-          {flagsData.map(({ id, categoryName, flags }) => (
+          {localFlagsData.map(({ id, categoryName, flags }) => (
             <CategoryItem key={id} flags={flags} categoryId={id} categoryName={categoryName} />
           ))}
         </Accordion>

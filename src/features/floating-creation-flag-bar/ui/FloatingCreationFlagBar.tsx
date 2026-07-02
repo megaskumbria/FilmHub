@@ -4,9 +4,16 @@ import { cn } from "@/shared/lib/utils";
 import { Button, Separator } from "@/shared/ui";
 import { Save, X } from "lucide-react";
 import { useCreateFlag, useEditFlag } from "@/shared/hooks";
-import { useCreationFlagStore } from "@/features/creation-flag";
+import { type ILastSnapshotFlag, useCreationFlagStore } from "@/features/creation-flag";
+import { useState, useEffect } from "react";
 
 export const FloatingCreationFlagBar = () => {
+  const [currentEditFlag, setCurrentEditFlag] = useState<Omit<
+    ILastSnapshotFlag,
+    "isCreatingNew"
+  > | null>(null);
+  const [hasChanges, setHasChanges] = useState(false);
+
   const { mutate: createFlag, isPending: isCreating } = useCreateFlag();
   const { mutate: editFlag, isPending: isUpdating } = useEditFlag();
 
@@ -54,6 +61,34 @@ export const FloatingCreationFlagBar = () => {
     }
   };
 
+  useEffect(() => {
+    setHasChanges(false);
+    setCurrentEditFlag({
+      flagName,
+      selectedColor,
+      bgOpacity,
+      selectedFont,
+      selectedIcon,
+      category,
+    });
+  }, [editingFlagId, isCreatingNew]);
+
+  useEffect(() => {
+    if (!currentEditFlag) return;
+
+    const changed =
+      flagName !== currentEditFlag.flagName
+      || selectedColor !== currentEditFlag.selectedColor
+      || bgOpacity !== currentEditFlag.bgOpacity
+      || selectedFont !== currentEditFlag.selectedFont
+      || selectedIcon?.iconId !== currentEditFlag.selectedIcon?.iconId
+      || category.id !== currentEditFlag.category.id;
+
+    setHasChanges(changed);
+  }, [flagName, selectedColor, bgOpacity, selectedFont, selectedIcon, category, currentEditFlag]);
+
+  const shouldDisabled = hasEnoughData && hasChanges;
+
   return (
     <div
       className={cn(
@@ -80,15 +115,15 @@ export const FloatingCreationFlagBar = () => {
         <Button
           onClick={handleSaveFlag}
           disabled={isPending}
-          variant={hasEnoughData ? "accent" : "outline"}
+          variant={shouldDisabled ? "accent" : "outline"}
           size="default"
           className={cn(
             "h-8 px-4 rounded-lg gap-1.5 text-sm select-none active:scale-95 duration-200 transition-transform",
-            !hasEnoughData && "opacity-50 pointer-events-none",
+            !shouldDisabled && "opacity-50 pointer-events-none",
           )}
         >
           <Save className="size-3.5 shrink-0" />
-          <span>Save flag</span>
+          <span>{!isCreatingNew ? "Save changes" : "Save flag"}</span>
         </Button>
 
         <Separator orientation="vertical" className="h-4" />

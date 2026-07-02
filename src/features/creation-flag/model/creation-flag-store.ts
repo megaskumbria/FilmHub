@@ -1,7 +1,7 @@
 import { PRESET_COLORS } from "@/features/flag-color-picker/model/preset-colors";
 import { create } from "zustand";
 
-interface LastSnapshotFlag {
+export interface ILastSnapshotFlag {
   flagName: string;
   selectedColor: string;
   bgOpacity: number;
@@ -53,7 +53,7 @@ interface Store {
   editingFlagId: string | null;
   setEditingFlagId: (id: string | null) => void;
 
-  lastSnapshotFlag: LastSnapshotFlag | null;
+  lastSnapshotFlag: ILastSnapshotFlag | null;
   cancelCreationFlag: () => void;
 }
 
