@@ -1,81 +1,65 @@
-import { PRESET_COLORS } from "@/features/flag-color-picker/model/preset-colors";
+import { PRESET_COLORS } from "@/features/flag-color-picker";
 import { create } from "zustand";
 
-export interface ILastSnapshotFlag {
-  flagName: string;
-  selectedColor: string;
-  bgOpacity: number;
-  selectedFont: string;
-  selectedIcon: {
-    iconName: string | null;
-    svgContent: string | null;
-    iconId: string | null;
-  } | null;
-  category: { name: string; id: string };
-  isCreatingNew: boolean;
+interface Category {
+  name: string;
+  id: string;
 }
 
-interface Store {
+interface SelectedIcon {
+  iconName: string | null;
+  svgContent: string | null;
+  iconId: string | null;
+}
+
+export interface FlagDraft {
   flagName: string;
-  setFlagName: (flagName: string, color: string) => void;
-
   selectedColor: string;
-  setSelectedColor: (selectedColor: string) => void;
-
   bgOpacity: number;
-  setBgOpacity: (bgOpacity: number) => void;
-
-  category: { name: string; id: string };
-  setCategory: (category: { name: string; id: string }) => void;
-
-  selectedIcon: {
-    iconName: string | null;
-    svgContent: string | null;
-    iconId: string | null;
-  } | null;
-  setSelectedIcon: (
-    selectedIcon: {
-      iconName: string | null;
-      svgContent: string | null;
-      iconId: string | null;
-    } | null,
-  ) => void;
-
   selectedFont: string;
-  setSelectedFont: (selectedFont: string) => void;
+  selectedIcon: SelectedIcon | null;
+  category: Category;
+}
+
+interface Ui {
+  isCreatingNew: boolean;
+  editingFlagId: string | null;
+}
+
+export type LastSnapshotFlag = Pick<Store, "flag" | "ui">; // ?
+
+interface Store {
+  flag: FlagDraft;
+  ui: Ui;
 
   presetColors: string[];
   addPresetColor: (color: string) => void;
 
-  isCreatingNew: boolean;
-  setIsCreatingNew: (val: boolean) => void;
+  updateStateFlag: (data: Partial<Store["flag"]>) => void;
+  updateStateUi: (data: Partial<Store["ui"]>) => void;
 
-  editingFlagId: string | null;
-  setEditingFlagId: (id: string | null) => void;
-
-  lastSnapshotFlag: ILastSnapshotFlag | null;
+  lastSnapshotFlag: LastSnapshotFlag | null;
   cancelCreationFlag: () => void;
 }
 
 export const useCreationFlagStore = create<Store>((set) => {
   return {
-    flagName: "New flag",
-    setFlagName: (flagName, color) => set({ flagName, selectedColor: color }),
+    lastSnapshotFlag: null,
 
-    selectedColor: "rgba(139, 92, 246, 1)",
-    setSelectedColor: (selectedColor) => set({ selectedColor }),
+    flag: {
+      flagName: "New flag",
+      selectedColor: "rgba(139, 92, 246, 1)",
+      bgOpacity: 0.38,
+      selectedFont: "Manrope",
+      selectedIcon: null,
+      category: { name: "", id: "" },
+    },
 
-    bgOpacity: 0.38,
-    setBgOpacity: (bgOpacity) => set({ bgOpacity }),
+    ui: { isCreatingNew: false, editingFlagId: null },
 
-    category: { name: "", id: "" },
-    setCategory: (category) => set({ category }),
+    updateStateFlag: (data) => set((state) => ({ flag: { ...state.flag, ...data } })),
 
-    selectedIcon: null,
-    setSelectedIcon: (selectedIcon) => set({ selectedIcon }),
-
-    selectedFont: "Manrope",
-    setSelectedFont: (selectedFont) => set({ selectedFont }),
+    updateStateUi: (data) => set((state) => ({ ui: { ...state.ui, ...data } })),
 
     presetColors: PRESET_COLORS,
     addPresetColor: (color) =>
@@ -84,13 +68,6 @@ export const useCreationFlagStore = create<Store>((set) => {
           state.presetColors.includes(color) ? state.presetColors : [...state.presetColors, color],
       })),
 
-    isCreatingNew: false,
-    setIsCreatingNew: (val) => set({ isCreatingNew: val }),
-
-    editingFlagId: null,
-    setEditingFlagId: (id) => set({ editingFlagId: id }),
-
-    lastSnapshotFlag: null,
     cancelCreationFlag: () =>
       set((state) => {
         setTimeout(() => {
@@ -99,23 +76,26 @@ export const useCreationFlagStore = create<Store>((set) => {
 
         return {
           lastSnapshotFlag: {
-            flagName: state.flagName,
-            selectedColor: state.selectedColor,
-            bgOpacity: state.bgOpacity,
-            selectedFont: state.selectedFont,
-            selectedIcon: state.selectedIcon,
-            category: state.category,
-            isCreatingNew: state.isCreatingNew,
+            flag: state.flag,
+            ui: state.ui,
           },
 
-          isCreatingNew: false,
-          editingFlagId: null,
-          flagName: "",
-          selectedColor: PRESET_COLORS[0],
-          bgOpacity: 0.38,
-          selectedFont: "Manrope",
-          selectedIcon: null,
-          category: { name: "", id: "" },
+          flag: {
+            flagName: "",
+            selectedColor: PRESET_COLORS[0],
+            bgOpacity: 0.38,
+            selectedFont: "Manrope",
+            selectedIcon: null,
+            category: {
+              name: "",
+              id: "",
+            },
+          },
+
+          ui: {
+            isCreatingNew: false,
+            editingFlagId: null,
+          },
         };
       }),
   };

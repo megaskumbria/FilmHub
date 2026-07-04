@@ -4,30 +4,28 @@ import { Button, Label, Popover, PopoverContent, PopoverTrigger } from "@/shared
 import { cn } from "@/shared/lib/utils";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { Pipette } from "lucide-react";
-import { useShallow } from "zustand/shallow";
 import { memo, useEffect, useState } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
 import { useThrottle } from "@/shared/hooks";
 import { OpacitySlider } from "@/features/opacity-slider";
+import { useShallow } from "zustand/shallow";
 
 export const FlagColorPicker = memo(() => {
-  const { selectedColor, setSelectedColor, presetColors } = useCreationFlagStore(
+  const { flag, presetColors, updateStateFlag } = useCreationFlagStore(
     useShallow((state) => ({
-      selectedColor: state.selectedColor,
-      setSelectedColor: state.setSelectedColor,
+      flag: state.flag,
       presetColors: state.presetColors,
-      bgOpacity: state.bgOpacity,
-      setBgOpacity: state.setBgOpacity,
+      updateStateFlag: state.updateStateFlag,
     })),
   );
+
+  const { selectedColor } = flag;
 
   const [tempColor, setTempColor] = useState(selectedColor);
 
   const throttledColor = useThrottle(tempColor, 50);
 
-  useEffect(() => {
-    setSelectedColor(throttledColor);
-  }, [throttledColor]);
+  useEffect(() => updateStateFlag({ selectedColor: throttledColor }), [throttledColor]);
 
   return (
     <div className="max-w-120 rounded-xl border border-border/60 bg-surface-subtle p-4 h-full">
@@ -98,7 +96,7 @@ export const FlagColorPicker = memo(() => {
           {presetColors.map((color) => (
             <Button
               key={color}
-              onClick={() => setSelectedColor(color)}
+              onClick={() => updateStateFlag({ selectedColor: color })}
               title={color}
               className={cn(
                 "size-8 rounded-lg border-2 transition-all cursor-pointer hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",

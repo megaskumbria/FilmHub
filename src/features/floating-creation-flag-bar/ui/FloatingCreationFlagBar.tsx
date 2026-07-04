@@ -4,47 +4,46 @@ import { cn } from "@/shared/lib/utils";
 import { Button, Separator } from "@/shared/ui";
 import { Save, X } from "lucide-react";
 import { useCreateFlag, useEditFlag } from "@/shared/hooks";
-import { type ILastSnapshotFlag, useCreationFlagStore } from "@/features/creation-flag";
+import { type FlagDraft, useCreationFlagStore } from "@/features/creation-flag";
 import { useState, useEffect } from "react";
+import { useShallow } from "zustand/shallow";
 
 export const FloatingCreationFlagBar = () => {
-  const [currentEditFlag, setCurrentEditFlag] = useState<Omit<
-    ILastSnapshotFlag,
-    "isCreatingNew"
-  > | null>(null);
+  const [currentEditFlag, setCurrentEditFlag] = useState<FlagDraft | null>(null);
   const [hasChanges, setHasChanges] = useState(false);
 
   const { mutate: createFlag, isPending: isCreating } = useCreateFlag();
   const { mutate: editFlag, isPending: isUpdating } = useEditFlag();
 
-  const {
-    flagName,
-    selectedColor,
-    bgOpacity,
-    selectedFont,
-    selectedIcon,
-    category,
-    isCreatingNew,
-    editingFlagId,
-    cancelCreationFlag,
-    lastSnapshotFlag,
-  } = useCreationFlagStore();
+  const { flag, ui, cancelCreationFlag, lastSnapshotFlag } = useCreationFlagStore(
+    useShallow((state) => ({
+      flag: state.flag,
+      ui: state.ui,
+      cancelCreationFlag: state.cancelCreationFlag,
+      lastSnapshotFlag: state.lastSnapshotFlag,
+    })),
+  );
+
+  const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } = flag;
+  const { isCreatingNew, editingFlagId } = ui;
 
   const isVisible = isCreatingNew || editingFlagId !== null;
   const isPending = isCreating || isUpdating;
 
-  const displayFlagName = isVisible ? flagName : (lastSnapshotFlag?.flagName ?? "");
-  const displaySelectedColor = isVisible ? selectedColor : lastSnapshotFlag?.selectedColor;
-  const displaySelectedFont = isVisible ? selectedFont : lastSnapshotFlag?.selectedFont;
+  const displayFlagName = isVisible ? flagName : (lastSnapshotFlag?.flag.flagName ?? "");
+  const displaySelectedColor = isVisible ? selectedColor : lastSnapshotFlag?.flag.selectedColor;
+  const displaySelectedFont = isVisible ? selectedFont : lastSnapshotFlag?.flag.selectedFont;
 
   const hasEnoughData =
     displayFlagName.length > 0 && Boolean(displaySelectedColor) && Boolean(displaySelectedFont);
 
-  const displayName = isVisible ? flagName : lastSnapshotFlag?.flagName;
+  const displayName = isVisible ? flagName : lastSnapshotFlag?.flag.flagName;
 
-  const displayIsCreatingNew = isVisible ? isCreatingNew : lastSnapshotFlag?.isCreatingNew;
+  const displayIsCreatingNew = isVisible ? isCreatingNew : lastSnapshotFlag?.ui.isCreatingNew;
 
   const handleSaveFlag = () => {
+    if (!category.id) return;
+
     const payload = {
       flagName,
       color: selectedColor,

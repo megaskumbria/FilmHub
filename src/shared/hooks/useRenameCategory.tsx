@@ -28,7 +28,7 @@ export const useRenameCategory = () => {
     const originalName = prevCategoryNameRef.current;
     const newCategoryName = editingCategoryName.trim();
 
-    const isSameName = originalName && originalName === newCategoryName;
+    const isSameName = originalName === newCategoryName;
 
     if (!isSameName) {
       await renameCategoryAsync({ categoryId, categoryName: newCategoryName });

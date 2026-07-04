@@ -20,17 +20,14 @@ import { FlagIconPicker } from "@/features";
 import { IconPhoto, IconChevronsLeft } from "@tabler/icons-react";
 
 export const FlagNameFontForm = memo(() => {
-  const { flagName, selectedFont, selectedColor, selectedIcon, setFlagName, setSelectedFont } =
-    useCreationFlagStore(
-      useShallow((state) => ({
-        flagName: state.flagName,
-        selectedFont: state.selectedFont,
-        selectedColor: state.selectedColor,
-        selectedIcon: state.selectedIcon,
-        setFlagName: state.setFlagName,
-        setSelectedFont: state.setSelectedFont,
-      })),
-    );
+  const { flag, updateStateFlag } = useCreationFlagStore(
+    useShallow((state) => ({
+      flag: state.flag,
+      updateStateFlag: state.updateStateFlag,
+    })),
+  );
+
+  const { flagName, selectedFont, selectedIcon } = flag;
 
   const { iconName, svgContent } = selectedIcon ?? {};
 
@@ -52,7 +49,7 @@ export const FlagNameFontForm = memo(() => {
           className="h-9 text-sm"
           maxLength={30}
           value={flagName}
-          onChange={(e) => setFlagName(e.target.value, selectedColor)}
+          onChange={(e) => updateStateFlag({ flagName: e.target.value })}
         />
 
         <div className="flex items-center justify-between gap-2">
@@ -72,7 +69,10 @@ export const FlagNameFontForm = memo(() => {
           Font
         </Label>
 
-        <FontPicker value={selectedFont} onChange={(family) => setSelectedFont(family)} />
+        <FontPicker
+          value={selectedFont}
+          onChange={(family) => updateStateFlag({ selectedFont: family })}
+        />
 
         <p className="text-xs text-zinc-muted/50">Selected: {selectedFont}</p>
       </div>

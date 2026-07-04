@@ -17,12 +17,14 @@ export const FlagIconPicker = memo(() => {
   const [searchQuery, setSearchQuery] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { selectedIcon, setSelectedIcon } = useCreationFlagStore(
+  const { flag, updateStateFlag } = useCreationFlagStore(
     useShallow((state) => ({
-      selectedIcon: state.selectedIcon,
-      setSelectedIcon: state.setSelectedIcon,
+      flag: state.flag,
+      updateStateFlag: state.updateStateFlag,
     })),
   );
+
+  const { selectedIcon } = flag;
 
   const debouncedSearch = useDebounce(searchQuery, 300);
 
@@ -52,6 +54,12 @@ export const FlagIconPicker = memo(() => {
   const virtualRows = virtualizer.getVirtualItems();
 
   const { iconName, svgContent } = selectedIcon ?? {};
+
+  const handleSelectIcon = (name: string, svgContent: string, id: string) => {
+    updateStateFlag({
+      selectedIcon: iconName === name ? null : { iconName: name, svgContent, iconId: id },
+    });
+  };
 
   return (
     <section className="flex flex-1 flex-col min-h-0 p-4">
@@ -102,11 +110,7 @@ export const FlagIconPicker = memo(() => {
                 {rowIcons.map(({ id, iconName: name, svgContent }) => (
                   <Button
                     key={id}
-                    onClick={() =>
-                      setSelectedIcon(
-                        iconName === name ? null : { iconName: name, svgContent, iconId: id },
-                      )
-                    }
+                    onClick={() => handleSelectIcon(name, svgContent, id)}
                     className={cn(
                       "flex items-center justify-center w-9 h-9 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
                       iconName === name ?

@@ -52,6 +52,8 @@ interface IUpdateFlagPositionArgs {
 }
 
 export const useUpdateFlagPosition = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async ({ categoryId, flagIds }: IUpdateFlagPositionArgs) => {
       const { data } = await apiClient.patch<IFlagData>(`${API_URL}/flags/reorder`, {
@@ -60,6 +62,8 @@ export const useUpdateFlagPosition = () => {
       });
       return data;
     },
+
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
   });
 };
 
@@ -141,9 +145,7 @@ export const useCreateFlag = () => {
       toast.error("Failed to create flag", { position: "bottom-left" });
     },
 
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["flags"] });
-    },
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
   });
 };
 
@@ -186,9 +188,7 @@ export const useDeleteFlag = () => {
       toast.error("Failed to delete flag", { position: "bottom-left" });
     },
 
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["flags"] });
-    },
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
   });
 };
 
@@ -220,9 +220,7 @@ export const useDeleteFlagCategory = () => {
       return data;
     },
 
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["flags"] });
-    },
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
   });
 };
 
@@ -243,27 +241,11 @@ export const useRenameFlagCategory = () => {
       return data;
     },
 
-    onMutate: async ({ categoryId, categoryName }) => {
-      await queryClient.cancelQueries({ queryKey: ["flags"] });
-
-      const previousFlags = queryClient.getQueryData<IFlagData[]>(["flags"]);
-
-      queryClient.setQueryData<IFlagData[]>(["flags"], (old) =>
-        old?.map((category) =>
-          category.id === categoryId ? { ...category, categoryName } : category,
-        ),
-      );
-
-      return { previousFlags };
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["flags"],
+        refetchType: "active",
+      });
     },
-
-    onError: (_err, _vars, context) => {
-      queryClient.setQueryData(["flags"], context?.previousFlags);
-      toast.error("Failed to rename category", { position: "bottom-left" });
-    },
-
-    // onSuccess: () => {
-    // void queryClient.invalidateQueries({ queryKey: ["flags"] });
-    // },
   });
 };

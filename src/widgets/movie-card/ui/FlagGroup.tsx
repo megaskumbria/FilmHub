@@ -21,17 +21,13 @@ export const FlagGroup = ({
   showCategories = true,
   isPreview = false,
 }: Props) => {
-  const { category, selectedColor, selectedFont, selectedIcon, flagName, bgOpacity } =
-    useCreationFlagStore(
-      useShallow((state) => ({
-        category: state.category,
-        selectedColor: state.selectedColor,
-        selectedFont: state.selectedFont,
-        selectedIcon: state.selectedIcon,
-        flagName: state.flagName,
-        bgOpacity: state.bgOpacity,
-      })),
-    );
+  const { flag } = useCreationFlagStore(
+    useShallow((state) => ({
+      flag: state.flag,
+    })),
+  );
+
+  const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } = flag;
 
   const { svgContent } = selectedIcon ?? {};
 

@@ -6,13 +6,14 @@ import { RotateCcw } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 
 export const OpacitySlider = () => {
-  const { selectedColor, bgOpacity, setBgOpacity } = useCreationFlagStore(
+  const { flag, updateStateFlag } = useCreationFlagStore(
     useShallow((state) => ({
-      selectedColor: state.selectedColor,
-      bgOpacity: state.bgOpacity,
-      setBgOpacity: state.setBgOpacity,
+      flag: state.flag,
+      updateStateFlag: state.updateStateFlag,
     })),
   );
+
+  const { selectedColor, bgOpacity } = flag;
 
   const isModified = Math.round(bgOpacity * 100) !== Math.round(FLAG_BACKGROUND_ALPHA * 100);
 
@@ -27,7 +28,7 @@ export const OpacitySlider = () => {
         <div className="flex items-center gap-1.5">
           <Button
             size="icon"
-            onClick={() => setBgOpacity(FLAG_BACKGROUND_ALPHA)}
+            onClick={() => updateStateFlag({ bgOpacity: FLAG_BACKGROUND_ALPHA })}
             className={cn(
               "size-6 rounded-md text-zinc-muted transition-all justify-center",
               isModified ?
@@ -63,7 +64,7 @@ export const OpacitySlider = () => {
           max={100}
           step={1}
           value={[Math.round(bgOpacity * 100)]}
-          onValueChange={([val]) => setBgOpacity(val / 100)}
+          onValueChange={([val]) => updateStateFlag({ bgOpacity: val / 100 })}
           className="**:data-[slot=slider-track]:bg-transparent **:data-[slot=slider-range]:bg-transparent **:data-[slot=slider-thumb]:border-2 **:data-[slot=slider-thumb]:border-(--flag-color)"
           style={{ "--flag-color": selectedColor } as React.CSSProperties}
         />

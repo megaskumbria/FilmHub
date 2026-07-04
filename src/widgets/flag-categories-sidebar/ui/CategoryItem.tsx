@@ -9,6 +9,7 @@ import { type IFlagItem, useRenameCategory } from "@/shared/hooks";
 import { FlagBadge } from "@/entities";
 import { useCreationFlagStore } from "@/features/creation-flag";
 import { type MouseEvent } from "react";
+import { useShallow } from "zustand/shallow";
 
 interface Props {
   flags: IFlagItem[];
@@ -17,22 +18,20 @@ interface Props {
 }
 
 export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
-  const {
-    setCategory,
-    setFlagName,
-    flagName,
-    presetColors,
-    selectedColor,
-    bgOpacity,
-    selectedFont,
-    selectedIcon,
-    isCreatingNew,
-    editingFlagId,
-    category,
-    setIsCreatingNew,
-    setEditingFlagId,
-    cancelCreationFlag,
-  } = useCreationFlagStore();
+  const { flag, ui, presetColors, updateStateFlag, updateStateUi, cancelCreationFlag } =
+    useCreationFlagStore(
+      useShallow((state) => ({
+        flag: state.flag,
+        ui: state.ui,
+        presetColors: state.presetColors,
+        updateStateFlag: state.updateStateFlag,
+        updateStateUi: state.updateStateUi,
+        cancelCreationFlag: state.cancelCreationFlag,
+      })),
+    );
+
+  const { flagName, selectedColor, bgOpacity, selectedFont, selectedIcon, category } = flag;
+  const { isCreatingNew, editingFlagId } = ui;
 
   const {
     editingCategoryName,
@@ -70,17 +69,19 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
     if (trigger?.getAttribute("data-state") === "open") e.stopPropagation();
 
     const isSameCategory =
-      isCreatingNew && category.id === useCreationFlagStore.getState().category.id;
+      isCreatingNew && category.id === useCreationFlagStore.getState().flag.category.id;
 
     if (isSameCategory) {
       cancelCreationFlag();
       return;
     }
 
-    setFlagName("", presetColors[0]);
-    setCategory(category);
-    setIsCreatingNew(true);
-    setEditingFlagId(null);
+    updateStateFlag({
+      flagName: "",
+      selectedColor: presetColors[0],
+      category: { name: category.name, id: category.id },
+    });
+    updateStateUi({ isCreatingNew: true, editingFlagId: null });
   };
 
   return (

@@ -8,6 +8,7 @@ import { PencilLine, Trash2, GripVertical, Loader2 } from "lucide-react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { useDeleteFlag, type IFlagItem } from "@/shared/hooks";
 import { type MouseEvent } from "react";
+import { useShallow } from "zustand/shallow";
 
 interface Props {
   flagItem: IFlagItem;
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => {
-  const { flagName, color, bgOpacity, id, svgContent, iconName, iconId } = flagItem;
+  const { flagName, color, bgOpacity, id, svgContent, iconName, iconId, fontFamily } = flagItem;
 
   const { ref, isDragging } = useSortable({
     id,
@@ -26,15 +27,13 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
     accept: [category.id],
   });
 
-  const {
-    setCategory,
-    setFlagName,
-    addPresetColor,
-    setBgOpacity,
-    setIsCreatingNew,
-    setEditingFlagId,
-    setSelectedIcon,
-  } = useCreationFlagStore();
+  const { addPresetColor, updateStateFlag, updateStateUi } = useCreationFlagStore(
+    useShallow((state) => ({
+      addPresetColor: state.addPresetColor,
+      updateStateFlag: state.updateStateFlag,
+      updateStateUi: state.updateStateUi,
+    })),
+  );
 
   const { mutate: deleteFlag, isPending: isDeleting } = useDeleteFlag();
 
@@ -46,14 +45,18 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
     bgOpacity: number,
     svgContent: string,
     iconId: string | null,
+    fontFamily: string,
   ) => {
-    setIsCreatingNew(false);
-    setEditingFlagId(id);
+    updateStateUi({ isCreatingNew: false, editingFlagId: id });
     addPresetColor(color);
-    setFlagName(flagName, color);
-    setCategory(category);
-    setBgOpacity(bgOpacity);
-    setSelectedIcon({ iconName, svgContent, iconId });
+    updateStateFlag({
+      flagName,
+      selectedColor: color,
+      bgOpacity,
+      selectedFont: fontFamily,
+      selectedIcon: { iconName, svgContent, iconId },
+      category,
+    });
   };
 
   const handleDeleteFlag = (e: MouseEvent<HTMLButtonElement>) => {
@@ -76,6 +79,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
             bgOpacity,
             svgContent ?? "",
             iconId ?? null,
+            fontFamily,
           )
         }
         className={cn(

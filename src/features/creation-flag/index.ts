@@ -1,1 +1,5 @@
-export { useCreationFlagStore, type ILastSnapshotFlag } from "./model/creation-flag-store";
+export {
+  useCreationFlagStore,
+  type LastSnapshotFlag,
+  type FlagDraft,
+} from "./model/creation-flag-store";
