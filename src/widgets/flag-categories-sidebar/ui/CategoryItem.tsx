@@ -84,6 +84,8 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
     updateStateUi({ isCreatingNew: true, editingFlagId: null });
   };
 
+  const isMaxLength = editingCategoryName.length >= 25 && isEditing;
+
   return (
     <AccordionItem
       key={categoryId}
@@ -94,23 +96,27 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
         <AccordionPrimitive.Trigger asChild>
           <div
             data-slot="accordion-trigger"
-            className="cursor-pointer flex items-center flex-1 min-w-0 group/trigger max-h-10 rounded-none px-2 py-2 text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground "
+            className="cursor-pointer flex items-center flex-1 min-w-0 group/trigger rounded-none px-2 py-2 text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground "
           >
-            <Input
-              ref={renameInputRef}
-              value={editingCategoryName}
-              onChange={(e) => setEditingCategoryName(e.target.value)}
-              onBlur={() => void handleConfirmRename(categoryId)}
-              onKeyDown={(e) => handleRenameKeyDown(e, categoryId)}
-              onClick={(e) => e.stopPropagation()}
-              className={cn(
-                "flex-1 min-w-0 bg-transparent border-0 pl-0 rounded-none outline-none text-sm h-8 text-foreground py-0 pr-1",
-                isEditing ? "block" : "hidden",
-              )}
-              maxLength={30}
-            />
+            <div className="flex flex-col w-full">
+              <Input
+                ref={renameInputRef}
+                value={editingCategoryName}
+                onBlur={() => void handleConfirmRename(categoryId)}
+                onKeyDown={(e) => handleRenameKeyDown(e, categoryId)}
+                onChange={(e) => setEditingCategoryName(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+                className={cn(
+                  "flex-1 min-w-0 bg-transparent border-0 pl-0 rounded-none outline-none text-sm h-8 text-foreground py-0 pr-1",
+                  isEditing ? "block" : "hidden",
+                )}
+                maxLength={25}
+              />
 
-            <span className={cn(!isEditing ? "block" : "hidden")}>{categoryName}</span>
+              {isMaxLength && <span className="text-xs text-destructive">Max length reached</span>}
+
+              <span className={cn(!isEditing ? "block" : "hidden")}>{categoryName}</span>
+            </div>
 
             <div className="ml-auto flex items-center gap-1.5 shrink-0">
               <FlagCategoryActions
