@@ -13,7 +13,7 @@ import {
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { CreateCollection } from "@/features";
-import { ICollection } from "@/shared/hooks";
+import { Collection } from "@/shared/hooks";
 
 const TOTAL_FOLDERS = 10;
 const USED_FOLDERS = 7;
@@ -21,7 +21,7 @@ const USED_FOLDERS = 7;
 interface Props {
   children: ReactNode;
   isEditing: boolean;
-  initialData?: ICollection;
+  initialData?: Collection;
 }
 
 export function CreateCollectionModal({ children, isEditing, initialData }: Props) {

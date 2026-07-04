@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { useRef, useState } from "react";
 import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
-import { IMedia } from "@/shared/stores/movie-catalog";
+import { Media } from "@/shared/stores/movie-catalog";
 import { useLocale } from "next-intl";
 import { renderBlocks } from "../lib/render-blocks";
 import { AddMovieCollection, SetMovieFlags } from "@/features";
@@ -15,7 +15,7 @@ import { cn } from "@/shared/lib/utils";
 export type PopoverMode = "add-flag" | "add-collection" | "edit-collection";
 
 interface Props {
-  media: IMedia;
+  media: Media;
   layout: Layout;
   blockOptions: BlockOptions;
   shouldShowAddButton?: boolean;

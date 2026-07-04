@@ -2,13 +2,13 @@ import { DialogHeader, DialogTitle, DialogClose } from "@/shared/ui";
 import { formatUsageCount } from "@/shared/lib";
 import { Crown, Users, X } from "lucide-react";
 import {
-  IPresetPack,
+  PresetPack,
   getPackAccentColor,
   getPackAccentRgb,
 } from "@/widgets/popular-flags-carousel";
 
 interface Props {
-  pack: IPresetPack;
+  pack: PresetPack;
 }
 
 export const PresetPackModalHeader = ({ pack }: Props) => {

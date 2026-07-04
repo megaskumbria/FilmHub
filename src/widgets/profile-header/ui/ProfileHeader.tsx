@@ -4,13 +4,13 @@ import { ImagePlus, Share2, Pencil, BookOpen, Film, Users, Star, LucideIcon } fr
 import { InstagramIcon, TelegramIcon } from "@/shared/icons";
 import { FollowersSheet } from "@/widgets/followers-sheet";
 
-interface IStat {
+interface Stat {
   label: string;
   value: string;
   Icon: LucideIcon;
 }
 
-const stats: IStat[] = [
+const stats: Stat[] = [
   { label: "Collections", value: "17", Icon: BookOpen },
   { label: "Films", value: "248", Icon: Film },
   { label: "Followers", value: "1.2K", Icon: Users },

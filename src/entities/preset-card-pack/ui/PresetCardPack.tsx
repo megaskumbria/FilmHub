@@ -1,6 +1,6 @@
 import { Button } from "@/shared/ui";
 import {
-  IPresetPack,
+  PresetPack,
   getPackAccentColor,
   getPackAccentRgb,
 } from "@/widgets/popular-flags-carousel";
@@ -11,7 +11,7 @@ import { formatUsageCount } from "@/shared/lib";
 import { MouseEvent } from "react";
 
 interface Props {
-  pack: IPresetPack;
+  pack: PresetPack;
 }
 
 export const PresetCardPack = ({ pack }: Props) => {

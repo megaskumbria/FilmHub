@@ -6,14 +6,14 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MovieInfoPanel, PosterCarousel } from "@/widgets";
 import { useMovie } from "@/shared/hooks";
-import { IBackdrop } from "@/shared/hooks/useMedia";
+import { Backdrop } from "@/shared/hooks/useMedia";
 import { Button } from "@/shared/ui";
 import { Eye, EyeOff } from "lucide-react";
 import { MediaType } from "@/shared/stores/movie-catalog";
 import { useSearchParams } from "next/navigation";
 
 export default function MoviePage() {
-  const [selectedPoster, setSelectedPoster] = useState<IBackdrop | null>(null);
+  const [selectedPoster, setSelectedPoster] = useState<Backdrop | null>(null);
   const [isUiHidden, setIsUiHidden] = useState(false);
   const searchParams = useSearchParams();
 

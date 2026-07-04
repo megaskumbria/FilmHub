@@ -5,7 +5,7 @@ import { Button } from "@/shared/ui/button";
 import { CreateCollectionModal } from "@/widgets/create-folder-modal";
 import { DeleteFolderModal } from "@/features/delete-folder-modal";
 import { Loader2, Settings, Trash2 } from "lucide-react";
-import { ICollection, useDeleteCollection } from "@/shared/hooks";
+import { Collection, useDeleteCollection } from "@/shared/hooks";
 import { toast } from "sonner";
 import { useSkipDeleteConfirm } from "@/shared/hooks";
 
@@ -13,7 +13,7 @@ interface Props {
   name: string;
   isHovered: boolean;
   isMyProfile: boolean;
-  collection: ICollection;
+  collection: Collection;
 }
 
 export const FolderMetaBar = ({ collection, name, isHovered, isMyProfile }: Props) => {

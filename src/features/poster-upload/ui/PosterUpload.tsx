@@ -1,12 +1,12 @@
 import { MovieCardPlaceholder } from "@/widgets/movie-card-settings";
 import { MediaCard } from "@/widgets/movie-card";
 import { BlockOptions, useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import { IMedia } from "@/shared/stores/movie-catalog";
+import { Media } from "@/shared/stores/movie-catalog";
 
 interface Props {
   flagPreview?: boolean;
   disableNavigation?: boolean;
-  media: IMedia | null;
+  media: Media | null;
 }
 
 export const PosterUpload = ({ flagPreview = false, disableNavigation = false, media }: Props) => {

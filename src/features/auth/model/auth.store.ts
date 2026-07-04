@@ -2,34 +2,34 @@ import { create } from "zustand";
 import { API_URL } from "@/shared/constants/constants";
 import { apiClient } from "@/shared/api/api-client";
 
-export interface ISignUpData {
+export interface SignUpData {
   username: string;
   email: string;
   password: string;
 }
 
-export interface ISignInData {
+export interface SignInData {
   email: string;
   password: string;
 }
 
-export interface IUser {
+export interface User {
   username: string | null;
   email: string | null;
   id: string | null;
 }
 
-interface IAuthResponse {
-  user: IUser;
+interface AuthResponse {
+  user: User;
   accessToken: string;
 }
 
 interface AuthStore {
-  user: IUser;
-  setUser: (user: IUser) => void;
+  user: User;
+  setUser: (user: User) => void;
 
-  signUp: (data: ISignUpData) => Promise<void>;
-  signIn: (data: ISignInData) => Promise<void>;
+  signUp: (data: SignUpData) => Promise<void>;
+  signIn: (data: SignInData) => Promise<void>;
   isLoading: boolean;
 
   logout: () => void;
@@ -37,13 +37,13 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>((set) => ({
   user: { username: null, email: null, id: null },
-  setUser: ({ username, email, id }: IUser) => set({ user: { username, email, id } }),
+  setUser: ({ username, email, id }: User) => set({ user: { username, email, id } }),
   isLoading: false,
 
-  signUp: async (data: ISignUpData) => {
+  signUp: async (data: SignUpData) => {
     try {
       set({ isLoading: true });
-      const response = await apiClient.post<IAuthResponse>(`${API_URL}/auth/register`, data);
+      const response = await apiClient.post<AuthResponse>(`${API_URL}/auth/register`, data);
 
       const { username, email, id } = response.data.user;
       set({ user: { username, email, id }, isLoading: false });
@@ -52,10 +52,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
     }
   },
 
-  signIn: async (data: ISignInData) => {
+  signIn: async (data: SignInData) => {
     try {
       set({ isLoading: true });
-      const response = await apiClient.post<IAuthResponse>(`${API_URL}/auth/login`, data);
+      const response = await apiClient.post<AuthResponse>(`${API_URL}/auth/login`, data);
 
       const { username, email, id } = response.data.user;
       set({ user: { username, email, id }, isLoading: false });

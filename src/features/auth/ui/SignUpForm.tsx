@@ -18,7 +18,7 @@ import { GoogleIcon } from "@/shared/icons";
 import { signUpSchema, type SignUpSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
 import axios from "axios";
-import { IApiErrorMessage } from "@/shared/types/api-error-types";
+import { ApiErrorMessage } from "@/shared/types/api-error-types";
 
 interface Props {
   onSuccess: () => void;
@@ -41,7 +41,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
     } catch (e) {
       console.error(e);
 
-      if (axios.isAxiosError<IApiErrorMessage>(e)) {
+      if (axios.isAxiosError<ApiErrorMessage>(e)) {
         form.setError("root", { message: e.response?.data.message });
       }
     }

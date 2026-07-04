@@ -5,14 +5,14 @@ import { FlagListItem, FlagCategoryActions } from "@/features";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Input, AccordionItem, AccordionContent } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
-import { type IFlagItem, useRenameCategory } from "@/shared/hooks";
+import { type FlagItem, useRenameCategory } from "@/shared/hooks";
 import { FlagBadge } from "@/entities";
 import { useCreationFlagStore } from "@/features/creation-flag";
 import { type MouseEvent } from "react";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
-  flags: IFlagItem[];
+  flags: FlagItem[];
   categoryId: string;
   categoryName: string;
 }

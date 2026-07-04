@@ -1,4 +1,4 @@
-import { IMedia } from "@/shared/stores/movie-catalog";
+import { Media } from "@/shared/stores/movie-catalog";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 import { BlockPlacement } from "../model/cardBlocksMap";
 import { cardBlocksMap } from "../model/cardBlocksMap";
@@ -7,7 +7,7 @@ import { BlockOptions } from "@/shared/stores/movie-card-layout";
 
 interface Props {
   keys: BlockKey[];
-  media: IMedia;
+  media: Media;
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;

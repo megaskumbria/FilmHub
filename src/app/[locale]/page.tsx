@@ -12,7 +12,7 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { mockMovies, type IMovieCardData } from "@/shared/model/movies";
+import { mockMovies, type MovieCardData } from "@/shared/model/movies";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -32,7 +32,7 @@ interface CollectionCardData {
   rating: number;
   views: string;
   likes: number;
-  movies: IMovieCardData[];
+  movies: MovieCardData[];
 }
 
 // Stack visual constants
@@ -54,7 +54,7 @@ const hoveredPositions = [
 ] as const;
 
 interface StackPosterProps {
-  movie: IMovieCardData;
+  movie: MovieCardData;
   isTop: boolean;
   filmsCount: number;
   rating: number;

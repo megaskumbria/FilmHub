@@ -20,7 +20,7 @@ import { Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from "recharts";
 // Mock data — in production this comes from the API
 // ---------------------------------------------------------------------------
 
-interface IUserMovie {
+interface UserMovie {
   id: number;
   title: string;
   genres: string[];
@@ -29,7 +29,7 @@ interface IUserMovie {
   addedAt: string; // ISO date
 }
 
-const userMovies: IUserMovie[] = [
+const userMovies: UserMovie[] = [
   {
     id: 1,
     title: "The Last House on the Left",
@@ -266,7 +266,7 @@ const yearlyData = (() => {
 // Taste evolution — derived from data
 // ---------------------------------------------------------------------------
 
-interface IEvolutionPeriod {
+interface EvolutionPeriod {
   label: string;
   topGenres: string[];
   avgRating: number;
@@ -279,7 +279,7 @@ function pluralFilms(n: number): string {
   return n === 1 ? "film" : "films";
 }
 
-function computePeriods(movies: IUserMovie[]): IEvolutionPeriod[] {
+function computePeriods(movies: UserMovie[]): EvolutionPeriod[] {
   const sorted = [...movies].sort((a, b) => a.addedAt.localeCompare(b.addedAt));
   const chunkSize = Math.ceil(sorted.length / 4);
   const labels = ["Start", "Period 2", "Period 3", "Now"];
@@ -365,7 +365,7 @@ const ratingShift = { before: 6.8, after: 8.1 };
 
 type ArchetypeKey = "intellectual" | "escapist" | "emotional" | "tension" | "explorer";
 
-interface IArchetype {
+interface Archetype {
   key: ArchetypeKey;
   title: string;
   description: string;
@@ -374,7 +374,7 @@ interface IArchetype {
   bg: string;
 }
 
-const ARCHETYPES: Record<ArchetypeKey, IArchetype> = {
+const ARCHETYPES: Record<ArchetypeKey, Archetype> = {
   intellectual: {
     key: "intellectual",
     title: "Intellectual explorer",
@@ -419,7 +419,7 @@ const ARCHETYPES: Record<ArchetypeKey, IArchetype> = {
   },
 };
 
-function computeArchetype(movies: IUserMovie[]): IArchetype {
+function computeArchetype(movies: UserMovie[]): Archetype {
   const recent = [...movies]
     .sort((a, b) => b.addedAt.localeCompare(a.addedAt))
     .slice(0, Math.ceil(movies.length * 0.4));
@@ -480,7 +480,7 @@ const favoriteDecade = (() => {
   return Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "—";
 })();
 
-// Top country (mock — country is not stored on IUserMovie)
+// Top country (mock — country is not stored on UserMovie)
 const topCountry = { name: "USA", count: 10 };
 
 const CustomPieTooltip = ({

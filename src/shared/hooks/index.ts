@@ -15,7 +15,7 @@ export {
   useAddMediaToCollection,
   useGetMediaCollection,
   useDeleteMediaFromCollection,
-  type ICollection,
+  type Collection,
 } from "./useCollection";
 export { useSkipDeleteConfirm, setSkipDeleteConfirm } from "./useSkipDeleteConfirm";
 export { useDeferredLoading } from "./useDeferredLoading";
@@ -25,8 +25,8 @@ export { useRandomPoster } from "./useRandomPoster";
 export { useRandomPosterAction } from "./useRandomPosterAction";
 export {
   useGetFlags,
-  type IFlagItem,
-  type IFlagData,
+  type FlagItem,
+  type FlagData,
   useUpdateFlagPosition,
   useCreateFlag,
   useEditFlag,

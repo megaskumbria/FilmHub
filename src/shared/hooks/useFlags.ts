@@ -4,7 +4,7 @@ import { API_URL } from "../constants/constants";
 import { toast } from "sonner";
 import { SortBy } from "@/widgets/flag-categories-sidebar";
 
-export interface IFlagItem {
+export interface FlagItem {
   id: string;
   flagName: string;
   color: string;
@@ -21,10 +21,10 @@ export interface IFlagItem {
   svgContent?: string | null;
 }
 
-export interface IFlagData {
+export interface FlagData {
   id: string;
   categoryName: string;
-  flags: IFlagItem[];
+  flags: FlagItem[];
   position: number;
   userId: string;
   createdAt: string;
@@ -36,7 +36,7 @@ export const useGetFlags = (searchQuery?: string, sortBy: SortBy = "default") =>
     queryKey: ["flags", searchQuery, sortBy],
 
     queryFn: async () => {
-      const { data } = await apiClient.get<IFlagData[]>(
+      const { data } = await apiClient.get<FlagData[]>(
         `${API_URL}/flags?search=${searchQuery}&sortBy=${sortBy}`,
       );
       return data;
@@ -46,7 +46,7 @@ export const useGetFlags = (searchQuery?: string, sortBy: SortBy = "default") =>
   });
 };
 
-interface IUpdateFlagPositionArgs {
+interface UpdateFlagPositionArgs {
   categoryId: string;
   flagIds: string[];
 }
@@ -55,8 +55,8 @@ export const useUpdateFlagPosition = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ categoryId, flagIds }: IUpdateFlagPositionArgs) => {
-      const { data } = await apiClient.patch<IFlagData>(`${API_URL}/flags/reorder`, {
+    mutationFn: async ({ categoryId, flagIds }: UpdateFlagPositionArgs) => {
+      const { data } = await apiClient.patch<FlagData>(`${API_URL}/flags/reorder`, {
         categoryId,
         flagIds,
       });
@@ -67,7 +67,7 @@ export const useUpdateFlagPosition = () => {
   });
 };
 
-interface IEditFlagArgs {
+interface EditFlagArgs {
   flagId: string;
   flagName: string;
   color: string;
@@ -81,8 +81,8 @@ export const useEditFlag = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ flagId, ...editFlagPayload }: IEditFlagArgs) => {
-      const { data } = await apiClient.patch<IFlagItem>(`${API_URL}/flags/edit-flag/${flagId}`, {
+    mutationFn: async ({ flagId, ...editFlagPayload }: EditFlagArgs) => {
+      const { data } = await apiClient.patch<FlagItem>(`${API_URL}/flags/edit-flag/${flagId}`, {
         ...editFlagPayload,
       });
       return data;
@@ -92,7 +92,7 @@ export const useEditFlag = () => {
   });
 };
 
-interface ICreateFlagArgs {
+interface CreateFlagArgs {
   flagName: string;
   color: string;
   bgOpacity: number;
@@ -105,26 +105,23 @@ export const useCreateFlag = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (createFlagPayload: ICreateFlagArgs) => {
-      const { data } = await apiClient.post<IFlagItem>(
-        `${API_URL}/flags/create`,
-        createFlagPayload,
-      );
+    mutationFn: async (createFlagPayload: CreateFlagArgs) => {
+      const { data } = await apiClient.post<FlagItem>(`${API_URL}/flags/create`, createFlagPayload);
       return data;
     },
 
     onMutate: async (newFlag) => {
       await queryClient.cancelQueries({ queryKey: ["flags"] });
 
-      const previousFlags = queryClient.getQueryData<IFlagData[]>(["flags"]);
+      const previousFlags = queryClient.getQueryData<FlagData[]>(["flags"]);
 
-      queryClient.setQueryData<IFlagData[]>(
+      queryClient.setQueryData<FlagData[]>(
         ["flags"],
         (old) =>
           old?.map((category) => {
             if (category.id !== newFlag.categoryId) return category;
 
-            const optimisticFlag: IFlagItem = {
+            const optimisticFlag: FlagItem = {
               ...newFlag,
               id: "__optimistic__",
               position: category.flags.length,
@@ -149,7 +146,7 @@ export const useCreateFlag = () => {
   });
 };
 
-interface IDeleteFlagArgs {
+interface DeleteFlagArgs {
   flagId: string;
   categoryId: string;
 }
@@ -158,8 +155,8 @@ export const useDeleteFlag = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ flagId, categoryId }: IDeleteFlagArgs) => {
-      const { data } = await apiClient.delete<IFlagItem>(`${API_URL}/flags/delete-flag`, {
+    mutationFn: async ({ flagId, categoryId }: DeleteFlagArgs) => {
+      const { data } = await apiClient.delete<FlagItem>(`${API_URL}/flags/delete-flag`, {
         data: {
           categoryId,
           flagId,
@@ -171,9 +168,9 @@ export const useDeleteFlag = () => {
     onMutate: async ({ flagId }) => {
       await queryClient.cancelQueries({ queryKey: ["flags"] });
 
-      const previousFlags = queryClient.getQueryData<IFlagData[]>(["flags"]);
+      const previousFlags = queryClient.getQueryData<FlagData[]>(["flags"]);
 
-      queryClient.setQueryData<IFlagData[]>(["flags"], (old) =>
+      queryClient.setQueryData<FlagData[]>(["flags"], (old) =>
         old?.map((category) => ({
           ...category,
           flags: category.flags.filter((flag) => flag.id !== flagId),
@@ -197,7 +194,7 @@ export const useCreateFlagCategory = () => {
 
   return useMutation({
     mutationFn: async (categoryName: string) => {
-      const { data } = await apiClient.post<IFlagData>(`${API_URL}/flags/create-category`, {
+      const { data } = await apiClient.post<FlagData>(`${API_URL}/flags/create-category`, {
         categoryName,
       });
       return data;
@@ -214,7 +211,7 @@ export const useDeleteFlagCategory = () => {
 
   return useMutation({
     mutationFn: async (categoryId: string) => {
-      const { data } = await apiClient.delete<IFlagData>(
+      const { data } = await apiClient.delete<FlagData>(
         `${API_URL}/flags/delete-category/${categoryId}`,
       );
       return data;
@@ -224,7 +221,7 @@ export const useDeleteFlagCategory = () => {
   });
 };
 
-interface IRenameFlagCategoryArgs {
+interface RenameFlagCategoryArgs {
   categoryId: string;
   categoryName: string;
 }
@@ -233,8 +230,8 @@ export const useRenameFlagCategory = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ categoryId, categoryName }: IRenameFlagCategoryArgs) => {
-      const { data } = await apiClient.patch<IFlagData>(
+    mutationFn: async ({ categoryId, categoryName }: RenameFlagCategoryArgs) => {
+      const { data } = await apiClient.patch<FlagData>(
         `${API_URL}/flags/rename-category/${categoryId}`,
         { categoryName },
       );

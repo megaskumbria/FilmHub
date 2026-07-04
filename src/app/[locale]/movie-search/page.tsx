@@ -1,7 +1,7 @@
 import { MovieCatalogToolbar, MovieGrid } from "@/widgets";
 import axios from "axios";
 import { API_URL } from "@/shared/constants/constants";
-import { IMediaData } from "@/shared/stores/movie-catalog";
+import { MediaData } from "@/shared/stores/movie-catalog";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 export default async function MovieSearchPage() {
@@ -11,7 +11,7 @@ export default async function MovieSearchPage() {
     // TODO thinking how to write cleanly
     queryKey: ["media", "all", "", "", "", "", ""],
     queryFn: async () => {
-      const { data } = await axios.get<IMediaData>(`${API_URL}/movies?type=movie&page=1`);
+      const { data } = await axios.get<MediaData>(`${API_URL}/movies?type=movie&page=1`);
       return data;
     },
     initialPageParam: 1,

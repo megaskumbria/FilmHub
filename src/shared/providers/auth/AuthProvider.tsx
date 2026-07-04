@@ -2,7 +2,7 @@
 import { ReactNode, useEffect } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
 
-interface IUser {
+interface User {
   sub: string;
   email: string;
   username: string;
@@ -10,7 +10,7 @@ interface IUser {
 
 interface Props {
   children: ReactNode;
-  initialUser: IUser | null;
+  initialUser: User | null;
 }
 
 export const AuthProvider = ({ children, initialUser }: Props) => {

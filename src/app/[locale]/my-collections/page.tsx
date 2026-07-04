@@ -3,13 +3,13 @@ import { MyCollectionsClient } from "./MyCollectionsClient";
 // import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 // import axios from "axios";
 // import { API_URL } from "@/shared/constants/constants";
-// import { ICollection } from "@/shared/hooks/useCollection";
-// import { IUser } from "@/features/auth/model/auth.store";
+// import { Collection } from "@/shared/hooks/useCollection";
+// import { User } from "@/features/auth/model/auth.store";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { API_URL } from "@/shared/constants/constants";
-import { ICollection } from "@/shared/hooks/useCollection";
-// import { IMedia } from "@/shared/stores/movie-catalog";
+import { Collection } from "@/shared/hooks/useCollection";
+// import { Media } from "@/shared/stores/movie-catalog";
 
 interface AccessTokenPayload {
   sub: string;
@@ -45,7 +45,7 @@ export default async function MyCollectionsPage() {
   }
 
   if (validToken) {
-    const collectionsRes = await axios.get<ICollection[]>(`${API_URL}/collection`, {
+    const collectionsRes = await axios.get<Collection[]>(`${API_URL}/collection`, {
       headers: { Cookie: `accessToken=${validToken}` },
     });
 
@@ -61,7 +61,7 @@ export default async function MyCollectionsPage() {
   // let userId = "";
 
   // if (validToken) {
-  //   const { data: me } = await axios.get<IUser>(`${API_URL}/auth/me`, {
+  //   const { data: me } = await axios.get<User>(`${API_URL}/auth/me`, {
   //     headers: { Cookie: `accessToken=${validToken}` },
   //   });
   //   userId = me.id ?? "";
@@ -70,21 +70,21 @@ export default async function MyCollectionsPage() {
   //     queryKey: ["collection", userId],
 
   //     queryFn: async () => {
-  //       const { data } = await axios.get<ICollection[]>(`${API_URL}/collection`, {
+  //       const { data } = await axios.get<Collection[]>(`${API_URL}/collection`, {
   //         headers: { Cookie: `accessToken=${validToken}` },
   //       });
   //       return data;
   //     },
   //   });
 
-  //   const collections = queryClient.getQueryData<ICollection[]>(["collection", userId]);
+  //   const collections = queryClient.getQueryData<Collection[]>(["collection", userId]);
   //   const firstCollectionId = collections?.[0]?.id;
 
   //   if (firstCollectionId) {
   //     await queryClient.prefetchQuery({
   //       queryKey: ["media-collection", firstCollectionId],
   //       queryFn: async () => {
-  //         const { data } = await axios.get<IMedia[]>(
+  //         const { data } = await axios.get<Media[]>(
   //           `${API_URL}/collection/items/${firstCollectionId}`,
   //           { headers: { Cookie: `accessToken=${validToken}` } },
   //         );

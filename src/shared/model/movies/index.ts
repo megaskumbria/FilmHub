@@ -1,1 +1,1 @@
-export { mockMovies, type IMovieCardData } from "./mockMovie";
+export { mockMovies, type MovieCardData } from "./mockMovie";

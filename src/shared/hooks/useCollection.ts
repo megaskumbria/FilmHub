@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
 import { CreateCollectionSchema } from "@/features/create-folder/model/create-collection-schema";
 import { apiClient } from "../api/api-client";
-import { IMedia, MediaType } from "../stores/movie-catalog";
+import { Media, MediaType } from "../stores/movie-catalog";
 
-export interface ICollection {
+export interface Collection {
   id: string;
   collectionName: string;
   iconName: string;
@@ -25,7 +25,7 @@ export const useCollection = (userId: string, mediaId?: number) => {
   return useQuery({
     queryKey: ["collection", userId, mediaId],
     queryFn: async () => {
-      const { data } = await apiClient.get<ICollection[]>(
+      const { data } = await apiClient.get<Collection[]>(
         `${API_URL}/collection?mediaId=${mediaId}`,
       );
       return data;
@@ -40,7 +40,7 @@ export const useCreateCollection = () => {
 
   return useMutation({
     mutationFn: async (data: CreateCollectionSchema) => {
-      const { data: response } = await apiClient.post<ICollection>(
+      const { data: response } = await apiClient.post<Collection>(
         `${API_URL}/collection/create`,
         data,
       );
@@ -48,7 +48,7 @@ export const useCreateCollection = () => {
       return response;
     },
     onSuccess: (newCollection) => {
-      queryClient.setQueriesData<ICollection[]>(
+      queryClient.setQueriesData<Collection[]>(
         { queryKey: ["collection", newCollection.userId] },
         (old) => [...(old ?? []), newCollection],
       );
@@ -61,7 +61,7 @@ export const useEditCollection = () => {
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: CreateCollectionSchema }) => {
-      const { data: response } = await apiClient.patch<ICollection>(
+      const { data: response } = await apiClient.patch<Collection>(
         `${API_URL}/collection/edit/${id}`,
         data,
       );
@@ -69,7 +69,7 @@ export const useEditCollection = () => {
       return response;
     },
     onSuccess: (updatedCollection) => {
-      queryClient.setQueriesData<ICollection[]>(
+      queryClient.setQueriesData<Collection[]>(
         { queryKey: ["collection", updatedCollection.userId] },
         (old) => old?.map((c) => (c.id === updatedCollection.id ? updatedCollection : c)),
       );
@@ -82,7 +82,7 @@ export const useDeleteCollection = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { data: response } = await apiClient.delete<ICollection>(
+      const { data: response } = await apiClient.delete<Collection>(
         `${API_URL}/collection/delete/${id}`,
       );
 
@@ -126,7 +126,7 @@ export const useGetMediaCollection = (collectionId: string) => {
     queryKey: ["media-collection", collectionId],
 
     queryFn: async () => {
-      const { data: response } = await apiClient.get<IMedia[]>(
+      const { data: response } = await apiClient.get<Media[]>(
         `${API_URL}/collection/items/${collectionId}`,
       );
       return response;
@@ -152,7 +152,7 @@ export const useDeleteMediaFromCollection = () => {
     },
 
     onSuccess: (_, { collectionId, mediaIds }) => {
-      queryClient.setQueryData<IMedia[]>(["media-collection", collectionId], (old) =>
+      queryClient.setQueryData<Media[]>(["media-collection", collectionId], (old) =>
         old?.filter((o) => !mediaIds.includes(o.id)),
       );
       void queryClient.invalidateQueries({ queryKey: ["collection"] });

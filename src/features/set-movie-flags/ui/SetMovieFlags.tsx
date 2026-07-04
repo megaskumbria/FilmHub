@@ -17,15 +17,15 @@ import Link from "next/link";
 import { HelpCircle, Plus, Search } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { useState } from "react";
-import { type IFlagItem, useGetFlags } from "@/shared/hooks";
+import { type FlagItem, useGetFlags } from "@/shared/hooks";
 import { FlagBadge } from "@/entities";
 
 export const SetMovieFlags = () => {
-  const [selectedFlags, setSelectedFlags] = useState<Record<string, IFlagItem>>({});
+  const [selectedFlags, setSelectedFlags] = useState<Record<string, FlagItem>>({});
 
   const { data: flagsData = [] } = useGetFlags();
 
-  const handleSelectFlag = (category: string, value: string, flagItems: IFlagItem[]) => {
+  const handleSelectFlag = (category: string, value: string, flagItems: FlagItem[]) => {
     const flag = flagItems.find((flag) => flag.id.toString() === value);
 
     if (!flag) return;

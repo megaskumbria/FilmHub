@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/api-client";
 import { API_URL } from "../constants/constants";
 
-interface IIcon {
+interface Icon {
   id: string;
   iconName: string;
   style: "filled" | "outlined";
@@ -11,8 +11,8 @@ interface IIcon {
   category: string | null;
 }
 
-interface IDataIcons {
-  data: IIcon[];
+interface DataIcons {
+  data: Icon[];
   total: number;
   page: number;
   limit: number;
@@ -24,7 +24,7 @@ export const useInfiniteIcons = (limit: number, searchQuery?: string) => {
     queryKey: ["icons", limit, searchQuery],
 
     queryFn: async ({ pageParam = 1, signal }) => {
-      const { data } = await apiClient.get<IDataIcons>(
+      const { data } = await apiClient.get<DataIcons>(
         `${API_URL}/icons?page=${pageParam}&limit=${limit}&search=${searchQuery}`,
         { signal },
       );

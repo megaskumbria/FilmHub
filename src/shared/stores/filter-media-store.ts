@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { IGenre } from "@/shared/hooks/useGenres";
-import { ICountry } from "../hooks/useCountries";
+import { Genre } from "@/shared/hooks/useGenres";
+import { Country } from "../hooks/useCountries";
 
 export type FilterSortType = "rating" | "newest" | "oldest" | "az" | "za" | "";
 export type FilterYearType =
@@ -12,8 +12,8 @@ export type FilterYearType =
   | "";
 
 interface FilterMediaStore {
-  selectedGenre: IGenre;
-  setSelectedGenre: ({ id, name }: IGenre) => void;
+  selectedGenre: Genre;
+  setSelectedGenre: ({ id, name }: Genre) => void;
 
   selectedYear: FilterYearType;
   setSelectedYear: (year: FilterYearType) => void;
@@ -21,8 +21,8 @@ interface FilterMediaStore {
   selectedSort: FilterSortType;
   setSelectedSort: (sort: FilterSortType) => void;
 
-  selectedCountry: ICountry;
-  setSelectedCountry: ({ iso31661, englishName, nativeName }: ICountry) => void;
+  selectedCountry: Country;
+  setSelectedCountry: ({ iso31661, englishName, nativeName }: Country) => void;
 
   searchQuery: string;
   setSearchQuery: (searchQuery: string) => void;
@@ -33,7 +33,7 @@ interface FilterMediaStore {
 
 export const useFilterMedia = create<FilterMediaStore>((set) => ({
   selectedGenre: { id: "", name: "" },
-  setSelectedGenre: ({ id, name }: IGenre) => set({ selectedGenre: { id, name } }),
+  setSelectedGenre: ({ id, name }: Genre) => set({ selectedGenre: { id, name } }),
 
   selectedYear: "",
   setSelectedYear: (selectedYear) => set({ selectedYear }),
@@ -42,7 +42,7 @@ export const useFilterMedia = create<FilterMediaStore>((set) => ({
   setSelectedSort: (selectedSort) => set({ selectedSort }),
 
   selectedCountry: { iso31661: "", englishName: "", nativeName: "" },
-  setSelectedCountry: ({ iso31661, englishName, nativeName }: ICountry) =>
+  setSelectedCountry: ({ iso31661, englishName, nativeName }: Country) =>
     set({ selectedCountry: { iso31661, englishName, nativeName } }),
 
   searchQuery: "",

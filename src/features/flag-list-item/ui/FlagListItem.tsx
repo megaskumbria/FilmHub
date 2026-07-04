@@ -6,12 +6,12 @@ import { cn } from "@/shared/lib/utils";
 import { FlagBadge } from "@/entities";
 import { PencilLine, Trash2, GripVertical, Loader2 } from "lucide-react";
 import { useSortable } from "@dnd-kit/react/sortable";
-import { useDeleteFlag, type IFlagItem } from "@/shared/hooks";
+import { useDeleteFlag, type FlagItem } from "@/shared/hooks";
 import { type MouseEvent } from "react";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
-  flagItem: IFlagItem;
+  flagItem: FlagItem;
   category: { name: string; id: string };
   isActive: boolean;
   index: number;

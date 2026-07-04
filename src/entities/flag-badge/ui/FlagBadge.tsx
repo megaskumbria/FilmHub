@@ -1,10 +1,10 @@
 "use client";
 
 import { flagSoftBackground } from "@/shared/lib";
-import { IFlagItem } from "@/shared/hooks";
+import { FlagItem } from "@/shared/hooks";
 import { InlineSvg } from "@/shared/ui";
 
-type FlagItemData = Pick<IFlagItem, "flagName" | "color" | "bgOpacity" | "fontFamily">;
+type FlagItemData = Pick<FlagItem, "flagName" | "color" | "bgOpacity" | "fontFamily">;
 
 interface Props {
   flagItem: FlagItemData;

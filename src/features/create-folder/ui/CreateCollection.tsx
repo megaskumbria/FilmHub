@@ -10,12 +10,12 @@ import { DialogClose, Button, Form } from "@/shared/ui";
 import { useForm } from "react-hook-form";
 import { createCollectionSchema, CreateCollectionSchema } from "../model/create-collection-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ICollection, useCreateCollection, useEditCollection } from "@/shared/hooks";
+import { Collection, useCreateCollection, useEditCollection } from "@/shared/hooks";
 import { cn } from "@/shared/lib/utils";
 
 interface Props {
   onSuccess: () => void;
-  initialData?: ICollection;
+  initialData?: Collection;
 }
 
 export const CreateCollection = ({ onSuccess, initialData }: Props) => {

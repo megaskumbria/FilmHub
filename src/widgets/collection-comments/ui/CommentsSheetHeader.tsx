@@ -7,12 +7,12 @@ import { motion } from "framer-motion";
 
 export type SortMode = "new" | "old" | "popular";
 
-interface ICommentTabItem {
+interface CommentTabItem {
   value: SortMode;
   label: string;
 }
 
-const TABS: ICommentTabItem[] = [
+const TABS: CommentTabItem[] = [
   { value: "new", label: "Newest" },
   { value: "old", label: "Oldest" },
   { value: "popular", label: "Popular" },
@@ -23,7 +23,7 @@ interface CommentsSheetHeaderProps {
 }
 
 export const CommentsSheetHeader = ({ totalCount }: CommentsSheetHeaderProps) => {
-  const [activeTab, setActiveTab] = useState<ICommentTabItem["value"]>("new");
+  const [activeTab, setActiveTab] = useState<CommentTabItem["value"]>("new");
 
   return (
     <header className="flex items-center justify-between gap-2 px-5 py-3.5 border-b border-border shrink-0">

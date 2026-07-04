@@ -3,37 +3,37 @@ import axios from "axios";
 import { API_URL } from "../constants/constants";
 import { MediaType } from "../stores/movie-catalog";
 
-export interface IGenre {
+export interface Genre {
   id: number;
   name: string;
 }
 
-export interface ICollection {
+export interface Collection {
   id: number;
   name: string;
   posterPath: string | null;
   backdropPath: string | null;
 }
 
-export interface IProductionCompany {
+export interface ProductionCompany {
   id: number;
   logoPath: string | null;
   name: string;
   originCountry: string;
 }
 
-export interface IProductionCountry {
+export interface ProductionCountry {
   iso31661: string;
   name: string;
 }
 
-export interface ISpokenLanguage {
+export interface SpokenLanguage {
   englishName: string;
   iso6391: string;
   name: string;
 }
 
-export interface ICastMember {
+export interface CastMember {
   id: number;
   name: string;
   character: string;
@@ -43,7 +43,7 @@ export interface ICastMember {
   knownForDepartment: string;
 }
 
-export interface IBackdrop {
+export interface Backdrop {
   filePath: string;
   width: number;
   height: number;
@@ -51,16 +51,16 @@ export interface IBackdrop {
   url: string | null;
 }
 
-export interface IMovieCredits {
-  cast: ICastMember[];
+export interface MovieCredits {
+  cast: CastMember[];
 }
 
-export interface IMovieImages {
-  backdrops: IBackdrop[];
-  posters: IBackdrop[];
+export interface MovieImages {
+  backdrops: Backdrop[];
+  posters: Backdrop[];
 }
 
-export interface IVideoResult {
+export interface VideoResult {
   id: string;
   iso6391?: string;
   iso31661?: string;
@@ -73,11 +73,11 @@ export interface IVideoResult {
   type: string;
 }
 
-export interface IMediaVideos {
-  results: IVideoResult[];
+export interface MediaVideos {
+  results: VideoResult[];
 }
 
-export interface ITvCreator {
+export interface TvCreator {
   id: number;
   creditId: string;
   name: string;
@@ -85,7 +85,7 @@ export interface ITvCreator {
   profilePath: string | null;
 }
 
-export interface ITvNetwork {
+export interface TvNetwork {
   id: number;
   logoPath: string | null;
   name: string;
@@ -93,7 +93,7 @@ export interface ITvNetwork {
 }
 
 /** Эпизод в lastEpisodeToAir / nextEpisodeToAir. */
-export interface ITvEpisodeAir {
+export interface TvEpisodeAir {
   id: number;
   name: string;
   overview: string;
@@ -107,7 +107,7 @@ export interface ITvEpisodeAir {
   voteCount: number;
 }
 
-export interface ITvSeason {
+export interface TvSeason {
   airDate: string | null;
   episodeCount: number;
   id: number;
@@ -118,13 +118,13 @@ export interface ITvSeason {
   voteAverage: number;
 }
 
-export interface ITmdbMovie {
+export interface TmdbMovie {
   // ——— Common ———
 
   adult: boolean;
   backdropPath: string | null;
   backdropUrl: string | null;
-  genres: IGenre[];
+  genres: Genre[];
   homepage: string;
   id: number;
   originalLanguage: string;
@@ -132,24 +132,24 @@ export interface ITmdbMovie {
   popularity: number;
   posterPath: string | null;
   posterUrl: string | null;
-  productionCompanies: IProductionCompany[];
-  productionCountries: IProductionCountry[];
-  spokenLanguages: ISpokenLanguage[];
+  productionCompanies: ProductionCompany[];
+  productionCountries: ProductionCountry[];
+  spokenLanguages: SpokenLanguage[];
   status: string;
   tagline: string;
   voteAverage: number;
   voteCount: number;
-  credits: IMovieCredits;
-  images: IMovieImages;
+  credits: MovieCredits;
+  images: MovieImages;
   languages?: string[];
 
   /** У сериалов основное имя; у фильмов чаще смотрите title. */
   name?: string;
   originCountry?: string[];
-  videos?: IMediaVideos;
+  videos?: MediaVideos;
 
   // ——— Movie only ———
-  belongsToCollection: ICollection | null;
+  belongsToCollection: Collection | null;
   budget: number;
   imdbId: string | null;
   revenue: number;
@@ -160,18 +160,18 @@ export interface ITmdbMovie {
   releaseDate: string;
 
   // ——— TV only ———
-  createdBy?: ITvCreator[];
+  createdBy?: TvCreator[];
   episodeRunTime?: number[];
   firstAirDate?: string;
   inProduction?: boolean;
   lastAirDate: string;
-  lastEpisodeToAir?: ITvEpisodeAir | null;
-  networks?: ITvNetwork[];
-  nextEpisodeToAir?: ITvEpisodeAir | null;
+  lastEpisodeToAir?: TvEpisodeAir | null;
+  networks?: TvNetwork[];
+  nextEpisodeToAir?: TvEpisodeAir | null;
   numberOfEpisodes?: number;
   numberOfSeasons?: number;
   originalName: string;
-  seasons?: ITvSeason[];
+  seasons?: TvSeason[];
 
   /** Тип шоу TMDB (например Scripted); не путать с query type=movie|tv. */
   type?: string;
@@ -181,7 +181,7 @@ export const useMovie = (id: number, type: MediaType) => {
   return useQuery({
     queryKey: ["movie", id, type],
     queryFn: async () => {
-      const { data } = await axios.get<ITmdbMovie>(`${API_URL}/movies/movie/${id}?type=${type}`);
+      const { data } = await axios.get<TmdbMovie>(`${API_URL}/movies/movie/${id}?type=${type}`);
       return data;
     },
     staleTime: 1000 * 60 * 60,

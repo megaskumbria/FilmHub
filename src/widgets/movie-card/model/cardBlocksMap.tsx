@@ -1,12 +1,12 @@
 "use client";
 
 import { Rating, FlagGroup, Title, Genres, Description } from "@/widgets/movie-card";
-import { IMedia } from "@/shared/stores/movie-catalog";
+import { Media } from "@/shared/stores/movie-catalog";
 
 export type BlockPlacement = "poster" | "hover" | "body";
 
 interface CardBlocksMapProps {
-  media: IMedia;
+  media: Media;
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;

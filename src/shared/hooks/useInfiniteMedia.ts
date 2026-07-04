@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { IMediaData, MediaCategory } from "../stores/movie-catalog";
+import { MediaData, MediaCategory } from "../stores/movie-catalog";
 import { API_URL } from "../constants/constants";
 import { FilterSortType, FilterYearType } from "../stores/filter-media-store";
 
@@ -37,7 +37,7 @@ export const useInfiniteMedia = ({
     ],
 
     queryFn: async ({ pageParam = 1, signal }) => {
-      const { data } = await axios.get<IMediaData>(
+      const { data } = await axios.get<MediaData>(
         `${API_URL}/movies?type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}&country=${selectedCountry}`,
         // { signal: AbortSignal.timeout(10000) }, // if request takes more than 10 seconds, it will be cancelled
         { signal }, // cancel request if called new one

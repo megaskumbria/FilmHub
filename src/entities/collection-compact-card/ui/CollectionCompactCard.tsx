@@ -1,11 +1,11 @@
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { Check } from "lucide-react";
-import { ICollection } from "@/shared/hooks";
+import { Collection } from "@/shared/hooks";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui";
 
 interface Props {
-  collection: ICollection;
+  collection: Collection;
   isSelected: boolean;
   toggleCollection: (id: string) => void;
 }

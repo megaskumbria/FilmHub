@@ -7,13 +7,13 @@ import type { Swiper as SwiperType } from "swiper";
 import { useIdle } from "react-use";
 import Image from "next/image";
 import "swiper/css";
-import { IBackdrop } from "@/shared/hooks/useMedia";
+import { Backdrop } from "@/shared/hooks/useMedia";
 
 interface PosterCarouselProps {
-  backdrops: IBackdrop[];
+  backdrops: Backdrop[];
   backdropUrl: string;
-  selectedPoster: IBackdrop | null;
-  setSelectedPoster: (poster: IBackdrop | null) => void;
+  selectedPoster: Backdrop | null;
+  setSelectedPoster: (poster: Backdrop | null) => void;
   titleToDisplay: string;
 }
 
@@ -49,7 +49,7 @@ export const PosterCarousel = ({
     }
   }, [isIdle]);
 
-  const handlePosterSelect = (poster: IBackdrop) => {
+  const handlePosterSelect = (poster: Backdrop) => {
     // console.log("handlePosterSelect", poster);
     setSelectedPoster(poster);
     swiperRef.current?.autoplay.stop();
@@ -62,7 +62,7 @@ export const PosterCarousel = ({
     }
   };
 
-  const updatePosters = useMemo<IBackdrop[]>(
+  const updatePosters = useMemo<Backdrop[]>(
     () => [
       {
         filePath: "",

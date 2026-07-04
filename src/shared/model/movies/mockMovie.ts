@@ -5,7 +5,7 @@ import mockSliderFour from "../../../../public/images/mock-slider-4.jpg";
 // import mockSliderFive from "../../../../public/images/mock-slider-5.jpg";
 import mockSliderSix from "../../../../public/images/mock-slider-6.jpg";
 
-export interface IMovieCardData {
+export interface MovieCardData {
   id: number;
   imgUrl: string;
   title: string;
@@ -17,7 +17,7 @@ export interface IMovieCardData {
   posters?: string[];
 }
 
-export const mockMovies: IMovieCardData[] = [
+export const mockMovies: MovieCardData[] = [
   {
     id: 1,
     imgUrl: "/images/mock-movie-6.jpg",

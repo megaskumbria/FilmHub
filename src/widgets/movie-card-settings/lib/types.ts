@@ -1,22 +1,22 @@
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 
-export interface IZoneBlockSubOption {
+export interface ZoneBlockSubOption {
   id: string;
   label: string;
   storeKey: string;
 }
 
-export interface IZoneBlock {
+export interface ZoneBlock {
   id: BlockKey;
   label: string;
-  subOptions?: IZoneBlockSubOption[];
+  subOptions?: ZoneBlockSubOption[];
 }
 
-export interface IZones {
+export interface Zones {
   key: ZoneKey;
   label: string;
   dotClass: string;
-  blocks: IZoneBlock[];
+  blocks: ZoneBlock[];
 }
 
 export type ZoneKey = "poster" | "hover" | "body";

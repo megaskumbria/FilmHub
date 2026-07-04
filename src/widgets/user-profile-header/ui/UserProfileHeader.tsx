@@ -3,13 +3,13 @@ import { Avatar, AvatarBadge, AvatarFallback, Button } from "@/shared/ui";
 import { Share2, BookOpen, Film, Users, Star, LucideIcon } from "lucide-react";
 import { InstagramIcon, TelegramIcon } from "@/shared/icons";
 
-interface IStat {
+interface Stat {
   label: string;
   value: string;
   Icon: LucideIcon;
 }
 
-const stats: IStat[] = [
+const stats: Stat[] = [
   { label: "Collections", value: "17", Icon: BookOpen },
   { label: "Films", value: "248", Icon: Film },
   { label: "Followers", value: "1.2K", Icon: Users },

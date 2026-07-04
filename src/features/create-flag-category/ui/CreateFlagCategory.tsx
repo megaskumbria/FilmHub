@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/shared/lib/utils";
 import { useCreateFlagCategory } from "@/shared/hooks";
 import axios from "axios";
-import type { IApiErrorMessage } from "@/shared/types/api-error-types";
+import type { ApiErrorMessage } from "@/shared/types/api-error-types";
 
 export const CreateFlagCategory = () => {
   const { mutateAsync: createFlagCategoryAsync, isPending: isCreating } = useCreateFlagCategory();
@@ -33,7 +33,7 @@ export const CreateFlagCategory = () => {
     } catch (error) {
       console.error(error);
 
-      if (axios.isAxiosError<IApiErrorMessage>(error)) {
+      if (axios.isAxiosError<ApiErrorMessage>(error)) {
         form.setError("categoryName", { message: error.response?.data.message });
       }
     }

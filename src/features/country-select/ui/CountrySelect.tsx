@@ -18,7 +18,7 @@ import {
 import { motion } from "framer-motion";
 import { useFilterMedia } from "@/shared/stores/filter-media-store";
 import { useCountries } from "@/shared/hooks";
-import type { ICountry } from "@/shared/hooks/useCountries";
+import type { Country } from "@/shared/hooks/useCountries";
 import { EarthIcon } from "@/shared/icons";
 import { LockKeyholeIcon } from "lucide-react";
 
@@ -95,7 +95,7 @@ export const CountrySelect = () => {
                     <Skeleton key={i} className="h-8 w-full rounded-sm" />
                   ))}
                 </div>
-              : (country: ICountry) => (
+              : (country: Country) => (
                   <ComboboxItem key={country.iso31661} value={country}>
                     {country.englishName}
                   </ComboboxItem>

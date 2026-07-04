@@ -12,7 +12,7 @@ import {
 import { ActorsCarousel } from "@/widgets";
 import { motion } from "framer-motion";
 import { CalendarDays, Clock, Info, Link2, Plus, Tv } from "lucide-react";
-import { ICastMember, ITmdbMovie } from "@/shared/hooks/useMedia";
+import { CastMember, TmdbMovie } from "@/shared/hooks/useMedia";
 import { AddMovieCollection } from "@/features";
 import { useState } from "react";
 
@@ -23,9 +23,9 @@ const formatDuration = (min: number) => {
 };
 
 interface Props {
-  movie: ITmdbMovie;
+  movie: TmdbMovie;
   isUiHidden: boolean;
-  actors: ICastMember[];
+  actors: CastMember[];
 }
 
 export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {

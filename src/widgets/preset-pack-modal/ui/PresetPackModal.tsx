@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogTrigger, Button, DialogFooter } from "@/shared/ui";
 import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
 import {
-  IPresetPack,
+  PresetPack,
   getPackAccentColor,
   getPackAccentRgb,
 } from "@/widgets/popular-flags-carousel";
@@ -12,7 +12,7 @@ import { ReactNode } from "react";
 import { PresetPackModalHeader } from "./PresetPackModalHeader";
 
 interface Props {
-  pack: IPresetPack;
+  pack: PresetPack;
   children: ReactNode;
 }
 

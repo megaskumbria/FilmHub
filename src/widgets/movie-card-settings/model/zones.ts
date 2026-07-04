@@ -1,6 +1,6 @@
-import { IZoneBlock, IZones } from "../lib/types";
+import { ZoneBlock, Zones } from "../lib/types";
 
-const BLOCKS: IZoneBlock[] = [
+const BLOCKS: ZoneBlock[] = [
   { id: "title", label: "Title" },
   { id: "description", label: "Description" },
   { id: "genres", label: "Genres" },
@@ -12,7 +12,7 @@ const BLOCKS: IZoneBlock[] = [
   { id: "rating", label: "Rating" },
 ];
 
-export const ZONES: IZones[] = [
+export const ZONES: Zones[] = [
   {
     key: "poster",
     label: "POSTER",

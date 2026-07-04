@@ -3,7 +3,7 @@ import { create } from "zustand";
 export type MediaCategory = "all" | "movie" | "tv";
 export type MediaType = "movie" | "tv";
 
-export interface IMedia {
+export interface Media {
   yearOfRelease: number;
   titleToDisplay: string;
 
@@ -30,10 +30,10 @@ export interface IMedia {
   mediaType: MediaType;
 }
 
-export interface IMediaData {
+export interface MediaData {
   page: number;
   totalPages: number;
-  media: IMedia[];
+  media: Media[];
 }
 
 interface MediaCatalogStore {

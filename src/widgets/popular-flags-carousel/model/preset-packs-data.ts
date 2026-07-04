@@ -1,4 +1,4 @@
-export interface IPresetFlagItem {
+export interface PresetFlagItem {
   id: string;
   flagName: string;
   color: string;
@@ -7,16 +7,16 @@ export interface IPresetFlagItem {
   iconName?: string;
 }
 
-export interface IPresetPack {
+export interface PresetPack {
   id: string;
   title: string;
   description: string;
   categoryName: string;
   usageCount: number;
-  flags: IPresetFlagItem[];
+  flags: PresetFlagItem[];
 }
 
-export const PRESET_PACKS: IPresetPack[] = [
+export const PRESET_PACKS: PresetPack[] = [
   {
     id: "1",
     title: "Pacing",
