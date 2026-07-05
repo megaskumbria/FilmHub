@@ -1,4 +1,4 @@
-import { PresetPack } from "./preset-packs-data";
+import { PresetPack } from "@/shared/hooks";
 
 export const getPackAccentColor = (pack: PresetPack): string => {
   const middleIndex = Math.floor(pack.flags.length / 2);

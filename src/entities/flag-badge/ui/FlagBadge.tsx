@@ -1,21 +1,30 @@
 "use client";
 
-import { flagSoftBackground } from "@/shared/lib";
+import { flagSoftBackground, loadFont } from "@/shared/lib";
 import { FlagItem } from "@/shared/hooks";
 import { InlineSvg } from "@/shared/ui";
+import { useEffect } from "react";
 
-type FlagItemData = Pick<FlagItem, "flagName" | "color" | "bgOpacity" | "fontFamily">;
+type FlagItemData = Pick<
+  FlagItem,
+  "flagName" | "color" | "bgOpacity" | "fontFamily" | "svgContent"
+>;
 
 interface Props {
   flagItem: FlagItemData;
   categoryName?: string | null;
-  svgContent?: string | null;
 }
 
-export const FlagBadge = ({ flagItem, categoryName, svgContent }: Props) => {
-  const { flagName, color, bgOpacity, fontFamily } = flagItem;
+export const FlagBadge = ({ flagItem, categoryName }: Props) => {
+  const { flagName, color, bgOpacity, fontFamily, svgContent } = flagItem;
 
   const computedBg = flagSoftBackground(color, bgOpacity);
+
+  useEffect(() => {
+    if (fontFamily && fontFamily !== "Manrope") {
+      void loadFont(fontFamily).catch(console.error);
+    }
+  }, [fontFamily]);
 
   return (
     <span

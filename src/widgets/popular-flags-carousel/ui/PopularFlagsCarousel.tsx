@@ -1,14 +1,66 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode } from "swiper/modules";
-import { PRESET_PACKS } from "../model/preset-packs-data";
-import { Crown } from "lucide-react";
-import { PresetCardPack } from "@/entities";
+import { ChevronLeft, ChevronRight, Crown } from "lucide-react";
+import { PresetCardPack, PresetCardPackSkeleton } from "@/entities";
+import { useGetPresetPacks } from "@/shared/hooks";
 import "swiper/css";
 import "swiper/css/free-mode";
+import { Button } from "@/shared/ui";
+import { sliderNavigationButton } from "@/shared/lib";
+import { useRef, useState } from "react";
+import type { Swiper as SwiperType } from "swiper";
+import { Navigation } from "swiper/modules";
+
+// import { PRESET_PACKS } from "../model/preset-packs-data";
+
+const SKELETON_ITEMS = Array.from({ length: 7 }, (_, index) => index);
+
+const SWIPER_BREAKPOINTS = {
+  0: {
+    slidesPerView: 1,
+  },
+  590: {
+    slidesPerView: 2,
+  },
+  850: {
+    slidesPerView: 3,
+  },
+  1200: {
+    slidesPerView: 4,
+  },
+  1500: {
+    slidesPerView: 6,
+  },
+};
 
 export const PopularFlagsCarousel = () => {
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+  const [isNavigationVisible, setIsNavigationVisible] = useState(false);
+
+  const swiperRef = useRef<SwiperType | null>(null);
+
+  const { data: presetPacks, isLoading } = useGetPresetPacks();
+
+  const handleNext = () => {
+    const swiper = swiperRef.current;
+    swiper?.slideNext();
+  };
+
+  const handlePrev = () => {
+    const swiper = swiperRef.current;
+    swiper?.slidePrev();
+  };
+
+  const updateEdges = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  };
+
+  const presetPacksCount = presetPacks?.length ?? 0;
+  const isHideButtons = presetPacksCount > 5;
+
   return (
     <section>
       <div className="flex items-center gap-2.5 mb-5">
@@ -21,19 +73,56 @@ export const PopularFlagsCarousel = () => {
         </span>
       </div>
 
-      <Swiper
-        modules={[FreeMode]}
-        freeMode
-        slidesPerView="auto"
-        spaceBetween={12}
-        className="overflow-visible! [&_.swiper-wrapper]:items-stretch"
+      <div
+        onMouseEnter={() => setIsNavigationVisible(true)}
+        onMouseLeave={() => setIsNavigationVisible(false)}
       >
-        {PRESET_PACKS.map((pack) => (
-          <SwiperSlide key={pack.id} className="w-auto! h-auto!">
-            <PresetCardPack pack={pack} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        <Swiper
+          modules={[Navigation]}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+            updateEdges(swiper);
+          }}
+          onSlideChange={updateEdges}
+          spaceBetween={12}
+          breakpoints={SWIPER_BREAKPOINTS}
+          className="relative"
+        >
+          {isHideButtons && !isBeginning && (
+            <Button
+              onClick={handlePrev}
+              disabled={isBeginning}
+              size="icon"
+              className={sliderNavigationButton(isNavigationVisible, "left")}
+            >
+              <ChevronLeft className="size-5" />
+            </Button>
+          )}
+
+          {isLoading ?
+            <SwiperSlide className="h-auto! flex! gap-x-3">
+              {SKELETON_ITEMS.map((index) => (
+                <PresetCardPackSkeleton key={index} />
+              ))}
+            </SwiperSlide>
+          : presetPacks?.map((presetPack) => (
+              <SwiperSlide key={presetPack.id}>
+                <PresetCardPack presetPack={presetPack} />
+              </SwiperSlide>
+            ))
+          }
+
+          {isHideButtons && !isEnd && (
+            <Button
+              onClick={handleNext}
+              size="icon"
+              className={sliderNavigationButton(isNavigationVisible, "right")}
+            >
+              <ChevronRight className="size-5" />
+            </Button>
+          )}
+        </Swiper>
+      </div>
     </section>
   );
 };

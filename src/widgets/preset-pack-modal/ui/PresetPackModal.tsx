@@ -2,25 +2,21 @@
 
 import { Dialog, DialogContent, DialogTrigger, Button, DialogFooter } from "@/shared/ui";
 import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
-import {
-  PresetPack,
-  getPackAccentColor,
-  getPackAccentRgb,
-} from "@/widgets/popular-flags-carousel";
+import { getPackAccentColor, getPackAccentRgb } from "@/widgets/popular-flags-carousel";
 import { FolderPlus } from "lucide-react";
 import { ReactNode } from "react";
 import { PresetPackModalHeader } from "./PresetPackModalHeader";
+import { type PresetPack } from "@/shared/hooks";
 
 interface Props {
-  pack: PresetPack;
+  presetPack: PresetPack;
   children: ReactNode;
 }
+export const PresetPackModal = ({ presetPack, children }: Props) => {
+  const { flags, categoryName } = presetPack;
 
-export const PresetPackModal = ({ pack, children }: Props) => {
-  const { flags, categoryName } = pack;
-
-  const accentColor = getPackAccentColor(pack);
-  const accentRgb = getPackAccentRgb(pack);
+  const accentColor = getPackAccentColor(presetPack);
+  const accentRgb = getPackAccentRgb(presetPack);
 
   return (
     <Dialog>
@@ -32,7 +28,7 @@ export const PresetPackModal = ({ pack, children }: Props) => {
         aria-describedby={undefined}
       >
         <div className="flex flex-col">
-          <PresetPackModalHeader pack={pack} />
+          <PresetPackModalHeader presetPack={presetPack} />
 
           <div className="px-6 py-4">
             <div className="flex items-center gap-2 mb-3">

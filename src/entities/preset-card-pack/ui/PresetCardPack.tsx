@@ -1,24 +1,21 @@
 import { Button } from "@/shared/ui";
-import {
-  PresetPack,
-  getPackAccentColor,
-  getPackAccentRgb,
-} from "@/widgets/popular-flags-carousel";
-import { Users } from "lucide-react";
+import { getPackAccentColor, getPackAccentRgb } from "@/widgets/popular-flags-carousel";
+import { ArrowRight, Users } from "lucide-react";
 import { FlagBadge } from "@/entities";
 import { PresetPackModal } from "@/widgets";
 import { formatUsageCount } from "@/shared/lib";
 import { MouseEvent } from "react";
+import { type PresetPack } from "@/shared/hooks";
 
 interface Props {
-  pack: PresetPack;
+  presetPack: PresetPack;
 }
 
-export const PresetCardPack = ({ pack }: Props) => {
-  const { title, description, flags, usageCount } = pack;
+export const PresetCardPack = ({ presetPack }: Props) => {
+  const { title, description, flags, usageCount } = presetPack;
 
-  const accentColor = getPackAccentColor(pack);
-  const accentRgb = getPackAccentRgb(pack);
+  const accentColor = getPackAccentColor(presetPack);
+  const accentRgb = getPackAccentRgb(presetPack);
 
   const handleHoverCard = (e: MouseEvent<HTMLButtonElement>) => {
     const el = e.currentTarget;
@@ -35,14 +32,14 @@ export const PresetCardPack = ({ pack }: Props) => {
   };
 
   return (
-    <PresetPackModal pack={pack}>
+    <PresetPackModal presetPack={presetPack}>
       <Button
-        className="hover:shadow-lg hover:border-opacity-60 transition-all duration-200 group relative flex flex-col justify-between gap-3 w-56 h-full p-4 rounded-2xl border border-border/40 bg-surface-subtle"
+        className="focus:outline-none select-none w-full h-52 hover:shadow-lg hover:border-opacity-60 transition-all duration-200 group relative flex flex-col justify-between gap-3 p-4 rounded-2xl border border-border/40 bg-surface-subtle"
         onMouseEnter={handleHoverCard}
         onMouseLeave={handleLeaveCard}
       >
         <div
-          className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none"
+          className="overflow-hidden absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none"
           style={{ backgroundColor: accentColor }}
         />
 
@@ -50,7 +47,7 @@ export const PresetCardPack = ({ pack }: Props) => {
           <div className="flex-1 min-w-0">
             <h3 className="text-sm font-bold text-foreground leading-tight truncate">{title}</h3>
 
-            <p className="text-xs text-zinc-muted mt-0.5 line-clamp-3 leading-relaxed">
+            <p className="text-xs text-zinc-muted mt-0.5 leading-relaxed line-clamp-2">
               {description}
             </p>
           </div>
@@ -85,9 +82,13 @@ export const PresetCardPack = ({ pack }: Props) => {
             <span>{formatUsageCount(usageCount)} users</span>
           </span>
 
-          <span className="text-xs font-medium transition-colors" style={{ color: accentColor }}>
-            Details →
-          </span>
+          <div className="flex items-center gap-1">
+            <span className="text-xs font-medium transition-colors" style={{ color: accentColor }}>
+              Details
+            </span>
+
+            <ArrowRight className="size-3" style={{ color: accentColor }} />
+          </div>
         </footer>
       </Button>
     </PresetPackModal>

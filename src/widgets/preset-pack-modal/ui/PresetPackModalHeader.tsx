@@ -1,21 +1,18 @@
 import { DialogHeader, DialogTitle, DialogClose } from "@/shared/ui";
 import { formatUsageCount } from "@/shared/lib";
 import { Crown, Users, X } from "lucide-react";
-import {
-  PresetPack,
-  getPackAccentColor,
-  getPackAccentRgb,
-} from "@/widgets/popular-flags-carousel";
+import { getPackAccentColor, getPackAccentRgb } from "@/widgets/popular-flags-carousel";
+import { type PresetPack } from "@/shared/hooks";
 
 interface Props {
-  pack: PresetPack;
+  presetPack: PresetPack;
 }
 
-export const PresetPackModalHeader = ({ pack }: Props) => {
-  const { usageCount, title, description } = pack;
+export const PresetPackModalHeader = ({ presetPack }: Props) => {
+  const { usageCount, title, description } = presetPack;
 
-  const accentColor = getPackAccentColor(pack);
-  const accentRgb = getPackAccentRgb(pack);
+  const accentColor = getPackAccentColor(presetPack);
+  const accentRgb = getPackAccentRgb(presetPack);
 
   return (
     <DialogHeader
