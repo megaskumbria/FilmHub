@@ -28,7 +28,6 @@ export const FlagGroup = ({
   );
 
   const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } = flag;
-
   const { svgContent } = selectedIcon ?? {};
 
   const flagItem = {
@@ -37,6 +36,7 @@ export const FlagGroup = ({
     color: selectedColor,
     fontFamily: selectedFont,
     iconId: selectedIcon,
+    svgContent: svgContent,
     bgOpacity: bgOpacity,
     position: 0,
   };
@@ -52,7 +52,7 @@ export const FlagGroup = ({
     >
       {isPreview ?
         <FlagWithCategory categoryName={category.name} showCategory={showCategories}>
-          <FlagBadge flagItem={flagItem} categoryName={category.name} svgContent={svgContent} />
+          <FlagBadge flagItem={flagItem} categoryName={category.name} />
         </FlagWithCategory>
       : <>
           {flagsData.map(({ flags, categoryName }) => {
@@ -65,7 +65,7 @@ export const FlagGroup = ({
                   categoryName={categoryName}
                   showCategory={showCategories}
                 >
-                  <FlagBadge flagItem={flag} categoryName={categoryName} svgContent={svgContent} />
+                  <FlagBadge flagItem={flag} categoryName={categoryName} />
                 </FlagWithCategory>
               );
             });

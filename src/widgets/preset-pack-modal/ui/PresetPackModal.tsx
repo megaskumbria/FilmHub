@@ -3,17 +3,20 @@
 import { Dialog, DialogContent, DialogTrigger, Button, DialogFooter } from "@/shared/ui";
 import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
 import { getPackAccentColor, getPackAccentRgb } from "@/widgets/popular-flags-carousel";
-import { FolderPlus } from "lucide-react";
+import { Check, FolderPlus } from "lucide-react";
 import { ReactNode } from "react";
 import { PresetPackModalHeader } from "./PresetPackModalHeader";
-import { type PresetPack } from "@/shared/hooks";
+import { type PresetPack, useAddPresetPack } from "@/shared/hooks";
+import { cn } from "@/shared/lib/utils";
 
 interface Props {
   presetPack: PresetPack;
   children: ReactNode;
 }
 export const PresetPackModal = ({ presetPack, children }: Props) => {
-  const { flags, categoryName } = presetPack;
+  const { flags, categoryName, isAdded } = presetPack;
+
+  const { mutate: addPresetPack, isPending: isAddingPresetPack } = useAddPresetPack();
 
   const accentColor = getPackAccentColor(presetPack);
   const accentRgb = getPackAccentRgb(presetPack);
@@ -91,13 +94,27 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
             <Button
               variant="transparent"
               size="default"
-              className="w-full rounded-xl gap-2"
+              className={cn(
+                "w-full rounded-xl gap-2 hover:opacity-80 transition-all duration-200 active:scale-95",
+                isAdded && "opacity-50 pointer-events-none",
+              )}
               style={{
                 background: `linear-gradient(to right, ${accentColor}, rgba(${accentRgb}, 0.7))`,
               }}
+              onClick={() => addPresetPack(presetPack.id)}
+              disabled={isAddingPresetPack || isAdded}
             >
               <FolderPlus className="size-5 shrink-0" />
-              <span className="font-semibold">Add pack to collection</span>
+
+              <span className="font-semibold">
+                {isAdded ?
+                  "Added"
+                : isAddingPresetPack ?
+                  "Adding..."
+                : "Add pack to collection"}
+              </span>
+
+              {isAdded && <Check className="ml-auto size-5 shrink-0" />}
             </Button>
           </DialogFooter>
         </div>

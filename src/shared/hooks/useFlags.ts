@@ -247,6 +247,7 @@ export const useRenameFlagCategory = () => {
   });
 };
 
+// Preset packs
 export interface PresetFlagItem {
   id: string;
   flagName: string;
@@ -284,5 +285,20 @@ export const useGetPresetPacks = () => {
 
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
+  });
+};
+
+export const useAddPresetPack = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (packId: string) => {
+      return await apiClient.post<PresetPack>(`${API_URL}/flags/preset-packs/${packId}`);
+    },
+
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["preset-packs"] });
+      void queryClient.invalidateQueries({ queryKey: ["flags"] });
+    },
   });
 };

@@ -37,5 +37,6 @@ export {
   useDeleteFlagCategory,
   useRenameFlagCategory,
   useGetPresetPacks,
+  useAddPresetPack,
 } from "./useFlags";
 export { useRenameCategory } from "./useRenameCategory";

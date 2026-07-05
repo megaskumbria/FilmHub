@@ -1,6 +1,6 @@
 import { Button } from "@/shared/ui";
 import { getPackAccentColor, getPackAccentRgb } from "@/widgets/popular-flags-carousel";
-import { ArrowRight, Users } from "lucide-react";
+import { ArrowRight, Check, Users } from "lucide-react";
 import { FlagBadge } from "@/entities";
 import { PresetPackModal } from "@/widgets";
 import { formatUsageCount } from "@/shared/lib";
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const PresetCardPack = ({ presetPack }: Props) => {
-  const { title, description, flags, usageCount } = presetPack;
+  const { title, description, flags, usageCount, isAdded } = presetPack;
 
   const accentColor = getPackAccentColor(presetPack);
   const accentRgb = getPackAccentRgb(presetPack);
@@ -34,7 +34,7 @@ export const PresetCardPack = ({ presetPack }: Props) => {
   return (
     <PresetPackModal presetPack={presetPack}>
       <Button
-        className="focus:outline-none select-none w-full h-52 hover:shadow-lg hover:border-opacity-60 transition-all duration-200 group relative flex flex-col justify-between gap-3 p-4 rounded-2xl border border-border/40 bg-surface-subtle"
+        className="focus:outline-none select-none w-full h-56 hover:shadow-lg hover:border-opacity-60 transition-all duration-200 group relative flex flex-col justify-between p-4 rounded-2xl border border-border/40 bg-surface-subtle"
         onMouseEnter={handleHoverCard}
         onMouseLeave={handleLeaveCard}
       >
@@ -43,15 +43,7 @@ export const PresetCardPack = ({ presetPack }: Props) => {
           style={{ backgroundColor: accentColor }}
         />
 
-        <header className="relative flex items-start justify-between gap-2">
-          <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-bold text-foreground leading-tight truncate">{title}</h3>
-
-            <p className="text-xs text-zinc-muted mt-0.5 leading-relaxed line-clamp-2">
-              {description}
-            </p>
-          </div>
-
+        <header className="relative justify-between w-full flex gap-2">
           <span
             className="shrink-0 text-xs font-semibold px-1.5 py-0.5 rounded-lg border"
             style={{
@@ -62,9 +54,23 @@ export const PresetCardPack = ({ presetPack }: Props) => {
           >
             {flags.length}
           </span>
+
+          {isAdded && (
+            <span className="flex items-center gap-1 text-xs font-semibold px-1.5 py-0.5 rounded-lg bg-emerald-500/12 text-emerald-400 border border-emerald-500/25 shrink-0">
+              <Check className="size-3" />
+              <span>Added</span>
+            </span>
+          )}
         </header>
 
-        <div className="relative flex flex-wrap gap-1.5">
+        <div className="flex-1 min-w-0 mb-3">
+          <h3 className="text-sm font-bold text-foreground leading-tight truncate">{title}</h3>
+          <p className="text-xs text-zinc-muted mt-0.5 leading-relaxed line-clamp-2">
+            {description}
+          </p>
+        </div>
+
+        <div className="relative flex flex-wrap gap-1.5 mb-3">
           {flags.slice(0, 3).map((flag) => (
             <FlagBadge key={flag.id} flagItem={flag} />
           ))}

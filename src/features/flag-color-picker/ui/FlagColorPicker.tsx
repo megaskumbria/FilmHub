@@ -70,6 +70,7 @@ export const FlagColorPicker = memo(() => {
                   hideColorTypeBtns
                   hideGradientControls
                   hidePresets
+                  hideInputType
                   disableDarkMode
                   width={260}
                   height={160}
