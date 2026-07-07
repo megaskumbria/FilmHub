@@ -1,5 +1,5 @@
 import { useRef, useState, type KeyboardEvent } from "react";
-import { useRenameFlagCategory } from "./useFlags";
+import { useRenameFlagCategory } from "./useFlagCategories";
 
 export const useRenameCategory = () => {
   const [editingCategoryName, setEditingCategoryName] = useState("");

@@ -63,7 +63,45 @@ export const useUpdateFlagPosition = () => {
       return data;
     },
 
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
+    onMutate: async ({ categoryId, flagIds }) => {
+      await queryClient.cancelQueries({ queryKey: ["flags"] });
+
+      const previousFlags = queryClient.getQueriesData<FlagData[]>({ queryKey: ["flags"] });
+
+      // console.log(
+      //   "previousFlags keys:",
+      //   previousFlags.map(([key]) => key),
+      // );
+      // console.log(
+      //   "previousFlags data:",
+      //   previousFlags.map(([, data]) => data),
+      // );
+
+      queryClient.setQueriesData<FlagData[]>({ queryKey: ["flags"] }, (old) =>
+        old?.map((category) => {
+          if (category.id !== categoryId) return category;
+
+          const flagMap = new Map(category.flags.map((f) => [f.id, f]));
+          const reorderedFlags = flagIds
+
+            .map((id, index) => {
+              const flag = flagMap.get(id);
+              return flag ? { ...flag, position: index } : null;
+            })
+            .filter(Boolean) as FlagItem[];
+
+          return { ...category, flags: reorderedFlags };
+        }),
+      );
+      return { previousFlags };
+    },
+
+    onError: (_err, _vars, context) => {
+      context?.previousFlags.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
+      toast.error("Failed to reorder flags", { position: "bottom-left" });
+    },
   });
 };
 
@@ -186,119 +224,5 @@ export const useDeleteFlag = () => {
     },
 
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
-  });
-};
-
-export const useCreateFlagCategory = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (categoryName: string) => {
-      const { data } = await apiClient.post<FlagData>(`${API_URL}/flags/create-category`, {
-        categoryName,
-      });
-      return data;
-    },
-
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["flags"] });
-    },
-  });
-};
-
-export const useDeleteFlagCategory = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (categoryId: string) => {
-      const { data } = await apiClient.delete<FlagData>(
-        `${API_URL}/flags/delete-category/${categoryId}`,
-      );
-      return data;
-    },
-
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
-  });
-};
-
-interface RenameFlagCategoryArgs {
-  categoryId: string;
-  categoryName: string;
-}
-
-export const useRenameFlagCategory = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async ({ categoryId, categoryName }: RenameFlagCategoryArgs) => {
-      const { data } = await apiClient.patch<FlagData>(
-        `${API_URL}/flags/rename-category/${categoryId}`,
-        { categoryName },
-      );
-      return data;
-    },
-
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["flags"],
-        refetchType: "active",
-      });
-    },
-  });
-};
-
-// Preset packs
-export interface PresetFlagItem {
-  id: string;
-  flagName: string;
-  color: string;
-  bgOpacity: number;
-  fontFamily: string;
-
-  iconId: string | null;
-  iconName: string | null;
-  svgContent: string;
-
-  position: number;
-
-  packId: string;
-}
-
-export interface PresetPack {
-  id: string;
-  title: string;
-  categoryName: string;
-  description: string;
-  usageCount: number;
-  flags: PresetFlagItem[];
-
-  isAdded: boolean;
-}
-
-export const useGetPresetPacks = () => {
-  return useQuery({
-    queryKey: ["preset-packs"],
-    queryFn: async () => {
-      const { data } = await apiClient.get<PresetPack[]>(`${API_URL}/flags/preset-packs`);
-      return data;
-    },
-
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
-  });
-};
-
-export const useAddPresetPack = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (packId: string) => {
-      return await apiClient.post<PresetPack>(`${API_URL}/flags/preset-packs/${packId}`);
-    },
-
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["preset-packs"] });
-      void queryClient.invalidateQueries({ queryKey: ["flags"] });
-    },
   });
 };

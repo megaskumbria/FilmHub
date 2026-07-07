@@ -24,6 +24,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
     id,
     index,
     type: category.id,
+    group: category.id,
     accept: [category.id],
   });
 
@@ -37,6 +38,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
 
   const { mutate: deleteFlag, isPending: isDeleting } = useDeleteFlag();
 
+  // Fix me
   const handleSelectFlag = (
     flagName: string,
     category: { name: string; id: string },
@@ -87,7 +89,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
         )}
         style={isActive ? { boxShadow: `inset 0 0 0 1px ${color}40` } : undefined}
       >
-        <FlagBadge flagItem={flagItem} svgContent={svgContent} />
+        <FlagBadge flagItem={flagItem} />
 
         <div className="flex items-center gap-x-1 shrink-0">
           <div className="flex items-center gap-x-2">

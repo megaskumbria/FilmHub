@@ -34,7 +34,7 @@ export const PresetCardPack = ({ presetPack }: Props) => {
   return (
     <PresetPackModal presetPack={presetPack}>
       <Button
-        className="focus:outline-none select-none w-full h-56 hover:shadow-lg hover:border-opacity-60 transition-all duration-200 group relative flex flex-col justify-between p-4 rounded-2xl border border-border/40 bg-surface-subtle"
+        className="focus:outline-none select-none w-full h-58 hover:shadow-lg hover:border-opacity-60 transition-all duration-200 group relative flex flex-col justify-between p-4 rounded-2xl border border-border/40 bg-surface-subtle"
         onMouseEnter={handleHoverCard}
         onMouseLeave={handleLeaveCard}
       >
@@ -43,7 +43,7 @@ export const PresetCardPack = ({ presetPack }: Props) => {
           style={{ backgroundColor: accentColor }}
         />
 
-        <header className="relative justify-between w-full flex gap-2">
+        <header className="relative justify-between w-full flex gap-2 mb-2">
           <span
             className="shrink-0 text-xs font-semibold px-1.5 py-0.5 rounded-lg border"
             style={{

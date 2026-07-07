@@ -23,7 +23,7 @@ export const FlagCategoryAccordion = ({ searchQuery, sortBy }: Props) => {
     const { source } = event.operation;
     if (!isSortable(source)) return;
 
-    const categoryId = source.type as string;
+    const categoryId = source.group as string;
     const category = flagsData.find((c) => c.id === categoryId);
     if (!category) return;
 

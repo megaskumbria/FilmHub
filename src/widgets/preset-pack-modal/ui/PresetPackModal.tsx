@@ -14,12 +14,21 @@ interface Props {
   children: ReactNode;
 }
 export const PresetPackModal = ({ presetPack, children }: Props) => {
-  const { flags, categoryName, isAdded } = presetPack;
+  const { flags, categoryName, isAdded, id } = presetPack;
 
-  const { mutate: addPresetPack, isPending: isAddingPresetPack } = useAddPresetPack();
+  const { mutateAsync: addPresetPack, isPending } = useAddPresetPack();
+
+  const handleAddPresetPack = async () => await addPresetPack(id);
 
   const accentColor = getPackAccentColor(presetPack);
   const accentRgb = getPackAccentRgb(presetPack);
+
+  const isActionDisabled = isAdded || isPending;
+
+  const buttonLabel =
+    isAdded ? "Added"
+    : isPending ? "Adding..."
+    : "Add pack to collection";
 
   return (
     <Dialog>
@@ -96,23 +105,17 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
               size="default"
               className={cn(
                 "w-full rounded-xl gap-2 hover:opacity-80 transition-all duration-200 active:scale-95",
-                isAdded && "opacity-50 pointer-events-none",
+                isActionDisabled && "opacity-50 pointer-events-none",
               )}
               style={{
                 background: `linear-gradient(to right, ${accentColor}, rgba(${accentRgb}, 0.7))`,
               }}
-              onClick={() => addPresetPack(presetPack.id)}
-              disabled={isAddingPresetPack || isAdded}
+              onClick={() => void handleAddPresetPack()}
+              disabled={isActionDisabled}
             >
               <FolderPlus className="size-5 shrink-0" />
 
-              <span className="font-semibold">
-                {isAdded ?
-                  "Added"
-                : isAddingPresetPack ?
-                  "Adding..."
-                : "Add pack to collection"}
-              </span>
+              <span className="font-semibold">{buttonLabel}</span>
 
               {isAdded && <Check className="ml-auto size-5 shrink-0" />}
             </Button>
