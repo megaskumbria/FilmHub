@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import { Button } from "@/shared/ui";
 import { sliderNavigationButton } from "@/shared/lib";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 
@@ -57,6 +57,13 @@ export const PopularFlagsCarousel = () => {
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
   };
+
+  useEffect(() => {
+    if (!swiperRef.current) return;
+
+    swiperRef.current.update();
+    updateEdges(swiperRef.current);
+  }, [presetPacks]);
 
   const presetPacksCount = presetPacks?.length ?? 0;
   const isHideButtons = presetPacksCount > 5;

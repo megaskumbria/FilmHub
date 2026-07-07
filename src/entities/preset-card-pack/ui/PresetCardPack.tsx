@@ -82,7 +82,7 @@ export const PresetCardPack = ({ presetPack }: Props) => {
           )}
         </div>
 
-        <footer className="relative flex w-full items-center justify-between pt-2 border-t border-border/30">
+        <footer className="min-h-6.5 shrink-0 relative flex w-full items-center justify-between pt-2 border-t border-border/30">
           <span className="flex items-center gap-1 text-xs text-zinc-muted">
             <Users className="size-3" />
             <span>{formatUsageCount(usageCount)} users</span>
