@@ -22,7 +22,7 @@ export const Header = () => {
   return (
     <header
       className={cn(
-        "fixed top-0 z-1000 w-full px-10 py-3 transition-colors duration-300",
+        "fixed top-0 z-10 w-full px-10 py-3 transition-colors duration-300",
         "after:absolute after:inset-x-0 after:bottom-0 after:h-px after:transition-colors after:duration-300",
         scrolled ?
           "bg-background/95 after:bg-border/40"

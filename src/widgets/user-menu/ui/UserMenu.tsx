@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Popover,
   PopoverTrigger,
@@ -12,18 +13,23 @@ import {
 import { UserActions } from "./UserActions";
 import { LangToggle } from "@/features";
 import { LogOut } from "lucide-react";
-import { useAuthStore } from "@/features/auth/model/auth.store";
+import { useAuthStore } from "@/features/auth";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export const UserMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
   const { user, logout } = useAuthStore();
   const { username, email } = user;
 
-  // console.log(user);
-
   const firstAvatarLetter = username?.charAt(0).toUpperCase();
 
+  useEffect(() => setIsOpen(false), [pathname]);
+
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Avatar
           size="lg"
