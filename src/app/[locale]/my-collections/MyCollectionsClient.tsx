@@ -40,9 +40,6 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
     setIsEditMode((prev) => !prev);
   };
 
-  // console.log("collections", collections);
-  // console.log("hasCollections", hasCollections);
-
   useEffect(() => {
     if (!collections) return;
 
@@ -138,7 +135,7 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
                     media={movie}
                     layout={layout}
                     blockOptions={blockOptions}
-                    mode={isEditMode ? "edit-collection" : undefined}
+                    mode={isEditMode ? "edit-collection" : "add-flag"}
                     onCheckedChange={handleCheckedChange}
                     isChecked={selectedIds.has(movie.id)}
                   />

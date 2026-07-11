@@ -75,6 +75,7 @@ export const MediaCard = ({
   const isEditMode = mode === "edit-collection";
 
   const shouldAccessBorder = isEditMode && isChecked;
+  const shouldShowAddPopover = shouldShowAddButton && mode && !isEditMode;
 
   return (
     <article
@@ -145,7 +146,7 @@ export const MediaCard = ({
         </div>
       </Link>
 
-      {shouldShowAddButton && mode && !isEditMode && (
+      {shouldShowAddPopover && (
         <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -156,7 +157,10 @@ export const MediaCard = ({
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full">
+          <PopoverContent
+            side="bottom"
+            className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full"
+          >
             {mode === "add-flag" && <SetMovieFlags />}
             {mode === "add-collection" && (
               <AddMovieCollection popoverOpen={popoverOpen} mediaId={id} mediaType={mediaType} />
