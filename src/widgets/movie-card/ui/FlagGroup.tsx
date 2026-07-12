@@ -1,12 +1,14 @@
 "use client";
 
-import { useGetFlags } from "@/shared/hooks";
 import { BlockPlacement } from "../model/cardBlocksMap";
 import { FlagBadge, FlagWithCategory } from "@/widgets/movie-card";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { useShallow } from "zustand/shallow";
+import { type FlagData } from "@/shared/hooks";
 
 interface Props {
+  flagsData: FlagData[];
+
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
@@ -20,6 +22,7 @@ export const FlagGroup = ({
   placement,
   showCategories = true,
   isPreview = false,
+  flagsData,
 }: Props) => {
   const { flag } = useCreationFlagStore(
     useShallow((state) => ({
@@ -40,8 +43,6 @@ export const FlagGroup = ({
     bgOpacity: bgOpacity,
     position: 0,
   };
-
-  const { data: flagsData = [] } = useGetFlags();
 
   const shouldLift = placement === "poster" && hasHover;
 

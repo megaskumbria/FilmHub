@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const FlagCategoryAccordion = ({ searchQuery, sortBy }: Props) => {
-  const { data: flagsData = [], isLoading } = useGetFlags(searchQuery, sortBy);
+  const { data: flagsData = [], isLoading } = useGetFlags({ searchQuery, sortBy });
 
   const { mutate: updateFlagPosition } = useUpdateFlagPosition();
 

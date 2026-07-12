@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { type FlagData } from "@/shared/hooks";
 
 export type MediaCategory = "all" | "movie" | "tv";
 export type MediaType = "movie" | "tv";
@@ -28,6 +29,8 @@ export interface Media {
   ratingImdb: string | null;
 
   mediaType: MediaType;
+
+  mediaFlags?: FlagData[];
 }
 
 export interface MediaData {

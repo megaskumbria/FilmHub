@@ -44,3 +44,4 @@ export {
   useAddPresetPack,
 } from "./usePresetPacks";
 export { useRenameCategory } from "./useRenameCategory";
+export { useSetMediaFlags } from "./useMediaFlags";

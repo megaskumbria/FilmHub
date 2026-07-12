@@ -14,21 +14,39 @@ import {
 import Link from "next/link";
 import { HelpCircle, Plus, Search, Flag } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-import { useState } from "react";
-import { type FlagItem, useDebounce, useGetFlags } from "@/shared/hooks";
+import { useState, useEffect, useRef } from "react";
+import { type FlagItem, useDebounce, useGetFlags, useSetMediaFlags } from "@/shared/hooks";
 import { FlagBadge } from "@/entities";
 
 const MAX_LIMIT_PER_MEDIA = 4;
 
-export const SetMovieFlags = () => {
+interface Props {
+  mediaId: number;
+  popoverOpen: boolean;
+}
+
+export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFlags, setSelectedFlags] = useState<Record<string, FlagItem>>({});
 
+  const initializedRef = useRef(false);
+
   const debouncedSearch = useDebounce(searchQuery, 300);
 
-  const { data: flagsData = [] } = useGetFlags(debouncedSearch);
+  const { data: flagsData = [] } = useGetFlags({
+    searchQuery: debouncedSearch,
+    sortBy: "default",
+    mediaId,
+  });
 
-  const handleSelectFlag = (categoryName: string, flag: FlagItem) => {
+  const { mutate: setMediaFlags } = useSetMediaFlags();
+
+  const handleSelectFlag = (
+    categoryName: string,
+    flag: FlagItem,
+    mediaId: number,
+    categoryId: string,
+  ) => {
     setSelectedFlags((prev) => {
       if (prev[categoryName]?.id === flag.id) {
         const next = { ...prev };
@@ -38,7 +56,32 @@ export const SetMovieFlags = () => {
 
       return { ...prev, [categoryName]: flag };
     });
+
+    setMediaFlags({ mediaId, flag, categoryId, categoryName });
   };
+
+  useEffect(() => {
+    if (!popoverOpen) {
+      initializedRef.current = false;
+      return;
+    }
+
+    if (initializedRef.current || flagsData.length === 0) return;
+
+    const initialSelectedFlags = flagsData.reduce<Record<string, FlagItem>>(
+      (acc, { categoryName, flags }) => {
+        const usedFlag = flags.find((f) => f.isUsed);
+
+        if (usedFlag) acc[categoryName] = usedFlag;
+
+        return acc;
+      },
+      {},
+    );
+
+    setSelectedFlags(initialSelectedFlags);
+    initializedRef.current = true;
+  }, [popoverOpen, flagsData]);
 
   const isLimitFlags = Object.values(selectedFlags).length >= MAX_LIMIT_PER_MEDIA;
 
@@ -78,8 +121,11 @@ export const SetMovieFlags = () => {
           <div className="py-6 text-center text-xs text-zinc-muted">No flags found</div>
         : <Accordion type="multiple">
             {flagsData.map(({ id, categoryName, flags }) => {
+              const isUsedFlag = flags.find((flag) => flag.isUsed);
               const isCategorySelected = Boolean(selectedFlags[categoryName]);
               const isCategoryBlocked = isLimitFlags && !isCategorySelected;
+
+              const displayFlag = selectedFlags[categoryName] ?? isUsedFlag;
 
               return (
                 <AccordionItem
@@ -94,9 +140,9 @@ export const SetMovieFlags = () => {
                     <span className="flex items-center gap-2 flex-1 min-w-0">
                       <span className="truncate">{categoryName}</span>
 
-                      {selectedFlags[categoryName] && (
+                      {displayFlag && (
                         <span className="ml-auto mr-1 shrink-0">
-                          <FlagBadge flagItem={selectedFlags[categoryName]} />
+                          <FlagBadge flagItem={displayFlag} />
                         </span>
                       )}
                     </span>
@@ -105,11 +151,12 @@ export const SetMovieFlags = () => {
                   <AccordionContent className="pb-1">
                     <div className="flex flex-col gap-0">
                       {flags.map((flag) => {
-                        const isChecked = selectedFlags[categoryName]?.id === flag.id;
+                        const isChecked =
+                          selectedFlags[categoryName]?.id === flag.id || flag.isUsed;
 
                         return (
                           <Button
-                            onClick={() => handleSelectFlag(categoryName, flag)}
+                            onClick={() => handleSelectFlag(categoryName, flag, mediaId, id)}
                             key={flag.id}
                             className={cn(
                               "flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all hover:bg-white/4",

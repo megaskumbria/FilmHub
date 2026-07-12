@@ -9,7 +9,7 @@ import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
 import { Media } from "@/shared/stores/movie-catalog";
 import { useLocale } from "next-intl";
 import { renderBlocks } from "../lib/render-blocks";
-import { AddMovieCollection, SetMovieFlags } from "@/features";
+import { AddMovieCollection, SetMediaFlags } from "@/features";
 import { cn } from "@/shared/lib/utils";
 
 export type PopoverMode = "add-flag" | "add-collection" | "edit-collection";
@@ -18,6 +18,7 @@ interface Props {
   media: Media;
   layout: Layout;
   blockOptions: BlockOptions;
+
   shouldShowAddButton?: boolean;
   mode?: PopoverMode;
   cardWidth?: number;
@@ -161,7 +162,7 @@ export const MediaCard = ({
             side="bottom"
             className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full"
           >
-            {mode === "add-flag" && <SetMovieFlags />}
+            {mode === "add-flag" && <SetMediaFlags mediaId={id} popoverOpen={popoverOpen} />}
             {mode === "add-collection" && (
               <AddMovieCollection popoverOpen={popoverOpen} mediaId={id} mediaType={mediaType} />
             )}

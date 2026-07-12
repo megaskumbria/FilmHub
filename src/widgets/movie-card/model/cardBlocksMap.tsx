@@ -18,7 +18,7 @@ export const cardBlocksMap = {
     <Rating ratingImdb={media.ratingImdb} voteAverage={media.voteAverage} />
   ),
 
-  flags: ({ hoverHeight, hasHover, placement, options }: CardBlocksMapProps) => {
+  flags: ({ media, hoverHeight, hasHover, placement, options }: CardBlocksMapProps) => {
     if (options?.showFlags === false) return null;
 
     return (
@@ -28,6 +28,7 @@ export const cardBlocksMap = {
         placement={placement}
         showCategories={options?.showCategories}
         isPreview={options?.isPreview}
+        flagsData={media.mediaFlags ?? []}
       />
     );
   },

@@ -16,6 +16,8 @@ export interface FlagItem {
   updatedAt: string;
   fontFamily: string;
 
+  isUsed: boolean | null;
+
   iconId?: string | null;
   iconName?: string | null;
   svgContent?: string | null;
@@ -24,20 +26,28 @@ export interface FlagItem {
 export interface FlagData {
   id: string;
   categoryName: string;
-  flags: FlagItem[];
   position: number;
   userId: string;
   createdAt: string;
   updatedAt: string;
+
+  flags: FlagItem[];
 }
 
-export const useGetFlags = (searchQuery?: string, sortBy: SortBy = "default") => {
+interface GetFlagsArgs {
+  sortBy: SortBy;
+
+  searchQuery?: string;
+  mediaId?: number;
+}
+
+export const useGetFlags = ({ searchQuery, sortBy = "default", mediaId }: GetFlagsArgs) => {
   return useQuery({
-    queryKey: ["flags", searchQuery, sortBy],
+    queryKey: ["flags", searchQuery, sortBy, mediaId],
 
     queryFn: async () => {
       const { data } = await apiClient.get<FlagData[]>(
-        `${API_URL}/flags?search=${searchQuery}&sortBy=${sortBy}`,
+        `${API_URL}/flags?search=${searchQuery}&sortBy=${sortBy}&mediaId=${mediaId}`,
       );
       return data;
     },
@@ -67,15 +77,6 @@ export const useUpdateFlagPosition = () => {
       await queryClient.cancelQueries({ queryKey: ["flags"] });
 
       const previousFlags = queryClient.getQueriesData<FlagData[]>({ queryKey: ["flags"] });
-
-      // console.log(
-      //   "previousFlags keys:",
-      //   previousFlags.map(([key]) => key),
-      // );
-      // console.log(
-      //   "previousFlags data:",
-      //   previousFlags.map(([, data]) => data),
-      // );
 
       queryClient.setQueriesData<FlagData[]>({ queryKey: ["flags"] }, (old) =>
         old?.map((category) => {
@@ -162,6 +163,7 @@ export const useCreateFlag = () => {
             const optimisticFlag: FlagItem = {
               ...newFlag,
               id: "__optimistic__",
+              isUsed: null,
               position: category.flags.length,
               userId: "",
               createdAt: "",
