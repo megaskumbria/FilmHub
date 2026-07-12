@@ -1,22 +1,11 @@
 "use client";
 
-import {
-  Button,
-  Input,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/shared/ui";
+import { Button, Input, Tooltip, TooltipTrigger, TooltipContent, Accordion } from "@/shared/ui";
 import Link from "next/link";
-import { HelpCircle, Plus, Search, Flag } from "lucide-react";
-import { cn } from "@/shared/lib/utils";
+import { HelpCircle, Plus, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { type FlagItem, useDebounce, useGetFlags, useSetMediaFlags } from "@/shared/hooks";
-import { FlagBadge } from "@/entities";
+import { FlagsLimitNotice, FlagCategoryItem } from "@/features/set-media-flags";
 
 const MAX_LIMIT_PER_MEDIA = 4;
 
@@ -116,107 +105,26 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
         </div>
       </nav>
 
-      <div className="overflow-y-auto max-h-92 px-1.5 drawer-scroll">
+      <div className="overflow-y-auto max-h-92 px-1.5 drawer-scroll relative">
         {flagsData.length === 0 ?
           <div className="py-6 text-center text-xs text-zinc-muted">No flags found</div>
         : <Accordion type="multiple">
-            {flagsData.map(({ id, categoryName, flags }) => {
-              const isUsedFlag = flags.find((flag) => flag.isUsed);
-              const isCategorySelected = Boolean(selectedFlags[categoryName]);
-              const isCategoryBlocked = isLimitFlags && !isCategorySelected;
-
-              const displayFlag = selectedFlags[categoryName] ?? isUsedFlag;
-
-              return (
-                <AccordionItem
-                  key={id}
-                  value={categoryName}
-                  className={cn(
-                    "border-b border-border last:border-0 transition-opacity duration-300",
-                    isCategoryBlocked && "opacity-40 pointer-events-none",
-                  )}
-                >
-                  <AccordionTrigger className="h-12.5 items-center px-2 py-2.5 rounded-none text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
-                    <span className="flex items-center gap-2 flex-1 min-w-0">
-                      <span className="truncate">{categoryName}</span>
-
-                      {displayFlag && (
-                        <span className="ml-auto mr-1 shrink-0">
-                          <FlagBadge flagItem={displayFlag} />
-                        </span>
-                      )}
-                    </span>
-                  </AccordionTrigger>
-
-                  <AccordionContent className="pb-1">
-                    <div className="flex flex-col gap-0">
-                      {flags.map((flag) => {
-                        const isChecked =
-                          selectedFlags[categoryName]?.id === flag.id || flag.isUsed;
-
-                        return (
-                          <Button
-                            onClick={() => handleSelectFlag(categoryName, flag, mediaId, id)}
-                            key={flag.id}
-                            className={cn(
-                              "flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all hover:bg-white/4",
-                              isChecked
-                                && "bg-accent/8 shadow-[inset_0_0_0_1px_rgba(155,86,240,0.25)]",
-                            )}
-                          >
-                            <FlagBadge flagItem={flag} />
-                            <span
-                              className={cn(
-                                "relative flex items-center justify-center size-3.5 rounded-full border shrink-0 transition-all",
-                                isChecked ?
-                                  "border-accent bg-accent/20 shadow-[0_0_6px_rgba(155,86,240,0.4)]"
-                                : "border-border/50",
-                              )}
-                            >
-                              {isChecked && <span className="size-2 rounded-full bg-accent" />}
-                            </span>
-                          </Button>
-                        );
-                      })}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
-        }
-      </div>
-
-      <div
-        className={cn(
-          "overflow-hidden transition-all duration-400 ease-in-out",
-          isLimitFlags ? "max-h-20 opacity-100" : "max-h-0 opacity-0",
-        )}
-      >
-        <div className="mx-2 mb-2 flex items-center gap-2.5 rounded-lg border border-accent/20 bg-accent/6 px-3 py-2 shadow-[inset_0_0_12px_rgba(155,86,240,0.06)]">
-          <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-accent/15">
-            <Flag className="size-3.5 text-accent" />
-          </span>
-
-          <div className="flex flex-col min-w-0">
-            <span className="text-xs font-semibold text-accent leading-tight">
-              Limit reached ({MAX_LIMIT_PER_MEDIA}/{MAX_LIMIT_PER_MEDIA})
-            </span>
-
-            <span className="text-[11px] text-zinc-muted leading-tight mt-0.5">
-              Remove a flag to pick another
-            </span>
-          </div>
-
-          <div className="ml-auto flex gap-1 shrink-0">
-            {Array.from({ length: MAX_LIMIT_PER_MEDIA }).map((_, i) => (
-              <span
-                key={i}
-                className="size-1.5 rounded-full bg-accent shadow-[0_0_4px_rgba(155,86,240,0.8)]"
+            {flagsData.map(({ id, categoryName, flags }) => (
+              <FlagCategoryItem
+                key={id}
+                flags={flags}
+                categoryName={categoryName}
+                handleSelectFlag={handleSelectFlag}
+                selectedFlags={selectedFlags}
+                isLimitFlags={isLimitFlags}
+                mediaId={mediaId}
+                categoryId={id}
               />
             ))}
-          </div>
-        </div>
+          </Accordion>
+        }
+
+        {isLimitFlags && <FlagsLimitNotice />}
       </div>
 
       <footer className="px-2 py-2 border-t border-border/40 bg-linear-to-r from-accent/3 via-transparent to-transparent">

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { useRef, useState } from "react";
 import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
-import { Media } from "@/shared/stores/movie-catalog";
+import { type Media } from "@/shared/stores/movie-catalog";
 import { useLocale } from "next-intl";
 import { renderBlocks } from "../lib/render-blocks";
 import { AddMovieCollection, SetMediaFlags } from "@/features";
