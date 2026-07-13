@@ -36,9 +36,7 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
   const totalCountsMedia = movies?.length ?? 0;
   const isAllSelected = selectedIds.size === totalCountsMedia && totalCountsMedia > 0;
 
-  const handleToggleEditMode = () => {
-    setIsEditMode((prev) => !prev);
-  };
+  const handleToggleEditMode = () => setIsEditMode((prev) => !prev);
 
   useEffect(() => {
     if (!collections) return;
@@ -92,7 +90,6 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
   };
 
   const isMediaEmpty = movies?.length === 0 && collections?.length !== 0;
-  // const hasAnyCollections = hasCollections || (collections?.length ?? 0) > 0;
 
   return (
     <div className="max-w-[1640px] min-h-screen w-full mx-auto px-6 pt-20 pb-16">

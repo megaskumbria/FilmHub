@@ -5,7 +5,6 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { CreateCollectionModal } from "@/widgets";
 import { CollectionFolder, FolderSkeleton } from "@/entities";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 import { useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";

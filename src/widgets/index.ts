@@ -1,4 +1,3 @@
-// Only external widget components are exported; child components are not
 export { AuthModal } from "./auth-modal";
 export { Header } from "./header";
 export { UserMenu } from "./user-menu";
@@ -27,3 +26,5 @@ export { FollowersSheet } from "./followers-sheet";
 export { MovieGrid } from "./movie-grid";
 export { EmptyStateCollectionFilms } from "./empty-state-collection-films";
 export { PresetPackModal } from "./preset-pack-modal";
+export { BestCollectionsSlider } from "./best-collections-slider";
+export { StackPoster } from "./stack-poster";

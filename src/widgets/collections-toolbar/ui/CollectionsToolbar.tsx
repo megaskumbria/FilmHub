@@ -9,7 +9,7 @@ import { useCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 
-interface CollectionsToolbarProps {
+interface Props {
   activeCollectionId: string;
   isMyProfile: boolean;
   userId: string;
@@ -25,7 +25,7 @@ export const CollectionsToolbar = ({
   isEditMode = false,
   onToggleEditMode,
   isLoading = false,
-}: CollectionsToolbarProps) => {
+}: Props) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCollectionVisible, setIsCollectionVisible] = useState(true);

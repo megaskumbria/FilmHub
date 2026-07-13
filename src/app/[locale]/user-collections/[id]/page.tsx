@@ -28,7 +28,7 @@ export default function UserCollectionPage() {
           <li key={movie.id}>
             <MediaCard
               cardWidth={310}
-              movie={movie}
+              media={movie}
               layout={layout}
               blockOptions={blockOptions}
               mode="add-collection"

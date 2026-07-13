@@ -1,10 +1,11 @@
 "use client";
 
 import { BlockPlacement } from "../model/cardBlocksMap";
-import { FlagBadge, FlagWithCategory } from "@/widgets/movie-card";
-import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
+import { FlagWithCategory } from "@/widgets/movie-card";
+import { useCreationFlagStore } from "@/features/creation-flag";
 import { useShallow } from "zustand/shallow";
 import { type FlagData } from "@/shared/hooks";
+import { FlagBadge } from "@/entities";
 
 interface Props {
   flagsData: FlagData[];
