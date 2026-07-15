@@ -56,11 +56,13 @@ export const MediaCard = ({
     mediaType,
     ratingImdb,
     voteAverage,
+    originalName,
+    title,
   } = media;
 
   const { poster, body, hover } = layout;
 
-  const titleToDisplay = name || originalTitle;
+  const titleToDisplay = name || originalTitle || originalName || title || name || "Untitled";
   const yearOfRelease = new Date(releaseDate || firstAirDate).getFullYear();
 
   const mediaForBlocks = {

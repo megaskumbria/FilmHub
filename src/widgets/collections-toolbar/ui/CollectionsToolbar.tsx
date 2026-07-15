@@ -5,7 +5,7 @@ import { Input, Button, Separator } from "@/shared/ui";
 import { X, Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
-import { useCollection } from "@/shared/hooks";
+import { useCollection, useToggleVisibilityCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 
@@ -28,23 +28,22 @@ export const CollectionsToolbar = ({
 }: Props) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isCollectionVisible, setIsCollectionVisible] = useState(true);
 
   const focusRef = useRef<HTMLInputElement>(null);
 
   const { data: collections } = useCollection(userId);
+  const { mutate: toggleVisibilityCollection } = useToggleVisibilityCollection();
+
   const collection = collections?.find((collection) => collection.id === activeCollectionId);
 
-  const { collectionName, iconName, colorHex, mediaCount } = collection ?? {};
+  const { collectionName, iconName, colorHex, mediaCount, isVisible } = collection ?? {};
 
   const isMediaEmpty = mediaCount === 0;
 
   const Icon = ICONS.find((icon) => icon.iconName === iconName)?.icon;
 
   useEffect(() => {
-    if (isSearchOpen) {
-      setTimeout(() => focusRef.current?.focus(), 150);
-    }
+    if (isSearchOpen) setTimeout(() => focusRef.current?.focus(), 150);
   }, [isSearchOpen]);
 
   const handleOpenInput = () => {
@@ -122,17 +121,19 @@ export const CollectionsToolbar = ({
           <>
             <Button
               size="sm"
-              onClick={() => setIsCollectionVisible((prev) => !prev)}
+              onClick={() =>
+                toggleVisibilityCollection({ id: activeCollectionId, isVisible: !isVisible })
+              }
               className={cn(
                 "rounded-lg h-9 p-0 border transition-colors duration-200",
-                isCollectionVisible ?
-                  "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
-                : "bg-success/10 border-success/30 text-success",
+                isVisible ?
+                  "bg-success/10 border-success/30 text-success"
+                : "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted",
               )}
             >
-              {isCollectionVisible ?
-                <EyeOff className="shrink-0 size-4" />
-              : <Eye className="shrink-0 size-4" />}
+              {isVisible ?
+                <Eye className="shrink-0 size-4" />
+              : <EyeOff className="shrink-0 size-4" />}
             </Button>
 
             <Button

@@ -108,8 +108,8 @@ export const CollectionFolder = ({
             {isMyProfile && (
               <Button className="size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10">
                 {isVisible ?
-                  <EyeOff className="size-4" />
-                : <Eye className="size-4" />}
+                  <Eye className="size-4" />
+                : <EyeOff className="size-4" />}
               </Button>
             )}
           </div>

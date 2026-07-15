@@ -3,6 +3,7 @@
 import { mockMovies, type MovieCardData } from "@/shared/model/movies";
 import { FilterPopover, BestCollectionsSlider } from "@/widgets";
 import { CollectionDeck } from "@/entities";
+import { useCollectionsFeed } from "@/shared/hooks/useCollectionsFeed";
 
 interface CollectionUserAvatar {
   id: number;
@@ -123,6 +124,10 @@ export const BEST_COLLECTIONS: CollectionCardData[] = [
 ];
 
 export default function Home() {
+  const { data: collectionsFeed } = useCollectionsFeed();
+
+  console.log(collectionsFeed);
+
   return (
     <main className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
       <BestCollectionsSlider />

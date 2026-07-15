@@ -24,12 +24,14 @@ export interface Collection {
 export const useCollection = (userId: string, mediaId?: number) => {
   return useQuery({
     queryKey: ["collection", userId, mediaId],
+
     queryFn: async () => {
       const { data } = await apiClient.get<Collection[]>(
         `${API_URL}/collection?mediaId=${mediaId}`,
       );
       return data;
     },
+
     staleTime: 1000 * 60 * 5,
     enabled: !!userId,
   });
@@ -47,6 +49,7 @@ export const useCreateCollection = () => {
 
       return response;
     },
+
     onSuccess: (newCollection) => {
       queryClient.setQueriesData<Collection[]>(
         { queryKey: ["collection", newCollection.userId] },
@@ -68,6 +71,7 @@ export const useEditCollection = () => {
 
       return response;
     },
+
     onSuccess: (updatedCollection) => {
       queryClient.setQueriesData<Collection[]>(
         { queryKey: ["collection", updatedCollection.userId] },
@@ -88,6 +92,7 @@ export const useDeleteCollection = () => {
 
       return response;
     },
+
     onSuccess: (_, id: string) => {
       queryClient.removeQueries({ queryKey: ["media-collection", id] });
       void queryClient.invalidateQueries({ queryKey: ["collection"] });
@@ -112,6 +117,7 @@ export const useAddMediaToCollection = () => {
         collectionIds,
       });
     },
+
     onSuccess: (_, { collectionIds }) => {
       collectionIds.forEach(
         (id) => void queryClient.invalidateQueries({ queryKey: ["media-collection", id] }),
@@ -131,6 +137,7 @@ export const useGetMediaCollection = (collectionId: string) => {
       );
       return response;
     },
+
     staleTime: 1000 * 60 * 5,
     enabled: !!collectionId,
   });
@@ -156,6 +163,29 @@ export const useDeleteMediaFromCollection = () => {
         old?.filter((o) => !mediaIds.includes(o.id)),
       );
       void queryClient.invalidateQueries({ queryKey: ["collection"] });
+    },
+  });
+};
+
+interface ToggleVisibilityCollectionArgs {
+  id: string;
+  isVisible: boolean;
+}
+
+export const useToggleVisibilityCollection = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, isVisible }: ToggleVisibilityCollectionArgs) => {
+      return await apiClient.patch(`${API_URL}/collection/toggle-visibility/${id}`, {
+        isVisible,
+      });
+    },
+
+    onSuccess: (_, { id, isVisible }) => {
+      queryClient.setQueriesData<Collection[]>({ queryKey: ["collection"] }, (old) =>
+        old?.map((c) => (c.id === id ? { ...c, isVisible } : c)),
+      );
     },
   });
 };
