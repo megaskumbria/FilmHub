@@ -18,7 +18,7 @@ interface Props {
 
 export const FolderMetaBar = ({ collection, name, isHovered, isMyProfile }: Props) => {
   const { mutate: deleteCollection, isPending: isDeleting } = useDeleteCollection();
-  const { id, posters, mediaCount } = collection;
+  const { id, posters, moviesCount } = collection;
 
   const handleDeleteCollection = () => {
     deleteCollection(id, {
@@ -46,7 +46,7 @@ export const FolderMetaBar = ({ collection, name, isHovered, isMyProfile }: Prop
             isHovered && isMyProfile ? "opacity-0" : "opacity-100",
           )}
         >
-          {mediaCount}
+          {moviesCount}
         </span>
 
         {isMyProfile && (

@@ -21,6 +21,7 @@ interface Props {
 export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
   const { data: collections, isLoading } = useCollection(userId);
   const firstCollectionId = collections?.[0]?.id ?? "";
+
   const [activeCollectionId, setActiveCollectionId] = useState(firstCollectionId);
 
   const { layout, blockOptions } = useMovieCardLayout();
@@ -99,18 +100,19 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
         isMyProfile={true}
         setActiveCollectionId={setActiveCollectionId}
         activeCollectionId={activeCollectionId}
-        userId={userId}
         hasCollections={hasAnyCollections}
+        collections={collections ?? []}
+        isPending={isLoading}
       />
 
       {hasAnyCollections && (
         <CollectionsToolbar
           isMyProfile={true}
           activeCollectionId={activeCollectionId}
-          userId={userId}
           isEditMode={isEditMode}
           onToggleEditMode={handleToggleEditMode}
           isLoading={isLoading}
+          collections={collections ?? []}
         />
       )}
 

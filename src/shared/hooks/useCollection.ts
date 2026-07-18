@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
 import { CreateCollectionSchema } from "@/features/create-folder/model/create-collection-schema";
 import { apiClient } from "../api/api-client";
-import { Media, MediaType } from "../stores/movie-catalog";
+import { type Media, type MediaType } from "../stores/movie-catalog";
 
 export interface Collection {
   id: string;
@@ -13,7 +13,7 @@ export interface Collection {
   posters: string[];
 
   hasMedia: boolean;
-  mediaCount: number;
+  moviesCount: number;
   position: number;
 
   userId: string;

@@ -47,3 +47,4 @@ export {
 export { useRenameCategory } from "./useRenameCategory";
 export { useSetMediaFlags } from "./useMediaFlags";
 export { collectionsFeedQuery } from "./useCollectionsFeed";
+export { useUserCollectionsQuery, useUserCollectionMediaQuery } from "./useUserCollection";

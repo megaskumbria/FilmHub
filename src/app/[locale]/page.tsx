@@ -8,7 +8,6 @@ export default async function Home() {
   await queryClient.prefetchQuery(collectionsFeedQuery);
 
   const dehydratedState = dehydrate(queryClient);
-  console.log(dehydratedState);
 
   return (
     <HydrationBoundary state={dehydratedState}>

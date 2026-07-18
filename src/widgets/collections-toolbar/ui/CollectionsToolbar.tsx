@@ -5,23 +5,25 @@ import { Input, Button, Separator } from "@/shared/ui";
 import { X, Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
-import { useCollection, useToggleVisibilityCollection } from "@/shared/hooks";
+import { useToggleVisibilityCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
+import { type Collection } from "@/shared/hooks/useCollection";
 
 interface Props {
   activeCollectionId: string;
   isMyProfile: boolean;
-  userId: string;
-  isEditMode?: boolean;
-  onToggleEditMode: () => void;
   isLoading: boolean;
+  collections: Collection[];
+
+  isEditMode?: boolean;
+  onToggleEditMode?: () => void;
 }
 
 export const CollectionsToolbar = ({
   activeCollectionId,
   isMyProfile,
-  userId,
+  collections,
   isEditMode = false,
   onToggleEditMode,
   isLoading = false,
@@ -31,10 +33,9 @@ export const CollectionsToolbar = ({
 
   const focusRef = useRef<HTMLInputElement>(null);
 
-  const { data: collections } = useCollection(userId);
   const { mutate: toggleVisibilityCollection } = useToggleVisibilityCollection();
 
-  const collection = collections?.find((collection) => collection.id === activeCollectionId);
+  const collection = collections.find((collection) => collection.id === activeCollectionId);
 
   const { collectionName, iconName, colorHex, mediaCount, isVisible } = collection ?? {};
 

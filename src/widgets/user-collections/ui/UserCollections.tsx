@@ -8,29 +8,29 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
-import { useCollection } from "@/shared/hooks";
 import { EmptyStateCollections } from "./EmptyStateCollections";
 import { sliderNavigationButton } from "@/shared/lib";
+import { type Collection } from "@/shared/hooks/useCollection";
 
 interface Props {
   setActiveCollectionId: (collectionId: string) => void;
   activeCollectionId: string;
   isMyProfile: boolean;
-  userId: string;
+  collections: Collection[];
+  isPending: boolean;
   hasCollections: boolean;
 }
 
 export const UserCollections = ({
   isMyProfile,
+  collections,
   setActiveCollectionId,
   activeCollectionId,
-  userId,
+  isPending,
   hasCollections,
 }: Props) => {
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
-
-  const { data: collections, isPending } = useCollection(userId);
 
   const handleNext = () => {
     const swiper = swiperRef.current;

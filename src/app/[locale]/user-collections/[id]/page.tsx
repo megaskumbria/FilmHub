@@ -1,41 +1,36 @@
-"use client";
+import { HydrationBoundary } from "@tanstack/react-query";
+import { UserCollectionsClient } from "./UserCollectionsClient";
+import { dehydrate } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
+import { useUserCollectionMediaQuery, useUserCollectionsQuery } from "@/shared/hooks";
 
-import { mockMovies } from "@/shared/model/movies";
-import { CollectionsToolbar, MediaCard, ProfileHeader } from "@/widgets";
-import { UserCollections } from "@/widgets/user-collections";
-import { useState } from "react";
-import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
+interface Params {
+  locale: string;
+  id: string;
+}
 
-export default function UserCollectionPage() {
-  const [activeFolder, setActiveFolder] = useState(0);
-  const { layout, blockOptions } = useMovieCardLayout();
+interface Props {
+  params: Promise<Params>;
+}
+
+export default async function UserCollectionPage({ params }: Props) {
+  const { id: userId } = await params;
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(useUserCollectionsQuery(userId));
+
+  const collections = await queryClient.fetchQuery(useUserCollectionsQuery(userId));
+  const collectionId = collections?.[0]?.id ?? "";
+
+  console.log(collectionId);
+
+  await queryClient.prefetchQuery(useUserCollectionMediaQuery(collectionId, userId));
+
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
-      {/* <UserProfileHeader /> */}
-      <ProfileHeader isMyProfile={false} />
-
-      <UserCollections
-        isMyProfile={false}
-        setActiveFolder={setActiveFolder}
-        activeFolder={activeFolder}
-      />
-
-      <CollectionsToolbar isMyProfile={false} activeFolder={activeFolder} />
-
-      <ul className="grid grid-cols-5 gap-2 justify-items-center">
-        {mockMovies.map((movie) => (
-          <li key={movie.id}>
-            <MediaCard
-              cardWidth={310}
-              media={movie}
-              layout={layout}
-              blockOptions={blockOptions}
-              mode="add-collection"
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <HydrationBoundary state={dehydratedState}>
+      <UserCollectionsClient userId={userId} collectionId={collectionId} />
+    </HydrationBoundary>
   );
 }

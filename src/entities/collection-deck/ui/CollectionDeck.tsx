@@ -36,17 +36,9 @@ interface Props {
 export const CollectionDeck = ({ collection }: Props) => {
   const [hovered, setHovered] = useState(false);
 
-  const {
-    id,
-    collectionName,
-    genres,
-    rating,
-    viewsCount,
-    likesCount,
-    previewPosters,
-    moviesCount,
-  } = collection;
-  const { username, avatarUrl } = collection.owner;
+  const { collectionName, genres, rating, viewsCount, likesCount, previewPosters, moviesCount } =
+    collection;
+  const { username, avatarUrl, userId } = collection.owner;
 
   const positions = hovered ? hoveredPositions : restingPositions;
 
@@ -57,7 +49,7 @@ export const CollectionDeck = ({ collection }: Props) => {
   const firstAvatarLetter = username?.charAt(0).toUpperCase();
 
   return (
-    <Link href={`/user-collections/${id}`} className="block">
+    <Link href={`/user-collections/${userId}`} className="block">
       <article
         className="group cursor-pointer select-none"
         style={{ width: stageWidth }}
