@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef, useState, type KeyboardEvent } from "react";
 import { useRenameFlagCategory } from "./useFlagCategories";
 

@@ -6,7 +6,6 @@ import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { Button } from "@/shared/ui/button";
 import { ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
-import { BEST_COLLECTIONS } from "@/app/[locale]/page";
 import { CollectionDeck } from "@/entities";
 
 export const BestCollectionsSlider = () => {
@@ -60,7 +59,7 @@ export const BestCollectionsSlider = () => {
           </div>
         </header>
 
-        <Swiper
+        {/* <Swiper
           modules={[Navigation]}
           slidesPerView={5}
           spaceBetween={24}
@@ -74,7 +73,7 @@ export const BestCollectionsSlider = () => {
               <CollectionDeck collection={collection} />
             </SwiperSlide>
           ))}
-        </Swiper>
+        </Swiper> */}
       </div>
     </section>
   );

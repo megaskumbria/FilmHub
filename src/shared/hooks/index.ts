@@ -46,3 +46,4 @@ export {
 } from "./usePresetPacks";
 export { useRenameCategory } from "./useRenameCategory";
 export { useSetMediaFlags } from "./useMediaFlags";
+export { collectionsFeedQuery } from "./useCollectionsFeed";

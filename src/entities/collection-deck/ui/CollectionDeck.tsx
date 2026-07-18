@@ -5,9 +5,9 @@ import Link from "next/link";
 import { cn } from "@/shared/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui";
 import { IconStarFilled, IconEye, IconHeartFilled } from "@tabler/icons-react";
-import { CollectionCardData } from "@/app/[locale]/page";
 import { motion } from "framer-motion";
 import { StackPoster } from "@/widgets";
+import { CollectionFeedItem } from "@/shared/hooks/useCollectionsFeed";
 
 const CARD_W = 220;
 const CARD_H = Math.round(CARD_W * (3 / 2));
@@ -21,29 +21,40 @@ const restingPositions = [
   { x: 0, y: 0, rotate: 0 },
   { x: -6, y: -TOP_REVEAL_MID, rotate: -1.5 },
   { x: 6, y: -TOP_REVEAL_BACK, rotate: 3 },
-] as const;
+];
 
 const hoveredPositions = [
   { x: 0, y: -10, rotate: 0 },
   { x: 42, y: 8, rotate: 8 },
   { x: -36, y: 12, rotate: -8 },
-] as const;
+];
 
 interface Props {
-  collection: CollectionCardData;
+  collection: CollectionFeedItem;
 }
 
 export const CollectionDeck = ({ collection }: Props) => {
-  const { id, label, genres, rating, views, likes, movies } = collection;
-  const { imageUrl, name, initials, color } = collection.owner;
-
   const [hovered, setHovered] = useState(false);
 
-  const top3 = movies.slice(0, 3);
+  const {
+    id,
+    collectionName,
+    genres,
+    rating,
+    viewsCount,
+    likesCount,
+    previewPosters,
+    moviesCount,
+  } = collection;
+  const { username, avatarUrl } = collection.owner;
+
   const positions = hovered ? hoveredPositions : restingPositions;
 
   const stageWidth = CARD_W + STACK_RESERVE_X * 2;
   const stageHeight = CARD_H + STACK_RESERVE_Y;
+
+  const normalizedGenres = genres.slice(0, 3).join(" · ");
+  const firstAvatarLetter = username?.charAt(0).toUpperCase();
 
   return (
     <Link href={`/user-collections/${id}`} className="block">
@@ -68,14 +79,14 @@ export const CollectionDeck = ({ collection }: Props) => {
               transformStyle: "preserve-3d",
             }}
           >
-            {[...top3].reverse().map((movie, ri) => {
-              const idx = top3.length - 1 - ri;
+            {[...previewPosters].reverse().map((poster, ri) => {
+              const idx = previewPosters.length - 1 - ri;
               const { x, y, rotate } = positions[idx];
               const isTop = idx === 0;
 
               return (
                 <motion.div
-                  key={movie.id}
+                  key={poster}
                   className="absolute top-0 left-0"
                   style={{
                     width: CARD_W,
@@ -94,9 +105,9 @@ export const CollectionDeck = ({ collection }: Props) => {
                   }}
                 >
                   <StackPoster
-                    movie={movie}
+                    poster={poster}
                     isTop={isTop}
-                    filmsCount={movies.length}
+                    filmsCount={moviesCount}
                     rating={rating}
                     hovered={hovered}
                   />
@@ -135,20 +146,17 @@ export const CollectionDeck = ({ collection }: Props) => {
                   hovered ? "text-accent" : "text-foreground",
                 )}
               >
-                {label}
+                {collectionName}
               </p>
 
-              <p className="mt-1 truncate text-sm text-zinc-muted">{genres.join(" · ")}</p>
+              <p className="mt-1 truncate text-sm text-zinc-muted">{normalizedGenres}</p>
             </div>
 
             <Avatar className="size-8">
-              {imageUrl && <AvatarImage className="rounded-full" src={imageUrl} alt={name} />}
+              {avatarUrl && <AvatarImage className="rounded-full" src={avatarUrl} alt={username} />}
 
-              <AvatarFallback
-                className="text-xs font-semibold text-white"
-                style={{ backgroundColor: color }}
-              >
-                {initials}
+              <AvatarFallback className="bg-secondary text-primary font-medium text-sm">
+                {firstAvatarLetter}
               </AvatarFallback>
             </Avatar>
           </div>
@@ -161,12 +169,12 @@ export const CollectionDeck = ({ collection }: Props) => {
 
             <span className="flex items-center gap-1 text-sm text-zinc-muted">
               <IconEye className="size-3.5" />
-              {views}
+              {viewsCount}
             </span>
 
             <span className="flex items-center gap-1 text-sm text-zinc-muted">
               <IconHeartFilled className="size-3.5" />
-              {likes}
+              {likesCount}
             </span>
           </div>
         </div>

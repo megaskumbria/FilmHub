@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
 import axios from "axios";
 
@@ -20,12 +20,12 @@ export interface CollectionFeedItem {
   owner: OwnerCollection;
 }
 
-export const useCollectionsFeed = () => {
-  return useQuery({
-    queryKey: ["collections-feed"],
-    queryFn: async () => {
-      const { data } = await axios.get<CollectionFeedItem[]>(`${API_URL}/collections-feed`);
-      return data;
-    },
-  });
-};
+export const collectionsFeedQuery = queryOptions({
+  queryKey: ["collections-feed"],
+  queryFn: async () => {
+    const { data } = await axios.get<CollectionFeedItem[]>(`${API_URL}/collections-feed`);
+    return data;
+  },
+  refetchOnWindowFocus: false,
+  staleTime: 1000 * 60 * 60, // 1 hour
+});

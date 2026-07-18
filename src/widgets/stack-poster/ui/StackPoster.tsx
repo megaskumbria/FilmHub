@@ -1,5 +1,4 @@
 import { cn } from "@/shared/lib/utils";
-import { MovieCardData } from "@/shared/model/movies";
 import Image from "next/image";
 import { IconStarFilled, IconStack2 } from "@tabler/icons-react";
 
@@ -7,14 +6,14 @@ const CARD_W = 220;
 const CARD_H = Math.round(CARD_W * (3 / 2));
 
 interface Props {
-  movie: MovieCardData;
+  poster: string;
   isTop: boolean;
   filmsCount: number;
   rating: number;
   hovered: boolean;
 }
 
-export const StackPoster = ({ movie, isTop, filmsCount, rating, hovered }: Props) => {
+export const StackPoster = ({ poster, isTop, filmsCount, rating, hovered }: Props) => {
   return (
     <div
       className={cn(
@@ -26,8 +25,8 @@ export const StackPoster = ({ movie, isTop, filmsCount, rating, hovered }: Props
       style={{ height: CARD_H }}
     >
       <Image
-        src={movie.imgUrl}
-        alt={movie.title}
+        src={poster}
+        alt={poster}
         width={CARD_W}
         height={CARD_H}
         className={cn(
