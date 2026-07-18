@@ -9,20 +9,21 @@ interface Params {
   id: string;
 }
 
-interface Props {
-  params: Promise<Params>;
+interface SearchParams {
+  collectionId: string;
 }
 
-export default async function UserCollectionPage({ params }: Props) {
+interface Props {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}
+
+export default async function UserCollectionPage({ params, searchParams }: Props) {
   const { id: userId } = await params;
+  const { collectionId } = await searchParams;
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(useUserCollectionsQuery(userId));
-
-  const collections = await queryClient.fetchQuery(useUserCollectionsQuery(userId));
-  const collectionId = collections?.[0]?.id ?? "";
-
-  console.log(collectionId);
 
   await queryClient.prefetchQuery(useUserCollectionMediaQuery(collectionId, userId));
 
