@@ -128,6 +128,7 @@ export const ZonesPanel = () => {
                                 <span className="text-xs text-zinc-muted/60 group-hover/sub:text-zinc-muted transition-colors">
                                   {opt.label}
                                 </span>
+
                                 <Switch
                                   id={`${key}-${block.id}-${opt.id}`}
                                   size="sm"

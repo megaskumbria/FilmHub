@@ -24,7 +24,7 @@ interface Props {
   collectionId: string;
 }
 
-export const MyCollectionsClient = ({ userId, isMyCollection, collectionId }: Props) => {
+export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Props) => {
   const { data: collections, isLoading } = useQuery(
     collectionQueryOptions({ userId, isMyCollection }),
   );
@@ -65,10 +65,7 @@ export const MyCollectionsClient = ({ userId, isMyCollection, collectionId }: Pr
 
   useEffect(() => {
     if (!isEditMode) {
-      const timer = setTimeout(() => {
-        setSelectedIds(new Set());
-      }, 300);
-
+      const timer = setTimeout(() => setSelectedIds(new Set()), 300);
       return () => clearTimeout(timer);
     }
   }, [isEditMode]);
@@ -100,6 +97,11 @@ export const MyCollectionsClient = ({ userId, isMyCollection, collectionId }: Pr
   };
 
   const isMediaEmpty = mediaItems?.length === 0 && collections?.length !== 0;
+
+  const mode =
+    !isMyCollection ? "add-collection"
+    : isEditMode ? "edit-collection"
+    : "add-flag";
 
   return (
     <div className="max-w-[1640px] min-h-screen w-full mx-auto px-6 pt-20 pb-16">
@@ -142,7 +144,7 @@ export const MyCollectionsClient = ({ userId, isMyCollection, collectionId }: Pr
                   media={media}
                   layout={layout}
                   blockOptions={blockOptions}
-                  mode={isEditMode ? "edit-collection" : "add-flag"}
+                  mode={mode}
                   onCheckedChange={handleCheckedChange}
                   isChecked={selectedIds.has(media.id)}
                 />

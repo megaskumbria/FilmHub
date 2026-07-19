@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { MyCollectionsClient } from "./MyCollectionsClient";
+import { CollectionsClient } from "./CollectionsClient";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { API_URL } from "@/shared/constants/constants";
@@ -77,7 +77,7 @@ export default async function MyCollectionsPage({ params, searchParams }: Props)
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <MyCollectionsClient
+      <CollectionsClient
         userId={id}
         isMyCollection={isMyCollection}
         collectionId={firstCollectionId}

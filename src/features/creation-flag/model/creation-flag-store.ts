@@ -26,7 +26,7 @@ interface Ui {
   editingFlagId: string | null;
 }
 
-export type LastSnapshotFlag = Pick<Store, "flag" | "ui">; // ?
+export type LastSnapshotFlag = Pick<Store, "flag" | "ui">;
 
 interface Store {
   flag: FlagDraft;

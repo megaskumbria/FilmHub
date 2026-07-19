@@ -20,7 +20,7 @@ export type BlockOptions = Partial<
 >;
 
 export const defaultLayout: Layout = {
-  poster: ["rating"],
+  poster: ["rating", "flags"],
   hover: ["title", "description", "genres"],
   body: [],
 };
