@@ -13,6 +13,7 @@ import {
   useDeleteMediaFromCollection,
   collectionMediaQueryOptions,
   collectionQueryOptions,
+  useRecordCollectionView,
 } from "@/shared/hooks";
 import { FloatingEditBar } from "@/features";
 import { Skeleton } from "@/shared/ui";
@@ -43,10 +44,17 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
   const { mutate: deleteMediaFromCollection, isPending: isDeleting } =
     useDeleteMediaFromCollection();
 
+  const { mutate: recordCollectionView } = useRecordCollectionView();
+
   const totalCountsMedia = mediaItems?.length ?? 0;
   const isAllSelected = selectedIds.size === totalCountsMedia && totalCountsMedia > 0;
 
   const handleToggleEditMode = () => setIsEditMode((prev) => !prev);
+
+  useEffect(() => {
+    if (!activeCollectionId) return;
+    recordCollectionView(activeCollectionId);
+  }, [activeCollectionId]);
 
   useEffect(() => {
     if (!collections) return;

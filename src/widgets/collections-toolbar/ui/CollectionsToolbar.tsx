@@ -9,6 +9,7 @@ import { useToggleVisibilityCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 import { type Collection } from "@/shared/hooks/useCollection";
+import { IconEye } from "@tabler/icons-react";
 
 interface Props {
   activeCollectionId: string;
@@ -37,7 +38,8 @@ export const CollectionsToolbar = ({
 
   const collection = collections.find((collection) => collection.id === activeCollectionId);
 
-  const { collectionName, iconName, colorHex, moviesCount, isVisible } = collection ?? {};
+  const { collectionName, iconName, colorHex, moviesCount, isVisible, viewsCount } =
+    collection ?? {};
 
   const isMediaEmpty = moviesCount === 0;
 
@@ -77,6 +79,11 @@ export const CollectionsToolbar = ({
               <Heart className="size-3.5 shrink-0" />
               <span className="text-sm tabular-nums">0</span>
             </Button>
+
+            <span className="flex items-center gap-1 text-sm text-zinc-muted">
+              <IconEye className="size-4" />
+              {viewsCount}
+            </span>
           </div>
         </div>
       }

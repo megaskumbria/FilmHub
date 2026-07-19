@@ -17,6 +17,7 @@ export {
   useAddMediaToCollection,
   useDeleteMediaFromCollection,
   useToggleVisibilityCollection,
+  useRecordCollectionView,
 } from "./useCollection";
 export { useSkipDeleteConfirm, setSkipDeleteConfirm } from "./useSkipDeleteConfirm";
 export { useDeferredLoading } from "./useDeferredLoading";

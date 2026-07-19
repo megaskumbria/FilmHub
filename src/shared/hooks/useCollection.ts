@@ -3,6 +3,7 @@ import { API_URL } from "../constants/constants";
 import type { CreateCollectionSchema } from "@/features/create-folder/model/create-collection-schema";
 import { apiClient } from "../api/api-client";
 import { type Media, type MediaType } from "../stores/movie-catalog";
+import axios from "axios";
 
 export interface Collection {
   id: string;
@@ -10,6 +11,7 @@ export interface Collection {
   iconName: string;
   colorHex: string;
   isVisible: boolean;
+  viewsCount: number;
   posters: string[];
 
   hasMedia: boolean;
@@ -198,6 +200,18 @@ export const useToggleVisibilityCollection = () => {
     onSuccess: (_, { id, isVisible }) => {
       queryClient.setQueriesData<Collection[]>({ queryKey: ["collection"] }, (old) =>
         old?.map((c) => (c.id === id ? { ...c, isVisible } : c)),
+      );
+    },
+  });
+};
+
+export const useRecordCollectionView = () => {
+  return useMutation({
+    mutationFn: async (collectionId: string) => {
+      return await axios.post(
+        `${API_URL}/collection/record-view/${collectionId}`,
+        {},
+        { withCredentials: true },
       );
     },
   });
