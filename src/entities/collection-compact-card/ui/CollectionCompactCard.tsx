@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const CollectionCompactCard = ({ collection, isSelected, toggleCollection }: Props) => {
-  const { id, iconName, collectionName, colorHex, hasMedia, mediaCount } = collection;
+  const { id, iconName, collectionName, colorHex, hasMedia, moviesCount } = collection;
   const Icon = ICONS.find((i) => i.iconName === iconName)?.icon;
 
   const borderColor =
@@ -58,7 +58,7 @@ export const CollectionCompactCard = ({ collection, isSelected, toggleCollection
           <div className="min-w-0">
             <p className="text-sm font-medium text-foreground truncate">{collectionName}</p>
             <p className="text-xs text-zinc-muted">
-              {mediaCount} {mediaCount === 1 ? "film" : "films"}
+              {moviesCount} {moviesCount === 1 ? "film" : "films"}
             </p>
           </div>
 

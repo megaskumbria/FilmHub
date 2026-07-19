@@ -37,9 +37,9 @@ export const CollectionsToolbar = ({
 
   const collection = collections.find((collection) => collection.id === activeCollectionId);
 
-  const { collectionName, iconName, colorHex, mediaCount, isVisible } = collection ?? {};
+  const { collectionName, iconName, colorHex, moviesCount, isVisible } = collection ?? {};
 
-  const isMediaEmpty = mediaCount === 0;
+  const isMediaEmpty = moviesCount === 0;
 
   const Icon = ICONS.find((icon) => icon.iconName === iconName)?.icon;
 
@@ -63,7 +63,7 @@ export const CollectionsToolbar = ({
 
           <Separator orientation="vertical" className="h-5 bg-border" />
 
-          <span className="text-base font-normal text-foreground">{mediaCount}</span>
+          <span className="text-base font-normal text-foreground">{moviesCount}</span>
 
           <Separator orientation="vertical" className="h-5 bg-border" />
 

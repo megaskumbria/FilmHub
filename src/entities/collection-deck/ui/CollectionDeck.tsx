@@ -57,7 +57,7 @@ export const CollectionDeck = ({ collection }: Props) => {
   const firstAvatarLetter = username?.charAt(0).toUpperCase();
 
   return (
-    <Link href={`/user-collections/${userId}?collectionId=${id}`} className="block">
+    <Link href={`/collections/${userId}?collectionId=${id}`} className="block">
       <article
         className="group cursor-pointer select-none"
         style={{ width: stageWidth }}

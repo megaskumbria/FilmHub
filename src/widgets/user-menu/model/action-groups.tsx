@@ -13,7 +13,7 @@ interface UserActionsGroup {
 interface UserActionsButton {
   icon: LucideIcon;
   soon?: boolean;
-  render: () => ReactNode;
+  render: (userId?: string) => ReactNode;
 }
 
 export const ACTION_GROUPS: UserActionsGroup[] = [
@@ -58,8 +58,8 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
     items: [
       {
         icon: Clapperboard,
-        render: () => (
-          <ActionButton icon={Clapperboard} href="/my-collections">
+        render: (userId?: string) => (
+          <ActionButton icon={Clapperboard} href={`/collections/${userId}`}>
             My collections
           </ActionButton>
         ),

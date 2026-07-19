@@ -18,7 +18,7 @@ interface Props {
   isMyProfile: boolean;
   collections: Collection[];
   isPending: boolean;
-  hasCollections: boolean;
+  hasCollectionItems: boolean;
 }
 
 export const UserCollections = ({
@@ -27,7 +27,7 @@ export const UserCollections = ({
   setActiveCollectionId,
   activeCollectionId,
   isPending,
-  hasCollections,
+  hasCollectionItems,
 }: Props) => {
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
@@ -49,7 +49,7 @@ export const UserCollections = ({
 
   return (
     <>
-      {!hasCollections ?
+      {!hasCollectionItems ?
         <EmptyStateCollections />
       : <section>
           <div className="flex items-center justify-between mb-5 pt-5">

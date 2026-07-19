@@ -9,12 +9,12 @@ export { useCountries } from "./useCountries";
 export { useMovie } from "./useMedia";
 export {
   type Collection,
-  useCollection,
+  collectionQueryOptions,
+  collectionMediaQueryOptions,
   useCreateCollection,
   useEditCollection,
   useDeleteCollection,
   useAddMediaToCollection,
-  useGetMediaCollection,
   useDeleteMediaFromCollection,
   useToggleVisibilityCollection,
 } from "./useCollection";
@@ -47,4 +47,3 @@ export {
 export { useRenameCategory } from "./useRenameCategory";
 export { useSetMediaFlags } from "./useMediaFlags";
 export { collectionsFeedQuery } from "./useCollectionsFeed";
-export { useUserCollectionsQuery, useUserCollectionMediaQuery } from "./useUserCollection";

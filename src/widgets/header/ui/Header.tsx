@@ -12,6 +12,7 @@ export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
 
   const { user } = useAuthStore();
+  const { id: userId } = user;
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
@@ -58,12 +59,13 @@ export const Header = () => {
           <SearchMovieDrawer />
 
           <Link
-            href="/my-collections"
+            href={`/collections/${userId}`}
             className="rounded-lg px-4 py-2 bg-accent/90 hover:bg-accent text-white border-0 text-sm font-medium transition-colors"
           >
             <span>My collections</span>
           </Link>
-          {user.id ?
+
+          {userId ?
             <UserMenu />
           : <AuthModal>
               <Button

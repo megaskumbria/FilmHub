@@ -1,7 +1,11 @@
 import { ACTION_GROUPS } from "../model/action-groups";
 import { Separator } from "@/shared/ui";
+import { useAuthStore } from "@/features/auth";
 
 export const UserActions = () => {
+  const { user } = useAuthStore();
+  const { id: userId } = user;
+
   return (
     <div className="flex flex-col gap-3">
       {ACTION_GROUPS.map((group) => (
@@ -16,7 +20,7 @@ export const UserActions = () => {
 
           <ul className="flex flex-col gap-0.5">
             {group.items.map((item, index) => (
-              <li key={index}>{item.render()}</li>
+              <li key={index}>{item.render(userId ?? "")}</li>
             ))}
           </ul>
         </div>

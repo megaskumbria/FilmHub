@@ -1,6 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
-import { CreateCollectionSchema } from "@/features/create-folder/model/create-collection-schema";
+import type { CreateCollectionSchema } from "@/features/create-folder/model/create-collection-schema";
 import { apiClient } from "../api/api-client";
 import { type Media, type MediaType } from "../stores/movie-catalog";
 
@@ -21,21 +21,57 @@ export interface Collection {
   createdAt: string;
 }
 
-export const useCollection = (userId: string, mediaId?: number) => {
-  return useQuery({
-    queryKey: ["collection", userId, mediaId],
+interface CollectionQueryOptions {
+  userId: string;
+  isMyCollection: boolean;
+  mediaId?: number;
+  collectionId?: string;
+  token?: string;
+}
 
+export const collectionQueryOptions = ({
+  userId,
+  isMyCollection,
+  mediaId,
+  collectionId,
+  token,
+}: CollectionQueryOptions) =>
+  queryOptions({
+    queryKey: ["collection", userId, isMyCollection, collectionId, mediaId],
     queryFn: async () => {
       const { data } = await apiClient.get<Collection[]>(
-        `${API_URL}/collection?mediaId=${mediaId}`,
+        `${API_URL}/collection/${userId}?mediaId=${mediaId}&is-my-collection=${isMyCollection}`,
+        token ? { headers: { Cookie: `accessToken=${token}` } } : {},
       );
       return data;
     },
-
     staleTime: 1000 * 60 * 5,
-    enabled: !!userId,
   });
-};
+
+interface CollectionMediaQueryOptions {
+  collectionId: string;
+  userId: string;
+  isMyCollection: boolean;
+  token?: string;
+}
+
+export const collectionMediaQueryOptions = ({
+  collectionId,
+  userId,
+  isMyCollection,
+  token,
+}: CollectionMediaQueryOptions) =>
+  queryOptions({
+    queryKey: ["media-collection", userId, collectionId, isMyCollection],
+    queryFn: async () => {
+      const { data: response } = await apiClient.get<Media[]>(
+        `${API_URL}/collection/items/${userId}?collection-id=${collectionId}&is-my-collection=${isMyCollection}`,
+        token ? { headers: { Cookie: `accessToken=${token}` } } : {},
+      );
+      return response;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
 
 export const useCreateCollection = () => {
   const queryClient = useQueryClient();
@@ -124,22 +160,6 @@ export const useAddMediaToCollection = () => {
       );
       void queryClient.invalidateQueries({ queryKey: ["collection"] });
     },
-  });
-};
-
-export const useGetMediaCollection = (collectionId: string) => {
-  return useQuery({
-    queryKey: ["media-collection", collectionId],
-
-    queryFn: async () => {
-      const { data: response } = await apiClient.get<Media[]>(
-        `${API_URL}/collection/items/${collectionId}`,
-      );
-      return response;
-    },
-
-    staleTime: 1000 * 60 * 5,
-    enabled: !!collectionId,
   });
 };
 

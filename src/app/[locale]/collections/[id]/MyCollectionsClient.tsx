@@ -9,32 +9,41 @@ import {
   EmptyStateCollectionFilms,
 } from "@/widgets";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import { useCollection, useDeleteMediaFromCollection, useGetMediaCollection } from "@/shared/hooks";
+import {
+  useDeleteMediaFromCollection,
+  collectionMediaQueryOptions,
+  collectionQueryOptions,
+} from "@/shared/hooks";
 import { FloatingEditBar } from "@/features";
 import { Skeleton } from "@/shared/ui";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   userId: string;
-  hasCollections: boolean;
+  isMyCollection: boolean;
+  collectionId: string;
 }
 
-export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
-  const { data: collections, isLoading } = useCollection(userId);
-  const firstCollectionId = collections?.[0]?.id ?? "";
+export const MyCollectionsClient = ({ userId, isMyCollection, collectionId }: Props) => {
+  const { data: collections, isLoading } = useQuery(
+    collectionQueryOptions({ userId, isMyCollection }),
+  );
 
-  const [activeCollectionId, setActiveCollectionId] = useState(firstCollectionId);
+  const [activeCollectionId, setActiveCollectionId] = useState(collectionId);
+  const { data: mediaItems } = useQuery(
+    collectionMediaQueryOptions({ collectionId: activeCollectionId, userId, isMyCollection }),
+  );
 
   const { layout, blockOptions } = useMovieCardLayout();
 
-  const { data: movies } = useGetMediaCollection(activeCollectionId);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [hasCollectionItems, setHasCollectionItems] = useState((collections?.length ?? 0) > 0);
+
   const { mutate: deleteMediaFromCollection, isPending: isDeleting } =
     useDeleteMediaFromCollection();
 
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
-  const [hasAnyCollections, setHasAnyCollections] = useState(hasCollections);
-
-  const totalCountsMedia = movies?.length ?? 0;
+  const totalCountsMedia = mediaItems?.length ?? 0;
   const isAllSelected = selectedIds.size === totalCountsMedia && totalCountsMedia > 0;
 
   const handleToggleEditMode = () => setIsEditMode((prev) => !prev);
@@ -43,11 +52,11 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
     if (!collections) return;
 
     if (collections.length === 0) {
-      setHasAnyCollections(false);
+      setHasCollectionItems(false);
       return;
     }
 
-    setHasAnyCollections(true);
+    setHasCollectionItems(true);
 
     const stillExists = collections.some((c) => c.id === activeCollectionId);
 
@@ -78,7 +87,7 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
     if (isAllSelected) {
       setSelectedIds(new Set());
     } else {
-      setSelectedIds(new Set(movies?.map((m) => m.id) ?? []));
+      setSelectedIds(new Set(mediaItems?.map((m) => m.id) ?? []));
     }
   };
 
@@ -90,24 +99,24 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
     setSelectedIds(new Set());
   };
 
-  const isMediaEmpty = movies?.length === 0 && collections?.length !== 0;
+  const isMediaEmpty = mediaItems?.length === 0 && collections?.length !== 0;
 
   return (
     <div className="max-w-[1640px] min-h-screen w-full mx-auto px-6 pt-20 pb-16">
-      <ProfileHeader isMyProfile={true} />
+      <ProfileHeader isMyProfile={isMyCollection} />
 
       <UserCollections
-        isMyProfile={true}
+        isMyProfile={isMyCollection}
         setActiveCollectionId={setActiveCollectionId}
         activeCollectionId={activeCollectionId}
-        hasCollections={hasAnyCollections}
+        hasCollectionItems={hasCollectionItems}
         collections={collections ?? []}
         isPending={isLoading}
       />
 
-      {hasAnyCollections && (
+      {hasCollectionItems && (
         <CollectionsToolbar
-          isMyProfile={true}
+          isMyProfile={isMyCollection}
           activeCollectionId={activeCollectionId}
           isEditMode={isEditMode}
           onToggleEditMode={handleToggleEditMode}
@@ -116,32 +125,32 @@ export const MyCollectionsClient = ({ userId, hasCollections }: Props) => {
         />
       )}
 
-      {hasAnyCollections
-        && (isMediaEmpty ?
-          <EmptyStateCollectionFilms />
-        : <ul className="grid grid-cols-5 gap-2 justify-items-center">
-            {isLoading ?
-              Array.from({ length: 5 }).map((_, i) => (
-                <Skeleton
-                  key={`skeleton-${i}`}
-                  className="w-full border border-border aspect-2/3 rounded-xl"
+      {isMediaEmpty ?
+        <EmptyStateCollectionFilms />
+      : <ul className="grid grid-cols-5 gap-2 justify-items-center">
+          {isLoading ?
+            Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton
+                key={`skeleton-${i}`}
+                className="w-full border border-border aspect-2/3 rounded-xl"
+              />
+            ))
+          : mediaItems?.map((media) => (
+              <li key={media.id}>
+                <MediaCard
+                  cardWidth={310}
+                  media={media}
+                  layout={layout}
+                  blockOptions={blockOptions}
+                  mode={isEditMode ? "edit-collection" : "add-flag"}
+                  onCheckedChange={handleCheckedChange}
+                  isChecked={selectedIds.has(media.id)}
                 />
-              ))
-            : movies?.map((movie) => (
-                <li key={movie.id}>
-                  <MediaCard
-                    cardWidth={310}
-                    media={movie}
-                    layout={layout}
-                    blockOptions={blockOptions}
-                    mode={isEditMode ? "edit-collection" : "add-flag"}
-                    onCheckedChange={handleCheckedChange}
-                    isChecked={selectedIds.has(movie.id)}
-                  />
-                </li>
-              ))
-            }
-          </ul>)}
+              </li>
+            ))
+          }
+        </ul>
+      }
 
       <FloatingEditBar
         isEditMode={isEditMode}

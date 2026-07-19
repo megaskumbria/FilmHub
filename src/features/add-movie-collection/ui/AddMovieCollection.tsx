@@ -5,9 +5,12 @@ import Link from "next/link";
 import { Loader2, Plus, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
-import { useAddMediaToCollection, useCollection } from "@/shared/hooks";
+import { useAddMediaToCollection, collectionQueryOptions } from "@/shared/hooks";
+import { useQuery } from "@tanstack/react-query";
 import { CollectionCompactCard, CollectionCompactCardSkeleton } from "@/entities";
 import { MediaType } from "@/shared/stores/movie-catalog";
+
+const IS_MY_COLLECTION = true;
 
 interface Props {
   mediaId: number;
@@ -30,7 +33,11 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
   const { user } = useAuthStore();
   const userId = user?.id ?? "";
 
-  const { data: collections, isLoading, isFetching } = useCollection(userId, mediaId);
+  const {
+    data: collections,
+    isLoading,
+    isFetching,
+  } = useQuery(collectionQueryOptions({ userId, isMyCollection: IS_MY_COLLECTION, mediaId }));
   const { mutate: addMediaToCollection, isPending } = useAddMediaToCollection();
 
   const filteredCollections = collections?.filter((collection) =>
