@@ -112,7 +112,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
     : "add-flag";
 
   return (
-    <div className="max-w-[1640px] min-h-screen w-full mx-auto px-6 pt-20 pb-16">
+    <div className="max-w-410 min-h-screen w-full mx-auto px-6 pt-20 pb-16">
       <ProfileHeader isMyProfile={isMyCollection} />
 
       <UserCollections

@@ -5,7 +5,7 @@ import { Input, Button, Separator } from "@/shared/ui";
 import { X, Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover, CollectionComments } from "@/widgets";
-import { useToggleVisibilityCollection } from "@/shared/hooks";
+import { useToggleLikeCollection, useToggleVisibilityCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 import { type Collection } from "@/shared/hooks/useCollection";
@@ -35,11 +35,21 @@ export const CollectionsToolbar = ({
   const focusRef = useRef<HTMLInputElement>(null);
 
   const { mutate: toggleVisibilityCollection } = useToggleVisibilityCollection();
+  const { mutate: toggleLikeCollection } = useToggleLikeCollection();
 
   const collection = collections.find((collection) => collection.id === activeCollectionId);
 
-  const { collectionName, iconName, colorHex, moviesCount, isVisible, viewsCount } =
-    collection ?? {};
+  const {
+    collectionName,
+    iconName,
+    colorHex,
+    moviesCount,
+    isVisible,
+    viewsCount,
+    id,
+    likesCount,
+    isLiked,
+  } = collection ?? {};
 
   const isMediaEmpty = moviesCount === 0;
 
@@ -70,14 +80,22 @@ export const CollectionsToolbar = ({
           <Separator orientation="vertical" className="h-5 bg-border" />
 
           <div className="flex items-center gap-1.5">
-            <Button className="flex items-center gap-1.5 h-8 px-1 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/5 transition-colors duration-200">
+            <Button className="flex items-center gap-1.5 h-8 px-2 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/5 transition-colors duration-200">
               <Share2 className="size-3.5 shrink-0" />
               <span className="text-sm tabular-nums">0</span>
             </Button>
 
-            <Button className="flex items-center gap-1.5 h-8 px-1 rounded-lg text-zinc-muted hover:text-rose-400 hover:bg-rose-400/5 transition-colors duration-200">
-              <Heart className="size-3.5 shrink-0" />
-              <span className="text-sm tabular-nums">0</span>
+            <Button
+              onClick={() => toggleLikeCollection(id!)}
+              className={cn(
+                "flex items-center gap-1.5 h-8 px-2 rounded-lg transition-colors duration-200",
+                isLiked ?
+                  "text-rose-400 hover:bg-rose-400/5"
+                : "text-zinc-muted hover:text-rose-400 hover:bg-rose-400/5",
+              )}
+            >
+              <Heart className={cn("size-3.5 shrink-0", isLiked && "fill-rose-400")} />
+              <span className="text-sm tabular-nums">{likesCount}</span>
             </Button>
 
             <span className="flex items-center gap-1 text-sm text-zinc-muted">

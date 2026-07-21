@@ -12,9 +12,12 @@ export interface Collection {
   colorHex: string;
   isVisible: boolean;
   viewsCount: number;
+  likesCount: number;
   posters: string[];
 
   hasMedia: boolean;
+  isLiked: boolean;
+
   moviesCount: number;
   position: number;
 
@@ -213,6 +216,31 @@ export const useRecordCollectionView = () => {
         {},
         { withCredentials: true },
       );
+    },
+  });
+};
+
+export const useToggleLikeCollection = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (collectionId: string) => {
+      return await apiClient.post(`${API_URL}/collection/toggle-like/${collectionId}`);
+    },
+
+    onMutate: async (collectionId: string) => {
+      await queryClient.cancelQueries({ queryKey: ["collection"] });
+      const previous = queryClient.getQueriesData<Collection[]>({ queryKey: ["collection"] });
+
+      queryClient.setQueriesData<Collection[]>({ queryKey: ["collection"] }, (old) =>
+        old?.map((c) =>
+          c.id === collectionId ?
+            { ...c, isLiked: !c.isLiked, likesCount: c.likesCount + (c.isLiked ? -1 : 1) }
+          : c,
+        ),
+      );
+
+      return { previous };
     },
   });
 };
