@@ -3,8 +3,7 @@
 import { Popover, PopoverContent, PopoverTrigger, Button } from "@/shared/ui";
 import { Filter, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { GenreSelect, YearSelect, SortSelect, CountrySelect } from "@/features";
-import { useFilterMedia } from "@/shared/stores/filter-media-store";
+import { GenreSelect, YearSelect, SortSelect, CountrySelect, useFilterMedia } from "@/features";
 
 export const FilterPopover = () => {
   const {

@@ -33,6 +33,7 @@ interface Props {
   collection: CollectionFeedItem;
 }
 
+// It needs to be refactored
 export const CollectionDeck = ({ collection }: Props) => {
   const [hovered, setHovered] = useState(false);
 
@@ -137,7 +138,7 @@ export const CollectionDeck = ({ collection }: Props) => {
           />
         </div>
 
-        <div className="mt-3 mx-auto" style={{ width: CARD_W }}>
+        <footer className="mt-3 mx-auto" style={{ width: CARD_W }}>
           <div className="flex items-center justify-between gap-2">
             <div className="flex-col gap-2">
               <p
@@ -177,7 +178,7 @@ export const CollectionDeck = ({ collection }: Props) => {
               {likesCount}
             </span>
           </div>
-        </div>
+        </footer>
       </article>
     </Link>
   );

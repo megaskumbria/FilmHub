@@ -9,7 +9,7 @@ export const HomeClient = () => {
   const { data: collectionsFeed } = useQuery(collectionsFeedQuery);
 
   return (
-    <main className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
+    <main className="max-w-410 w-full mx-auto px-6 pt-20 pb-16">
       {/* <BestCollectionsSlider /> */}
 
       <section className="flex items-center justify-between mb-8 bg-surface rounded-lg p-4 border border-border">

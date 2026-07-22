@@ -16,7 +16,7 @@ import {
   TooltipProvider,
 } from "@/shared/ui";
 import { motion } from "framer-motion";
-import { useFilterMedia } from "@/shared/stores/filter-media-store";
+import { useFilterMedia } from "../model/filter-media-store";
 import { useCountries } from "@/shared/hooks";
 import type { Country } from "@/shared/hooks/useCountries";
 import { EarthIcon } from "@/shared/icons";

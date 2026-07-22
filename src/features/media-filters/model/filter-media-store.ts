@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Genre } from "@/shared/hooks/useGenres";
-import { Country } from "../hooks/useCountries";
+import { Country } from "@/shared/hooks/useCountries";
 
 export type FilterSortType = "rating" | "newest" | "oldest" | "az" | "za" | "";
 export type FilterYearType =

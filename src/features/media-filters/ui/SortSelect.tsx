@@ -1,29 +1,29 @@
 "use client";
 
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
-import { Calendar } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { motion } from "framer-motion";
-import { DATA_YEARS } from "../model/dataYears";
-import { useFilterMedia } from "@/shared/stores/filter-media-store";
+import { DATA_SORT_OPTIONS } from "../model/dataSortOptions";
+import { useFilterMedia } from "../model/filter-media-store";
 
-export const YearSelect = () => {
-  const { selectedYear, setSelectedYear } = useFilterMedia();
+export const SortSelect = () => {
+  const { selectedSort, setSelectedSort } = useFilterMedia();
 
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.15 }}
+      transition={{ delay: 0.2 }}
       className="space-y-2"
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
-        <Calendar className="size-3.5" />
-        Release year
+        <ArrowUpDown className="size-3.5" />
+        Sort
       </Label>
 
-      <Select value={selectedYear} onValueChange={setSelectedYear}>
+      <Select value={selectedSort} onValueChange={setSelectedSort}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Select period" />
+          <SelectValue placeholder="Select sort" />
         </SelectTrigger>
 
         <SelectContent
@@ -31,9 +31,9 @@ export const YearSelect = () => {
           sideOffset={8}
           className="bg-graphite border-border/40 shadow-xl"
         >
-          {DATA_YEARS.map((year) => (
-            <SelectItem key={year.value} value={year.value}>
-              {year.label}
+          {DATA_SORT_OPTIONS.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
             </SelectItem>
           ))}
         </SelectContent>

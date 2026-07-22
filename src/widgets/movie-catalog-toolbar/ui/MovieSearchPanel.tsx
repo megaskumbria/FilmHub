@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/shared/ui";
-import { useFilterMedia } from "@/shared/stores/filter-media-store";
+import { useFilterMedia } from "@/features";
 import { useDebounce } from "@/shared/hooks";
 
 export const MovieSearchPanel = () => {

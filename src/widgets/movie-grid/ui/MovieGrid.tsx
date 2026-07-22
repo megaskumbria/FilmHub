@@ -6,7 +6,7 @@ import { MediaCard } from "@/widgets";
 import { useMediaCatalog } from "@/shared/stores/movie-catalog";
 import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
 import { Skeleton } from "@/shared/ui";
-import { useFilterMedia } from "@/shared/stores/filter-media-store";
+import { useFilterMedia } from "@/features";
 import { extractUniqueMedia } from "@/shared/lib";
 
 export const MovieGrid = () => {
