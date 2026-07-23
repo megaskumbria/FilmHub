@@ -1,7 +1,7 @@
 "use client";
 
 import { collectionsFeedQuery } from "@/shared/hooks";
-import { FilterPopover } from "@/widgets";
+import { FilterFeed } from "@/widgets";
 import { useQuery } from "@tanstack/react-query";
 import { CollectionDeck } from "@/entities";
 
@@ -17,7 +17,7 @@ export const HomeClient = () => {
           Collections: <span className="text-lg">121</span>
         </span>
 
-        <FilterPopover />
+        <FilterFeed />
       </section>
 
       <div className="grid grid-cols-5 gap-x-4 gap-y-12 justify-items-center">

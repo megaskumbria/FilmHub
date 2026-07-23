@@ -1,6 +1,7 @@
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@/shared/ui";
 import { Filter, RotateCcw } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { FeedGenreSelect, MoviesCountSelect, FeedSortSelect } from "@/features/feed-filter";
 
 export const FilterFeed = () => {
   return (
@@ -46,11 +47,15 @@ export const FilterFeed = () => {
               <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
                 <Filter className="size-4 text-accent" />
               </div>
-              <h3 className="font-semibold text-base">Search filters</h3>
+              <h3 className="font-semibold text-base">Collection filter</h3>
             </div>
           </header>
 
-          <div className="p-4 space-y-4"></div>
+          <div className="p-4 space-y-4">
+            <FeedGenreSelect />
+            <MoviesCountSelect />
+            <FeedSortSelect />
+          </div>
 
           {/* <AnimatePresence>
             {hasActiveFilters && (

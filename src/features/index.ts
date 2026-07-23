@@ -13,6 +13,7 @@ export {
   CountrySelect,
   useFilterMedia,
 } from "./media-filters";
+export { FeedGenreSelect, MoviesCountSelect, FeedSortSelect } from "./feed-filter";
 export { CreateCollection } from "./create-folder";
 export { FolderMetaBar } from "./folder-meta-bar";
 export { SetMediaFlags } from "./set-media-flags";
