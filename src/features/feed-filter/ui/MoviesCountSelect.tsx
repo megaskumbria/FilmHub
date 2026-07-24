@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { DATA_MOVIES_COUNT_OPTIONS } from "../model/dataMoviesCountOptions";
 
 export const MoviesCountSelect = () => {
-  // TODO: bind to store
   const [selectedMoviesCount, setSelectedMoviesCount] = useState("");
 
   return (

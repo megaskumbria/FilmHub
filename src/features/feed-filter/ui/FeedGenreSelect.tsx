@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { DATA_FEED_GENRES } from "../model/dataFeedGenres";
 
 export const FeedGenreSelect = () => {
-  // TODO: replace with real genres data + store binding
   const [selectedGenre, setSelectedGenre] = useState("");
 
   return (

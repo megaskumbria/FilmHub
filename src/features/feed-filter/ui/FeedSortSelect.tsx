@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { DATA_FEED_SORT_OPTIONS } from "../model/dataFeedSortOptions";
 
 export const FeedSortSelect = () => {
-  // TODO: bind to store
   const [selectedSort, setSelectedSort] = useState("");
 
   return (
