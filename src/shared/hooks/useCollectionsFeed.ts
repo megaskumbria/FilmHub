@@ -1,6 +1,7 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { API_URL } from "../constants/constants";
 import axios from "axios";
+import { type QuantitySortOption, type SortOption } from "@/features/feed-filter";
 
 interface OwnerCollection {
   userId: string;
@@ -20,12 +21,45 @@ export interface CollectionFeedItem {
   owner: OwnerCollection;
 }
 
-export const collectionsFeedQuery = queryOptions({
-  queryKey: ["collections-feed"],
-  queryFn: async () => {
-    const { data } = await axios.get<CollectionFeedItem[]>(`${API_URL}/collections-feed`);
-    return data;
-  },
-  refetchOnWindowFocus: false,
-  staleTime: 1000 * 60 * 60, // 1 hour
-});
+interface CollectionsFeedArgs {
+  genre?: string;
+  sort?: SortOption;
+  quantity?: QuantitySortOption;
+}
+
+export const collectionsFeedQuery = ({
+  genre = "",
+  sort = "",
+  quantity = "",
+}: CollectionsFeedArgs = {}) =>
+  queryOptions({
+    queryKey: ["collections-feed", genre, sort, quantity],
+    queryFn: async ({ queryKey, signal }) => {
+      const [, genre, sort, quantity] = queryKey;
+
+      const { data } = await axios.get<CollectionFeedItem[]>(
+        `${API_URL}/collections-feed?genre=${genre}&sort=${sort}&quantity=${quantity}`,
+        { signal },
+      );
+
+      return data;
+    },
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60,
+  });
+
+interface FeedGenresResponse {
+  genre: string;
+  quantity: number;
+}
+
+export const useFeedGenres = () => {
+  return useQuery({
+    queryKey: ["feed-genres"],
+    queryFn: async () => {
+      const { data } = await axios.get<FeedGenresResponse[]>(`${API_URL}/collections-feed/genres`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 60,
+  });
+};

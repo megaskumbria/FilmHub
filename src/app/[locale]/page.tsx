@@ -5,7 +5,7 @@ import { HomeClient } from "./HomeClient";
 export default async function Home() {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(collectionsFeedQuery);
+  await queryClient.prefetchQuery(collectionsFeedQuery());
 
   const dehydratedState = dehydrate(queryClient);
 

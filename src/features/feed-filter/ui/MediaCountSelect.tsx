@@ -1,13 +1,11 @@
-"use client";
-
-import { useState } from "react";
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
 import { Layers } from "lucide-react";
 import { motion } from "framer-motion";
-import { DATA_MOVIES_COUNT_OPTIONS } from "../model/dataMoviesCountOptions";
+import { DATA_MEDIA_COUNT_OPTIONS } from "../model/dataMediaCountOptions";
+import { useCollectionsFeedStore } from "../model/collectionsFeed.store";
 
-export const MoviesCountSelect = () => {
-  const [selectedMoviesCount, setSelectedMoviesCount] = useState("");
+export const MediaCountSelect = () => {
+  const { quantity, setFilter } = useCollectionsFeedStore();
 
   return (
     <motion.div
@@ -21,7 +19,7 @@ export const MoviesCountSelect = () => {
         Collection size
       </Label>
 
-      <Select value={selectedMoviesCount} onValueChange={setSelectedMoviesCount}>
+      <Select value={quantity} onValueChange={(value) => setFilter({ quantity: value })}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
           <SelectValue placeholder="Select size" />
         </SelectTrigger>
@@ -31,7 +29,7 @@ export const MoviesCountSelect = () => {
           sideOffset={8}
           className="bg-graphite border-border/40 shadow-xl"
         >
-          {DATA_MOVIES_COUNT_OPTIONS.map((option) => (
+          {DATA_MEDIA_COUNT_OPTIONS.map((option) => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}
             </SelectItem>

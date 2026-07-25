@@ -1,9 +1,20 @@
+"use client";
+
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@/shared/ui";
 import { Filter, RotateCcw } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FeedGenreSelect, MoviesCountSelect, FeedSortSelect } from "@/features/feed-filter";
+import {
+  FeedGenreSelect,
+  MediaCountSelect,
+  FeedSortSelect,
+  useCollectionsFeedStore,
+} from "@/features/feed-filter";
 
 export const FilterFeed = () => {
+  const { resetFilter, genre, sort, quantity } = useCollectionsFeedStore();
+
+  const hasActiveFilters = genre || sort || quantity;
+
   return (
     <Popover>
       <PopoverTrigger asChild className="group">
@@ -12,7 +23,7 @@ export const FilterFeed = () => {
 
           <span>Filters</span>
 
-          {/* <AnimatePresence>
+          <AnimatePresence>
             {hasActiveFilters && (
               <motion.div
                 initial={{ scale: 0 }}
@@ -21,15 +32,11 @@ export const FilterFeed = () => {
                 className="absolute -top-1 -right-1 size-5 rounded-full bg-accent border-2 border-background flex items-center justify-center"
               >
                 <span className="text-[10px] font-bold text-white">
-                  {
-                    [selectedGenre.id, selectedYear, selectedSort, selectedCountry.iso31661].filter(
-                      Boolean,
-                    ).length
-                  }
+                  {[genre, sort, quantity].filter(Boolean).length}
                 </span>
               </motion.div>
             )}
-          </AnimatePresence> */}
+          </AnimatePresence>
         </Button>
       </PopoverTrigger>
 
@@ -53,11 +60,11 @@ export const FilterFeed = () => {
 
           <div className="p-4 space-y-4">
             <FeedGenreSelect />
-            <MoviesCountSelect />
+            <MediaCountSelect />
             <FeedSortSelect />
           </div>
 
-          {/* <AnimatePresence>
+          <AnimatePresence>
             {hasActiveFilters && (
               <motion.footer
                 initial={{ opacity: 0, height: 0 }}
@@ -66,7 +73,7 @@ export const FilterFeed = () => {
                 className="px-4 pb-4 pt-2 border-t border-border/50 overflow-hidden"
               >
                 <Button
-                  onClick={handleReset}
+                  onClick={resetFilter}
                   className="active:scale-95 w-full h-10 rounded-lg flex items-center justify-center gap-2"
                   variant="accent"
                 >
@@ -75,7 +82,7 @@ export const FilterFeed = () => {
                 </Button>
               </motion.footer>
             )}
-          </AnimatePresence> */}
+          </AnimatePresence>
         </motion.div>
       </PopoverContent>
     </Popover>

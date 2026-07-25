@@ -1,13 +1,14 @@
-"use client";
-
-import { useState } from "react";
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
 import { Film } from "lucide-react";
 import { motion } from "framer-motion";
-import { DATA_FEED_GENRES } from "../model/dataFeedGenres";
+import { useFeedGenres } from "@/shared/hooks";
+import { useCollectionsFeedStore } from "../model/collectionsFeed.store";
 
 export const FeedGenreSelect = () => {
-  const [selectedGenre, setSelectedGenre] = useState("");
+  const { genre, setFilter } = useCollectionsFeedStore();
+  const { data: genresData } = useFeedGenres();
+
+  const selectedGenre = genresData?.find((genreItem) => genreItem.genre === genre);
 
   return (
     <motion.div
@@ -21,19 +22,37 @@ export const FeedGenreSelect = () => {
         Genre
       </Label>
 
-      <Select value={selectedGenre} onValueChange={setSelectedGenre}>
+      <Select value={genre} onValueChange={(value) => setFilter({ genre: value })}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Select genre" />
+          <SelectValue placeholder="Select genre">
+            {selectedGenre && (
+              <span className="flex w-full items-center justify-between gap-3 pr-1">
+                <span className="truncate">{selectedGenre.genre}</span>
+
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-md border border-border text-muted">
+                  {selectedGenre.quantity}
+                </span>
+              </span>
+            )}
+          </SelectValue>
         </SelectTrigger>
 
         <SelectContent
           position="popper"
           sideOffset={8}
-          className="bg-graphite border-border/40 shadow-xl"
+          className="bg-graphite border-border/40 shadow-xl max-h-120 overflow-y-auto"
         >
-          {DATA_FEED_GENRES.map((genre) => (
-            <SelectItem key={genre.id} value={genre.id}>
-              {genre.name}
+          {genresData?.map((genre) => (
+            <SelectItem
+              hideCheckIcon={true}
+              key={genre.genre}
+              value={genre.genre}
+              className="w-full [&>span:last-child]:flex-1 [&>span:last-child]:min-w-0 pr-2"
+            >
+              <div className="flex w-full items-center justify-between">
+                <span>{genre.genre}</span>
+                <span className="text-muted">{genre.quantity}</span>
+              </div>
             </SelectItem>
           ))}
         </SelectContent>

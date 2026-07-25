@@ -1,13 +1,11 @@
-"use client";
-
-import { useState } from "react";
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
 import { ArrowUpDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { DATA_FEED_SORT_OPTIONS } from "../model/dataFeedSortOptions";
+import { useCollectionsFeedStore } from "../model/collectionsFeed.store";
 
 export const FeedSortSelect = () => {
-  const [selectedSort, setSelectedSort] = useState("");
+  const { sort, setFilter } = useCollectionsFeedStore();
 
   return (
     <motion.div
@@ -21,7 +19,7 @@ export const FeedSortSelect = () => {
         Sort by
       </Label>
 
-      <Select value={selectedSort} onValueChange={setSelectedSort}>
+      <Select value={sort} onValueChange={(value) => setFilter({ sort: value })}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
           <SelectValue placeholder="Select sort" />
         </SelectTrigger>

@@ -4,9 +4,11 @@ import { collectionsFeedQuery } from "@/shared/hooks";
 import { FilterFeed } from "@/widgets";
 import { useQuery } from "@tanstack/react-query";
 import { CollectionDeck } from "@/entities";
+import { useCollectionsFeedStore } from "@/features/feed-filter";
 
 export const HomeClient = () => {
-  const { data: collectionsFeed } = useQuery(collectionsFeedQuery);
+  const { genre, sort, quantity } = useCollectionsFeedStore();
+  const { data: collectionsFeed } = useQuery(collectionsFeedQuery({ genre, sort, quantity }));
 
   return (
     <main className="max-w-410 w-full mx-auto px-6 pt-20 pb-16">
