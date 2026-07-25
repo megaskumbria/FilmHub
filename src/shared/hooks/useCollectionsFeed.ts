@@ -25,20 +25,22 @@ interface CollectionsFeedArgs {
   genre?: string;
   sort?: SortOption;
   quantity?: QuantitySortOption;
+  searchQuery?: string;
 }
 
 export const collectionsFeedQuery = ({
   genre = "",
   sort = "",
   quantity = "",
+  searchQuery = "",
 }: CollectionsFeedArgs = {}) =>
   queryOptions({
-    queryKey: ["collections-feed", genre, sort, quantity],
+    queryKey: ["collections-feed", genre, sort, quantity, searchQuery],
     queryFn: async ({ queryKey, signal }) => {
-      const [, genre, sort, quantity] = queryKey;
+      const [, genre, sort, quantity, searchQuery] = queryKey;
 
       const { data } = await axios.get<CollectionFeedItem[]>(
-        `${API_URL}/collections-feed?genre=${genre}&sort=${sort}&quantity=${quantity}`,
+        `${API_URL}/collections-feed?genre=${genre}&sort=${sort}&quantity=${quantity}&searchQuery=${searchQuery}`,
         { signal },
       );
 
