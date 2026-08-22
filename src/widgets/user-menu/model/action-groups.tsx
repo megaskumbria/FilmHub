@@ -25,14 +25,6 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
       //   render: () => <ActionButton icon={User}>My profile</ActionButton>,
       // },
       {
-        icon: BarChart3,
-        render: () => (
-          <ActionButton icon={BarChart3} href="/statistics">
-            Statistics
-          </ActionButton>
-        ),
-      },
-      {
         icon: Users,
         render: () => (
           // Remove extra wrapper when wiring routes
@@ -41,6 +33,14 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
               <ActionButton icon={Users}>Subscriptions</ActionButton>
             </SheetTrigger>
           </FollowersSheet>
+        ),
+      },
+      {
+        icon: BarChart3,
+        render: () => (
+          <ActionButton icon={BarChart3} soon={true}>
+            Statistics
+          </ActionButton>
         ),
       },
       {

@@ -43,21 +43,19 @@ export interface CastMember {
   knownForDepartment: string;
 }
 
-export interface Backdrop {
-  filePath: string;
-  width: number;
-  height: number;
-  voteAverage: number;
-  url: string | null;
-}
+// export interface Backdrop {
+//   filePath: string;
+//   width: number;
+//   height: number;
+//   voteAverage: number;
+//   voteCount: number;
+//   url: string | null;
+//   aspectRatio: number;
+//   iso6391: string;
+// }
 
 export interface MovieCredits {
   cast: CastMember[];
-}
-
-export interface MovieImages {
-  backdrops: Backdrop[];
-  posters: Backdrop[];
 }
 
 export interface VideoResult {
@@ -92,7 +90,6 @@ export interface TvNetwork {
   originCountry: string;
 }
 
-/** Эпизод в lastEpisodeToAir / nextEpisodeToAir. */
 export interface TvEpisodeAir {
   id: number;
   name: string;
@@ -120,7 +117,6 @@ export interface TvSeason {
 
 export interface TmdbMovie {
   // ——— Common ———
-
   adult: boolean;
   backdropPath: string | null;
   backdropUrl: string | null;
@@ -140,10 +136,9 @@ export interface TmdbMovie {
   voteAverage: number;
   voteCount: number;
   credits: MovieCredits;
-  images: MovieImages;
+  stills: string[];
   languages?: string[];
 
-  /** У сериалов основное имя; у фильмов чаще смотрите title. */
   name?: string;
   originCountry?: string[];
   videos?: MediaVideos;
@@ -173,7 +168,6 @@ export interface TmdbMovie {
   originalName: string;
   seasons?: TvSeason[];
 
-  /** Тип шоу TMDB (например Scripted); не путать с query type=movie|tv. */
   type?: string;
 }
 

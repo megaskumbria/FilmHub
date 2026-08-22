@@ -6,14 +6,13 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MovieInfoPanel, PosterCarousel } from "@/widgets";
 import { useMovie } from "@/shared/hooks";
-import { Backdrop } from "@/shared/hooks/useMedia";
 import { Button } from "@/shared/ui";
 import { Eye, EyeOff } from "lucide-react";
 import { MediaType } from "@/shared/stores/movie-catalog";
 import { useSearchParams } from "next/navigation";
 
 export default function MoviePage() {
-  const [selectedPoster, setSelectedPoster] = useState<Backdrop | null>(null);
+  const [selectedPoster, setSelectedPoster] = useState<string | null>(null);
   const [isUiHidden, setIsUiHidden] = useState(false);
   const searchParams = useSearchParams();
 
@@ -25,20 +24,25 @@ export default function MoviePage() {
 
   if (!movie) return null;
 
-  const { title, backdropUrl, images, credits, originalName } = movie;
-  const { backdrops } = images;
+  const { title, backdropUrl, credits, originalName, stills } = movie;
   const { cast } = credits;
 
   const titleToDisplay = originalName || title;
 
-  // console.log("movie", movie);
+  const poster = selectedPoster ?? backdropUrl;
+
+  // .still-thumb {
+  //   aspect-ratio: 16 / 9; /* или 4/3, как решите под мобилку */
+  //   object-fit: cover;
+  //   width: 100%;
+  // }
 
   return (
     <div className="relative w-full overflow-hidden h-screen">
       <div className="absolute inset-0 w-full">
         <AnimatePresence mode="sync">
           <motion.div
-            key={selectedPoster?.url ?? backdropUrl}
+            key={poster}
             className="absolute inset-0"
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -46,7 +50,7 @@ export default function MoviePage() {
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <Image
-              src={selectedPoster?.url ?? backdropUrl ?? ""}
+              src={poster ?? ""}
               alt={titleToDisplay}
               fill
               sizes="100vw"
@@ -86,7 +90,7 @@ export default function MoviePage() {
               </Button>
 
               <PosterCarousel
-                backdrops={backdrops}
+                stills={stills}
                 backdropUrl={backdropUrl}
                 selectedPoster={selectedPoster}
                 setSelectedPoster={setSelectedPoster}

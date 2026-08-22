@@ -19,7 +19,7 @@ export default async function MovieSearchPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="max-w-[1640px] w-full mx-auto p-4 pt-16">
+      <div className="max-w-410 w-full mx-auto p-4 pt-16">
         <MovieCatalogToolbar />
         {/* <MovieGrid data={data ?? { page: 1, totalPages: 1, media: [] }} /> */}
         <MovieGrid />

@@ -56,6 +56,9 @@ export default async function MyCollectionsPage({ params, searchParams }: Props)
   const { id } = await params;
   const { collectionId } = await searchParams;
 
+  // console.log("id", id);
+  // console.log("userId", userId);
+
   const isMyCollection = id === userId;
 
   const collections = await queryClient.fetchQuery(

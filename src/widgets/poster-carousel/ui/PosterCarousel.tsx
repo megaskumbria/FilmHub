@@ -6,32 +6,28 @@ import { useMemo, useRef, useEffect } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { useIdle } from "react-use";
 import Image from "next/image";
-import "swiper/css";
-import { Backdrop } from "@/shared/hooks/useMedia";
 
-interface PosterCarouselProps {
-  backdrops: Backdrop[];
+interface Props {
+  stills: string[];
   backdropUrl: string;
-  selectedPoster: Backdrop | null;
-  setSelectedPoster: (poster: Backdrop | null) => void;
+  selectedPoster: string | null;
+  setSelectedPoster: (poster: string | null) => void;
   titleToDisplay: string;
 }
 
 const IDLE_TIMEOUT = 5000;
 
 export const PosterCarousel = ({
-  backdrops,
+  stills,
   backdropUrl,
   selectedPoster,
   setSelectedPoster,
   titleToDisplay,
-}: PosterCarouselProps) => {
+}: Props) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const userClickedRef = useRef(false);
 
   const isIdle = useIdle(IDLE_TIMEOUT);
-
-  // console.log(selectedPoster);
 
   useEffect(() => {
     if (!swiperRef.current) return;
@@ -49,37 +45,27 @@ export const PosterCarousel = ({
     }
   }, [isIdle]);
 
-  const handlePosterSelect = (poster: Backdrop) => {
-    // console.log("handlePosterSelect", poster);
+  const handlePosterSelect = (poster: string) => {
     setSelectedPoster(poster);
     swiperRef.current?.autoplay.stop();
     userClickedRef.current = true;
 
-    const index = updatePosters.findIndex((p) => p.url === poster.url);
+    const index = updatePosters.findIndex((p) => p === poster);
 
     if (index >= 0) {
       swiperRef.current?.slideToLoop(index);
     }
   };
 
-  const updatePosters = useMemo<Backdrop[]>(
-    () => [
-      {
-        filePath: "",
-        height: 0,
-        width: 0,
-        voteAverage: 0,
-        url: backdropUrl,
-      },
-      ...(backdrops ?? []),
-    ],
-    [backdropUrl, backdrops],
+  const updatePosters = useMemo<string[]>(
+    () => [backdropUrl, ...(stills ?? [])],
+    [backdropUrl, stills],
   );
 
   return (
-    <div className="w-[580px]">
+    <div className="w-145">
       <Swiper
-        className="h-[140px]"
+        className="h-35"
         // slideToClickedSlide={true}
         loop={true}
         spaceBetween={10}
@@ -110,7 +96,7 @@ export const PosterCarousel = ({
             className="relative rounded-xl overflow-hidden border border-white/30 cursor-pointer transition-all duration-200"
           >
             <Image
-              src={backdrop.url ?? ""}
+              src={backdrop}
               fill
               alt={titleToDisplay}
               sizes="(max-width: 768px) 50vw, 145px"

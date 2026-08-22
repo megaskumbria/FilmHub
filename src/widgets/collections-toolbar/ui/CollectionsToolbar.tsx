@@ -4,7 +4,7 @@ import { cn } from "@/shared/lib/utils";
 import { Input, Button, Separator } from "@/shared/ui";
 import { X, Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { FilterPopover, CollectionComments } from "@/widgets";
+import { FilterPopover } from "@/widgets";
 import { useToggleLikeCollection, useToggleVisibilityCollection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
@@ -141,7 +141,7 @@ export const CollectionsToolbar = ({
 
         <FilterPopover />
 
-        <Separator orientation="vertical" className="h-5 bg-border" />
+        {/* <Separator orientation="vertical" className="h-5 bg-border" /> */}
 
         {isMyProfile && (
           <>
@@ -177,11 +177,11 @@ export const CollectionsToolbar = ({
               <span className="text-sm">{isEditMode ? "Done" : "Edit"}</span>
             </Button>
 
-            <Separator orientation="vertical" className="h-5 bg-border" />
+            {/* <Separator orientation="vertical" className="h-5 bg-border" /> */}
           </>
         )}
 
-        <CollectionComments />
+        {/* <CollectionComments /> */}
       </div>
     </div>
   );

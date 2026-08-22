@@ -12,7 +12,7 @@ import { FlagColorPicker, FloatingCreationFlagBar } from "@/features";
 
 export default function CreationFlagPage() {
   return (
-    <div className="max-w-[1640px] w-full px-4 mx-auto pt-20 pb-16">
+    <div className="max-w-410 w-full px-4 mx-auto pt-20 pb-16">
       <div className="mb-8 flex flex-col">
         <h1 className="text-2xl font-bold text-foreground tracking-tight">Create flag</h1>
 
