@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import "swiper/css";
 import { Button } from "@/shared/ui/button";
 import { CastMember } from "@/shared/hooks/useMedia";
 
@@ -19,12 +18,7 @@ export const ActorsCarousel = ({ actors }: Props) => {
   const handleNext = () => {
     const swiper = swiperRef.current;
     if (!swiper) return;
-
-    if (swiper.isEnd) {
-      swiper.slideTo(0);
-    } else {
-      swiper.slideNext();
-    }
+    swiper.isEnd ? swiper.slideTo(0) : swiper.slideNext();
   };
 
   return (
@@ -60,8 +54,8 @@ export const ActorsCarousel = ({ actors }: Props) => {
       >
         {actors.map((actor) => (
           <SwiperSlide key={actor.id} className="w-auto!">
-            <div className="flex flex-col items-center gap-2 w-[72px]">
-              <div className="relative size-[60px] rounded-full overflow-hidden border border-white/60 shrink-0">
+            <div className="flex flex-col items-center gap-2 w-18">
+              <div className="relative size-15 rounded-full overflow-hidden border border-white/60 shrink-0">
                 <Image
                   src={actor.profileUrl ?? ""}
                   alt={actor.name}
@@ -75,7 +69,7 @@ export const ActorsCarousel = ({ actors }: Props) => {
                   {actor.name}
                 </p>
 
-                <p className="text-zinc-muted text-[11px] mt-0.5">{actor.character}</p>
+                <p className="text-zinc-muted text-xs mt-0.5">{actor.character}</p>
               </div>
             </div>
           </SwiperSlide>

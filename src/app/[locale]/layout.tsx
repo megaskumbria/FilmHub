@@ -2,7 +2,7 @@ import "@/app/styles/globals.css";
 import { ReactNode } from "react";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
-import { Manrope } from "next/font/google";
+import { Manrope, Unbounded } from "next/font/google";
 import { Header } from "@/widgets";
 import { TooltipProvider } from "@/shared/ui/tooltip";
 import { Toaster } from "@/shared/ui/sonner";
@@ -17,12 +17,19 @@ const manrope = Manrope({
   display: "swap",
 });
 
-interface RootLayoutProps {
+const unbounded = Unbounded({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-unbounded",
+  display: "swap",
+});
+
+interface Props {
   children: ReactNode;
   params: Promise<{ locale: string }>;
 }
 
-export default async function RootLayout({ children, params }: RootLayoutProps) {
+export default async function RootLayout({ children, params }: Props) {
   const messages = await getMessages();
   const locale = (await params).locale;
 
@@ -32,7 +39,11 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     accessToken ? jwtDecode<{ sub: string; email: string; username: string }>(accessToken) : null;
 
   return (
-    <html lang={locale} className={manrope.variable} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`${manrope.variable} ${unbounded.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <ReactQueryProvider>
           <NextIntlClientProvider messages={messages}>

@@ -18,18 +18,18 @@ export default function MoviePage() {
 
   const params = useParams();
   const id = params?.id != null ? Number(params.id) : NaN;
-  const type = searchParams.get("type") as MediaType;
+  const mediaType = searchParams.get("mediaType") as MediaType;
 
-  const { data: movie } = useMovie(id, type);
+  const { data: movie } = useMovie(id, mediaType);
 
   if (!movie) return null;
 
-  const { title, backdropUrl, credits, originalName, stills } = movie;
+  const { title, backdropUrl, credits, originalName, stills, stillsReady } = movie;
   const { cast } = credits;
 
   const titleToDisplay = originalName || title;
-
   const poster = selectedPoster ?? backdropUrl;
+  const shouldShowCarousel = stillsReady && backdropUrl;
 
   // .still-thumb {
   //   aspect-ratio: 16 / 9; /* или 4/3, как решите под мобилку */
@@ -77,18 +77,18 @@ export default function MoviePage() {
         <div className="flex items-end justify-between gap-10 px-14 mb-10">
           <MovieInfoPanel movie={movie} isUiHidden={isUiHidden} actors={cast} />
 
-          {backdropUrl && (
-            <div className="shrink-0 flex flex-col gap-3">
-              <Button
-                onClick={() => setIsUiHidden((v) => !v)}
-                className="self-end flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/60 hover:bg-white/18 hover:text-white transition-all duration-200 text-xs font-medium"
-              >
-                {isUiHidden ?
-                  <Eye className="size-3.5" />
-                : <EyeOff className="size-3.5" />}
-                <span>{isUiHidden ? "Show UI" : "Poster only"}</span>
-              </Button>
+          <div className="shrink-0 flex flex-col gap-3">
+            <Button
+              onClick={() => setIsUiHidden((v) => !v)}
+              className="self-end flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/60 hover:bg-white/18 hover:text-white transition-all duration-200 text-xs font-medium"
+            >
+              {isUiHidden ?
+                <Eye className="size-3.5" />
+              : <EyeOff className="size-3.5" />}
+              <span>{isUiHidden ? "Show UI" : "Poster only"}</span>
+            </Button>
 
+            {shouldShowCarousel && (
               <PosterCarousel
                 stills={stills}
                 backdropUrl={backdropUrl}
@@ -96,8 +96,8 @@ export default function MoviePage() {
                 setSelectedPoster={setSelectedPoster}
                 titleToDisplay={titleToDisplay}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

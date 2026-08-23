@@ -40,10 +40,13 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
     originalName,
     lastAirDate,
     numberOfSeasons,
+    mediaType,
+    firstAirDate,
   } = movie;
 
   const titleToDisplay = originalName || title;
-  const yearOfRelease = new Date(releaseDate || lastAirDate).getFullYear();
+  const yearOfRelease = new Date(releaseDate || firstAirDate || lastAirDate).getFullYear();
+  const isMovie = mediaType === "movie";
 
   return (
     <motion.div
@@ -52,36 +55,42 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
       className="max-w-xl shrink-0 flex flex-col gap-4"
       style={{ pointerEvents: isUiHidden ? "none" : "auto" }}
     >
-      <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-base font-medium">
-        <span className="flex items-center gap-1.5 text-white/70">
-          <CalendarDays className="size-3.5" />
-          {yearOfRelease}
-        </span>
-
-        <span className="text-white/25">•</span>
-
-        {numberOfSeasons ?
+      <div className="space-y-1">
+        <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-base font-medium">
           <span className="flex items-center gap-1.5 text-white/70">
-            <Tv className="size-3.5" />
-            {numberOfSeasons} {numberOfSeasons === 1 ? "Season" : "Seasons"}
+            <CalendarDays className="size-3.5" />
+            {yearOfRelease}
           </span>
-        : <span className="flex items-center gap-1.5 text-white/70">
-            <Clock className="size-3.5" />
-            {formatDuration(runtime)}
-          </span>
-        }
 
-        <span className="text-white/25">•</span>
+          <span className="text-white/25">•</span>
 
-        {genres.map((genre, i) => (
-          <span key={genre.id} className="flex items-center gap-x-2.5">
-            <span className="text-white/50">{genre.name}</span>
-            {i < genres.length - 1 && <span className="text-white/25">•</span>}
-          </span>
-        ))}
+          {isMovie ?
+            <span className="flex items-center gap-1.5 text-white/70">
+              <Clock className="size-3.5" />
+              {formatDuration(runtime)}
+            </span>
+          : <span className="flex items-center gap-1.5 text-white/70">
+              <Tv className="size-3.5" />
+              {numberOfSeasons} {numberOfSeasons === 1 ? "Season" : "Seasons"}
+            </span>
+          }
+
+          {/* <span className="text-white/25">•</span> */}
+        </div>
+
+        <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-base font-medium">
+          {genres.map((genre, i) => (
+            <span key={genre.id} className="flex items-center gap-x-2.5">
+              <span className="text-white/50">{genre.name}</span>
+              {i < genres.length - 1 && <span className="text-white/25">•</span>}
+            </span>
+          ))}
+        </div>
       </div>
 
-      <h1 className="text-6xl font-black text-white leading-none">{titleToDisplay}</h1>
+      <h1 className="text-5xl font-medium text-white leading-none font-unbounded">
+        {titleToDisplay}
+      </h1>
 
       <p className="text-white/70 font-medium text-base leading-relaxed line-clamp-6">{overview}</p>
 

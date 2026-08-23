@@ -136,8 +136,10 @@ export interface TmdbMovie {
   voteAverage: number;
   voteCount: number;
   credits: MovieCredits;
-  stills: string[];
   languages?: string[];
+
+  stills: string[];
+  stillsReady: boolean;
 
   name?: string;
   originCountry?: string[];
@@ -168,14 +170,16 @@ export interface TmdbMovie {
   originalName: string;
   seasons?: TvSeason[];
 
-  type?: string;
+  mediaType?: MediaType;
 }
 
-export const useMovie = (id: number, type: MediaType) => {
+export const useMovie = (id: number, mediaType: MediaType) => {
   return useQuery({
-    queryKey: ["movie", id, type],
+    queryKey: ["movie", id, mediaType],
     queryFn: async () => {
-      const { data } = await axios.get<TmdbMovie>(`${API_URL}/movies/movie/${id}?type=${type}`);
+      const { data } = await axios.get<TmdbMovie>(
+        `${API_URL}/movies/movie/${id}?media_type=${mediaType}`,
+      );
       return data;
     },
     staleTime: 1000 * 60 * 60,

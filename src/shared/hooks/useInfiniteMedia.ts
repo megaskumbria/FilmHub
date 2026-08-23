@@ -38,7 +38,7 @@ export const useInfiniteMedia = ({
 
     queryFn: async ({ pageParam = 1, signal }) => {
       const { data } = await axios.get<MediaData>(
-        `${API_URL}/movies?type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}&country=${selectedCountry}`,
+        `${API_URL}/movies?media_type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}&country=${selectedCountry}`,
         // { signal: AbortSignal.timeout(10000) }, // if request takes more than 10 seconds, it will be cancelled
         { signal }, // cancel request if called new one
       );

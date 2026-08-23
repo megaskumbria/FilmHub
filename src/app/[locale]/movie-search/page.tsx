@@ -11,7 +11,7 @@ export default async function MovieSearchPage() {
     // TODO thinking how to write cleanly
     queryKey: ["media", "all", "", "", "", "", ""],
     queryFn: async () => {
-      const { data } = await axios.get<MediaData>(`${API_URL}/movies?type=movie&page=1`);
+      const { data } = await axios.get<MediaData>(`${API_URL}/movies?media_type=movie&page=1`);
       return data;
     },
     initialPageParam: 1,

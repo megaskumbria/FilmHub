@@ -510,7 +510,7 @@ export default function StatisticsPage() {
     genreTab === "genres" ? genreData : yearlyData.map((d) => ({ genre: d.label, count: d.count }));
 
   return (
-    <div className="max-w-[1640px] w-full mx-auto px-6 pt-20 pb-16">
+    <div className="max-w-410 w-full mx-auto px-6 pt-20 pb-16">
       <header className="mb-10">
         <h1 className="text-2xl font-bold text-foreground tracking-tight">Statistics</h1>
         <p className="text-sm text-zinc-muted mt-1">A breakdown of your movie taste</p>
@@ -676,7 +676,7 @@ export default function StatisticsPage() {
             </div>
           </div>
 
-          <div className="flex-1 min-h-[260px] rounded-xl overflow-hidden bg-[#1a1a2e] border border-border relative flex items-center justify-center">
+          <div className="flex-1 min-h-65 rounded-xl overflow-hidden bg-[#1a1a2e] border border-border relative flex items-center justify-center">
             <div
               className="absolute inset-0 opacity-20"
               style={{
