@@ -56,10 +56,10 @@ export const SearchMovieDrawer = () => {
     <Drawer direction="top" open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button
-          variant="outline"
-          className="flex justify-center rounded-sm size-9 border-border/80 bg-secondary/50 text-muted-foreground hover:border-accent/40 hover:bg-accent/10 transition-colors"
+          variant="transparent"
+          className="flex size-9 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white/80 shadow-sm transition-colors hover:border-accent/40 hover:bg-white/20 hover:text-white"
         >
-          <Search className="size-4 text-primary" />
+          <Search className="size-4" />
         </Button>
       </DrawerTrigger>
 
@@ -70,7 +70,7 @@ export const SearchMovieDrawer = () => {
         <DrawerTitle></DrawerTitle>
 
         <DrawerHeader className="px-6 pb-4 pt-2 items-center">
-          <div className="relative max-w-[1000px] w-full flex items-center">
+          <div className="relative max-w-250 w-full flex items-center">
             <Link href="/movie-search" onClick={() => setOpen(false)}>
               <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted cursor-pointer" />
             </Link>
@@ -107,7 +107,7 @@ export const SearchMovieDrawer = () => {
           ref={scrollRef}
           className="drawer-scroll overflow-y-auto px-6 pb-4 flex justify-center"
         >
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-[1000px] w-full">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-250 w-full">
             {isLoading && (
               <>
                 {Array.from({ length: 10 }).map((_, i) => (

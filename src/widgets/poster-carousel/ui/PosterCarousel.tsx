@@ -16,6 +16,7 @@ interface Props {
 }
 
 const IDLE_TIMEOUT = 5000;
+const IDLE_EVENTS = ["mousemove", "mousedown", "keydown", "touchstart", "scroll", "click"];
 
 export const PosterCarousel = ({
   stills,
@@ -27,14 +28,12 @@ export const PosterCarousel = ({
   const swiperRef = useRef<SwiperType | null>(null);
   const userClickedRef = useRef(false);
 
-  const isIdle = useIdle(IDLE_TIMEOUT);
+  const isIdle = useIdle(IDLE_TIMEOUT, false, IDLE_EVENTS);
 
   useEffect(() => {
     if (!swiperRef.current) return;
 
-    if (!isIdle && selectedPoster !== null) {
-      handlePosterSelect(updatePosters[0]);
-    }
+    if (!isIdle && selectedPoster !== null) handlePosterSelect(updatePosters[0]);
 
     if (isIdle) {
       swiperRef.current.autoplay.start();
@@ -52,15 +51,10 @@ export const PosterCarousel = ({
 
     const index = updatePosters.findIndex((p) => p === poster);
 
-    if (index >= 0) {
-      swiperRef.current?.slideToLoop(index);
-    }
+    if (index >= 0) swiperRef.current?.slideToLoop(index);
   };
 
-  const updatePosters = useMemo<string[]>(
-    () => [backdropUrl, ...(stills ?? [])],
-    [backdropUrl, stills],
-  );
+  const updatePosters = useMemo(() => [backdropUrl, ...stills], [backdropUrl, stills]);
 
   return (
     <div className="w-145">

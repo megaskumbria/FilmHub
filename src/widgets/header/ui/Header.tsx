@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { Bookmark } from "lucide-react";
 import { Button } from "@/shared/ui";
 import { SearchMovieDrawer, AuthModal, UserMenu } from "@/widgets";
 import { cn } from "@/shared/lib/utils";
@@ -60,8 +61,9 @@ export const Header = () => {
 
           <Link
             href={`/collections/${userId}`}
-            className="rounded-lg px-4 py-2 bg-accent/90 hover:bg-accent text-white border-0 text-sm font-medium transition-colors"
+            className="flex h-9 items-center gap-2 rounded-lg bg-linear-to-r from-accent to-accent/80 px-4 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:from-accent/90 hover:to-accent/70"
           >
+            <Bookmark className="size-4" />
             <span>My collections</span>
           </Link>
 
@@ -70,9 +72,9 @@ export const Header = () => {
           : <AuthModal>
               <Button
                 type="button"
-                variant="outline"
+                variant="transparent"
                 size="sm"
-                className="h-9 justify-center gap-0 rounded-lg border-border bg-input/40 px-4 text-foreground shadow-sm transition-colors hover:border-accent/45 hover:bg-accent/12 hover:text-accent-foreground"
+                className="h-9 justify-center gap-0 rounded-lg border border-white/20 bg-white/10 px-4 text-white shadow-sm transition-colors hover:border-accent/40 hover:bg-white/20"
               >
                 <span className="text-sm font-semibold tracking-tight">Sign in</span>
               </Button>
