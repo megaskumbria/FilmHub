@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { Button, Checkbox, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
+import { Checkbox, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import Link from "next/link";
-import { Plus } from "lucide-react";
 import { useRef, useState } from "react";
+import { AddBookmarkButton } from "./AddBookmarkButton";
 import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
 import { type Media } from "@/shared/stores/movie-catalog";
 import { useLocale } from "next-intl";
@@ -91,7 +91,7 @@ export const MediaCard = ({
         <Checkbox
           onCheckedChange={() => onCheckedChange?.(id, isChecked)}
           checked={isChecked}
-          className="absolute size-5 top-2 right-2 z-10 border-border bg-surface transition-all duration-200 cursor-pointer"
+          className="absolute size-5 top-2 left-2 z-10 border-border bg-surface transition-all duration-200 cursor-pointer"
         />
       )}
 
@@ -118,7 +118,7 @@ export const MediaCard = ({
               alt={titleToDisplay}
               width={cardWidth}
               height={435}
-              className="h-full w-full object-cover rounded-xl transition-transform duration-300 ease-out group-hover:scale-110"
+              className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-110"
             />
           )}
 
@@ -154,12 +154,7 @@ export const MediaCard = ({
       {shouldShowAddPopover && (
         <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
           <PopoverTrigger asChild>
-            <Button
-              variant="rounded"
-              className="absolute top-2 right-2 size-8 text-foreground z-30"
-            >
-              <Plus className="size-4" />
-            </Button>
+            <AddBookmarkButton />
           </PopoverTrigger>
 
           <PopoverContent

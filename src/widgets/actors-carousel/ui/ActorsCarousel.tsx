@@ -24,7 +24,7 @@ export const ActorsCarousel = ({ actors }: Props) => {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-3">
-        <p className="text-sm font-semibold text-white/50 uppercase tracking-widest">Actors</p>
+        <p className="text-sm font-semibold text-white/50 uppercase tracking-widest">Cast</p>
 
         <div className="flex items-center gap-1 pr-4">
           <Button

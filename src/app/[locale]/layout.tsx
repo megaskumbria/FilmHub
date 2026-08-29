@@ -2,7 +2,7 @@ import "@/app/styles/globals.css";
 import { ReactNode } from "react";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
-import { Manrope, Unbounded } from "next/font/google";
+import { Inter, Manrope, Unbounded } from "next/font/google";
 import { Header } from "@/widgets";
 import { TooltipProvider } from "@/shared/ui/tooltip";
 import { Toaster } from "@/shared/ui/sonner";
@@ -24,6 +24,13 @@ const unbounded = Unbounded({
   display: "swap",
 });
 
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 interface Props {
   children: ReactNode;
   params: Promise<{ locale: string }>;
@@ -41,7 +48,7 @@ export default async function RootLayout({ children, params }: Props) {
   return (
     <html
       lang={locale}
-      className={`${manrope.variable} ${unbounded.variable}`}
+      className={`${manrope.variable} ${unbounded.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <body>

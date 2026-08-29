@@ -10,7 +10,7 @@ interface RatingProps {
 
 export const Rating = ({ ratingImdb, voteAverage }: RatingProps) => {
   return (
-    <div className="absolute top-[10px] left-[10px] flex gap-2 z-20">
+    <div className="absolute top-2.5 right-2.5 flex gap-2 z-20">
       {Number(ratingImdb) > 0 && (
         <div
           className="flex items-stretch overflow-hidden rounded-md text-xs font-bold shadow-md h-fit"

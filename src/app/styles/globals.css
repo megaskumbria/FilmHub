@@ -7,12 +7,12 @@
   :root {
     /* Base */
     --background: #121214;
-    --surface: #18181b;
+    --surface: #1e1e24;
     --foreground: #fafafa;
     --success: #21c45d;
 
     /* Surfaces */
-    --card: #121214;
+    --card: #191920;
 
     /* Primary */
     --primary: #fafafa;
@@ -35,8 +35,8 @@
     --destructive-foreground: #fafafa;
 
     /* Borders & inputs */
-    --border: #27272a;
-    --input: #212124;
+    --border: #35353d;
+    --input: #1c1c22;
     --ring: #9b56f0;
 
     /* Controls */
@@ -44,14 +44,14 @@
     --button-hover: #8d4ed9;
 
     /* Popover */
-    --popover: #18181b;
+    --popover: #23232a;
     --popover-foreground: #fafafa;
 
     /* Extras */
     --gold: #f59e0b;
     --neutral: #1f2937;
-    --surface-elevated: #18181b;
-    --surface-subtle: #0f0f11;
+    --surface-elevated: #27272f;
+    --surface-subtle: #0e0e10;
 
     /* Scrollbar */
     --scrollbar: #4a3280;
@@ -60,11 +60,11 @@
 
     /* Additional colors */
     --obsidian: #0a0a0a;
-    --graphite: #151517;
-    --charcoal: #171717;
-    --slate-edge: #262626;
+    --graphite: #1c1c22;
+    --charcoal: #20202a;
+    --slate-edge: #34343d;
     --emerald-accent: #10b981;
-    --zinc-muted: #737373;
+    --zinc-muted: #8a8a94;
     --zinc-light: #e5e5e5;
   }
 }
@@ -100,29 +100,25 @@
   --color-surface-elevated: var(--surface-elevated);
   --color-surface-subtle: var(--surface-subtle);
 
-  /* --color-obsidian: var(--obsidian); */
-  --color-obsidian: #0a0a0a;
-  /* --color-graphite: var(--graphite); */
-  --color-graphite: #151517;
+  --color-obsidian: var(--obsidian);
+  --color-graphite: var(--graphite);
   --color-charcoal: var(--charcoal);
-  /* --color-slate-edge: var(--slate-edge); */
-  --color-slate-edge: #262626;
-  /* --color-emerald-accent: var(--emerald-accent); */
-  --color-emerald-accent: #10b981;
-  /* --color-zinc-muted: var(--zinc-muted); */
-  --color-zinc-muted: #737373;
-  /* --color-zinc-light: var(--zinc-light); */
-  --color-zinc-light: #e5e5e5;
+  --color-slate-edge: var(--slate-edge);
+  --color-emerald-accent: var(--emerald-accent);
+  --color-zinc-muted: var(--zinc-muted);
+  --color-zinc-light: var(--zinc-light);
 }
 
 @theme {
   --font-unbounded: var(--font-unbounded), ui-sans-serif, system-ui, sans-serif;
+  --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   html {
     @apply bg-background text-foreground;
-    font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+    /* font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif; */
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   }
 
   body {

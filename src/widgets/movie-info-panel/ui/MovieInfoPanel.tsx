@@ -100,7 +100,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
             <Button
               variant="accent"
               size="lg"
-              className="transition-all duration-200 gap-2 rounded-lg font-semibold shadow-lg shadow-accent/30"
+              className="transition-all duration-200 gap-1 rounded-lg font-semibold text-sm shadow-lg shadow-accent/30"
             >
               <Plus className="size-4" />
               <span>Add to collection</span>
@@ -117,7 +117,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
         </Popover>
 
         <div className="flex items-stretch h-10 rounded-lg border border-white/20 bg-white/10 overflow-hidden">
-          <Button className="transition-all duration-200 gap-2 h-full rounded-none bg-transparent hover:bg-white/10 font-semibold text-white border-none shadow-none px-4">
+          <Button className="transition-all duration-200 gap-1 h-full rounded-none bg-transparent hover:bg-white/10 font-semibold text-sm text-white border-none shadow-none px-4">
             <Link2 className="size-4" />
             <span>Generate link</span>
           </Button>

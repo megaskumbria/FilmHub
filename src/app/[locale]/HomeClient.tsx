@@ -5,7 +5,7 @@ import { FilterFeed } from "@/widgets";
 import { useQuery } from "@tanstack/react-query";
 import { CollectionDeck } from "@/entities";
 import { useCollectionsFeedStore } from "@/features/feed-filter";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/ui";
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/shared/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { useState } from "react";
@@ -26,40 +26,52 @@ export const HomeClient = () => {
     <main className="max-w-410 w-full mx-auto px-6 pt-20 pb-16">
       {/* <BestCollectionsSlider /> */}
 
-      <section className="flex items-center justify-between gap-4 mb-8 bg-surface rounded-lg p-4 border border-border">
-        <span className="text-sm text-muted shrink-0">
-          <span className="text-primary font-semibold">{collectionsCount}</span> collections
-        </span>
+      <section className="flex flex-col gap-5 mb-10">
+        <h1 className="font-serif text-5xl font-bold text-primary tracking-tight">
+          Browse the shelves
+        </h1>
 
-        <InputGroup className="w-full h-9 rounded-sm bg-surface border-border/60 shadow-none focus-within:border-accent/50 transition-colors">
-          <InputGroupAddon className="pl-3.5">
-            <Search className="size-3.5 text-muted" />
-          </InputGroupAddon>
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4 w-full">
+            <p className="text-sm text-muted shrink-0">{collectionsCount} collections</p>
 
-          <InputGroupInput
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search collections..."
-            className="placeholder:text-muted"
-          />
+            <InputGroup className="max-w-82 w-full h-9 rounded-full bg-surface border border-border shadow-sm hover:border-zinc-muted/60 focus-within:bg-surface-elevated transition-all duration-200">
+              <InputGroupAddon>
+                <Search className="size-4 text-zinc-light" />
+              </InputGroupAddon>
 
-          <AnimatePresence>
-            {searchQuery && (
-              <motion.button
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                onClick={() => setSearchQuery("")}
-                className="cursor-pointer absolute right-3 size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center transition-colors group"
-              >
-                <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
-              </motion.button>
-            )}
-          </AnimatePresence>
-        </InputGroup>
+              <InputGroupInput
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search collections..."
+                className="placeholder:text-muted text-foreground"
+              />
 
-        <FilterFeed />
+              <AnimatePresence>
+                {searchQuery && (
+                  <motion.div
+                    key="clear-search"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-2"
+                  >
+                    <InputGroupButton
+                      size="icon-xs"
+                      className="size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center"
+                      onClick={() => setSearchQuery("")}
+                    >
+                      <X className="size-3.5 text-muted " />
+                    </InputGroupButton>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </InputGroup>
+          </div>
+
+          <FilterFeed />
+        </div>
       </section>
 
       <div className="grid grid-cols-5 gap-x-4 gap-y-12 justify-items-center">
