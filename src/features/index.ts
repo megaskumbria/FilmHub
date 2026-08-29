@@ -13,7 +13,7 @@ export {
   CountrySelect,
   useFilterMedia,
 } from "./media-filters";
-export { FeedGenreSelect, MoviesCountSelect, FeedSortSelect } from "./feed-filter";
+export { FeedGenreSelect, FeedSortSelect } from "./feed-filter";
 export { CreateCollection } from "./create-folder";
 export { FolderMetaBar } from "./folder-meta-bar";
 export { SetMediaFlags } from "./set-media-flags";
@@ -24,3 +24,10 @@ export { FlagListItem } from "./flag-list-item";
 export { CreateFlagCategory } from "./create-flag-category";
 export { FlagCategoryActions } from "./flag-category-actions";
 export { FlagCategoriesFilter } from "./flag-categories-filter";
+export {
+  AuthModalSignInForm,
+  AuthModalSignUpForm,
+  useAuthStore,
+  useAuthModalStore,
+  useRequireAuth,
+} from "./auth";

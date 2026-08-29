@@ -127,8 +127,8 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
                     onClick={() => setShowPassword((prev) => !prev)}
                   >
                     {showPassword ?
-                      <EyeOffIcon className="size-[17px]" />
-                    : <EyeIcon className="size-[17px]" />}
+                      <EyeOffIcon className="size-4.25" />
+                    : <EyeIcon className="size-4.25" />}
                   </Button>
                 </div>
               </FormControl>
@@ -160,7 +160,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
           type="button"
           className="active:scale-[0.98] h-10 w-full justify-center gap-2.5 rounded-lg border border-border/80 bg-transparent font-medium text-foreground/80 transition-all hover:bg-white/5 hover:border-border hover:text-foreground"
         >
-          <GoogleIcon className="size-[18px] shrink-0" />
+          <GoogleIcon className="size-4.5 shrink-0" />
           <span>Google</span>
         </Button>
       </form>

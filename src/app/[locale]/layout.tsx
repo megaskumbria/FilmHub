@@ -3,9 +3,8 @@ import { ReactNode } from "react";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Inter, Manrope, Unbounded } from "next/font/google";
-import { Header } from "@/widgets";
-import { TooltipProvider } from "@/shared/ui/tooltip";
-import { Toaster } from "@/shared/ui/sonner";
+import { Header, AuthModal } from "@/widgets";
+import { Toaster, TooltipProvider } from "@/shared/ui";
 import { ReactQueryProvider, AuthProvider } from "@/shared/providers";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
@@ -67,6 +66,8 @@ export default async function RootLayout({ children, params }: Props) {
                 {/* </ThemeProvider> */}
               </AuthProvider>
             </TooltipProvider>
+
+            <AuthModal />
             <Toaster />
           </NextIntlClientProvider>
         </ReactQueryProvider>

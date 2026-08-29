@@ -1,11 +1,10 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { Clapperboard, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
-  DialogTrigger,
   DialogClose,
   Tabs,
   TabsList,
@@ -15,8 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/ui";
-import { AuthModalSignInForm } from "@/features/auth/ui/SignInForm";
-import { AuthModalSignUpForm } from "@/features/auth/ui/SignUpForm";
+import { AuthModalSignInForm, AuthModalSignUpForm, useAuthModalStore } from "@/features/auth";
 import { FooterAuthModal } from "./FooterAuthModal";
 
 interface Tab {
@@ -35,30 +33,26 @@ const TABS: Tab[] = [
   },
 ];
 
-interface Props {
-  children: ReactNode;
-}
-
-export function AuthModal({ children }: Props) {
-  const [openDialog, setOpenDialog] = useState(false);
+export function AuthModal() {
   const [tab, setTab] = useState<Tab["value"]>("signin");
 
-  return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+  const { isOpen, open, close } = useAuthModalStore();
 
+  return (
+    <Dialog open={isOpen} onOpenChange={(v) => (v ? open() : close())}>
       <DialogTitle className="sr-only">Authentication</DialogTitle>
 
       <DialogContent
         aria-describedby={undefined}
         showCloseButton={false}
-        className="sm:max-w-[420px] gap-0 overflow-hidden rounded-2xl border border-border bg-surface p-0 shadow-[0_24px_64px_-12px_rgba(0,0,0,0.7),0_0_0_1px_rgba(155,86,240,0.06)]"
+        className="sm:max-w-105 gap-0 overflow-hidden rounded-2xl border border-border bg-surface p-0 shadow-[0_24px_64px_-12px_rgba(0,0,0,0.7),0_0_0_1px_rgba(155,86,240,0.06)]"
       >
         <DialogHeader className="flex flex-row items-center justify-between px-5 py-4 border-b border-border/60">
           <div className="flex items-center gap-2.5">
             <div className="flex items-center justify-center size-8 rounded-lg bg-accent/10 ring-1 ring-accent/20">
-              <Clapperboard className="size-[18px] text-accent" strokeWidth={1.75} aria-hidden />
+              <Clapperboard className="size-4.5 text-accent" strokeWidth={1.75} aria-hidden />
             </div>
+
             <span className="text-foreground text-[15px] font-semibold tracking-tight">
               FilmHub
             </span>
@@ -92,11 +86,11 @@ export function AuthModal({ children }: Props) {
           </TabsList>
 
           <TabsContent value="signin" className="mt-0 px-5 py-6">
-            <AuthModalSignInForm onSuccess={() => setOpenDialog(false)} />
+            <AuthModalSignInForm onSuccess={() => close()} />
           </TabsContent>
 
           <TabsContent value="signup" className="mt-0 px-5 py-6">
-            <AuthModalSignUpForm onSuccess={() => setOpenDialog(false)} />
+            <AuthModalSignUpForm onSuccess={() => close()} />
           </TabsContent>
         </Tabs>
 

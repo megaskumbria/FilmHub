@@ -10,6 +10,7 @@ import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 import { type Collection } from "@/shared/hooks/useCollection";
 import { IconEye } from "@tabler/icons-react";
+import { useRequireAuth } from "@/features/auth";
 
 interface Props {
   activeCollectionId: string;
@@ -31,6 +32,8 @@ export const CollectionsToolbar = ({
 }: Props) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const ensureAuth = useRequireAuth();
 
   const focusRef = useRef<HTMLInputElement>(null);
 
@@ -64,6 +67,11 @@ export const CollectionsToolbar = ({
     if (isSearchOpen) setSearchQuery("");
   };
 
+  const handleToggleLike = () => {
+    if (!ensureAuth()) return;
+    toggleLikeCollection(id!);
+  };
+
   return (
     <div className="flex items-center justify-between mb-5 pt-5">
       {isLoading ?
@@ -86,7 +94,7 @@ export const CollectionsToolbar = ({
             </Button>
 
             <Button
-              onClick={() => toggleLikeCollection(id!)}
+              onClick={handleToggleLike}
               className={cn(
                 "flex items-center gap-1.5 h-8 px-2 rounded-lg transition-colors duration-200",
                 isLiked ?

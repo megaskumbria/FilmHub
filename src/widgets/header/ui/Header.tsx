@@ -4,22 +4,29 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Bookmark } from "lucide-react";
 import { Button } from "@/shared/ui";
-import { SearchMovieDrawer, AuthModal, UserMenu } from "@/widgets";
+import { SearchMovieDrawer, UserMenu } from "@/widgets";
 import { cn } from "@/shared/lib/utils";
-import { useAuthStore } from "@/features/auth/model/auth.store";
+import { useAuthStore, useAuthModalStore } from "@/features/auth";
 // import { LogoSvg } from "@/shared/assets/LogoSvg";
 
 export const Header = () => {
+  const [isAuth, setIsAuth] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const { user } = useAuthStore();
   const { id: userId } = user;
+
+  const openAuthModal = useAuthModalStore((s) => s.open);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  useEffect(() => setIsAuth(Boolean(userId)), [userId]);
+
+  const isAuthUser = isAuth && Boolean(userId);
 
   return (
     <header
@@ -59,26 +66,27 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           <SearchMovieDrawer />
 
-          <Link
-            href={`/collections/${userId}`}
-            className="flex h-9 items-center gap-2 rounded-lg bg-linear-to-r from-accent to-accent/80 px-4 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:from-accent/90 hover:to-accent/70"
-          >
-            <Bookmark className="size-4" />
-            <span>My collections</span>
-          </Link>
+          {isAuthUser && (
+            <Link
+              href={`/collections/${userId}`}
+              className="flex h-9 items-center gap-2 rounded-lg bg-linear-to-r from-accent to-accent/80 px-4 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:from-accent/90 hover:to-accent/70"
+            >
+              <Bookmark className="size-4" />
+              <span>My collections</span>
+            </Link>
+          )}
 
           {userId ?
             <UserMenu />
-          : <AuthModal>
-              <Button
-                type="button"
-                variant="transparent"
-                size="sm"
-                className="h-9 justify-center gap-0 rounded-lg border border-white/20 bg-white/10 px-4 text-white shadow-sm transition-colors hover:border-accent/40 hover:bg-white/20"
-              >
-                <span className="text-sm font-semibold tracking-tight">Sign in</span>
-              </Button>
-            </AuthModal>
+          : <Button
+              type="button"
+              variant="transparent"
+              size="sm"
+              className="h-9 justify-center gap-0 rounded-lg border border-white/20 bg-white/10 px-4 text-white shadow-sm transition-colors hover:border-accent/40 hover:bg-white/20"
+              onClick={openAuthModal}
+            >
+              <span className="text-sm font-semibold tracking-tight">Sign in</span>
+            </Button>
           }
         </div>
       </div>

@@ -1,18 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { Checkbox, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
+import { Checkbox, Popover, PopoverContent, PopoverTrigger, AddBookmarkButton } from "@/shared/ui";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { useRef, useState } from "react";
-import { AddBookmarkButton } from "./AddBookmarkButton";
 import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
 import { type Media } from "@/shared/stores/movie-catalog";
-import { useLocale } from "next-intl";
 import { renderBlocks } from "../lib/render-blocks";
 import { AddMovieCollection, SetMediaFlags } from "@/features";
 import { cn } from "@/shared/lib/utils";
+import { useRequireAuth } from "@/features/auth";
 
-export type PopoverMode = "add-flag" | "add-collection" | "edit-collection";
+export const POPOVER_MODE = {
+  ADD_FLAG: "add-flag",
+  ADD_COLLECTION: "add-collection",
+  EDIT_COLLECTION: "edit-collection",
+};
+export type PopoverMode = (typeof POPOVER_MODE)[keyof typeof POPOVER_MODE];
 
 interface Props {
   media: Media;
@@ -75,10 +80,17 @@ export const MediaCard = ({
 
   const hasHover = hover.length > 0;
 
-  const isEditMode = mode === "edit-collection";
+  const isEditMode = mode === POPOVER_MODE.EDIT_COLLECTION;
 
   const shouldAccessBorder = isEditMode && isChecked;
   const shouldShowAddPopover = shouldShowAddButton && mode && !isEditMode;
+
+  const ensureAuth = useRequireAuth();
+
+  const handleOpenChange = (open: boolean) => {
+    if (open && !ensureAuth()) return;
+    setPopoverOpen(open);
+  };
 
   return (
     <article
@@ -152,7 +164,7 @@ export const MediaCard = ({
       </Link>
 
       {shouldShowAddPopover && (
-        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+        <Popover open={popoverOpen} onOpenChange={handleOpenChange}>
           <PopoverTrigger asChild>
             <AddBookmarkButton />
           </PopoverTrigger>
@@ -161,8 +173,10 @@ export const MediaCard = ({
             side="bottom"
             className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full"
           >
-            {mode === "add-flag" && <SetMediaFlags mediaId={id} popoverOpen={popoverOpen} />}
-            {mode === "add-collection" && (
+            {mode === POPOVER_MODE.ADD_FLAG && (
+              <SetMediaFlags mediaId={id} popoverOpen={popoverOpen} />
+            )}
+            {mode === POPOVER_MODE.ADD_COLLECTION && (
               <AddMovieCollection popoverOpen={popoverOpen} mediaId={id} mediaType={mediaType} />
             )}
           </PopoverContent>

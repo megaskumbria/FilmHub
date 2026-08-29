@@ -15,6 +15,7 @@ import { CalendarDays, Clock, Info, Link2, Plus, Tv } from "lucide-react";
 import { CastMember, TmdbMovie } from "@/shared/hooks/useMedia";
 import { AddMovieCollection } from "@/features";
 import { useState } from "react";
+import { useRequireAuth } from "@/features/auth";
 
 const formatDuration = (min: number) => {
   const h = Math.floor(min / 60);
@@ -30,6 +31,8 @@ interface Props {
 
 export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const ensureAuth = useRequireAuth();
 
   const {
     genres,
@@ -47,6 +50,11 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
   const titleToDisplay = originalName || title;
   const yearOfRelease = new Date(releaseDate || firstAirDate || lastAirDate).getFullYear();
   const isMovie = mediaType === "movie";
+
+  const handleOpenChange = (open: boolean) => {
+    if (open && !ensureAuth()) return;
+    setPopoverOpen(open);
+  };
 
   return (
     <motion.div
@@ -74,8 +82,6 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
               {numberOfSeasons} {numberOfSeasons === 1 ? "Season" : "Seasons"}
             </span>
           }
-
-          {/* <span className="text-white/25">•</span> */}
         </div>
 
         <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-base font-medium">
@@ -95,7 +101,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
       <p className="text-white/70 font-medium text-base leading-relaxed line-clamp-6">{overview}</p>
 
       <div className="flex gap-3">
-        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+        <Popover open={popoverOpen} onOpenChange={handleOpenChange}>
           <PopoverTrigger asChild>
             <Button
               variant="accent"
