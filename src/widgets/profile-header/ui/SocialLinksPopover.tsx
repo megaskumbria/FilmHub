@@ -9,17 +9,13 @@ import {
   PopoverTitle,
 } from "@/shared/ui";
 import { SocialLinkIcon } from "./SocialLinkIcon";
-
-export interface SocialLink {
-  id: string;
-  url: string;
-}
+import { type SocialUrl } from "@/shared/hooks";
 
 const MAX_SOCIAL_LINKS = 4;
 
 interface Props {
-  links: SocialLink[];
-  onChange: (links: SocialLink[]) => void;
+  links: SocialUrl[];
+  onChange: (links: SocialUrl[]) => void;
 }
 
 export const SocialLinksPopover = ({ links, onChange }: Props) => {

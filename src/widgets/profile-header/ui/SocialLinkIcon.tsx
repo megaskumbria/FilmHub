@@ -27,14 +27,17 @@ export const SocialLinkIcon = ({ url, className }: Props) => {
     setIsReady(false);
 
     const img = new Image();
+
     img.onload = () => {
       if (cancelled) return;
       setIsReady(img.naturalWidth > 16);
     };
+
     img.onerror = () => {
       if (cancelled) return;
       setIsReady(false);
     };
+
     img.src = faviconUrl;
 
     return () => {

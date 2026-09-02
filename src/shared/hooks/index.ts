@@ -49,3 +49,4 @@ export {
 export { useRenameCategory } from "./useRenameCategory";
 export { useSetMediaFlags } from "./useMediaFlags";
 export { collectionsFeedQuery, useFeedGenres } from "./useCollectionsFeed";
+export { profileQueryOptions, type UserProfile, type SocialUrl } from "./useProfile";

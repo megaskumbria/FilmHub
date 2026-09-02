@@ -113,7 +113,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
 
   return (
     <div className="max-w-410 min-h-screen w-full mx-auto px-6 pt-20 pb-16">
-      <ProfileHeader isMyProfile={isMyCollection} />
+      <ProfileHeader isMyProfile={isMyCollection} userId={userId} />
 
       <UserCollections
         isMyProfile={isMyCollection}

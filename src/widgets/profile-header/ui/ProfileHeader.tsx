@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { Avatar, AvatarFallback, Button, Input, SheetTrigger } from "@/shared/ui";
+import { Avatar, AvatarFallback, AvatarImage, Button, Input, SheetTrigger } from "@/shared/ui";
 import {
   ImagePlus,
   Share2,
@@ -11,74 +11,63 @@ import {
   Film,
   Users,
   ChevronRight,
-  LucideIcon,
   Check,
   X,
 } from "lucide-react";
-import { FollowersSheet } from "@/widgets/followers-sheet";
-import { SocialLinksPopover, type SocialLink } from "./SocialLinksPopover";
+import { FollowersSheet } from "@/widgets";
+import { SocialLinksPopover } from "./SocialLinksPopover";
 import { SocialLinkIcon } from "./SocialLinkIcon";
 import { AnimatePresence, motion } from "framer-motion";
-
-interface Stat {
-  label: string;
-  value: string;
-  Icon: LucideIcon;
-}
-
-const infoStats: Stat[] = [
-  { label: "Collections", value: "17", Icon: BookOpen },
-  { label: "Films", value: "248", Icon: Film },
-];
-
-const followersStat: Stat = { label: "Followers", value: "1.2K", Icon: Users };
-
-interface ProfileFields {
-  name: string;
-  username: string;
-  bio: string;
-  socialLinks: SocialLink[];
-}
-
-const myProfileFields: ProfileFields = {
-  name: "Pavel",
-  username: "pavel_films",
-  bio: "Film enthusiast since 2019",
-  socialLinks: [
-    { id: "instagram", url: "https://instagram.com/pavel_films" },
-    { id: "telegram", url: "https://t.me/pavel_films" },
-  ],
-};
-
-const otherProfileFields: ProfileFields = {
-  name: "John Doe",
-  username: "john_doe",
-  bio: "placeholder bio",
-  socialLinks: [],
-};
+import { profileQueryOptions, type UserProfile } from "@/shared/hooks";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   isMyProfile: boolean;
+  userId: string;
 }
 
-export const ProfileHeader = ({ isMyProfile }: Props) => {
-  const [fields, setFields] = useState<ProfileFields>(
-    isMyProfile ? myProfileFields : otherProfileFields,
-  );
-  const [isEditing, setIsEditing] = useState(false);
-  const snapshotRef = useRef<ProfileFields>(fields);
+export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [profileFields, setProfileFields] = useState<Partial<UserProfile>>({
+    userId: userId,
+    nickname: "",
+    tag: "",
+    bio: "",
+    avatarUrl: "",
+    coverUrl: "",
+    socialUrls: [],
+  });
 
-  const handleStartEditing = () => {
-    snapshotRef.current = fields;
+  const { data: profile } = useQuery(profileQueryOptions({ userId }));
+
+  const {
+    tag,
+    bio,
+    socialUrls,
+    avatarUrl,
+    coverUrl,
+    nickname,
+    filmsCount,
+    collectionsCount,
+    followersCount,
+  } = profile ?? {};
+
+  const handleStartEditing = (): void => {
+    setProfileFields({
+      userId,
+      nickname,
+      tag,
+      bio,
+      avatarUrl,
+      coverUrl,
+      socialUrls: socialUrls?.map((link) => ({ ...link })),
+    });
     setIsEditing(true);
   };
 
-  const handleCancel = () => {
-    setFields(snapshotRef.current);
-    setIsEditing(false);
-  };
+  const handleCancel = (): void => setIsEditing(false);
 
-  const handleSave = () => {
+  const handleSave = (): void => {
     setIsEditing(false);
   };
 
@@ -86,7 +75,7 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
     <header className="flex flex-col rounded-2xl border border-border">
       <div className="group relative h-56 w-full">
         <Image
-          src="/images/mock-slider-5.jpg"
+          src={coverUrl ?? "/images/mock-slider-5.jpg"}
           alt="Cover"
           fill
           className="object-cover object-center rounded-t-2xl"
@@ -113,59 +102,67 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
         <div className="flex items-end gap-5 -mt-2">
           <Avatar className="size-20 rounded-2xl bg-linear-to-br from-accent to-accent/60 shadow-xl shadow-accent/30 ring-4 ring-surface">
             <AvatarFallback className="text-white text-3xl font-bold rounded-2xl">
-              {fields.name.charAt(0).toUpperCase()}
+              {nickname?.charAt(0).toUpperCase()}
             </AvatarFallback>
+
+            <AvatarImage src={avatarUrl ?? ""} />
           </Avatar>
 
           <div className="flex-1 min-w-0 pb-1">
-            <AnimatePresence initial={false} mode="popLayout">
-              {isEditing ?
+            {isEditing ?
+              <Input
+                key="nickname-input"
+                variant="ghost"
+                value={profileFields.nickname}
+                onChange={(e) =>
+                  setProfileFields((prev) => ({ ...prev, nickname: e.target.value }))
+                }
+                className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-2xl md:text-2xl font-bold text-foreground focus-visible:border-accent focus-visible:ring-0"
+              />
+            : <h1 key="name-text" className="text-2xl font-bold text-foreground truncate">
+                {nickname}
+              </h1>
+            }
+
+            {isEditing ?
+              <div className="flex items-center gap-1.5 mt-1.5">
+                <span className="text-zinc-muted text-sm shrink-0">@</span>
                 <Input
+                  key="username-input"
                   variant="ghost"
-                  value={fields.name}
-                  onChange={(e) => setFields((prev) => ({ ...prev, name: e.target.value }))}
-                  className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-2xl md:text-2xl font-bold text-foreground focus-visible:border-accent focus-visible:ring-0"
+                  value={profileFields.tag}
+                  onChange={(e) => setProfileFields((prev) => ({ ...prev, tag: e.target.value }))}
+                  className="h-auto w-28 shrink-0 rounded-none border-0 border-b border-border/60 p-0 text-sm text-zinc-muted md:text-sm focus-visible:border-accent focus-visible:text-foreground focus-visible:ring-0"
                 />
-              : <h1 className="text-2xl font-bold text-foreground truncate">{fields.name}</h1>}
 
-              {isEditing ?
-                <div className="flex items-center gap-1.5 mt-1.5">
-                  <span className="text-zinc-muted text-sm shrink-0">@</span>
-                  <Input
-                    variant="ghost"
-                    value={fields.username}
-                    onChange={(e) => setFields((prev) => ({ ...prev, username: e.target.value }))}
-                    className="h-auto w-28 shrink-0 rounded-none border-0 border-b border-transparent p-0 text-sm text-zinc-muted md:text-sm focus-visible:border-accent focus-visible:text-foreground focus-visible:ring-0"
-                  />
+                <span className="text-zinc-muted/40 shrink-0">·</span>
 
-                  <span className="text-zinc-muted/40 shrink-0">·</span>
-
-                  <Input
-                    variant="ghost"
-                    value={fields.bio}
-                    onChange={(e) => setFields((prev) => ({ ...prev, bio: e.target.value }))}
-                    placeholder="Add a short bio..."
-                    className="h-auto min-w-0 flex-1 rounded-none border-0 border-b border-transparent p-0 text-sm text-zinc-muted md:text-sm focus-visible:border-accent focus-visible:text-foreground focus-visible:ring-0"
-                  />
-                </div>
-              : <p className="text-zinc-muted text-sm">
-                  @{fields.username}
-                  {fields.bio && ` · ${fields.bio}`}
-                </p>
-              }
-            </AnimatePresence>
+                <Input
+                  key="bio-input"
+                  variant="ghost"
+                  value={profileFields.bio ?? ""}
+                  onChange={(e) => setProfileFields((prev) => ({ ...prev, bio: e.target.value }))}
+                  placeholder="Add a short bio..."
+                  className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-sm text-foreground placeholder:text-zinc-muted/60 focus-visible:border-accent focus-visible:ring-0"
+                />
+              </div>
+            : <p key="username-text" className="text-zinc-muted text-sm">
+                @{tag}
+                {bio && ` · ${bio}`}
+              </p>
+            }
           </div>
 
           <div className="flex items-start gap-2">
-            {fields.socialLinks.map((link) => (
+            {socialUrls?.map(({ id, url }) => (
               <Button
-                key={link.id}
+                key={id}
                 asChild
                 variant="transparent"
                 className="hover:scale-110 transition-transform duration-200"
               >
-                <a href={link.url} target="_blank" rel="noopener noreferrer">
-                  <SocialLinkIcon url={link.url} className="size-8" />
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  <SocialLinkIcon url={url} className="size-8" />
                 </a>
               </Button>
             ))}
@@ -180,8 +177,8 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
                   className="overflow-hidden"
                 >
                   <SocialLinksPopover
-                    links={fields.socialLinks}
-                    onChange={(socialLinks) => setFields((prev) => ({ ...prev, socialLinks }))}
+                    links={profileFields.socialUrls ?? []}
+                    onChange={(urls) => setProfileFields((prev) => ({ ...prev, socialUrls: urls }))}
                   />
                 </motion.div>
               )}
@@ -191,28 +188,34 @@ export const ProfileHeader = ({ isMyProfile }: Props) => {
 
         <div className="flex items-center justify-between gap-3 mt-5">
           <div className="flex items-center gap-4">
-            {infoStats.map(({ label, value, Icon }, index) => (
-              <div key={label} className="flex items-center gap-4">
-                {index > 0 && <span className="h-4 w-px bg-border" aria-hidden />}
-
-                <div className="flex items-center gap-1.5">
-                  <Icon className="size-4 text-zinc-muted shrink-0" />
-                  <span className="text-foreground font-bold text-base">{value}</span>
-                  <span className="text-zinc-muted text-sm font-medium">{label}</span>
-                </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1.5">
+                <Film className="size-4 text-zinc-muted shrink-0" />
+                <span className="text-foreground font-bold text-base">{filmsCount}</span>
+                <span className="text-zinc-muted text-sm font-medium">Films</span>
               </div>
-            ))}
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="h-4 w-px bg-border" aria-hidden />
+
+              <div className="flex items-center gap-1.5">
+                <BookOpen className="size-4 text-zinc-muted shrink-0" />
+                <span className="text-foreground font-bold text-base">{collectionsCount}</span>
+                <span className="text-zinc-muted text-sm font-medium">Collections</span>
+              </div>
+            </div>
 
             <span className="h-4 w-px bg-border" aria-hidden />
 
             <FollowersSheet defaultTab="followers">
               <SheetTrigger asChild>
-                <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-background border border-border cursor-pointer hover:border-accent/50 hover:bg-accent/5 transition-colors">
-                  <followersStat.Icon className="size-4 text-zinc-muted shrink-0" />
-                  <span className="text-foreground font-bold text-base">{followersStat.value}</span>
-                  <span className="text-zinc-muted text-sm font-medium">{followersStat.label}</span>
+                <Button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-background border border-border cursor-pointer hover:border-accent/50 hover:bg-accent/5 transition-colors">
+                  <Users className="size-4 text-zinc-muted shrink-0" />
+                  <span className="text-foreground font-bold text-base">{followersCount}</span>
+                  <span className="text-zinc-muted text-sm font-medium">Followers</span>
                   <ChevronRight className="size-3.5 text-zinc-muted" />
-                </button>
+                </Button>
               </SheetTrigger>
             </FollowersSheet>
           </div>

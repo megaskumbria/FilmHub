@@ -5,6 +5,7 @@ import axios from "axios";
 import { API_URL } from "@/shared/constants/constants";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { collectionQueryOptions, collectionMediaQueryOptions } from "@/shared/hooks";
+import { profileQueryOptions } from "@/shared/hooks";
 
 interface AccessTokenPayload {
   sub: string;
@@ -56,14 +57,14 @@ export default async function MyCollectionsPage({ params, searchParams }: Props)
   const { id } = await params;
   const { collectionId } = await searchParams;
 
-  // console.log("id", id);
-  // console.log("userId", userId);
-
   const isMyCollection = id === userId;
 
-  const collections = await queryClient.fetchQuery(
-    collectionQueryOptions({ userId: id, isMyCollection, token: validToken }),
-  );
+  const [collections] = await Promise.all([
+    queryClient.fetchQuery(
+      collectionQueryOptions({ userId: id, isMyCollection, token: validToken }),
+    ),
+    queryClient.prefetchQuery(profileQueryOptions({ userId: id })),
+  ]);
 
   const firstCollectionId = collectionId ? collectionId : (collections?.[0]?.id ?? "");
 
