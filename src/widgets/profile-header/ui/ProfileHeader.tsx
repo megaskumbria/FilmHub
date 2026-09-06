@@ -25,12 +25,14 @@ import {
   ChevronRight,
   Check,
   X,
+  Loader2,
 } from "lucide-react";
+import { cn } from "@/shared/lib/utils";
 import { FollowersSheet } from "@/widgets";
 import { SocialLinksPopover } from "./SocialLinksPopover";
 import { SocialLinkIcon } from "./SocialLinkIcon";
 import { AnimatePresence, motion } from "framer-motion";
-import { profileQueryOptions } from "@/shared/hooks";
+import { profileQueryOptions, useUpdateProfile } from "@/shared/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,6 +48,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   const [socialLinks, setSocialLinks] = useState<string[]>([]);
 
   const { data: profile } = useQuery(profileQueryOptions({ userId }));
+  const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile();
 
   const {
     tag,
@@ -79,8 +82,8 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
     setIsEditing(false);
   };
 
-  const handleSubmitEdit = (values: ProfileEditSchema): void => {
-    console.log(values);
+  const handleSubmitUpdate = async (profileData: ProfileEditSchema): Promise<void> => {
+    await updateProfile(profileData);
     setIsEditing(false);
   };
 
@@ -125,7 +128,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
           <div className="flex-1 min-w-0 pb-1">
             {isEditing ?
               <Form {...form}>
-                <form onSubmit={(e) => void form.handleSubmit(handleSubmitEdit)(e)}>
+                <form onSubmit={(e) => void form.handleSubmit(handleSubmitUpdate)(e)}>
                   <FormField
                     control={form.control}
                     name="nickname"
@@ -287,11 +290,22 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                   type="button"
                   variant="accent"
                   size="sm"
-                  className="transition-colors rounded-lg h-9 gap-1.5 px-3"
-                  onClick={() => void form.handleSubmit(handleSubmitEdit)()}
+                  className={cn(
+                    "transition-colors rounded-lg h-9 gap-1.5 px-3",
+                    isUpdating && "opacity-50 pointer-events-none",
+                  )}
+                  onClick={() => void form.handleSubmit(handleSubmitUpdate)()}
                 >
-                  <Check className="size-3.5" />
-                  <span className="text-sm">Save</span>
+                  {isUpdating ?
+                    <>
+                      <Loader2 className="size-3.5 animate-spin" />
+                      <span className="text-sm">Saving...</span>
+                    </>
+                  : <>
+                      <Check className="size-3.5" />
+                      <span className="text-sm">Save</span>
+                    </>
+                  }
                 </Button>
               </>
             : <>
