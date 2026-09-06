@@ -2,7 +2,19 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage, Button, Input, SheetTrigger } from "@/shared/ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+  Input,
+  SheetTrigger,
+} from "@/shared/ui";
 import {
   ImagePlus,
   Share2,
@@ -18,8 +30,11 @@ import { FollowersSheet } from "@/widgets";
 import { SocialLinksPopover } from "./SocialLinksPopover";
 import { SocialLinkIcon } from "./SocialLinkIcon";
 import { AnimatePresence, motion } from "framer-motion";
-import { profileQueryOptions, type UserProfile } from "@/shared/hooks";
+import { profileQueryOptions } from "@/shared/hooks";
 import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileEditSchema, type ProfileEditSchema } from "../model/profile-edit-schema";
 
 interface Props {
   isMyProfile: boolean;
@@ -28,15 +43,7 @@ interface Props {
 
 export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [profileFields, setProfileFields] = useState<Partial<UserProfile>>({
-    userId: userId,
-    nickname: "",
-    tag: "",
-    bio: "",
-    avatarUrl: "",
-    coverUrl: "",
-    socialUrls: [],
-  });
+  const [socialLinks, setSocialLinks] = useState<string[]>([]);
 
   const { data: profile } = useQuery(profileQueryOptions({ userId }));
 
@@ -52,22 +59,28 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
     followersCount,
   } = profile ?? {};
 
-  const handleStartEditing = (): void => {
-    setProfileFields({
-      userId,
-      nickname,
-      tag,
-      bio,
-      avatarUrl,
-      coverUrl,
-      socialUrls: socialUrls?.map((link) => ({ ...link })),
-    });
+  const form = useForm<ProfileEditSchema>({
+    resolver: zodResolver(profileEditSchema),
+    defaultValues: {
+      nickname: "",
+      tag: "",
+      bio: "",
+    },
+  });
+
+  const handleStartEdit = (): void => {
+    form.reset({ nickname, tag, bio });
+    setSocialLinks(Array.isArray(socialUrls) ? socialUrls : []);
     setIsEditing(true);
   };
 
-  const handleCancel = (): void => setIsEditing(false);
+  const handleCancelEdit = (): void => {
+    form.reset();
+    setIsEditing(false);
+  };
 
-  const handleSave = (): void => {
+  const handleSubmitEdit = (values: ProfileEditSchema): void => {
+    console.log(values);
     setIsEditing(false);
   };
 
@@ -87,6 +100,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
         {isMyProfile && (
           <div className="absolute top-3 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <Button
+              type="button"
               variant="secondary"
               size="sm"
               className="rounded-lg gap-2 bg-black/50 border-white/15 text-white hover:bg-black/70"
@@ -110,53 +124,88 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
           <div className="flex-1 min-w-0 pb-1">
             {isEditing ?
-              <Input
-                key="nickname-input"
-                variant="ghost"
-                value={profileFields.nickname}
-                onChange={(e) =>
-                  setProfileFields((prev) => ({ ...prev, nickname: e.target.value }))
-                }
-                className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-2xl md:text-2xl font-bold text-foreground focus-visible:border-accent focus-visible:ring-0"
-              />
-            : <h1 key="name-text" className="text-2xl font-bold text-foreground truncate">
-                {nickname}
-              </h1>
-            }
+              <Form {...form}>
+                <form onSubmit={(e) => void form.handleSubmit(handleSubmitEdit)(e)}>
+                  <FormField
+                    control={form.control}
+                    name="nickname"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col gap-1">
+                        <FormControl>
+                          <Input
+                            variant="ghost"
+                            maxLength={24}
+                            {...field}
+                            className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-2xl md:text-2xl font-bold text-foreground focus-visible:border-accent focus-visible:ring-0"
+                          />
+                        </FormControl>
 
-            {isEditing ?
-              <div className="flex items-center gap-1.5 mt-1.5">
-                <span className="text-zinc-muted text-sm shrink-0">@</span>
-                <Input
-                  key="username-input"
-                  variant="ghost"
-                  value={profileFields.tag}
-                  onChange={(e) => setProfileFields((prev) => ({ ...prev, tag: e.target.value }))}
-                  className="h-auto w-28 shrink-0 rounded-none border-0 border-b border-border/60 p-0 text-sm text-zinc-muted md:text-sm focus-visible:border-accent focus-visible:text-foreground focus-visible:ring-0"
-                />
+                        <FormMessage className="text-sm" />
+                      </FormItem>
+                    )}
+                  />
 
-                <span className="text-zinc-muted/40 shrink-0">·</span>
+                  <div className="flex items-start gap-1.5 mt-1.5">
+                    <span className="text-zinc-muted text-sm shrink-0 pt-0.5">@</span>
 
-                <Input
-                  key="bio-input"
-                  variant="ghost"
-                  value={profileFields.bio ?? ""}
-                  onChange={(e) => setProfileFields((prev) => ({ ...prev, bio: e.target.value }))}
-                  placeholder="Add a short bio..."
-                  className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-sm text-foreground placeholder:text-zinc-muted/60 focus-visible:border-accent focus-visible:ring-0"
-                />
-              </div>
-            : <p key="username-text" className="text-zinc-muted text-sm">
-                @{tag}
-                {bio && ` · ${bio}`}
-              </p>
+                    <FormField
+                      control={form.control}
+                      name="tag"
+                      render={({ field }) => (
+                        <FormItem className="flex w-28 shrink-0 flex-col gap-1">
+                          <FormControl>
+                            <Input
+                              variant="ghost"
+                              maxLength={16}
+                              {...field}
+                              className="h-auto w-28 shrink-0 rounded-none border-0 border-b border-border/60 p-0 text-sm text-zinc-muted md:text-sm focus-visible:border-accent focus-visible:text-foreground focus-visible:ring-0"
+                            />
+                          </FormControl>
+
+                          <FormMessage className="text-sm" />
+                        </FormItem>
+                      )}
+                    />
+
+                    <span className="text-zinc-muted/40 shrink-0 pt-0.5">·</span>
+
+                    <FormField
+                      control={form.control}
+                      name="bio"
+                      render={({ field }) => (
+                        <FormItem className="flex min-w-0 flex-1 flex-col gap-1">
+                          <FormControl>
+                            <Input
+                              variant="ghost"
+                              maxLength={100}
+                              placeholder="Add a short bio..."
+                              {...field}
+                              className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-sm text-foreground placeholder:text-zinc-muted/60 focus-visible:border-accent focus-visible:ring-0"
+                            />
+                          </FormControl>
+
+                          <FormMessage className="text-sm" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </form>
+              </Form>
+            : <>
+                <h1 className="text-2xl font-bold text-foreground truncate">{nickname}</h1>
+
+                <p className="text-zinc-muted text-sm">
+                  @{tag}
+                  {bio && ` · ${bio}`}
+                </p>
+              </>
             }
           </div>
 
           <div className="flex items-start gap-2">
-            {socialUrls?.map(({ id, url }) => (
+            {socialUrls?.map((url) => (
               <Button
-                key={id}
+                key={url}
                 asChild
                 variant="transparent"
                 className="hover:scale-110 transition-transform duration-200"
@@ -176,10 +225,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                   transition={{ duration: 0.2, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <SocialLinksPopover
-                    links={profileFields.socialUrls ?? []}
-                    onChange={(urls) => setProfileFields((prev) => ({ ...prev, socialUrls: urls }))}
-                  />
+                  <SocialLinksPopover links={socialLinks} onChange={setSocialLinks} />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -210,7 +256,10 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
             <FollowersSheet defaultTab="followers">
               <SheetTrigger asChild>
-                <Button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-background border border-border cursor-pointer hover:border-accent/50 hover:bg-accent/5 transition-colors">
+                <Button
+                  type="button"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-background border border-border cursor-pointer hover:border-accent/50 hover:bg-accent/5 transition-colors"
+                >
                   <Users className="size-4 text-zinc-muted shrink-0" />
                   <span className="text-foreground font-bold text-base">{followersCount}</span>
                   <span className="text-zinc-muted text-sm font-medium">Followers</span>
@@ -224,8 +273,9 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
             {isEditing ?
               <>
                 <Button
+                  type="button"
                   size="sm"
-                  onClick={handleCancel}
+                  onClick={handleCancelEdit}
                   className="transition-colors rounded-lg h-9 gap-1.5 px-3 border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
                 >
                   <X className="size-3.5" />
@@ -233,10 +283,12 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                 </Button>
 
                 <Button
+                  key="profile-save"
+                  type="button"
                   variant="accent"
                   size="sm"
-                  onClick={handleSave}
                   className="transition-colors rounded-lg h-9 gap-1.5 px-3"
+                  onClick={() => void form.handleSubmit(handleSubmitEdit)()}
                 >
                   <Check className="size-3.5" />
                   <span className="text-sm">Save</span>
@@ -244,6 +296,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
               </>
             : <>
                 <Button
+                  type="button"
                   size="sm"
                   className="transition-colors rounded-lg h-9 p-0 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
                 >
@@ -252,14 +305,17 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
                 {isMyProfile ?
                   <Button
+                    key="profile-edit"
+                    type="button"
                     variant="accent"
                     className="transition-colors rounded-md px-2.5 h-9 gap-2"
-                    onClick={handleStartEditing}
+                    onClick={handleStartEdit}
                   >
                     <Pencil className="size-3.5" />
                     <span className="text-sm">Edit</span>
                   </Button>
                 : <Button
+                    type="button"
                     variant="accent"
                     className="transition-colors rounded-md px-2.5 h-9 gap-2"
                   >

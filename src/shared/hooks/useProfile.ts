@@ -2,11 +2,6 @@ import { queryOptions } from "@tanstack/react-query";
 import { API_URL } from "@/shared/constants/constants";
 import { apiClient } from "../api/api-client";
 
-export interface SocialUrl {
-  id: string;
-  url: string;
-}
-
 export interface UserProfile {
   userId: string;
   nickname: string;
@@ -14,7 +9,7 @@ export interface UserProfile {
   bio: string;
   avatarUrl: string | null;
   coverUrl: string | null;
-  socialUrls: SocialUrl[];
+  socialUrls: string[];
   collectionsCount: number;
   filmsCount: number;
   followersCount: number;
@@ -32,4 +27,6 @@ export const profileQueryOptions = ({ userId }: ProfileQueryArgs) =>
       const { data } = await apiClient.get<UserProfile>(`${API_URL}/profile/${userId}`);
       return data;
     },
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: true,
   });

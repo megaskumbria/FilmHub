@@ -9,27 +9,22 @@ import {
   PopoverTitle,
 } from "@/shared/ui";
 import { SocialLinkIcon } from "./SocialLinkIcon";
-import { type SocialUrl } from "@/shared/hooks";
 
 const MAX_SOCIAL_LINKS = 4;
 
 interface Props {
-  links: SocialUrl[];
-  onChange: (links: SocialUrl[]) => void;
+  links: string[];
+  onChange: (links: string[]) => void;
 }
 
 export const SocialLinksPopover = ({ links, onChange }: Props) => {
-  const handleUpdateLink = (id: string, url: string) => {
-    onChange(links.map((link) => (link.id === id ? { ...link, url } : link)));
+  const handleUpdateLink = (index: number, url: string): void => {
+    onChange(links.map((link, i) => (i === index ? url : link)));
   };
 
-  const handleRemoveLink = (id: string) => {
-    onChange(links.filter((link) => link.id !== id));
-  };
+  const handleRemoveLink = (index: number): void => onChange(links.filter((_, i) => i !== index));
 
-  const handleAddLink = () => {
-    onChange([...links, { id: crypto.randomUUID(), url: "" }]);
-  };
+  const handleAddLink = (): void => onChange([...links, ""]);
 
   const isLimitReached = links.length >= MAX_SOCIAL_LINKS;
 
@@ -52,25 +47,25 @@ export const SocialLinksPopover = ({ links, onChange }: Props) => {
         </PopoverHeader>
 
         <div className="flex flex-col gap-2">
-          {links.map((link) => (
-            <div key={link.id} className="flex items-center gap-2">
+          {links.map((url, index) => (
+            <div key={index} className="flex items-center gap-2">
               <SocialLinkIcon
-                url={link.url}
+                url={url}
                 className="size-9 shrink-0 rounded-lg border border-border bg-background"
               />
 
               <Input
                 variant="neutral"
                 placeholder="https://..."
-                value={link.url}
-                onChange={(e) => handleUpdateLink(link.id, e.target.value)}
+                value={url}
+                onChange={(e) => handleUpdateLink(index, e.target.value)}
                 className="h-9 text-sm"
               />
 
               <Button
                 size="icon-sm"
                 className="shrink-0 rounded-lg text-zinc-muted hover:text-destructive transition-colors"
-                onClick={() => handleRemoveLink(link.id)}
+                onClick={() => handleRemoveLink(index)}
               >
                 <X className="size-4" />
               </Button>
