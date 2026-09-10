@@ -32,7 +32,12 @@ import { FollowersSheet } from "@/widgets";
 import { SocialLinksPopover } from "./SocialLinksPopover";
 import { SocialLinkIcon } from "./SocialLinkIcon";
 import { AnimatePresence, motion } from "framer-motion";
-import { profileQueryOptions, useUpdateProfile } from "@/shared/hooks";
+import {
+  profileQueryOptions,
+  useUpdateProfile,
+  useFileSelect,
+  useUpdateProfileCover,
+} from "@/shared/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -49,6 +54,9 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
   const { data: profile } = useQuery(profileQueryOptions({ userId }));
   const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile();
+  const { mutateAsync: updateCover, isPending: isUpdatingCover } = useUpdateProfileCover();
+
+  const { fileInputRef, handleFileSelect, previewUrl, clearFile, file } = useFileSelect();
 
   const {
     tag,
@@ -83,34 +91,83 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   };
 
   const handleSubmitUpdate = async (profileData: ProfileEditSchema): Promise<void> => {
-    await updateProfile(profileData);
+    await updateProfile({ ...profileData, socialUrls: socialLinks });
     setIsEditing(false);
   };
+
+  const handleSaveCover = async (): Promise<void> => {
+    if (!file) return;
+    await updateCover(file);
+    clearFile();
+  };
+
+  const handleCancelCover = (): void => clearFile();
+
+  const urls = isEditing ? socialLinks : (socialUrls ?? []);
 
   return (
     <header className="flex flex-col rounded-2xl border border-border">
       <div className="group relative h-56 w-full">
         <Image
-          src={coverUrl ?? "/images/mock-slider-5.jpg"}
+          src={previewUrl ?? coverUrl ?? "/images/mock-slider-5.jpg"}
           alt="Cover"
           fill
-          className="object-cover object-center rounded-t-2xl"
+          className="object-cover rounded-t-2xl"
           priority
+        />
+
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          className="hidden"
+          onChange={handleFileSelect}
         />
 
         <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/40 to-black/80" />
 
         {isMyProfile && (
-          <div className="absolute top-3 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="rounded-lg gap-2 bg-black/50 border-white/15 text-white hover:bg-black/70"
-            >
-              <ImagePlus className="size-4" />
-              <span className="text-sm">Change cover</span>
-            </Button>
+          <div
+            className={cn(
+              "absolute top-3 right-4 z-10 flex items-center gap-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100",
+              previewUrl && "opacity-100",
+            )}
+          >
+            {previewUrl ?
+              <>
+                <Button
+                  type="button"
+                  size="icon"
+                  onClick={handleCancelCover}
+                  disabled={isUpdatingCover}
+                  className="size-8 flex justify-center items-center rounded-sm bg-black/50 border border-white/15 text-red-400 transition-all duration-200 shadow-lg hover:text-red-300 hover:border-red-400/40 disabled:opacity-50"
+                >
+                  <X className="size-5" />
+                </Button>
+
+                <Button
+                  type="button"
+                  size="icon"
+                  onClick={() => void handleSaveCover()}
+                  disabled={isUpdatingCover}
+                  className="size-8 flex justify-center items-center rounded-sm bg-black/50 border border-white/15 text-emerald-400 transition-all duration-200 shadow-lg hover:text-emerald-300 hover:border-emerald-400/40"
+                >
+                  {isUpdatingCover ?
+                    <Loader2 className="size-5 animate-spin" />
+                  : <Check className="size-5" />}
+                </Button>
+              </>
+            : <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="rounded-lg gap-2 bg-black/50 border-white/15 text-white hover:bg-black/70"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <ImagePlus className="size-4" />
+                <span className="text-sm">Change cover</span>
+              </Button>
+            }
           </div>
         )}
       </div>
@@ -206,9 +263,9 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
           </div>
 
           <div className="flex items-start gap-2">
-            {socialUrls?.map((url) => (
+            {urls.map((url, index) => (
               <Button
-                key={url}
+                key={index}
                 asChild
                 variant="transparent"
                 className="hover:scale-110 transition-transform duration-200"
@@ -290,11 +347,9 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                   type="button"
                   variant="accent"
                   size="sm"
-                  className={cn(
-                    "transition-colors rounded-lg h-9 gap-1.5 px-3",
-                    isUpdating && "opacity-50 pointer-events-none",
-                  )}
+                  className="transition-colors rounded-lg h-9 gap-1.5 px-3"
                   onClick={() => void form.handleSubmit(handleSubmitUpdate)()}
+                  disabled={isUpdating}
                 >
                   {isUpdating ?
                     <>
@@ -324,6 +379,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                     variant="accent"
                     className="transition-colors rounded-md px-2.5 h-9 gap-2"
                     onClick={handleStartEdit}
+                    disabled={isUpdating || isUpdatingCover}
                   >
                     <Pencil className="size-3.5" />
                     <span className="text-sm">Edit</span>

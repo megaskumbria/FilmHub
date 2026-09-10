@@ -53,3 +53,24 @@ export const useUpdateProfile = () => {
     },
   });
 };
+
+export const useUpdateProfileCover = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (cover: File) => {
+      const formData = new FormData();
+      formData.append("cover", cover);
+
+      const { data } = await apiClient.patch<UserProfile>(
+        `${API_URL}/profile/update-cover`,
+        formData,
+      );
+
+      return data;
+    },
+    onSuccess: (updatedProfile) => {
+      queryClient.setQueryData(["profile", updatedProfile.userId], updatedProfile);
+    },
+  });
+};
