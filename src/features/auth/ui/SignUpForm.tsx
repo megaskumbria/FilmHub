@@ -19,6 +19,7 @@ import { signUpSchema, type SignUpSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
 import axios from "axios";
 import { ApiErrorMessage } from "@/shared/types/api-error-types";
+import { useSyncAuthSession } from "@/shared/hooks";
 
 interface Props {
   onSuccess: () => void;
@@ -28,6 +29,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { signUp, isLoading } = useAuthStore();
+  const syncAuthSession = useSyncAuthSession();
 
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -37,6 +39,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
   const handleSubmitForm = async (data: SignUpSchema) => {
     try {
       await signUp(data);
+      syncAuthSession();
       onSuccess();
     } catch (e) {
       console.error(e);

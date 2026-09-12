@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/shared/ui";
 import { SocialLinksPopover } from "./SocialLinksPopover";
 import { SocialLinkIcon } from "./SocialLinkIcon";
@@ -36,10 +36,6 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
   const { data: profile } = useQuery(profileQueryOptions({ userId }));
 
-  if (!profile) return null;
-
-  const { tag, bio, socialUrls, coverUrl, nickname } = profile;
-
   const form = useForm<ProfileEditSchema>({
     resolver: zodResolver(profileEditSchema),
     defaultValues: {
@@ -48,6 +44,14 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
       bio: "",
     },
   });
+
+  useEffect(() => {
+    if (!isMyProfile) setIsEditing(false);
+  }, [isMyProfile]);
+
+  if (!profile) return null;
+
+  const { tag, bio, socialUrls, coverUrl, nickname } = profile;
 
   const handleStartEdit = (): void => {
     form.reset({ nickname, tag, bio });

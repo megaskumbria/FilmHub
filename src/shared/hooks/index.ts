@@ -57,3 +57,5 @@ export {
   useUpdateProfileAvatar,
 } from "./useProfile";
 export { useFileSelect } from "./useFileSelect";
+export { useLogout } from "./useLogout";
+export { useSyncAuthSession } from "./useSyncAuthSession";

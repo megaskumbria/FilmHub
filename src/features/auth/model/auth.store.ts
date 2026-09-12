@@ -24,9 +24,13 @@ interface AuthResponse {
   accessToken: string;
 }
 
-interface AuthStore {
+const EMPTY_USER: User = { username: null, email: null, id: null };
+
+interface Store {
   user: User;
+  hasHydrated: boolean;
   setUser: (user: User) => void;
+  setHasHydrated: (value: boolean) => void;
 
   signUp: (data: SignUpData) => Promise<void>;
   signIn: (data: SignInData) => Promise<void>;
@@ -35,9 +39,11 @@ interface AuthStore {
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  user: { username: null, email: null, id: null },
+export const useAuthStore = create<Store>((set) => ({
+  user: EMPTY_USER,
+  hasHydrated: false,
   setUser: ({ username, email, id }: User) => set({ user: { username, email, id } }),
+  setHasHydrated: (value) => set({ hasHydrated: value }),
   isLoading: false,
 
   signUp: async (data: SignUpData) => {
@@ -46,7 +52,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const response = await apiClient.post<AuthResponse>(`${API_URL}/auth/register`, data);
 
       const { username, email, id } = response.data.user;
-      set({ user: { username, email, id }, isLoading: false });
+      set({ user: { username, email, id }, isLoading: false, hasHydrated: true });
     } finally {
       set({ isLoading: false });
     }
@@ -58,14 +64,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const response = await apiClient.post<AuthResponse>(`${API_URL}/auth/login`, data);
 
       const { username, email, id } = response.data.user;
-      set({ user: { username, email, id }, isLoading: false });
+      set({ user: { username, email, id }, isLoading: false, hasHydrated: true });
     } finally {
       set({ isLoading: false });
     }
   },
 
   logout() {
-    void apiClient.post<string>(`${API_URL}/auth/logout`);
-    set({ user: { username: null, email: null, id: null } });
+    set({ user: EMPTY_USER, hasHydrated: true });
   },
 }));

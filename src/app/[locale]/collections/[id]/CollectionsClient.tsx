@@ -18,6 +18,7 @@ import {
 import { FloatingEditBar } from "@/features";
 import { Skeleton } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "@/features/auth";
 
 interface Props {
   userId: string;
@@ -26,13 +27,22 @@ interface Props {
 }
 
 export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Props) => {
+  const { user } = useAuthStore();
+  const currentUserId = user.id;
+  const { hasHydrated } = useAuthStore();
+  const isMyProfile = hasHydrated ? currentUserId === userId : isMyCollection;
+
   const { data: collections, isLoading } = useQuery(
-    collectionQueryOptions({ userId, isMyCollection }),
+    collectionQueryOptions({ userId, isMyCollection: isMyProfile }),
   );
 
   const [activeCollectionId, setActiveCollectionId] = useState(collectionId);
   const { data: mediaItems } = useQuery(
-    collectionMediaQueryOptions({ collectionId: activeCollectionId, userId, isMyCollection }),
+    collectionMediaQueryOptions({
+      collectionId: activeCollectionId,
+      userId,
+      isMyCollection: isMyProfile,
+    }),
   );
 
   const { layout, blockOptions } = useMovieCardLayout();
@@ -80,6 +90,10 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
 
   useEffect(() => setSelectedIds(new Set()), [activeCollectionId]);
 
+  useEffect(() => {
+    if (!isMyProfile) setIsEditMode(false);
+  }, [isMyProfile]);
+
   const handleCheckedChange = (id: number, checked: boolean) => {
     setSelectedIds((prevIds) => {
       const nextIds = new Set(prevIds);
@@ -107,16 +121,16 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
   const isMediaEmpty = mediaItems?.length === 0 && collections?.length !== 0;
 
   const mode =
-    !isMyCollection ? "add-collection"
+    !isMyProfile ? "add-collection"
     : isEditMode ? "edit-collection"
     : "add-flag";
 
   return (
     <div className="max-w-410 min-h-screen w-full mx-auto px-6 pt-20 pb-16">
-      <ProfileHeader isMyProfile={isMyCollection} userId={userId} />
+      <ProfileHeader isMyProfile={isMyProfile} userId={userId} />
 
       <UserCollections
-        isMyProfile={isMyCollection}
+        isMyProfile={isMyProfile}
         setActiveCollectionId={setActiveCollectionId}
         activeCollectionId={activeCollectionId}
         hasCollectionItems={hasCollectionItems}
@@ -126,7 +140,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
 
       {hasCollectionItems && (
         <CollectionsToolbar
-          isMyProfile={isMyCollection}
+          isMyProfile={isMyProfile}
           activeCollectionId={activeCollectionId}
           isEditMode={isEditMode}
           onToggleEditMode={handleToggleEditMode}

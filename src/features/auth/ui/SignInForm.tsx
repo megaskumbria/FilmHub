@@ -19,6 +19,7 @@ import { GoogleIcon } from "@/shared/icons";
 import { signInSchema, type SignInSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
 import { ApiErrorMessage } from "@/shared/types/api-error-types";
+import { useSyncAuthSession } from "@/shared/hooks";
 
 interface Props {
   onSuccess: () => void;
@@ -28,6 +29,7 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { signIn, isLoading } = useAuthStore();
+  const syncAuthSession = useSyncAuthSession();
 
   const form = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
@@ -37,6 +39,7 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
   const handleSubmitForm = async (data: SignInSchema) => {
     try {
       await signIn(data);
+      syncAuthSession();
       onSuccess();
     } catch (e) {
       console.error(e);

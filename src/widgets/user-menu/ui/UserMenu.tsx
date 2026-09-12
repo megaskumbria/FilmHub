@@ -13,15 +13,18 @@ import {
 import { UserActions } from "./UserActions";
 import { LangToggle } from "@/features";
 import { LogOut } from "lucide-react";
-import { useAuthStore } from "@/features/auth";
+import { useLogout } from "@/shared/hooks";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useAuthStore } from "@/features/auth";
 
 export const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const { user, logout } = useAuthStore();
+  const handleLogout = useLogout();
+
+  const { user } = useAuthStore();
   const { username, email } = user;
 
   const firstAvatarLetter = username?.charAt(0).toUpperCase();
@@ -61,7 +64,7 @@ export const UserMenu = () => {
         <Button
           size="sm"
           className="flex items-center group px-1 h-10 w-full justify-start gap-3 rounded-xl text-destructive transition-colors hover:bg-destructive/10"
-          onClick={logout}
+          onClick={() => void handleLogout()}
         >
           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-destructive/15 text-destructive/80 transition-colors ">
             <LogOut size={16} strokeWidth={2} />
