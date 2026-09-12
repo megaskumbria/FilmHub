@@ -96,6 +96,7 @@ export const useCreateCollection = () => {
         { queryKey: ["collection", newCollection.userId] },
         (old) => [...(old ?? []), newCollection],
       );
+      void queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 };
@@ -137,6 +138,7 @@ export const useDeleteCollection = () => {
     onSuccess: (_, id: string) => {
       queryClient.removeQueries({ queryKey: ["media-collection", id] });
       void queryClient.invalidateQueries({ queryKey: ["collection"] });
+      void queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 };
@@ -162,6 +164,7 @@ export const useAddMediaToCollection = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["media-collection"] });
       void queryClient.invalidateQueries({ queryKey: ["collection"] });
+      void queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 };
@@ -181,7 +184,11 @@ export const useDeleteMediaFromCollection = () => {
       });
     },
 
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["media-collection"] }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["media-collection"] });
+      void queryClient.invalidateQueries({ queryKey: ["collection"] });
+      void queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
   });
 };
 
