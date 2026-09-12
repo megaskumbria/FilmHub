@@ -74,3 +74,24 @@ export const useUpdateProfileCover = () => {
     },
   });
 };
+
+export const useUpdateProfileAvatar = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (avatar: File) => {
+      const formData = new FormData();
+      formData.append("avatar", avatar);
+
+      const { data } = await apiClient.patch<UserProfile>(
+        `${API_URL}/profile/update-avatar`,
+        formData,
+      );
+
+      return data;
+    },
+    onSuccess: (updatedProfile) => {
+      queryClient.setQueryData(["profile", updatedProfile.userId], updatedProfile);
+    },
+  });
+};

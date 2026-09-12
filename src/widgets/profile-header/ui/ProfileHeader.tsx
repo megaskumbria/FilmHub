@@ -26,6 +26,7 @@ import {
   Check,
   X,
   Loader2,
+  Camera,
 } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { FollowersSheet } from "@/widgets";
@@ -37,11 +38,13 @@ import {
   useUpdateProfile,
   useFileSelect,
   useUpdateProfileCover,
+  useUpdateProfileAvatar,
 } from "@/shared/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileEditSchema, type ProfileEditSchema } from "../model/profile-edit-schema";
+import { AvatarCrop } from "@/features";
 
 interface Props {
   isMyProfile: boolean;
@@ -52,11 +55,23 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [socialLinks, setSocialLinks] = useState<string[]>([]);
 
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [isCropOpen, setIsCropOpen] = useState<boolean>(false);
+
   const { data: profile } = useQuery(profileQueryOptions({ userId }));
+
   const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile();
   const { mutateAsync: updateCover, isPending: isUpdatingCover } = useUpdateProfileCover();
+  const { mutateAsync: updateAvatar, isPending: isUpdatingAvatar } = useUpdateProfileAvatar();
 
   const { fileInputRef, handleFileSelect, previewUrl, clearFile, file } = useFileSelect();
+
+  const {
+    fileInputRef: avatarInputRef,
+    handleFileSelect: handleAvatarRawSelect,
+    previewUrl: avatarRawPreview,
+    clearFile: clearAvatarRawFile,
+  } = useFileSelect();
 
   const {
     tag,
@@ -103,7 +118,26 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
   const handleCancelCover = (): void => clearFile();
 
+  const handleAvatarFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    handleAvatarRawSelect(e);
+    setIsCropOpen(true);
+  };
+
+  const handleCropDone = (croppedFile: File): void => {
+    setAvatarPreview(URL.createObjectURL(croppedFile));
+    setIsCropOpen(false);
+    clearAvatarRawFile();
+
+    void updateAvatar(croppedFile).finally(() => {
+      setAvatarPreview((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return null;
+      });
+    });
+  };
+
   const urls = isEditing ? socialLinks : (socialUrls ?? []);
+  const isSaving = isUpdatingAvatar || isUpdatingCover || isUpdating;
 
   return (
     <header className="flex flex-col rounded-2xl border border-border">
@@ -174,13 +208,52 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
       <div className="bg-surface px-8 pb-6 rounded-b-2xl">
         <div className="flex items-end gap-5 -mt-2">
-          <Avatar className="size-20 rounded-2xl bg-linear-to-br from-accent to-accent/60 shadow-xl shadow-accent/30 ring-4 ring-surface">
-            <AvatarFallback className="text-white text-3xl font-bold rounded-2xl">
-              {nickname?.charAt(0).toUpperCase()}
-            </AvatarFallback>
+          <div className="relative">
+            <Avatar className="size-20 rounded-2xl ">
+              <AvatarFallback
+                delayMs={300}
+                className="text-white text-3xl font-bold rounded-2xl bg-linear-to-br from-accent to-accent/60 shadow-accent/30 ring-4 ring-surface"
+              >
+                {nickname?.charAt(0).toUpperCase()}
+              </AvatarFallback>
 
-            <AvatarImage src={avatarUrl ?? ""} />
-          </Avatar>
+              <AvatarImage className="rounded-2xl" src={avatarPreview ?? avatarUrl ?? ""} />
+            </Avatar>
+
+            {isMyProfile && isEditing && (
+              <>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={avatarInputRef}
+                  className="hidden"
+                  onChange={handleAvatarFileSelect}
+                />
+
+                <Button
+                  type="button"
+                  variant="accent"
+                  size="icon-sm"
+                  onClick={() => avatarInputRef.current?.click()}
+                  disabled={isUpdatingAvatar}
+                  className="absolute -bottom-1.5 -right-1.5 justify-center rounded-full ring-2 ring-surface"
+                >
+                  {isUpdatingAvatar ?
+                    <Loader2 className="size-4 animate-spin" strokeWidth={3} />
+                  : <Camera className="size-4" strokeWidth={3} />}
+                </Button>
+              </>
+            )}
+          </div>
+
+          {avatarRawPreview && (
+            <AvatarCrop
+              open={isCropOpen}
+              imageUrl={avatarRawPreview}
+              onOpenChange={setIsCropOpen}
+              onCropDone={handleCropDone}
+            />
+          )}
 
           <div className="flex-1 min-w-0 pb-1">
             {isEditing ?
@@ -337,6 +410,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                   size="sm"
                   onClick={handleCancelEdit}
                   className="transition-colors rounded-lg h-9 gap-1.5 px-3 border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+                  disabled={isSaving}
                 >
                   <X className="size-3.5" />
                   <span className="text-sm">Cancel</span>
@@ -349,7 +423,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                   size="sm"
                   className="transition-colors rounded-lg h-9 gap-1.5 px-3"
                   onClick={() => void form.handleSubmit(handleSubmitUpdate)()}
-                  disabled={isUpdating}
+                  disabled={isSaving}
                 >
                   {isUpdating ?
                     <>
@@ -379,7 +453,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                     variant="accent"
                     className="transition-colors rounded-md px-2.5 h-9 gap-2"
                     onClick={handleStartEdit}
-                    disabled={isUpdating || isUpdatingCover}
+                    disabled={isUpdating || isUpdatingCover || isUpdatingAvatar}
                   >
                     <Pencil className="size-3.5" />
                     <span className="text-sm">Edit</span>

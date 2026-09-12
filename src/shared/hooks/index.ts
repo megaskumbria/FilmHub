@@ -54,5 +54,6 @@ export {
   type UserProfile,
   useUpdateProfile,
   useUpdateProfileCover,
+  useUpdateProfileAvatar,
 } from "./useProfile";
 export { useFileSelect } from "./useFileSelect";

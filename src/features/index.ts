@@ -31,3 +31,4 @@ export {
   useAuthModalStore,
   useRequireAuth,
 } from "./auth";
+export { AvatarCrop, canvasToFile } from "./avatar-crop";
