@@ -6,17 +6,20 @@ import { Bookmark } from "lucide-react";
 import { Button } from "@/shared/ui";
 import { SearchMovieDrawer, UserMenu } from "@/widgets";
 import { cn } from "@/shared/lib/utils";
-import { useAuthStore, useAuthModalStore } from "@/features/auth";
+import { useAuthStore, useAuthModalStore, type InitialUser } from "@/features/auth";
 // import { LogoSvg } from "@/shared/assets/LogoSvg";
 
-export const Header = () => {
-  const [isAuth, setIsAuth] = useState(false);
+interface Props {
+  initialUser: InitialUser | null;
+}
+
+export const Header = ({ initialUser }: Props) => {
   const [scrolled, setScrolled] = useState(false);
 
-  const { user } = useAuthStore();
-  const { id: userId } = user;
-
   const openAuthModal = useAuthModalStore((s) => s.open);
+
+  const { hasHydrated, user } = useAuthStore();
+  const userId = hasHydrated ? user.id : (initialUser?.sub ?? null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
@@ -24,15 +27,10 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  useEffect(() => setIsAuth(Boolean(userId)), [userId]);
-
-  const isAuthUser = isAuth && Boolean(userId);
-
   return (
     <header
       className={cn(
-        "fixed top-0 z-50 w-full px-10 py-3 transition-colors duration-300",
-        "after:absolute after:inset-x-0 after:bottom-0 after:h-px after:transition-colors after:duration-300",
+        "fixed top-0 z-50 w-full px-10 py-3 transition-colors duration-300 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:transition-colors after:duration-300",
         scrolled ?
           "bg-background/95 after:bg-border/40"
         : "bg-linear-to-b from-black/75 via-black/20 to-transparent after:bg-transparent",
@@ -66,7 +64,7 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           <SearchMovieDrawer />
 
-          {isAuthUser && (
+          {userId && (
             <Link
               href={`/collections/${userId}`}
               className="flex h-9 items-center gap-2 rounded-lg bg-linear-to-r from-accent to-accent/80 px-4 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:from-accent/90 hover:to-accent/70"
@@ -77,7 +75,7 @@ export const Header = () => {
           )}
 
           {userId ?
-            <UserMenu />
+            <UserMenu initialUser={initialUser} />
           : <Button
               type="button"
               variant="transparent"

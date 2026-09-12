@@ -2,6 +2,12 @@ import { create } from "zustand";
 import { API_URL } from "@/shared/constants/constants";
 import { apiClient } from "@/shared/api/api-client";
 
+export interface InitialUser {
+  sub: string;
+  email: string;
+  username: string;
+}
+
 export interface SignUpData {
   username: string;
   email: string;
@@ -42,9 +48,11 @@ interface Store {
 export const useAuthStore = create<Store>((set) => ({
   user: EMPTY_USER,
   hasHydrated: false,
+
+  isLoading: false,
+
   setUser: ({ username, email, id }: User) => set({ user: { username, email, id } }),
   setHasHydrated: (value) => set({ hasHydrated: value }),
-  isLoading: false,
 
   signUp: async (data: SignUpData) => {
     try {

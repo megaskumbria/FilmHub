@@ -61,7 +61,7 @@ export default async function RootLayout({ children, params }: Props) {
           > */}
             <TooltipProvider>
               <AuthProvider initialUser={user}>
-                <Header />
+                <Header initialUser={user} />
                 {children}
                 {/* </ThemeProvider> */}
               </AuthProvider>

@@ -16,16 +16,21 @@ import { LogOut } from "lucide-react";
 import { useLogout } from "@/shared/hooks";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useAuthStore } from "@/features/auth";
+import { useAuthStore, type InitialUser } from "@/features/auth";
 
-export const UserMenu = () => {
+interface Props {
+  initialUser: InitialUser | null;
+}
+
+export const UserMenu = ({ initialUser }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   const handleLogout = useLogout();
 
-  const { user } = useAuthStore();
-  const { username, email } = user;
+  const { user, hasHydrated } = useAuthStore();
+  const username = hasHydrated ? user.username : initialUser?.username;
+  const email = hasHydrated ? user.email : initialUser?.email;
 
   const firstAvatarLetter = username?.charAt(0).toUpperCase();
 
