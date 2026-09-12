@@ -1,42 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Button,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  Input,
-  SheetTrigger,
-} from "@/shared/ui";
-import {
-  ImagePlus,
-  Share2,
-  Pencil,
-  BookOpen,
-  Film,
-  Users,
-  ChevronRight,
-  Check,
-  X,
-  Loader2,
-  Camera,
-} from "lucide-react";
-import { cn } from "@/shared/lib/utils";
-import { FollowersSheet } from "@/widgets";
+import { Button } from "@/shared/ui";
 import { SocialLinksPopover } from "./SocialLinksPopover";
 import { SocialLinkIcon } from "./SocialLinkIcon";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   profileQueryOptions,
   useUpdateProfile,
-  useFileSelect,
   useUpdateProfileCover,
   useUpdateProfileAvatar,
 } from "@/shared/hooks";
@@ -44,7 +15,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileEditSchema, type ProfileEditSchema } from "../model/profile-edit-schema";
-import { AvatarCrop } from "@/features";
+import { ProfileCover } from "./ProfileCover";
+import { ProfileAvatar } from "./ProfileAvatar";
+import { ProfileIdentity } from "./ProfileIdentity";
+import { ProfileStats } from "./ProfileStats";
+import { ProfileActions } from "./ProfileActions";
 
 interface Props {
   isMyProfile: boolean;
@@ -55,35 +30,15 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [socialLinks, setSocialLinks] = useState<string[]>([]);
 
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [isCropOpen, setIsCropOpen] = useState<boolean>(false);
-
-  const { data: profile } = useQuery(profileQueryOptions({ userId }));
-
   const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile();
   const { mutateAsync: updateCover, isPending: isUpdatingCover } = useUpdateProfileCover();
   const { mutateAsync: updateAvatar, isPending: isUpdatingAvatar } = useUpdateProfileAvatar();
 
-  const { fileInputRef, handleFileSelect, previewUrl, clearFile, file } = useFileSelect();
+  const { data: profile } = useQuery(profileQueryOptions({ userId }));
 
-  const {
-    fileInputRef: avatarInputRef,
-    handleFileSelect: handleAvatarRawSelect,
-    previewUrl: avatarRawPreview,
-    clearFile: clearAvatarRawFile,
-  } = useFileSelect();
+  if (!profile) return null;
 
-  const {
-    tag,
-    bio,
-    socialUrls,
-    avatarUrl,
-    coverUrl,
-    nickname,
-    filmsCount,
-    collectionsCount,
-    followersCount,
-  } = profile ?? {};
+  const { tag, bio, socialUrls, coverUrl, nickname } = profile;
 
   const form = useForm<ProfileEditSchema>({
     resolver: zodResolver(profileEditSchema),
@@ -110,230 +65,34 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
     setIsEditing(false);
   };
 
-  const handleSaveCover = async (): Promise<void> => {
-    if (!file) return;
-    await updateCover(file);
-    clearFile();
-  };
-
-  const handleCancelCover = (): void => clearFile();
-
-  const handleAvatarFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    handleAvatarRawSelect(e);
-    setIsCropOpen(true);
-  };
-
-  const handleCropDone = (croppedFile: File): void => {
-    setAvatarPreview(URL.createObjectURL(croppedFile));
-    setIsCropOpen(false);
-    clearAvatarRawFile();
-
-    void updateAvatar(croppedFile).finally(() => {
-      setAvatarPreview((prev) => {
-        if (prev) URL.revokeObjectURL(prev);
-        return null;
-      });
-    });
-  };
-
   const urls = isEditing ? socialLinks : (socialUrls ?? []);
   const isSaving = isUpdatingAvatar || isUpdatingCover || isUpdating;
 
   return (
     <header className="flex flex-col rounded-2xl border border-border">
-      <div className="group relative h-56 w-full">
-        <Image
-          src={previewUrl ?? coverUrl ?? "/images/mock-slider-5.jpg"}
-          alt="Cover"
-          fill
-          className="object-cover rounded-t-2xl"
-          priority
-        />
-
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          className="hidden"
-          onChange={handleFileSelect}
-        />
-
-        <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/40 to-black/80" />
-
-        {isMyProfile && (
-          <div
-            className={cn(
-              "absolute top-3 right-4 z-10 flex items-center gap-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100",
-              previewUrl && "opacity-100",
-            )}
-          >
-            {previewUrl ?
-              <>
-                <Button
-                  type="button"
-                  size="icon"
-                  onClick={handleCancelCover}
-                  disabled={isUpdatingCover}
-                  className="size-8 flex justify-center items-center rounded-sm bg-black/50 border border-white/15 text-red-400 transition-all duration-200 shadow-lg hover:text-red-300 hover:border-red-400/40 disabled:opacity-50"
-                >
-                  <X className="size-5" />
-                </Button>
-
-                <Button
-                  type="button"
-                  size="icon"
-                  onClick={() => void handleSaveCover()}
-                  disabled={isUpdatingCover}
-                  className="size-8 flex justify-center items-center rounded-sm bg-black/50 border border-white/15 text-emerald-400 transition-all duration-200 shadow-lg hover:text-emerald-300 hover:border-emerald-400/40"
-                >
-                  {isUpdatingCover ?
-                    <Loader2 className="size-5 animate-spin" />
-                  : <Check className="size-5" />}
-                </Button>
-              </>
-            : <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                className="rounded-lg gap-2 bg-black/50 border-white/15 text-white hover:bg-black/70"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <ImagePlus className="size-4" />
-                <span className="text-sm">Change cover</span>
-              </Button>
-            }
-          </div>
-        )}
-      </div>
+      <ProfileCover
+        coverUrl={coverUrl ?? ""}
+        isMyProfile={isMyProfile}
+        isUpdatingCover={isUpdatingCover}
+        onUpdateCover={updateCover}
+      />
 
       <div className="bg-surface px-8 pb-6 rounded-b-2xl">
         <div className="flex items-end gap-5 -mt-2">
-          <div className="relative">
-            <Avatar className="size-20 rounded-2xl ">
-              <AvatarFallback
-                delayMs={300}
-                className="text-white text-3xl font-bold rounded-2xl bg-linear-to-br from-accent to-accent/60 shadow-accent/30 ring-4 ring-surface"
-              >
-                {nickname?.charAt(0).toUpperCase()}
-              </AvatarFallback>
+          <ProfileAvatar
+            isMyProfile={isMyProfile}
+            onUpdateAvatar={updateAvatar}
+            isUpdatingAvatar={isUpdatingAvatar}
+            profile={profile}
+            isEditing={isEditing}
+          />
 
-              <AvatarImage className="rounded-2xl" src={avatarPreview ?? avatarUrl ?? ""} />
-            </Avatar>
-
-            {isMyProfile && isEditing && (
-              <>
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={avatarInputRef}
-                  className="hidden"
-                  onChange={handleAvatarFileSelect}
-                />
-
-                <Button
-                  type="button"
-                  variant="accent"
-                  size="icon-sm"
-                  onClick={() => avatarInputRef.current?.click()}
-                  disabled={isUpdatingAvatar}
-                  className="absolute -bottom-1.5 -right-1.5 justify-center rounded-full ring-2 ring-surface"
-                >
-                  {isUpdatingAvatar ?
-                    <Loader2 className="size-4 animate-spin" strokeWidth={3} />
-                  : <Camera className="size-4" strokeWidth={3} />}
-                </Button>
-              </>
-            )}
-          </div>
-
-          {avatarRawPreview && (
-            <AvatarCrop
-              open={isCropOpen}
-              imageUrl={avatarRawPreview}
-              onOpenChange={setIsCropOpen}
-              onCropDone={handleCropDone}
-            />
-          )}
-
-          <div className="flex-1 min-w-0 pb-1">
-            {isEditing ?
-              <Form {...form}>
-                <form onSubmit={(e) => void form.handleSubmit(handleSubmitUpdate)(e)}>
-                  <FormField
-                    control={form.control}
-                    name="nickname"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col gap-1">
-                        <FormControl>
-                          <Input
-                            variant="ghost"
-                            maxLength={24}
-                            {...field}
-                            className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-2xl md:text-2xl font-bold text-foreground focus-visible:border-accent focus-visible:ring-0"
-                          />
-                        </FormControl>
-
-                        <FormMessage className="text-sm" />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="flex items-start gap-1.5 mt-1.5">
-                    <span className="text-zinc-muted text-sm shrink-0 pt-0.5">@</span>
-
-                    <FormField
-                      control={form.control}
-                      name="tag"
-                      render={({ field }) => (
-                        <FormItem className="flex w-28 shrink-0 flex-col gap-1">
-                          <FormControl>
-                            <Input
-                              variant="ghost"
-                              maxLength={16}
-                              {...field}
-                              className="h-auto w-28 shrink-0 rounded-none border-0 border-b border-border/60 p-0 text-sm text-zinc-muted md:text-sm focus-visible:border-accent focus-visible:text-foreground focus-visible:ring-0"
-                            />
-                          </FormControl>
-
-                          <FormMessage className="text-sm" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <span className="text-zinc-muted/40 shrink-0 pt-0.5">·</span>
-
-                    <FormField
-                      control={form.control}
-                      name="bio"
-                      render={({ field }) => (
-                        <FormItem className="flex min-w-0 flex-1 flex-col gap-1">
-                          <FormControl>
-                            <Input
-                              variant="ghost"
-                              maxLength={100}
-                              placeholder="Add a short bio..."
-                              {...field}
-                              className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-sm text-foreground placeholder:text-zinc-muted/60 focus-visible:border-accent focus-visible:ring-0"
-                            />
-                          </FormControl>
-
-                          <FormMessage className="text-sm" />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </form>
-              </Form>
-            : <>
-                <h1 className="text-2xl font-bold text-foreground truncate">{nickname}</h1>
-
-                <p className="text-zinc-muted text-sm">
-                  @{tag}
-                  {bio && ` · ${bio}`}
-                </p>
-              </>
-            }
-          </div>
+          <ProfileIdentity
+            isEditing={isEditing}
+            profile={profile}
+            form={form}
+            handleSubmitUpdate={handleSubmitUpdate}
+          />
 
           <div className="flex items-start gap-2">
             {urls.map((url, index) => (
@@ -366,109 +125,16 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-5">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1.5">
-                <Film className="size-4 text-zinc-muted shrink-0" />
-                <span className="text-foreground font-bold text-base">{filmsCount}</span>
-                <span className="text-zinc-muted text-sm font-medium">Films</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <span className="h-4 w-px bg-border" aria-hidden />
-
-              <div className="flex items-center gap-1.5">
-                <BookOpen className="size-4 text-zinc-muted shrink-0" />
-                <span className="text-foreground font-bold text-base">{collectionsCount}</span>
-                <span className="text-zinc-muted text-sm font-medium">Collections</span>
-              </div>
-            </div>
-
-            <span className="h-4 w-px bg-border" aria-hidden />
-
-            <FollowersSheet defaultTab="followers">
-              <SheetTrigger asChild>
-                <Button
-                  type="button"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-background border border-border cursor-pointer hover:border-accent/50 hover:bg-accent/5 transition-colors"
-                >
-                  <Users className="size-4 text-zinc-muted shrink-0" />
-                  <span className="text-foreground font-bold text-base">{followersCount}</span>
-                  <span className="text-zinc-muted text-sm font-medium">Followers</span>
-                  <ChevronRight className="size-3.5 text-zinc-muted" />
-                </Button>
-              </SheetTrigger>
-            </FollowersSheet>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {isEditing ?
-              <>
-                <Button
-                  type="button"
-                  size="sm"
-                  onClick={handleCancelEdit}
-                  className="transition-colors rounded-lg h-9 gap-1.5 px-3 border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
-                  disabled={isSaving}
-                >
-                  <X className="size-3.5" />
-                  <span className="text-sm">Cancel</span>
-                </Button>
-
-                <Button
-                  key="profile-save"
-                  type="button"
-                  variant="accent"
-                  size="sm"
-                  className="transition-colors rounded-lg h-9 gap-1.5 px-3"
-                  onClick={() => void form.handleSubmit(handleSubmitUpdate)()}
-                  disabled={isSaving}
-                >
-                  {isUpdating ?
-                    <>
-                      <Loader2 className="size-3.5 animate-spin" />
-                      <span className="text-sm">Saving...</span>
-                    </>
-                  : <>
-                      <Check className="size-3.5" />
-                      <span className="text-sm">Save</span>
-                    </>
-                  }
-                </Button>
-              </>
-            : <>
-                <Button
-                  type="button"
-                  size="sm"
-                  className="transition-colors rounded-lg h-9 p-0 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
-                >
-                  <Share2 className="size-4" />
-                </Button>
-
-                {isMyProfile ?
-                  <Button
-                    key="profile-edit"
-                    type="button"
-                    variant="accent"
-                    className="transition-colors rounded-md px-2.5 h-9 gap-2"
-                    onClick={handleStartEdit}
-                    disabled={isUpdating || isUpdatingCover || isUpdatingAvatar}
-                  >
-                    <Pencil className="size-3.5" />
-                    <span className="text-sm">Edit</span>
-                  </Button>
-                : <Button
-                    type="button"
-                    variant="accent"
-                    className="transition-colors rounded-md px-2.5 h-9 gap-2"
-                  >
-                    <span className="text-sm">Follow</span>
-                  </Button>
-                }
-              </>
-            }
-          </div>
+          <ProfileStats profile={profile} />
+          <ProfileActions
+            isEditing={isEditing}
+            isSaving={isSaving}
+            form={form}
+            isMyProfile={isMyProfile}
+            handleCancelEdit={handleCancelEdit}
+            handleStartEdit={handleStartEdit}
+            handleSubmitUpdate={handleSubmitUpdate}
+          />
         </div>
       </div>
     </header>
