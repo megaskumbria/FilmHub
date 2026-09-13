@@ -1,16 +1,10 @@
 "use client";
 import { ReactNode, useEffect } from "react";
-import { useAuthStore } from "@/features/auth/model/auth.store";
-
-interface User {
-  sub: string;
-  email: string;
-  username: string;
-}
+import { useAuthStore, type InitialUser } from "@/features/auth";
 
 interface Props {
   children: ReactNode;
-  initialUser: User | null;
+  initialUser: InitialUser | null;
 }
 
 export const AuthProvider = ({ children, initialUser }: Props) => {
