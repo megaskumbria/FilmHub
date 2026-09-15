@@ -11,9 +11,7 @@ export default async function proxy(request: NextRequest) {
   const refreshToken = request.cookies.get("refreshToken")?.value;
   const accessToken = request.cookies.get("accessToken")?.value;
 
-  if (accessToken || !refreshToken) {
-    return intlMiddleware(request);
-  }
+  if (accessToken || !refreshToken) return intlMiddleware(request);
 
   try {
     const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/refresh`, {
@@ -25,9 +23,7 @@ export default async function proxy(request: NextRequest) {
       body: "{}",
     });
 
-    if (!apiResponse.ok) {
-      return intlMiddleware(request);
-    }
+    if (!apiResponse.ok) return intlMiddleware(request);
 
     const response = intlMiddleware(request);
 

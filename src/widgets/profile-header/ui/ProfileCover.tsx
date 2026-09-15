@@ -3,15 +3,23 @@ import { Check, ImagePlus, Loader2, X } from "lucide-react";
 import { Button } from "@/shared/ui";
 import Image from "next/image";
 import { useFileSelect } from "@/shared/hooks";
+import { ProfileCoverAtmosphere } from "./ProfileCoverAtmosphere";
 
 interface Props {
-  coverUrl: string;
+  userId: string;
+  coverUrl: string | null;
   isMyProfile: boolean;
   isUpdatingCover: boolean;
   onUpdateCover: (file: File) => Promise<unknown>;
 }
 
-export const ProfileCover = ({ coverUrl, isMyProfile, isUpdatingCover, onUpdateCover }: Props) => {
+export const ProfileCover = ({
+  userId,
+  coverUrl,
+  isMyProfile,
+  isUpdatingCover,
+  onUpdateCover,
+}: Props) => {
   const { fileInputRef, handleFileSelect, previewUrl, clearFile, file } = useFileSelect();
 
   const handleSaveCover = async (): Promise<void> => {
@@ -22,15 +30,15 @@ export const ProfileCover = ({ coverUrl, isMyProfile, isUpdatingCover, onUpdateC
 
   const handleCancelCover = (): void => clearFile();
 
+  const customCover = previewUrl || coverUrl || null;
+
   return (
-    <div className="group relative h-56 w-full">
-      <Image
-        src={previewUrl ?? coverUrl ?? "/images/mock-slider-5.jpg"}
-        alt="Cover"
-        fill
-        className="object-cover rounded-t-2xl"
-        priority
-      />
+    <div className="group relative h-56 w-full overflow-hidden rounded-t-2xl">
+      <ProfileCoverAtmosphere userId={userId} />
+
+      {customCover && (
+        <Image src={customCover} alt="Cover" fill className="z-1 object-cover" priority />
+      )}
 
       <input
         type="file"
@@ -40,7 +48,12 @@ export const ProfileCover = ({ coverUrl, isMyProfile, isUpdatingCover, onUpdateC
         onChange={handleFileSelect}
       />
 
-      <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/40 to-black/80" />
+      <div
+        className={cn(
+          "absolute inset-0 bg-linear-to-b",
+          customCover ? "from-black/20 via-black/40 to-black/70" : "from-transparent to-surface/30",
+        )}
+      />
 
       {isMyProfile && (
         <div

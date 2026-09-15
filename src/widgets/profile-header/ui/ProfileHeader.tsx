@@ -75,7 +75,8 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   return (
     <header className="flex flex-col rounded-2xl border border-border">
       <ProfileCover
-        coverUrl={coverUrl ?? ""}
+        userId={userId}
+        coverUrl={coverUrl}
         isMyProfile={isMyProfile}
         isUpdatingCover={isUpdatingCover}
         onUpdateCover={updateCover}
