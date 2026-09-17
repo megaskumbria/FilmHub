@@ -63,7 +63,7 @@ export default async function MyCollectionsPage({ params, searchParams }: Props)
     queryClient.fetchQuery(
       collectionQueryOptions({ userId: id, isMyCollection, token: validToken }),
     ),
-    queryClient.prefetchQuery(profileQueryOptions({ userId: id })),
+    queryClient.prefetchQuery(profileQueryOptions({ userId: id, token: validToken })),
   ]);
 
   const firstCollectionId = collectionId ? collectionId : (collections?.[0]?.id ?? "");

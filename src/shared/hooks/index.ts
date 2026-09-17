@@ -55,6 +55,9 @@ export {
   useUpdateProfile,
   useUpdateProfileCover,
   useUpdateProfileAvatar,
+  useGetFollows,
+  type FollowUser,
+  useFollowProfile,
 } from "./useProfile";
 export { useFileSelect } from "./useFileSelect";
 export { useLogout } from "./useLogout";

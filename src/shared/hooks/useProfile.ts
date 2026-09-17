@@ -1,4 +1,4 @@
-import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { API_URL } from "@/shared/constants/constants";
 import { apiClient } from "../api/api-client";
 
@@ -13,18 +13,23 @@ export interface UserProfile {
   collectionsCount: number;
   filmsCount: number;
   followersCount: number;
+  isFollowing: boolean;
   updatedAt: Date;
 }
 
 interface ProfileQueryArgs {
   userId: string;
+  token?: string;
 }
 
-export const profileQueryOptions = ({ userId }: ProfileQueryArgs) =>
+export const profileQueryOptions = ({ userId, token }: ProfileQueryArgs) =>
   queryOptions({
     queryKey: ["profile", userId],
     queryFn: async () => {
-      const { data } = await apiClient.get<UserProfile>(`${API_URL}/profile/${userId}`);
+      const { data } = await apiClient.get<UserProfile>(
+        `${API_URL}/profile/${userId}`,
+        token ? { headers: { Cookie: `accessToken=${token}` } } : {},
+      );
       return data;
     },
     staleTime: 1000 * 60 * 5,
@@ -92,6 +97,52 @@ export const useUpdateProfileAvatar = () => {
     },
     onSuccess: (updatedProfile) => {
       queryClient.setQueryData(["profile", updatedProfile.userId], updatedProfile);
+    },
+  });
+};
+
+export interface FollowUser {
+  userId: string;
+  nickname: string;
+  tag: string;
+  avatarUrl: string | null;
+  collectionsCount: number;
+  isFollowing: boolean;
+  isMe: boolean;
+}
+
+type FollowsType = "followers" | "following";
+
+interface GetFollowsQueryArgs {
+  userId: string;
+  type: FollowsType;
+}
+
+export const useGetFollows = ({ userId, type }: GetFollowsQueryArgs) => {
+  return useQuery({
+    queryKey: ["follows"],
+    queryFn: async () => {
+      const { data } = await apiClient.get<FollowUser[]>(
+        `${API_URL}/profile/${userId}/follows?type=${type}`,
+      );
+      return data;
+    },
+    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useFollowProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (userId: string) => {
+      const { data } = await apiClient.post<UserProfile>(`${API_URL}/profile/${userId}/follow`);
+      return data;
+    },
+    onSuccess: (_data, followedUserId) => {
+      void queryClient.invalidateQueries({ queryKey: ["profile", followedUserId] });
+      void queryClient.invalidateQueries({ queryKey: ["follows"] });
     },
   });
 };

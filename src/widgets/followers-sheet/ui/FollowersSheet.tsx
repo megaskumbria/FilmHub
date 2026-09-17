@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo, ReactNode } from "react";
-import { Users, Search, X, BookOpen, UserCheck } from "lucide-react";
+import { useState, ReactNode, useEffect } from "react";
+import { Users, Search, X, UserCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import {
   Sheet,
@@ -9,22 +9,20 @@ import {
   SheetTitle,
   SheetClose,
   Button,
-  Avatar,
-  AvatarFallback,
   Input,
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent,
 } from "@/shared/ui";
-import { mockFollowers, mockFollowing, type FollowUser } from "../model/mockFollowers";
-import Link from "next/link";
+import { UserRow } from "./UserRow";
+import { useGetFollows } from "@/shared/hooks";
 
 type TabValue = "followers" | "following";
 
-interface FollowersSheetProps {
+interface Props {
   children: ReactNode;
-  defaultTab?: TabValue;
+  userId: string;
 }
 
 const TABS: { value: TabValue; label: string }[] = [
@@ -32,56 +30,18 @@ const TABS: { value: TabValue; label: string }[] = [
   { value: "following", label: "Following" },
 ];
 
-function UserRow({ user }: { user: FollowUser }) {
-  const [following, setFollowing] = useState(user.isFollowing);
+export const FollowersSheet = ({ children, userId }: Props) => {
+  const [activeTab, setActiveTab] = useState<TabValue>("followers");
+  const [search, setSearch] = useState<string>("");
 
-  return (
-    <li>
-      <Link href={`/user-collections/${user.id}`} className="flex items-center gap-3 py-2.5 px-1">
-        <Avatar className="size-9 shrink-0">
-          <AvatarFallback
-            className="text-xs font-semibold text-white"
-            style={{ backgroundColor: user.color }}
-          >
-            {user.initials}
-          </AvatarFallback>
-        </Avatar>
+  const { data: follows = [], refetch: refetchFollows } = useGetFollows({
+    userId: userId,
+    type: activeTab,
+  });
 
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-foreground truncate">{user.name}</p>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="text-sm text-zinc-muted truncate">{user.handle}</span>
-            <span className="text-zinc-muted/40">·</span>
-            <BookOpen className="size-3 text-zinc-muted shrink-0" />
-            <span className="text-sm text-zinc-muted tabular-nums">{user.collectionsCount}</span>
-          </div>
-        </div>
+  console.log("follows", follows);
 
-        <Button
-          onClick={() => setFollowing((prev) => !prev)}
-          className="shrink-0 h-8 w-28 justify-center px-2 rounded-lg text-sm border border-border text-primary hover:text-foreground transition-colors"
-          variant={following ? "accent" : undefined}
-        >
-          <span>{following ? "Unfollow" : "Follow"}</span>
-        </Button>
-      </Link>
-    </li>
-  );
-}
-
-export function FollowersSheet({ children, defaultTab = "followers" }: FollowersSheetProps) {
-  const [activeTab, setActiveTab] = useState<TabValue>(defaultTab);
-  const [search, setSearch] = useState("");
-
-  const list = activeTab === "followers" ? mockFollowers : mockFollowing;
-
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return list;
-    return list.filter(
-      (u) => u.name.toLowerCase().includes(q) || u.handle.toLowerCase().includes(q),
-    );
-  }, [list, search]);
+  useEffect(() => void refetchFollows(), [activeTab]);
 
   return (
     <Sheet>
@@ -92,11 +52,10 @@ export function FollowersSheet({ children, defaultTab = "followers" }: Followers
         aria-describedby={undefined}
         side="right"
         showCloseButton={false}
-        className="flex flex-col p-0 gap-0 w-[420px] sm:max-w-[420px] bg-surface border-l border-border"
+        className="flex flex-col p-0 gap-0 w-105 sm:max-w-105 bg-surface border-l border-border"
       >
         <SheetTitle className="sr-only" />
 
-        {/* Header */}
         <header className="flex items-center justify-between gap-2 px-5 py-3.5 border-b border-border shrink-0">
           <div className="flex items-center gap-2">
             <Users className="size-4 text-zinc-muted shrink-0" />
@@ -133,7 +92,6 @@ export function FollowersSheet({ children, defaultTab = "followers" }: Followers
           </div>
         </header>
 
-        {/* Search */}
         <div className="px-5 py-3 border-b border-border shrink-0">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
@@ -147,7 +105,6 @@ export function FollowersSheet({ children, defaultTab = "followers" }: Followers
           </div>
         </div>
 
-        {/* List */}
         <Tabs
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as TabValue)}
@@ -156,14 +113,14 @@ export function FollowersSheet({ children, defaultTab = "followers" }: Followers
           {TABS.map((tab) => (
             <TabsContent key={tab.value} value={tab.value} className="h-full m-0">
               <div className="drawer-scroll h-full overflow-y-auto px-5 py-2">
-                {filtered.length === 0 ?
+                {follows.length === 0 ?
                   <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
                     <UserCheck className="size-10 text-zinc-muted opacity-30" />
                     <p className="text-sm text-zinc-muted">No results</p>
                   </div>
                 : <ul className="divide-y divide-border/40">
-                    {filtered.map((user) => (
-                      <UserRow key={user.id} user={user} />
+                    {follows.map((user) => (
+                      <UserRow key={user.userId} user={user} />
                     ))}
                   </ul>
                 }
@@ -174,4 +131,4 @@ export function FollowersSheet({ children, defaultTab = "followers" }: Followers
       </SheetContent>
     </Sheet>
   );
-}
+};

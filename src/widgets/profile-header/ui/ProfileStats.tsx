@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const ProfileStats = ({ profile }: Props) => {
-  const { filmsCount, collectionsCount, followersCount } = profile;
+  const { filmsCount, collectionsCount, followersCount, userId } = profile;
 
   return (
     <div className="flex items-center gap-4">
@@ -32,7 +32,7 @@ export const ProfileStats = ({ profile }: Props) => {
 
       <span className="h-4 w-px bg-border" aria-hidden />
 
-      <FollowersSheet defaultTab="followers">
+      <FollowersSheet userId={userId}>
         <SheetTrigger asChild>
           <Button
             type="button"
