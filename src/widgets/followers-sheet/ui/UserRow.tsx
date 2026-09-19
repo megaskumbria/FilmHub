@@ -1,6 +1,7 @@
 "use client";
 
 import { type FollowUser, useFollowProfile } from "@/shared/hooks";
+import { getAvatarColor } from "@/shared/lib";
 import { Avatar, AvatarFallback, Button } from "@/shared/ui";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
@@ -16,10 +17,8 @@ export const UserRow = ({ user }: Props) => {
 
   const { nickname, tag, collectionsCount, userId, isFollowing, isMe } = user;
 
-  const handleFollowProfile = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleFollowProfile = (): void => {
     if (!ensureAuth()) return;
-    e.preventDefault();
-    e.stopPropagation();
     followProfile(userId);
   };
 
@@ -30,7 +29,7 @@ export const UserRow = ({ user }: Props) => {
           <Avatar className="size-9 shrink-0">
             <AvatarFallback
               className="text-xs font-semibold text-white"
-              // style={{ backgroundColor: user.color }}
+              style={{ backgroundColor: getAvatarColor(userId) }}
             >
               {nickname.charAt(0)}
             </AvatarFallback>

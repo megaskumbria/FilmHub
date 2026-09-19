@@ -17,6 +17,7 @@ import { useLogout } from "@/shared/hooks";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useAuthStore, type User } from "@/features/auth";
+import { getAvatarColor } from "@/shared/lib";
 
 interface Props {
   initialUser: User | null;
@@ -47,7 +48,11 @@ export const UserMenu = ({ initialUser }: Props) => {
           {avatarUrl && (
             <AvatarImage alt="Avatar" className="object-cover rounded-full" src={avatarUrl} />
           )}
-          <AvatarFallback className="bg-secondary text-primary font-medium text-sm">
+
+          <AvatarFallback
+            style={{ backgroundColor: getAvatarColor(user?.id ?? "") }}
+            className="bg-secondary text-primary font-medium text-sm"
+          >
             {firstAvatarLetter}
           </AvatarFallback>
         </Avatar>

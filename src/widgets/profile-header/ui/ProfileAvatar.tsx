@@ -5,6 +5,7 @@ import { useFileSelect, UserProfile } from "@/shared/hooks";
 import { Loader2, Camera } from "lucide-react";
 import { useState } from "react";
 import { AvatarCrop } from "@/features";
+import { getAvatarColor } from "@/shared/lib";
 
 interface Props {
   isMyProfile: boolean;
@@ -24,7 +25,7 @@ export const ProfileAvatar = ({
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [isCropOpen, setIsCropOpen] = useState<boolean>(false);
 
-  const { avatarUrl, nickname } = profile;
+  const { avatarUrl, nickname, userId } = profile;
 
   const {
     fileInputRef: avatarInputRef,
@@ -54,15 +55,18 @@ export const ProfileAvatar = ({
   const avatarSrc = avatarPreview || avatarUrl;
   const canEditAvatar = isMyProfile && isEditing;
 
+  const firstAvatarLetter = nickname?.charAt(0).toUpperCase();
+
   return (
     <>
       <div className="relative">
         <Avatar className="size-20 rounded-2xl ">
           <AvatarFallback
             delayMs={300}
-            className="text-white text-3xl font-bold rounded-2xl bg-linear-to-br from-accent to-accent/60 shadow-accent/30 ring-4 ring-surface"
+            className="text-white text-3xl font-bold rounded-2xl ring-4 ring-surface"
+            style={{ backgroundColor: getAvatarColor(userId) }}
           >
-            {nickname?.charAt(0).toUpperCase()}
+            {firstAvatarLetter}
           </AvatarFallback>
 
           {avatarSrc && <AvatarImage className="rounded-2xl z-1" src={avatarSrc} />}

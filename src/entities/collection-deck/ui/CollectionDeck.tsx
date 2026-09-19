@@ -8,6 +8,7 @@ import { IconStarFilled, IconEye, IconHeartFilled } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { StackPoster } from "@/widgets";
 import { CollectionFeedItem } from "@/shared/hooks/useCollectionsFeed";
+import { getAvatarColor } from "@/shared/lib";
 
 const CARD_W = 220;
 const CARD_H = Math.round(CARD_W * (3 / 2));
@@ -156,7 +157,10 @@ export const CollectionDeck = ({ collection }: Props) => {
             <Avatar className="size-8">
               {avatarUrl && <AvatarImage className="rounded-full" src={avatarUrl} alt={username} />}
 
-              <AvatarFallback className="bg-secondary text-primary font-medium text-sm">
+              <AvatarFallback
+                style={{ backgroundColor: getAvatarColor(userId) }}
+                className="text-primary font-medium text-sm"
+              >
                 {firstAvatarLetter}
               </AvatarFallback>
             </Avatar>
