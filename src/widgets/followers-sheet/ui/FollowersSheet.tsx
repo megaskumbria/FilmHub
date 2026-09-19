@@ -16,30 +16,27 @@ import {
   TabsContent,
 } from "@/shared/ui";
 import { UserRow } from "./UserRow";
-import { useGetFollows } from "@/shared/hooks";
-
-type TabValue = "followers" | "following";
+import { useGetFollows, useDebounce } from "@/shared/hooks";
+import { TabValue, TABS } from "../model/followerSheetTabs";
 
 interface Props {
   children: ReactNode;
   userId: string;
 }
 
-const TABS: { value: TabValue; label: string }[] = [
-  { value: "followers", label: "Followers" },
-  { value: "following", label: "Following" },
-];
-
 export const FollowersSheet = ({ children, userId }: Props) => {
-  const [activeTab, setActiveTab] = useState<TabValue>("followers");
+  const [activeTab, setActiveTab] = useState<TabValue>(TABS[0].value);
   const [search, setSearch] = useState<string>("");
+
+  const debouncedSearch = useDebounce(search, 300);
 
   const { data: follows = [], refetch: refetchFollows } = useGetFollows({
     userId: userId,
     type: activeTab,
+    searchQuery: debouncedSearch,
   });
 
-  useEffect(() => void refetchFollows(), [activeTab]);
+  useEffect(() => void refetchFollows(), [activeTab, debouncedSearch]);
 
   return (
     <Sheet>
@@ -95,7 +92,7 @@ export const FollowersSheet = ({ children, userId }: Props) => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
             <Input
               variant="neutral"
-              placeholder="Search by name or @handle…"
+              placeholder="Search by name or @tag..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9 h-9 text-sm"

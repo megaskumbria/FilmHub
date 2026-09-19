@@ -132,14 +132,15 @@ type FollowsType = "followers" | "following";
 interface GetFollowsQueryArgs {
   userId: string;
   type: FollowsType;
+  searchQuery?: string;
 }
 
-export const useGetFollows = ({ userId, type }: GetFollowsQueryArgs) => {
+export const useGetFollows = ({ userId, type, searchQuery }: GetFollowsQueryArgs) => {
   return useQuery({
-    queryKey: ["follows"],
+    queryKey: ["follows", searchQuery],
     queryFn: async () => {
       const { data } = await apiClient.get<FollowUser[]>(
-        `${API_URL}/profile/${userId}/follows?type=${type}`,
+        `${API_URL}/profile/${userId}/follows?type=${type}&search=${searchQuery}`,
       );
       return data;
     },
