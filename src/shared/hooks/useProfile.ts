@@ -33,8 +33,7 @@ export const profileQueryOptions = ({ userId, token }: ProfileQueryArgs) =>
       );
       return data;
     },
-    staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
   });
 
 type UpdateProfilePaylod = Partial<{
