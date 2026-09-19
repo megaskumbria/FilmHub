@@ -1,4 +1,4 @@
-import { ACTION_GROUPS } from "../model/action-groups";
+import { ACTION_GROUPS } from "../model/ActionGroups";
 import { Separator } from "@/shared/ui";
 import { useAuthStore } from "@/features/auth";
 

@@ -1,9 +1,8 @@
 import { BarChart3, Clapperboard, Flag, Folder, LucideIcon, Settings, Users } from "lucide-react";
 import { ActionButton } from "../ui/ActionButton";
-import { ReactNode } from "react";
-import { SettingsModal } from "@/widgets";
-import { FollowersSheet } from "@/widgets/followers-sheet";
+import { SettingsModal, FollowersSheet } from "@/widgets";
 import { SheetTrigger } from "@/shared/ui";
+import { ReactNode } from "react";
 
 interface UserActionsGroup {
   label: string;
@@ -20,15 +19,10 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
   {
     label: "Account",
     items: [
-      // {
-      //   icon: User,
-      //   render: () => <ActionButton icon={User}>My profile</ActionButton>,
-      // },
       {
         icon: Users,
-        render: () => (
-          // Remove extra wrapper when wiring routes
-          <FollowersSheet>
+        render: (userId?: string) => (
+          <FollowersSheet userId={userId ?? ""}>
             <SheetTrigger asChild>
               <ActionButton icon={Users}>Subscriptions</ActionButton>
             </SheetTrigger>
