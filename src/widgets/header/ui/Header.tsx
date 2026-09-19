@@ -6,11 +6,11 @@ import { Bookmark } from "lucide-react";
 import { Button } from "@/shared/ui";
 import { SearchMovieDrawer, UserMenu } from "@/widgets";
 import { cn } from "@/shared/lib/utils";
-import { useAuthStore, useAuthModalStore, type InitialUser } from "@/features/auth";
+import { useAuthStore, useAuthModalStore, type User } from "@/features/auth";
 // import { LogoSvg } from "@/shared/assets/LogoSvg";
 
 interface Props {
-  initialUser: InitialUser | null;
+  initialUser: User | null;
 }
 
 export const Header = ({ initialUser }: Props) => {
@@ -19,7 +19,7 @@ export const Header = ({ initialUser }: Props) => {
   const openAuthModal = useAuthModalStore((s) => s.open);
 
   const { hasHydrated, user } = useAuthStore();
-  const userId = hasHydrated ? user.id : (initialUser?.sub ?? null);
+  const userId = hasHydrated ? user.id : (initialUser?.id ?? null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);

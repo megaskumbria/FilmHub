@@ -16,10 +16,10 @@ import { LogOut } from "lucide-react";
 import { useLogout } from "@/shared/hooks";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useAuthStore, type InitialUser } from "@/features/auth";
+import { useAuthStore, type User } from "@/features/auth";
 
 interface Props {
-  initialUser: InitialUser | null;
+  initialUser: User | null;
 }
 
 export const UserMenu = ({ initialUser }: Props) => {
@@ -29,10 +29,11 @@ export const UserMenu = ({ initialUser }: Props) => {
   const handleLogout = useLogout();
 
   const { user, hasHydrated } = useAuthStore();
-  const username = hasHydrated ? user.username : initialUser?.username;
-  const email = hasHydrated ? user.email : initialUser?.email;
+  const nickname = hasHydrated ? user.nickname : initialUser?.nickname;
+  const avatarUrl = hasHydrated ? user.avatarUrl : initialUser?.avatarUrl;
+  // const email = hasHydrated ? user.email : initialUser?.email;
 
-  const firstAvatarLetter = username?.charAt(0).toUpperCase();
+  const firstAvatarLetter = nickname?.charAt(0).toUpperCase();
 
   useEffect(() => setIsOpen(false), [pathname]);
 
@@ -43,7 +44,9 @@ export const UserMenu = ({ initialUser }: Props) => {
           size="lg"
           className="cursor-pointer border-2 border-border bg-muted/30 transition-[border-color,opacity] duration-200 hover:border-muted-foreground/30 hover:opacity-90"
         >
-          <AvatarImage alt="Avatar" className="object-cover" />
+          {avatarUrl && (
+            <AvatarImage alt="Avatar" className="object-cover rounded-full" src={avatarUrl} />
+          )}
           <AvatarFallback className="bg-secondary text-primary font-medium text-sm">
             {firstAvatarLetter}
           </AvatarFallback>
@@ -56,8 +59,8 @@ export const UserMenu = ({ initialUser }: Props) => {
         sideOffset={5}
       >
         <section className="flex flex-col justify-start items-start">
-          <div className="text-2xl font-medium text-primary">{username}</div>
-          <div className="text-sm text-muted">{email}</div>
+          <div className="text-2xl font-medium text-primary">{nickname}</div>
+          {/* <div className="text-sm text-muted">{email}</div> */}
         </section>
 
         <LangToggle />

@@ -51,6 +51,9 @@ export const ProfileAvatar = ({
     });
   };
 
+  const avatarSrc = avatarPreview || avatarUrl;
+  const canEditAvatar = isMyProfile && isEditing;
+
   return (
     <>
       <div className="relative">
@@ -62,10 +65,10 @@ export const ProfileAvatar = ({
             {nickname?.charAt(0).toUpperCase()}
           </AvatarFallback>
 
-          <AvatarImage className="rounded-2xl" src={avatarPreview ?? avatarUrl ?? ""} />
+          {avatarSrc && <AvatarImage className="rounded-2xl z-1" src={avatarSrc} />}
         </Avatar>
 
-        {isMyProfile && isEditing && (
+        {canEditAvatar && (
           <>
             <input
               type="file"
@@ -81,7 +84,7 @@ export const ProfileAvatar = ({
               size="icon-sm"
               onClick={() => avatarInputRef.current?.click()}
               disabled={isUpdatingAvatar}
-              className="absolute -bottom-1.5 -right-1.5 justify-center rounded-full ring-2 ring-surface"
+              className="absolute z-10 -bottom-1.5 -right-1.5 justify-center rounded-full ring-2 ring-surface"
             >
               {isUpdatingAvatar ?
                 <Loader2 className="size-4 animate-spin" strokeWidth={3} />

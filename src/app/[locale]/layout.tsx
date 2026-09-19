@@ -7,7 +7,9 @@ import { Header, AuthModal } from "@/widgets";
 import { Toaster, TooltipProvider } from "@/shared/ui";
 import { ReactQueryProvider, AuthProvider } from "@/shared/providers";
 import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
+import { API_URL } from "@/shared/constants/constants";
+import { type User } from "@/features/auth/model/auth.store";
+import axios from "axios";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -40,9 +42,10 @@ export default async function RootLayout({ children, params }: Props) {
   const locale = (await params).locale;
 
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
-  const user =
-    accessToken ? jwtDecode<{ sub: string; email: string; username: string }>(accessToken) : null;
+
+  const { data: user } = await axios.get<User>(`${API_URL}/auth/me`, {
+    headers: { cookie: cookieStore.toString() },
+  });
 
   return (
     <html

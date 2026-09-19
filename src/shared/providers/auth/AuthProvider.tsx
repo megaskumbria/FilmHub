@@ -1,22 +1,21 @@
 "use client";
 import { ReactNode, useEffect } from "react";
-import { useAuthStore, type InitialUser } from "@/features/auth";
+import { useAuthStore, User } from "@/features/auth";
 
 interface Props {
   children: ReactNode;
-  initialUser: InitialUser | null;
+  initialUser: User | null;
 }
 
 export const AuthProvider = ({ children, initialUser }: Props) => {
-  const { setUser } = useAuthStore();
-  const { setHasHydrated } = useAuthStore();
+  const { setUser, setHasHydrated } = useAuthStore();
 
   useEffect(() => {
     if (initialUser) {
-      const { sub, email, username } = initialUser;
-      setUser({ id: sub, email, username });
+      const { id, email, nickname, avatarUrl } = initialUser;
+      setUser({ id, email, nickname, avatarUrl });
     } else {
-      setUser({ username: null, email: null, id: null });
+      setUser({ id: null, email: null, nickname: null, avatarUrl: null });
     }
     setHasHydrated(true);
   }, [initialUser, setUser, setHasHydrated]);

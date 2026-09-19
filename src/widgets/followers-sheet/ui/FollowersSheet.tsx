@@ -39,8 +39,6 @@ export const FollowersSheet = ({ children, userId }: Props) => {
     type: activeTab,
   });
 
-  console.log("follows", follows);
-
   useEffect(() => void refetchFollows(), [activeTab]);
 
   return (

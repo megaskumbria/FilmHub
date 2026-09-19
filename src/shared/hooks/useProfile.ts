@@ -1,6 +1,7 @@
 import { queryOptions, useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { API_URL } from "@/shared/constants/constants";
 import { apiClient } from "../api/api-client";
+import { useAuthStore } from "@/features/auth";
 
 export interface UserProfile {
   userId: string;
@@ -55,6 +56,14 @@ export const useUpdateProfile = () => {
     },
     onSuccess: (updatedProfile) => {
       queryClient.setQueryData(["profile", updatedProfile.userId], updatedProfile);
+
+      const { user, setUser } = useAuthStore.getState();
+
+      setUser({
+        ...user,
+        nickname: updatedProfile.nickname,
+        avatarUrl: updatedProfile.avatarUrl,
+      });
     },
   });
 };
@@ -97,6 +106,13 @@ export const useUpdateProfileAvatar = () => {
     },
     onSuccess: (updatedProfile) => {
       queryClient.setQueryData(["profile", updatedProfile.userId], updatedProfile);
+
+      const { user, setUser } = useAuthStore.getState();
+
+      setUser({
+        ...user,
+        avatarUrl: updatedProfile.avatarUrl,
+      });
     },
   });
 };
