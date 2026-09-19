@@ -6,10 +6,7 @@ import { Inter, Manrope, Unbounded } from "next/font/google";
 import { Header, AuthModal } from "@/widgets";
 import { Toaster, TooltipProvider } from "@/shared/ui";
 import { ReactQueryProvider, AuthProvider } from "@/shared/providers";
-import { cookies } from "next/headers";
-import { API_URL } from "@/shared/constants/constants";
-import { type User } from "@/features/auth/model/auth.store";
-import axios from "axios";
+import { getCurrentUser } from "@/shared/lib/getCurrentUser";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -41,11 +38,7 @@ export default async function RootLayout({ children, params }: Props) {
   const messages = await getMessages();
   const locale = (await params).locale;
 
-  const cookieStore = await cookies();
-
-  const { data: user } = await axios.get<User>(`${API_URL}/auth/me`, {
-    headers: { cookie: cookieStore.toString() },
-  });
+  const user = await getCurrentUser();
 
   return (
     <html
