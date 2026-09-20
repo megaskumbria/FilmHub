@@ -3,8 +3,16 @@ import { Plus } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { CreateCollectionModal } from "@/widgets";
 import { EMPTY_STATE_COLLECTION_PREVIEWS } from "../model/empty-state-collections-data";
+import { EmptyStateVisitorCollections } from "./EmptyStateVisitorCollections";
 
-export const EmptyStateCollections = () => {
+interface Props {
+  isMyProfile: boolean;
+  userId: string;
+}
+
+export const EmptyStateCollections = ({ isMyProfile, userId }: Props) => {
+  if (!isMyProfile) return <EmptyStateVisitorCollections userId={userId} />;
+
   return (
     <div className="pt-20 pb-2">
       <div className="flex items-end justify-center gap-3 px-10 pb-0 select-none">
@@ -71,7 +79,7 @@ export const EmptyStateCollections = () => {
         )}
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 h-[160px] bg-linear-to-t from-surface via-surface/70 to-transparent" />
+      <div className="fixed inset-x-0 bottom-0 h-40 bg-linear-to-t from-surface via-surface/70 to-transparent" />
     </div>
   );
 };

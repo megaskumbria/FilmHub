@@ -16,6 +16,7 @@ interface Props {
   setActiveCollectionId: (collectionId: string) => void;
   activeCollectionId: string;
   isMyProfile: boolean;
+  userId: string;
   collections: Collection[];
   isPending: boolean;
   hasCollectionItems: boolean;
@@ -23,6 +24,7 @@ interface Props {
 
 export const UserCollections = ({
   isMyProfile,
+  userId,
   collections,
   setActiveCollectionId,
   activeCollectionId,
@@ -50,10 +52,12 @@ export const UserCollections = ({
   return (
     <>
       {!hasCollectionItems ?
-        <EmptyStateCollections />
+        <EmptyStateCollections isMyProfile={isMyProfile} userId={userId} />
       : <section>
           <div className="flex items-center justify-between mb-5 pt-5">
-            <h2 className="text-lg font-semibold text-foreground">My collections</h2>
+            <h2 className="text-lg font-semibold text-foreground">
+              {isMyProfile ? "My collections" : "Collections"}
+            </h2>
 
             {isMyProfile && (
               <CreateCollectionModal isEditing={false}>
@@ -86,7 +90,7 @@ export const UserCollections = ({
                   onSwiper={(swiper) => {
                     swiperRef.current = swiper;
                   }}
-                  className="relative min-h-[220px] h-full [&_.swiper-wrapper]:gap-2.5"
+                  className="relative min-h-55 h-full [&_.swiper-wrapper]:gap-2.5"
                 >
                   {isHideButtons && (
                     <Button

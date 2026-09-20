@@ -131,6 +131,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
 
       <UserCollections
         isMyProfile={isMyProfile}
+        userId={userId}
         setActiveCollectionId={setActiveCollectionId}
         activeCollectionId={activeCollectionId}
         hasCollectionItems={hasCollectionItems}

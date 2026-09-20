@@ -5,10 +5,13 @@ import { Input, Button, Separator } from "@/shared/ui";
 import { X, Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FilterPopover } from "@/widgets";
-import { useToggleLikeCollection, useToggleVisibilityCollection } from "@/shared/hooks";
+import {
+  useToggleLikeCollection,
+  useToggleVisibilityCollection,
+  type Collection,
+} from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
-import { type Collection } from "@/shared/hooks/useCollection";
 import { IconEye } from "@tabler/icons-react";
 import { useRequireAuth } from "@/features/auth";
 
@@ -149,8 +152,6 @@ export const CollectionsToolbar = ({
 
         <FilterPopover />
 
-        {/* <Separator orientation="vertical" className="h-5 bg-border" /> */}
-
         {isMyProfile && (
           <>
             <Button
@@ -184,8 +185,6 @@ export const CollectionsToolbar = ({
               <Pencil className="shrink-0 size-4" />
               <span className="text-sm">{isEditMode ? "Done" : "Edit"}</span>
             </Button>
-
-            {/* <Separator orientation="vertical" className="h-5 bg-border" /> */}
           </>
         )}
 
