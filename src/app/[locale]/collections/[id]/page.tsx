@@ -72,8 +72,8 @@ export default async function MyCollectionsPage({ params, searchParams }: Props)
     collectionMediaQueryOptions({
       collectionId: firstCollectionId,
       userId: id,
-      isMyCollection,
       token: validToken,
+      searchQuery: "",
     }),
   );
 

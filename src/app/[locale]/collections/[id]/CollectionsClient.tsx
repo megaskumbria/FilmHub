@@ -7,6 +7,7 @@ import {
   UserCollections,
   ProfileHeader,
   EmptyStateCollectionFilms,
+  MediaCardSkeleton,
 } from "@/widgets";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import {
@@ -14,9 +15,9 @@ import {
   collectionMediaQueryOptions,
   collectionQueryOptions,
   useRecordCollectionView,
+  useDebounce,
 } from "@/shared/hooks";
 import { FloatingEditBar } from "@/features";
-import { Skeleton } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/features/auth";
 
@@ -37,11 +38,15 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
   );
 
   const [activeCollectionId, setActiveCollectionId] = useState(collectionId);
-  const { data: mediaItems } = useQuery(
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const { data: mediaItems, isLoading: isLoadingMediaItems } = useQuery(
     collectionMediaQueryOptions({
       collectionId: activeCollectionId,
       userId,
-      isMyCollection: isMyProfile,
+      searchQuery: debouncedSearchTerm,
     }),
   );
 
@@ -123,7 +128,9 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
   const mode =
     !isMyProfile ? "add-collection"
     : isEditMode ? "edit-collection"
-    : "add-flag";
+    : "add-flag"; // fix me
+
+  const isLoadingMedia = isLoadingMediaItems || isLoading;
 
   return (
     <div className="max-w-410 min-h-screen w-full mx-auto px-6 pt-20 pb-16">
@@ -147,19 +154,16 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
           onToggleEditMode={handleToggleEditMode}
           isLoading={isLoading}
           collections={collections ?? []}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
         />
       )}
 
       {isMediaEmpty ?
-        <EmptyStateCollectionFilms />
+        <EmptyStateCollectionFilms isMyProfile={isMyProfile} searchQuery={debouncedSearchTerm} />
       : <ul className="grid grid-cols-5 gap-2 justify-items-center">
-          {isLoading ?
-            Array.from({ length: 5 }).map((_, i) => (
-              <Skeleton
-                key={`skeleton-${i}`}
-                className="w-full border border-border aspect-2/3 rounded-xl"
-              />
-            ))
+          {isLoadingMedia ?
+            Array.from({ length: 5 }).map((_, i) => <MediaCardSkeleton key={`skeleton-${i}`} />)
           : mediaItems?.map((media) => (
               <li key={media.id}>
                 <MediaCard

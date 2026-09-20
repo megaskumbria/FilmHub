@@ -1,9 +1,21 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useLocale } from "next-intl";
+import { EMPTY_MESSAGES } from "../model/emptyMessages";
 
-export const EmptyStateCollectionFilms = () => {
+interface Props {
+  isMyProfile: boolean;
+  searchQuery?: string;
+}
+
+export const EmptyStateCollectionFilms = ({ isMyProfile, searchQuery = "" }: Props) => {
   const locale = useLocale();
+
+  const hasSearch = searchQuery.trim().length > 0;
+
+  const kind = hasSearch ? "search" : "empty";
+  const audience = isMyProfile ? "own" : "visitor";
+  const { title, text } = EMPTY_MESSAGES[kind][audience];
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-8 h-80">
@@ -22,7 +34,7 @@ export const EmptyStateCollectionFilms = () => {
             <div className="h-px flex-1 bg-border/30" />
 
             <p className="text-sm text-muted/60 tracking-widest uppercase whitespace-nowrap select-none">
-              no films added
+              {title}
             </p>
 
             <div className="h-px flex-1 bg-border/30" />
@@ -36,15 +48,17 @@ export const EmptyStateCollectionFilms = () => {
         </div>
       </div>
 
-      <Link
-        href={`/${locale}/movie-search`}
-        className="group flex items-center gap-2 text-sm text-muted/50 hover:text-muted transition-colors duration-200"
-      >
-        <span className="underline underline-offset-4 decoration-muted/20 group-hover:decoration-muted/50 transition-colors duration-200">
-          Browse the catalogue to find something to add
-        </span>
-        <ArrowRight className="size-3.5 -translate-x-1 group-hover:translate-x-0 transition-transform duration-200" />
-      </Link>
+      {text && (
+        <Link
+          href={`/${locale}/movie-search`}
+          className="group flex items-center gap-2 text-sm text-muted/50 hover:text-muted transition-colors duration-200"
+        >
+          <span className="underline underline-offset-4 decoration-muted/20 group-hover:decoration-muted/50 transition-colors duration-200">
+            {text}
+          </span>
+          <ArrowRight className="size-3.5 -translate-x-1 group-hover:translate-x-0 transition-transform duration-200" />
+        </Link>
+      )}
     </div>
   );
 };

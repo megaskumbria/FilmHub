@@ -56,21 +56,21 @@ export const collectionQueryOptions = ({
 interface CollectionMediaQueryOptions {
   collectionId: string;
   userId: string;
-  isMyCollection: boolean;
   token?: string;
+  searchQuery?: string;
 }
 
 export const collectionMediaQueryOptions = ({
   collectionId,
   userId,
-  isMyCollection,
   token,
+  searchQuery,
 }: CollectionMediaQueryOptions) =>
   queryOptions({
-    queryKey: ["media-collection", userId, collectionId, isMyCollection],
+    queryKey: ["media-collection", userId, collectionId, searchQuery],
     queryFn: async () => {
       const { data: response } = await apiClient.get<Media[]>(
-        `${API_URL}/collection/items/${userId}?collection-id=${collectionId}&is-my-collection=${isMyCollection}`,
+        `${API_URL}/collection/items/${userId}?collection-id=${collectionId}&search=${searchQuery}`,
         token ? { headers: { Cookie: `accessToken=${token}` } } : {},
       );
       return response;

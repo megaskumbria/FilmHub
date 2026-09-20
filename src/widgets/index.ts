@@ -28,3 +28,4 @@ export { PresetPackModal } from "./preset-pack-modal";
 export { BestCollectionsSlider } from "./best-collections-slider";
 export { StackPoster } from "./stack-poster";
 export { FilterFeed } from "./filter-feed";
+export { MediaCardSkeleton } from "./movie-card";

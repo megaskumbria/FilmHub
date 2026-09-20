@@ -10,7 +10,7 @@ import {
   useToggleVisibilityCollection,
   type Collection,
 } from "@/shared/hooks";
-import { ICONS } from "@/widgets/create-folder-modal/model/icons";
+import { ICONS } from "@/widgets/create-folder-modal/model/icons"; // fix me
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 import { IconEye } from "@tabler/icons-react";
 import { useRequireAuth } from "@/features/auth";
@@ -20,6 +20,8 @@ interface Props {
   isMyProfile: boolean;
   isLoading: boolean;
   collections: Collection[];
+  searchTerm: string;
+  setSearchTerm: (searchTerm: string) => void;
 
   isEditMode?: boolean;
   onToggleEditMode?: () => void;
@@ -29,12 +31,13 @@ export const CollectionsToolbar = ({
   activeCollectionId,
   isMyProfile,
   collections,
+  searchTerm,
+  setSearchTerm,
   isEditMode = false,
   onToggleEditMode,
   isLoading = false,
 }: Props) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const ensureAuth = useRequireAuth();
 
@@ -67,7 +70,7 @@ export const CollectionsToolbar = ({
 
   const handleOpenInput = () => {
     setIsSearchOpen((prev) => !prev);
-    if (isSearchOpen) setSearchQuery("");
+    if (isSearchOpen) setSearchTerm("");
   };
 
   const handleToggleLike = () => {
@@ -127,9 +130,9 @@ export const CollectionsToolbar = ({
           >
             <Input
               ref={focusRef}
-              value={searchQuery}
+              value={searchTerm}
               variant="neutral"
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search collections..."
               className="h-9 text-sm rounded-lg border-border bg-surface placeholder:text-zinc-muted"
             />
