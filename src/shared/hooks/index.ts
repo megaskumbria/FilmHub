@@ -55,7 +55,7 @@ export {
   useUpdateProfile,
   useUpdateProfileCover,
   useUpdateProfileAvatar,
-  useGetFollows,
+  useInfiniteFollows,
   type FollowUser,
   useFollowProfile,
 } from "./useProfile";

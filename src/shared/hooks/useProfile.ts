@@ -1,4 +1,10 @@
-import { queryOptions, useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+  InfiniteData,
+} from "@tanstack/react-query";
 import { API_URL } from "@/shared/constants/constants";
 import { apiClient } from "../api/api-client";
 import { useAuthStore } from "@/features/auth";
@@ -126,23 +132,41 @@ export interface FollowUser {
   isMe: boolean;
 }
 
+export interface FollowsResponse {
+  follows: FollowUser[];
+  totalPages: number;
+  page: number;
+  totalResults: number;
+}
+
 type FollowsType = "followers" | "following";
 
 interface GetFollowsQueryArgs {
   userId: string;
   type: FollowsType;
+  limit: number;
   searchQuery?: string;
 }
 
-export const useGetFollows = ({ userId, type, searchQuery }: GetFollowsQueryArgs) => {
-  return useQuery({
+export const useInfiniteFollows = ({ userId, type, limit, searchQuery }: GetFollowsQueryArgs) => {
+  return useInfiniteQuery({
     queryKey: ["follows", userId, type, searchQuery],
-    queryFn: async () => {
-      const { data } = await apiClient.get<FollowUser[]>(
-        `${API_URL}/profile/${userId}/follows?type=${type}&search=${searchQuery}`,
+    queryFn: async ({ pageParam }) => {
+      const { data } = await apiClient.get<FollowsResponse>(
+        `${API_URL}/profile/${userId}/follows?type=${type}&limit=${limit}&page=${pageParam}&search=${searchQuery}`,
       );
       return data;
     },
+
+    select: (data) => data.pages.flatMap((page) => page.follows),
+
+    getNextPageParam: (lastPage) => {
+      const { page, totalPages } = lastPage;
+      if (page >= totalPages) return undefined;
+      return page + 1;
+    },
+
+    initialPageParam: 1,
     refetchOnWindowFocus: true,
     staleTime: 1000 * 60 * 5,
     enabled: Boolean(userId),
@@ -157,9 +181,26 @@ export const useFollowProfile = () => {
       const { data } = await apiClient.post<UserProfile>(`${API_URL}/profile/${userId}/follow`);
       return data;
     },
+
     onSuccess: (_data, followedUserId) => {
+      queryClient.setQueriesData(
+        { queryKey: ["follows"] },
+        (old: InfiniteData<FollowsResponse> | undefined) => {
+          if (!old) return old;
+
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              follows: page.follows.map((user) =>
+                user.userId === followedUserId ? { ...user, isFollowing: !user.isFollowing } : user,
+              ),
+            })),
+          };
+        },
+      );
+
       void queryClient.invalidateQueries({ queryKey: ["profile", followedUserId] });
-      void queryClient.invalidateQueries({ queryKey: ["follows"] });
     },
   });
 };

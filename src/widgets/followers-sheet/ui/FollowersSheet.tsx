@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ReactNode, useEffect } from "react";
+import { useState, ReactNode } from "react";
 import { Users, Search, X, UserCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import {
@@ -16,8 +16,10 @@ import {
   TabsContent,
 } from "@/shared/ui";
 import { UserRow } from "./UserRow";
-import { useGetFollows, useDebounce } from "@/shared/hooks";
-import { TabValue, TABS } from "../model/followerSheetTabs";
+import { useInfiniteFollows, useDebounce, useIntersectionObserver } from "@/shared/hooks";
+import { TabValue, TABS, EMPTY_MESSAGES } from "../model/followerSheetTabs";
+
+const LIMIT = 20;
 
 interface Props {
   children: ReactNode;
@@ -30,13 +32,24 @@ export const FollowersSheet = ({ children, userId }: Props) => {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data: follows = [], refetch: refetchFollows } = useGetFollows({
+  const {
+    data: follows,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteFollows({
     userId: userId,
     type: activeTab,
+    limit: LIMIT,
     searchQuery: debouncedSearch,
   });
 
-  useEffect(() => void refetchFollows(), [activeTab, debouncedSearch]);
+  const ref = useIntersectionObserver(
+    () => {
+      if (hasNextPage && !isFetchingNextPage) void fetchNextPage();
+    },
+    { rootMargin: "100px" },
+  );
 
   return (
     <Sheet>
@@ -108,17 +121,20 @@ export const FollowersSheet = ({ children, userId }: Props) => {
           {TABS.map((tab) => (
             <TabsContent key={tab.value} value={tab.value} className="h-full m-0">
               <div className="drawer-scroll h-full overflow-y-auto px-5 py-2">
-                {follows.length === 0 ?
+                {follows?.length === 0 ?
                   <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
                     <UserCheck className="size-10 text-zinc-muted opacity-30" />
-                    <p className="text-sm text-zinc-muted">No results</p>
+                    <p className="text-sm text-zinc-muted">
+                      {EMPTY_MESSAGES[debouncedSearch ? "search" : activeTab]}
+                    </p>
                   </div>
                 : <ul className="divide-y divide-border/40">
-                    {follows.map((user) => (
+                    {follows?.map((user) => (
                       <UserRow key={user.userId} user={user} />
                     ))}
                   </ul>
                 }
+                <div ref={ref} style={{ height: 1 }} />
               </div>
             </TabsContent>
           ))}
