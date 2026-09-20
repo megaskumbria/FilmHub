@@ -6,7 +6,6 @@ import {
   PopoverContent,
   Separator,
   Avatar,
-  AvatarImage,
   AvatarFallback,
   Button,
 } from "@/shared/ui";
@@ -31,6 +30,7 @@ export const UserMenu = ({ initialUser }: Props) => {
 
   const { user, hasHydrated } = useAuthStore();
   const nickname = hasHydrated ? user.nickname : initialUser?.nickname;
+  const userId = hasHydrated ? user.id : initialUser?.id;
   const avatarUrl = hasHydrated ? user.avatarUrl : initialUser?.avatarUrl;
   // const email = hasHydrated ? user.email : initialUser?.email;
 
@@ -45,16 +45,15 @@ export const UserMenu = ({ initialUser }: Props) => {
           size="lg"
           className="cursor-pointer border-2 border-border bg-muted/30 transition-[border-color,opacity] duration-200 hover:border-muted-foreground/30 hover:opacity-90"
         >
-          {avatarUrl && (
-            <AvatarImage alt="Avatar" className="object-cover rounded-full" src={avatarUrl} />
-          )}
-
-          <AvatarFallback
-            style={{ backgroundColor: getAvatarColor(user?.id ?? "") }}
-            className="bg-secondary text-primary font-medium text-sm"
-          >
-            {firstAvatarLetter}
-          </AvatarFallback>
+          {avatarUrl ?
+            <img src={avatarUrl} alt="" className="size-full rounded-full object-cover" />
+          : <AvatarFallback
+              style={{ backgroundColor: getAvatarColor(userId ?? "") }}
+              className="bg-secondary text-primary font-medium text-sm"
+            >
+              {firstAvatarLetter}
+            </AvatarFallback>
+          }
         </Avatar>
       </PopoverTrigger>
 

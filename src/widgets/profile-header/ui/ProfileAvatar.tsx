@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage, Button } from "@/shared/ui";
+import { Avatar, AvatarFallback, Button } from "@/shared/ui";
 import { useFileSelect, UserProfile } from "@/shared/hooks";
 import { Loader2, Camera } from "lucide-react";
 import { useState } from "react";
@@ -61,15 +61,15 @@ export const ProfileAvatar = ({
     <>
       <div className="relative">
         <Avatar className="size-20 rounded-2xl ">
-          <AvatarFallback
-            delayMs={300}
-            className="text-white text-3xl font-bold rounded-2xl ring-4 ring-surface"
-            style={{ backgroundColor: getAvatarColor(userId) }}
-          >
-            {firstAvatarLetter}
-          </AvatarFallback>
-
-          {avatarSrc && <AvatarImage className="rounded-2xl z-1" src={avatarSrc} />}
+          {avatarSrc ?
+            <img src={avatarSrc} alt="" className="size-full z-1 rounded-2xl object-cover" />
+          : <AvatarFallback
+              className="text-white text-3xl font-bold z-1 rounded-2xl ring-4 ring-surface"
+              style={{ backgroundColor: getAvatarColor(userId) }}
+            >
+              {firstAvatarLetter}
+            </AvatarFallback>
+          }
         </Avatar>
 
         {canEditAvatar && (
