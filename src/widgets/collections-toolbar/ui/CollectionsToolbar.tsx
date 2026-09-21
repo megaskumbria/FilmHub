@@ -2,15 +2,14 @@
 
 import { cn } from "@/shared/lib/utils";
 import { Input, Button, Separator } from "@/shared/ui";
-import { X, Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { FilterPopover } from "@/widgets";
+import { Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
+import { useRef } from "react";
 import {
   useToggleLikeCollection,
   useToggleVisibilityCollection,
   type Collection,
 } from "@/shared/hooks";
-import { ICONS } from "@/widgets/create-folder-modal/model/icons"; // fix me
+import { ICONS } from "@/widgets/create-folder-modal";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 import { IconEye } from "@tabler/icons-react";
 import { useRequireAuth } from "@/features/auth";
@@ -37,8 +36,6 @@ export const CollectionsToolbar = ({
   onToggleEditMode,
   isLoading = false,
 }: Props) => {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
   const ensureAuth = useRequireAuth();
 
   const focusRef = useRef<HTMLInputElement>(null);
@@ -63,15 +60,6 @@ export const CollectionsToolbar = ({
   const isMediaEmpty = moviesCount === 0;
 
   const Icon = ICONS.find((icon) => icon.iconName === iconName)?.icon;
-
-  useEffect(() => {
-    if (isSearchOpen) setTimeout(() => focusRef.current?.focus(), 150);
-  }, [isSearchOpen]);
-
-  const handleOpenInput = () => {
-    setIsSearchOpen((prev) => !prev);
-    if (isSearchOpen) setSearchTerm("");
-  };
 
   const handleToggleLike = () => {
     if (!ensureAuth()) return;
@@ -122,12 +110,7 @@ export const CollectionsToolbar = ({
 
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-2">
-          <div
-            className={cn(
-              "flex items-center gap-2 overflow-hidden transition-all duration-300 ease-in-out",
-              isSearchOpen ? "w-52" : "w-0",
-            )}
-          >
+          <div className="flex items-center gap-2 overflow-hidden transition-all duration-300 ease-in-out w-52">
             <Input
               ref={focusRef}
               value={searchTerm}
@@ -138,22 +121,10 @@ export const CollectionsToolbar = ({
             />
           </div>
 
-          <Button
-            onClick={handleOpenInput}
-            className={cn(
-              "rounded-lg size-9 p-0 flex items-center justify-center border transition-colors duration-200",
-              isSearchOpen ?
-                "bg-accent/10 border-accent/30 text-accent"
-              : "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted",
-            )}
-          >
-            {isSearchOpen ?
-              <X className="size-4" />
-            : <Search className="size-4" />}
+          <Button className="rounded-lg size-9 p-0 flex items-center justify-center border transition-colors duration-200 bg-accent/10 border-accent/30 text-accent">
+            <Search className="size-4" />
           </Button>
         </div>
-
-        <FilterPopover />
 
         {isMyProfile && (
           <>

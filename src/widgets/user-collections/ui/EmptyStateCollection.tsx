@@ -2,7 +2,7 @@ import { Button } from "@/shared/ui";
 import { Plus } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { CreateCollectionModal } from "@/widgets";
-import { EMPTY_STATE_COLLECTION_PREVIEWS } from "../model/empty-state-collections-data";
+import { EMPTY_STATE_COLLECTION_PREVIEWS } from "../model/emptyStateCollection";
 import { EmptyStateVisitorCollections } from "./EmptyStateVisitorCollections";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   userId: string;
 }
 
-export const EmptyStateCollections = ({ isMyProfile, userId }: Props) => {
+export const EmptyStateCollection = ({ isMyProfile, userId }: Props) => {
   if (!isMyProfile) return <EmptyStateVisitorCollections userId={userId} />;
 
   return (

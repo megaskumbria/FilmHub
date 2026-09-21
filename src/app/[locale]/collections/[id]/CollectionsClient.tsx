@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import {
   MediaCard,
   CollectionsToolbar,
@@ -10,16 +9,9 @@ import {
   MediaCardSkeleton,
 } from "@/widgets";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import {
-  useDeleteMediaFromCollection,
-  collectionMediaQueryOptions,
-  collectionQueryOptions,
-  useRecordCollectionView,
-  useDebounce,
-} from "@/shared/hooks";
 import { FloatingEditBar } from "@/features";
-import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/features/auth";
+import { useCollectionMedia, useCollectionEdit } from "@/widgets/user-collections";
 
 interface Props {
   userId: string;
@@ -28,109 +20,40 @@ interface Props {
 }
 
 export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Props) => {
-  const { user } = useAuthStore();
-  const currentUserId = user.id;
-  const { hasHydrated } = useAuthStore();
-  const isMyProfile = hasHydrated ? currentUserId === userId : isMyCollection;
-
-  const { data: collections, isLoading } = useQuery(
-    collectionQueryOptions({ userId, isMyCollection: isMyProfile }),
-  );
-
-  const [activeCollectionId, setActiveCollectionId] = useState(collectionId);
-  const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
-  const { data: mediaItems, isLoading: isLoadingMediaItems } = useQuery(
-    collectionMediaQueryOptions({
-      collectionId: activeCollectionId,
-      userId,
-      searchQuery: debouncedSearchTerm,
-    }),
-  );
-
+  const { user, hasHydrated } = useAuthStore();
+  const isMyProfile = hasHydrated ? user.id === userId : isMyCollection;
   const { layout, blockOptions } = useMovieCardLayout();
 
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
-  const [hasCollectionItems, setHasCollectionItems] = useState((collections?.length ?? 0) > 0);
+  const {
+    collections,
+    mediaItems,
+    isLoading,
+    isLoadingMedia,
+    hasCollectionItems,
+    isMediaEmpty,
+    activeCollectionId,
+    setActiveCollectionId,
+    searchTerm,
+    setSearchTerm,
+    debouncedSearchTerm,
+  } = useCollectionMedia({ userId, isMyProfile, collectionId });
 
-  const { mutate: deleteMediaFromCollection, isPending: isDeleting } =
-    useDeleteMediaFromCollection();
-
-  const { mutate: recordCollectionView } = useRecordCollectionView();
-
-  const totalCountsMedia = mediaItems?.length ?? 0;
-  const isAllSelected = selectedIds.size === totalCountsMedia && totalCountsMedia > 0;
-
-  const handleToggleEditMode = () => setIsEditMode((prev) => !prev);
-
-  useEffect(() => {
-    if (!activeCollectionId) return;
-    recordCollectionView(activeCollectionId);
-  }, [activeCollectionId]);
-
-  useEffect(() => {
-    if (!collections) return;
-
-    if (collections.length === 0) {
-      setHasCollectionItems(false);
-      return;
-    }
-
-    setHasCollectionItems(true);
-
-    const stillExists = collections.some((c) => c.id === activeCollectionId);
-
-    if (!activeCollectionId || !stillExists) setActiveCollectionId(collections[0].id);
-  }, [collections]);
-
-  useEffect(() => {
-    if (!isEditMode) {
-      const timer = setTimeout(() => setSelectedIds(new Set()), 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isEditMode]);
-
-  useEffect(() => setSelectedIds(new Set()), [activeCollectionId]);
-
-  useEffect(() => {
-    if (!isMyProfile) setIsEditMode(false);
-  }, [isMyProfile]);
-
-  const handleCheckedChange = (id: number, checked: boolean) => {
-    setSelectedIds((prevIds) => {
-      const nextIds = new Set(prevIds);
-      checked ? nextIds.add(id) : nextIds.delete(id);
-      return nextIds;
-    });
-  };
-
-  const handleSelectAllMedia = () => {
-    if (isAllSelected) {
-      setSelectedIds(new Set());
-    } else {
-      setSelectedIds(new Set(mediaItems?.map((m) => m.id) ?? []));
-    }
-  };
-
-  const handleDeleteMedia = () => {
-    deleteMediaFromCollection({
-      mediaIds: Array.from(selectedIds),
-      collectionId: activeCollectionId,
-    });
-    setSelectedIds(new Set());
-  };
-
-  const isMediaEmpty = mediaItems?.length === 0 && collections?.length !== 0;
-
-  const mode =
-    !isMyProfile ? "add-collection"
-    : isEditMode ? "edit-collection"
-    : "add-flag"; // fix me
-
-  const isLoadingMedia = isLoadingMediaItems || isLoading;
+  const {
+    isEditMode,
+    selectedIds,
+    isAllSelected,
+    totalCountsMedia,
+    isDeleting,
+    mode,
+    toggleEditMode,
+    handleCheckedChange,
+    handleSelectAllMedia,
+    handleDeleteMedia,
+  } = useCollectionEdit({
+    mediaItems,
+    activeCollectionId,
+    isMyProfile,
+  });
 
   return (
     <div className="max-w-410 min-h-screen w-full mx-auto px-6 pt-20 pb-16">
@@ -142,7 +65,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
         setActiveCollectionId={setActiveCollectionId}
         activeCollectionId={activeCollectionId}
         hasCollectionItems={hasCollectionItems}
-        collections={collections ?? []}
+        collections={collections}
         isPending={isLoading}
       />
 
@@ -151,9 +74,9 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
           isMyProfile={isMyProfile}
           activeCollectionId={activeCollectionId}
           isEditMode={isEditMode}
-          onToggleEditMode={handleToggleEditMode}
+          onToggleEditMode={toggleEditMode}
           isLoading={isLoading}
-          collections={collections ?? []}
+          collections={collections}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
@@ -164,7 +87,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
       : <ul className="grid grid-cols-5 gap-2 justify-items-center">
           {isLoadingMedia ?
             Array.from({ length: 5 }).map((_, i) => <MediaCardSkeleton key={`skeleton-${i}`} />)
-          : mediaItems?.map((media) => (
+          : mediaItems.map((media) => (
               <li key={media.id}>
                 <MediaCard
                   cardWidth={310}

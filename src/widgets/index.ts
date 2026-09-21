@@ -26,6 +26,7 @@ export { MovieGrid } from "./movie-grid";
 export { EmptyStateCollectionFilms } from "./empty-state-collection-films";
 export { PresetPackModal } from "./preset-pack-modal";
 export { BestCollectionsSlider } from "./best-collections-slider";
+export { EmptyStateCollection } from "./user-collections";
 export { StackPoster } from "./stack-poster";
 export { FilterFeed } from "./filter-feed";
 export { MediaCardSkeleton } from "./movie-card";

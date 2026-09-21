@@ -2,15 +2,14 @@
 
 import { Button } from "@/shared/ui";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import { CreateCollectionModal } from "@/widgets";
+import { CreateCollectionModal, EmptyStateCollection } from "@/widgets";
 import { CollectionFolder, FolderSkeleton } from "@/entities";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
-import { EmptyStateCollections } from "./EmptyStateCollections";
 import { sliderNavigationButton } from "@/shared/lib";
-import { type Collection } from "@/shared/hooks/useCollection";
+import { type Collection } from "@/shared/hooks";
 
 interface Props {
   setActiveCollectionId: (collectionId: string) => void;
@@ -52,7 +51,7 @@ export const UserCollections = ({
   return (
     <>
       {!hasCollectionItems ?
-        <EmptyStateCollections isMyProfile={isMyProfile} userId={userId} />
+        <EmptyStateCollection isMyProfile={isMyProfile} userId={userId} />
       : <section>
           <div className="flex items-center justify-between mb-5 pt-5">
             <h2 className="text-lg font-semibold text-foreground">
