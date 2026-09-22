@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { CollectionsClient } from "./CollectionsClient";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { API_URL } from "@/shared/constants/constants";
+import { API_URL } from "@/shared/api/config";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { collectionQueryOptions, collectionMediaQueryOptions } from "@/shared/hooks";
 import { profileQueryOptions } from "@/shared/hooks";

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { API_URL } from "@/shared/constants/constants";
+import { API_URL } from "@/shared/api/config";
 import { apiClient } from "@/shared/api/api-client";
 
 export interface SignUpData {

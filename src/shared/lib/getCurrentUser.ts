@@ -1,6 +1,6 @@
 import axios from "axios";
 import { cookies } from "next/headers";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 import { type User } from "@/features/auth";
 
 export const getCurrentUser = async (): Promise<User | null> => {

@@ -1,6 +1,6 @@
 import { apiClient } from "../api/api-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 import { toast } from "sonner";
 import { SortBy } from "@/widgets/flag-categories-sidebar";
 

@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { type MediaData, type MediaCategory } from "../stores/movie-catalog";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 import { FilterSortType, FilterYearType } from "@/features/media-filters";
 
 interface UseInfiniteMediaArgs {

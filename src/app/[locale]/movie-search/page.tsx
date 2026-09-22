@@ -1,6 +1,6 @@
 import { MovieCatalogToolbar, MovieGrid } from "@/widgets";
 import axios from "axios";
-import { API_URL } from "@/shared/constants/constants";
+import { API_URL } from "@/shared/api/config";
 import { MediaData } from "@/shared/stores/movie-catalog";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 

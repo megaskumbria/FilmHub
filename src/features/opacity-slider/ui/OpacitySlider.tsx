@@ -1,8 +1,8 @@
 import { Button, Label, Slider } from "@/shared/ui";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { useShallow } from "zustand/shallow";
-import { FLAG_BACKGROUND_ALPHA } from "@/shared/constants/constants";
 import { RotateCcw } from "lucide-react";
+import { FLAG_BACKGROUND_ALPHA } from "@/shared/lib";
 import { cn } from "@/shared/lib/utils";
 
 export const OpacitySlider = () => {

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 import { MediaType } from "../stores/movie-catalog";
 
 export interface Genre {

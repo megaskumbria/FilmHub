@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { apiClient } from "@/shared/api/api-client";
-import { API_URL } from "@/shared/constants/constants";
+import { API_URL } from "@/shared/api/config";
 
 export const useLogout = () => {
   const queryClient = useQueryClient();

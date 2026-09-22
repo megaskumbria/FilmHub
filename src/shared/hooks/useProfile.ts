@@ -5,7 +5,7 @@ import {
   useInfiniteQuery,
   InfiniteData,
 } from "@tanstack/react-query";
-import { API_URL } from "@/shared/constants/constants";
+import { API_URL } from "@/shared/api/config";
 import { apiClient } from "../api/api-client";
 import { useAuthStore } from "@/features/auth";
 

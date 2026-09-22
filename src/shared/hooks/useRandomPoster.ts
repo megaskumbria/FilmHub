@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 import axios from "axios";
 import type { Media } from "../stores/movie-catalog";
 

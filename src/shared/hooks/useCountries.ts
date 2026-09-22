@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 
 export interface Country {
   iso31661: string;

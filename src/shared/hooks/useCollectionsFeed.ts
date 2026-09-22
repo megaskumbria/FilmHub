@@ -1,5 +1,5 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 import axios from "axios";
 import { type QuantitySortOption, type SortOption } from "@/features/feed-filter";
 

@@ -1,7 +1,8 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { SKIP_CONFIRM_KEY } from "@/shared/constants/constants";
+
+const SKIP_CONFIRM_KEY = "delete-folder-skip-confirm";
 
 const getSnapshot = () => localStorage.getItem(SKIP_CONFIRM_KEY) === "true";
 const getServerSnapshot = () => false;

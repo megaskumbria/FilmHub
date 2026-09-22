@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "../api/api-client";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 import { Media } from "../stores/movie-catalog";
 import { FlagData, FlagItem } from "./useFlags";
 import { toast } from "sonner";

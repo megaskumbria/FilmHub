@@ -1,6 +1,6 @@
 import { apiClient } from "../api/api-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../api/config";
 
 export interface PresetFlagItem {
   id: string;
