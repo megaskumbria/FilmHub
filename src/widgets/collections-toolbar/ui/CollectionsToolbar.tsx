@@ -2,7 +2,7 @@
 
 import { cn } from "@/shared/lib/utils";
 import { Input, Button, Separator } from "@/shared/ui";
-import { Search, EyeOff, Eye, Pencil, Share2, Heart } from "lucide-react";
+import { Search, EyeOff, Eye, Pencil, Heart, Share2 } from "lucide-react";
 import { useRef } from "react";
 import {
   useToggleLikeCollection,
@@ -13,9 +13,11 @@ import { ICONS } from "@/widgets/create-folder-modal";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
 import { IconEye } from "@tabler/icons-react";
 import { useRequireAuth } from "@/features/auth";
+import { ShareCollectionButton } from "@/features";
 
 interface Props {
   activeCollectionId: string;
+  userId: string;
   isMyProfile: boolean;
   isLoading: boolean;
   collections: Collection[];
@@ -28,6 +30,7 @@ interface Props {
 
 export const CollectionsToolbar = ({
   activeCollectionId,
+  userId,
   isMyProfile,
   collections,
   searchTerm,
@@ -55,6 +58,7 @@ export const CollectionsToolbar = ({
     id,
     likesCount,
     isLiked,
+    sharesCount,
   } = collection ?? {};
 
   const isMediaEmpty = moviesCount === 0;
@@ -82,10 +86,15 @@ export const CollectionsToolbar = ({
           <Separator orientation="vertical" className="h-5 bg-border" />
 
           <div className="flex items-center gap-1.5">
-            <Button className="flex items-center gap-1.5 h-8 px-2 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/5 transition-colors duration-200">
-              <Share2 className="size-3.5 shrink-0" />
-              <span className="text-sm tabular-nums">0</span>
-            </Button>
+            <div className="flex items-center gap-1.5 h-8 px-2 rounded-lg text-zinc-muted">
+              <Share2 className="size-5 shrink-0" />
+              <span className="text-sm tabular-nums">{sharesCount}</span>
+            </div>
+
+            <div className="flex items-center gap-1 text-sm text-zinc-muted">
+              <IconEye className="size-5" />
+              {viewsCount}
+            </div>
 
             <Button
               onClick={handleToggleLike}
@@ -96,14 +105,9 @@ export const CollectionsToolbar = ({
                 : "text-zinc-muted hover:text-rose-400 hover:bg-rose-400/5",
               )}
             >
-              <Heart className={cn("size-3.5 shrink-0", isLiked && "fill-rose-400")} />
+              <Heart className={cn("size-5 shrink-0", isLiked && "fill-rose-400")} />
               <span className="text-sm tabular-nums">{likesCount}</span>
             </Button>
-
-            <span className="flex items-center gap-1 text-sm text-zinc-muted">
-              <IconEye className="size-4" />
-              {viewsCount}
-            </span>
           </div>
         </div>
       }
@@ -150,7 +154,7 @@ export const CollectionsToolbar = ({
               onClick={onToggleEditMode}
               disabled={isMediaEmpty}
               className={cn(
-                "rounded-lg h-9 px-3 border transition-colors duration-200 gap-1.5 disabled:pointer-events-none disabled:opacity-50 select-none",
+                "rounded-lg h-9 px-3 border transition-colors duration-200 gap-1.5 select-none",
                 isEditMode && !isMediaEmpty ?
                   "bg-accent/10 border-accent/30 text-accent"
                 : "bg-transparent border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted",
@@ -162,6 +166,11 @@ export const CollectionsToolbar = ({
           </>
         )}
 
+        <ShareCollectionButton
+          collectionId={id ?? ""}
+          userId={userId}
+          collectionName={collectionName}
+        />
         {/* <CollectionComments /> */}
       </div>
     </div>

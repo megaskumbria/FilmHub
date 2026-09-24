@@ -1,5 +1,5 @@
 import { Button } from "@/shared/ui";
-import { Check, Loader2, Share2, X, Pencil } from "lucide-react";
+import { Check, Loader2, X, Pencil } from "lucide-react";
 import { IconUserCheck, IconUserMinus, IconUserPlus } from "@tabler/icons-react";
 import { type ProfileEditSchema } from "../model/profile-edit-schema";
 import { UseFormReturn } from "react-hook-form";
@@ -75,14 +75,6 @@ export const ProfileActions = ({
           </Button>
         </>
       : <>
-          <Button
-            type="button"
-            size="sm"
-            className="transition-colors rounded-lg h-9 p-0 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
-          >
-            <Share2 className="size-4" />
-          </Button>
-
           {isMyProfile ?
             <Button
               key="profile-edit"

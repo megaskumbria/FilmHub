@@ -19,6 +19,7 @@ export {
   useToggleVisibilityCollection,
   useRecordCollectionView,
   useToggleLikeCollection,
+  useShareCollection,
 } from "./useCollection";
 export { useSkipDeleteConfirm, setSkipDeleteConfirm } from "./useSkipDeleteConfirm";
 export { useDeferredLoading } from "./useDeferredLoading";

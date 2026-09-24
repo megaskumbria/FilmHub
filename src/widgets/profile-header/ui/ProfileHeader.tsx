@@ -131,6 +131,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
         <div className="flex items-center justify-between gap-3 mt-5">
           <ProfileStats profile={profile} />
+
           <ProfileActions
             user={profile}
             isEditing={isEditing}

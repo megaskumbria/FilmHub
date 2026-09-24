@@ -22,6 +22,7 @@ interface Props {
 export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Props) => {
   const { user, hasHydrated } = useAuthStore();
   const isMyProfile = hasHydrated ? user.id === userId : isMyCollection;
+
   const { layout, blockOptions } = useMovieCardLayout();
 
   const {
@@ -37,6 +38,8 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
     setSearchTerm,
     debouncedSearchTerm,
   } = useCollectionMedia({ userId, isMyProfile, collectionId });
+
+  console.log(collections);
 
   const {
     isEditMode,
@@ -72,6 +75,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
       {hasCollectionItems && (
         <CollectionsToolbar
           isMyProfile={isMyProfile}
+          userId={userId}
           activeCollectionId={activeCollectionId}
           isEditMode={isEditMode}
           onToggleEditMode={toggleEditMode}

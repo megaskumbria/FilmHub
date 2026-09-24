@@ -5,3 +5,4 @@ export { prepareSvgForInline } from "./prepareSvgForInline";
 export { formatUsageCount } from "./formatUsageCount";
 export { sliderNavigationButton } from "./sliderNavigationButton";
 export { getAvatarColor } from "./getAvatarColor";
+export { getGuestId } from "./getGuestId";

@@ -3,7 +3,7 @@ import { API_URL } from "../api/config";
 import type { CreateCollectionSchema } from "@/features/create-folder/model/create-collection-schema";
 import { apiClient } from "../api/api-client";
 import { type Media, type MediaType } from "../stores/movie-catalog";
-import axios from "axios";
+import { getGuestId } from "../lib";
 
 export interface Collection {
   id: string;
@@ -19,6 +19,7 @@ export interface Collection {
   isLiked: boolean;
 
   moviesCount: number;
+  sharesCount: number;
   position: number;
 
   userId: string;
@@ -218,10 +219,10 @@ export const useToggleVisibilityCollection = () => {
 export const useRecordCollectionView = () => {
   return useMutation({
     mutationFn: async (collectionId: string) => {
-      return await axios.post(
+      return await apiClient.post(
         `${API_URL}/collection/record-view/${collectionId}`,
         {},
-        { withCredentials: true },
+        { withCredentials: true, headers: { "x-guest-id": getGuestId() } },
       );
     },
   });
@@ -248,6 +249,18 @@ export const useToggleLikeCollection = () => {
       );
 
       return { previous };
+    },
+  });
+};
+
+export const useShareCollection = () => {
+  return useMutation({
+    mutationFn: async (collectionId: string) => {
+      return await apiClient.post(
+        `${API_URL}/collection/record-share/${collectionId}`,
+        {},
+        { withCredentials: true, headers: { "x-guest-id": getGuestId() } },
+      );
     },
   });
 };
