@@ -12,9 +12,7 @@ import {
   PopoverHeader,
   PopoverTitle,
   PopoverDescription,
-  Separator,
 } from "@/shared/ui";
-import { TelegramIcon } from "@/shared/icons";
 import { cn } from "@/shared/lib/utils";
 import { getCollectionShareUrl } from "../lib/getCollectionShareUrl";
 import { useShareCollection } from "@/shared/hooks";
@@ -22,18 +20,16 @@ import { useShareCollection } from "@/shared/hooks";
 interface Props {
   collectionId: string;
   userId: string;
-  collectionName?: string;
 }
 
-export const ShareCollectionButton = ({ collectionId, userId, collectionName }: Props) => {
+export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
   const [copied, setCopied] = useState<boolean>(false);
-  const [canNativeShare, setCanNativeShare] = useState<boolean>(false);
 
   const { mutate: shareCollection } = useShareCollection();
 
-  useEffect(() => {
-    setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function");
-  }, []);
+  // useEffect(() => {
+  //   setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function");
+  // }, []);
 
   useEffect(() => {
     if (!copied) return;
@@ -43,9 +39,9 @@ export const ShareCollectionButton = ({ collectionId, userId, collectionName }: 
 
   const shareUrl = getCollectionShareUrl({ userId, collectionId });
 
-  const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}${
-    collectionName ? `&text=${encodeURIComponent(collectionName)}` : ""
-  }`;
+  // const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}${
+  //   collectionName ? `&text=${encodeURIComponent(collectionName)}` : ""
+  // }`;
 
   const handleCopy = async (): Promise<void> => {
     try {
@@ -60,9 +56,9 @@ export const ShareCollectionButton = ({ collectionId, userId, collectionName }: 
     }
   };
 
-  const handleNativeShare = async (): Promise<void> => {
-    await navigator.share({ title: collectionName, url: shareUrl });
-  };
+  // const handleNativeShare = async (): Promise<void> => {
+  //   await navigator.share({ title: collectionName, url: shareUrl });
+  // };
 
   return (
     <Popover>
@@ -75,7 +71,10 @@ export const ShareCollectionButton = ({ collectionId, userId, collectionName }: 
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-80 rounded-xl border-border bg-surface">
+      <PopoverContent
+        onOpenAutoFocus={(event) => event.preventDefault()}
+        className="w-80 rounded-xl border-border bg-surface"
+      >
         <PopoverHeader className="mb-3">
           <PopoverTitle className="text-sm text-foreground">Share collection</PopoverTitle>
 
@@ -89,7 +88,6 @@ export const ShareCollectionButton = ({ collectionId, userId, collectionName }: 
             readOnly
             variant="neutral"
             value={shareUrl}
-            onFocus={(e) => e.currentTarget.select()}
             className="h-9 text-sm rounded-lg border-border bg-background text-zinc-muted"
           />
 
@@ -109,7 +107,7 @@ export const ShareCollectionButton = ({ collectionId, userId, collectionName }: 
           </Button>
         </div>
 
-        <div className="my-3 flex items-center gap-2">
+        {/* <div className="my-3 flex items-center gap-2">
           <Separator className="flex-1 bg-border" />
           <span className="text-xs text-zinc-muted">or share via</span>
           <Separator className="flex-1 bg-border" />
@@ -136,7 +134,7 @@ export const ShareCollectionButton = ({ collectionId, userId, collectionName }: 
               <span className="text-sm">More</span>
             </Button>
           )}
-        </div>
+        </div> */}
       </PopoverContent>
     </Popover>
   );
