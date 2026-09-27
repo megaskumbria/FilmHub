@@ -16,9 +16,12 @@ import {
 import { cn } from "@/shared/lib/utils";
 import { useAuthStore } from "@/features/auth";
 import { changeEmailSchema, type ChangeEmailSchema } from "../model/change-email-schema";
+import { isEmailTakenError, useChangeEmail } from "../lib/useChangeEmail";
 
 export const ChangeEmailForm = () => {
   const storedEmail = useAuthStore((state) => state.user.email) ?? "";
+
+  const { mutate: changeEmail, isPending: isChangingEmail } = useChangeEmail();
 
   const form = useForm<ChangeEmailSchema>({
     resolver: zodResolver(changeEmailSchema),
@@ -28,9 +31,17 @@ export const ChangeEmailForm = () => {
 
   useEffect(() => form.reset({ email: storedEmail }), [storedEmail, form]);
 
-  const emailUnchanged = form.watch("email").trim() === storedEmail;
+  const handleSubmitForm = (data: ChangeEmailSchema): void => {
+    changeEmail(data.email, {
+      onError: (error) => {
+        if (!isEmailTakenError(error)) return;
+        form.setError("email", { message: "This email is already taken" });
+      },
+    });
+  };
 
-  const handleSubmitForm = () => undefined;
+  const emailUnchanged = form.watch("email").trim() === storedEmail;
+  const shouldDisableButton = emailUnchanged || !form.formState.isValid || isChangingEmail;
 
   return (
     <Form {...form}>
@@ -64,10 +75,10 @@ export const ChangeEmailForm = () => {
                     type="submit"
                     variant="outline"
                     size="sm"
-                    disabled={emailUnchanged || !form.formState.isValid}
+                    disabled={shouldDisableButton}
                     className="shrink-0 rounded-lg border-border px-4 text-sm text-foreground transition-colors hover:border-accent/40 hover:bg-accent/5 disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    <span>Save</span>
+                    <span>{isChangingEmail ? "Saving..." : "Save"}</span>
                   </Button>
                 </div>
 
