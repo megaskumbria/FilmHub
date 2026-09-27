@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -19,7 +19,6 @@ import { changeEmailSchema, type ChangeEmailSchema } from "../model/change-email
 
 export const ChangeEmailForm = () => {
   const storedEmail = useAuthStore((state) => state.user.email) ?? "";
-  const [prevStoredEmail, setPrevStoredEmail] = useState(storedEmail);
 
   const form = useForm<ChangeEmailSchema>({
     resolver: zodResolver(changeEmailSchema),
@@ -27,12 +26,9 @@ export const ChangeEmailForm = () => {
     mode: "onChange",
   });
 
-  if (storedEmail !== prevStoredEmail) {
-    setPrevStoredEmail(storedEmail);
-    form.reset({ email: storedEmail });
-  }
+  useEffect(() => form.reset({ email: storedEmail }), [storedEmail, form]);
 
-  const emailUnchanged = form.watch("email").trim() === storedEmail; // ?
+  const emailUnchanged = form.watch("email").trim() === storedEmail;
 
   const handleSubmitForm = () => undefined;
 
