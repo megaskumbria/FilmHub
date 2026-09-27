@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { Camera, Lock, User, Eye, EyeOff, Shield, AlertTriangle } from "lucide-react";
-import { Button, Input, Label, Separator, Switch, Avatar, AvatarFallback } from "@/shared/ui";
+import { useState } from "react";
+import { Lock, Eye, EyeOff, Shield, AlertTriangle } from "lucide-react";
+import { Button, Input, Label, Separator, Switch } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
+import { useAuthStore } from "@/features/auth";
 
 function SectionHeader({
   icon,
@@ -36,11 +37,21 @@ function FieldRow({ label, children }: { label: string; children: React.ReactNod
   );
 }
 
-export const AccountSettings = () => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  const [nickname, setNickname] = useState("@pavel");
-  const [email, setEmail] = useState("pavel@example.com");
+export const AccountSettings = () => {
+  const storedEmail = useAuthStore((state) => state.user.email) ?? "";
+  const [email, setEmail] = useState(storedEmail);
+  const [prevStoredEmail, setPrevStoredEmail] = useState(storedEmail);
+
+  if (storedEmail !== prevStoredEmail) {
+    setPrevStoredEmail(storedEmail);
+    setEmail(storedEmail);
+  }
+
+  const trimmedEmail = email.trim();
+  const emailInvalid = trimmedEmail.length > 0 && !isValidEmail(trimmedEmail);
+  const emailUnchanged = trimmedEmail === storedEmail;
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -57,189 +68,128 @@ export const AccountSettings = () => {
   return (
     <div className="h-full overflow-y-auto drawer-scroll">
       <div className="p-7 flex flex-col gap-8">
-        {/* Avatar */}
-        <section>
-          <SectionHeader
-            icon={<Camera className="size-4" />}
-            title="Avatar"
-            description="Shown on your profile and next to your collections"
-          />
-          <div className="flex items-center gap-5">
-            <div className="relative group">
-              <Avatar className="size-16">
-                <AvatarFallback className="text-base font-bold text-white bg-accent/80">
-                  PV
-                </AvatarFallback>
-              </Avatar>
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-              >
-                <Camera className="size-4 text-white" />
-              </button>
-              <input ref={fileInputRef} type="file" accept="image/*" className="hidden" />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => fileInputRef.current?.click()}
-                className="rounded-lg border-border text-sm text-foreground hover:border-accent/40 hover:bg-accent/5 transition-colors"
-              >
-                <span>Upload photo</span>
-              </Button>
-              <Button
-                size="sm"
-                className="rounded-lg text-sm text-zinc-muted hover:text-destructive transition-colors"
-              >
-                <span>Remove</span>
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        <Separator />
-
-        {/* Identity */}
-        <section>
-          <SectionHeader
-            icon={<User className="size-4" />}
-            title="Profile"
-            description="Your nickname and email are visible publicly"
-          />
-          <div className="flex flex-col gap-4">
-            <FieldRow label="Nickname">
-              <div className="flex gap-2">
-                <Input
-                  variant="neutral"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                  placeholder="@nickname"
-                  className="h-9 text-sm"
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="shrink-0 rounded-lg border-border text-sm text-foreground hover:border-accent/40 hover:bg-accent/5 transition-colors px-4"
-                >
-                  <span>Save</span>
-                </Button>
-              </div>
-            </FieldRow>
-
-            <FieldRow label="Email">
-              <div className="flex gap-2">
-                <Input
-                  variant="neutral"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="email@example.com"
-                  className="h-9 text-sm"
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="shrink-0 rounded-lg border-border text-sm text-foreground hover:border-accent/40 hover:bg-accent/5 transition-colors px-4"
-                >
-                  <span>Save</span>
-                </Button>
-              </div>
-            </FieldRow>
-          </div>
-        </section>
-
-        <Separator />
-
-        {/* Password */}
         <section>
           <SectionHeader
             icon={<Lock className="size-4" />}
             title="Security"
-            description="Change your account password"
+            description="Email and password used to sign in"
           />
-          <div className="flex flex-col gap-4">
-            <FieldRow label="Current">
-              <div className="relative">
-                <Input
-                  variant="neutral"
-                  type={showCurrentPwd ? "text" : "password"}
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  placeholder="Current password"
-                  className="h-9 text-sm pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowCurrentPwd((p) => !p)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-muted hover:text-foreground transition-colors"
-                >
-                  {showCurrentPwd ?
-                    <EyeOff className="size-4" />
-                  : <Eye className="size-4" />}
-                </button>
+          <div className="flex flex-col gap-8">
+            <FieldRow label="Email">
+              <div>
+                <div className="flex gap-2">
+                  <Input
+                    variant="neutral"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="email@example.com"
+                    className={cn(
+                      "h-9 text-sm",
+                      emailInvalid && "border-destructive/60 focus-visible:border-destructive/80",
+                    )}
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={emailUnchanged || emailInvalid || trimmedEmail.length === 0}
+                    className="shrink-0 rounded-lg border-border text-sm text-foreground hover:border-accent/40 hover:bg-accent/5 transition-colors px-4 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <span>Save</span>
+                  </Button>
+                </div>
+                {emailInvalid && (
+                  <p className="text-sm text-destructive mt-1.5">Enter a valid email</p>
+                )}
               </div>
             </FieldRow>
 
-            <FieldRow label="New">
-              <div className="relative">
-                <Input
-                  variant="neutral"
-                  type={showNewPwd ? "text" : "password"}
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="New password"
-                  className="h-9 text-sm pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowNewPwd((p) => !p)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-muted hover:text-foreground transition-colors"
-                >
-                  {showNewPwd ?
-                    <EyeOff className="size-4" />
-                  : <Eye className="size-4" />}
-                </button>
-              </div>
-            </FieldRow>
+            <Separator />
 
-            <FieldRow label="Confirm">
-              <div className="relative">
-                <Input
-                  variant="neutral"
-                  type={showRepeatPwd ? "text" : "password"}
-                  value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
-                  placeholder="Confirm password"
-                  className={cn(
-                    "h-9 text-sm pr-10",
-                    passwordMismatch && "border-destructive/60 focus-visible:border-destructive/80",
-                  )}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowRepeatPwd((p) => !p)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-muted hover:text-foreground transition-colors"
-                >
-                  {showRepeatPwd ?
-                    <EyeOff className="size-4" />
-                  : <Eye className="size-4" />}
-                </button>
-              </div>
-              {passwordMismatch && (
-                <p className="text-sm text-destructive mt-1.5">Passwords do not match</p>
-              )}
-            </FieldRow>
+            <div className="flex flex-col gap-4">
+              <FieldRow label="Current">
+                <div className="relative">
+                  <Input
+                    variant="neutral"
+                    type={showCurrentPwd ? "text" : "password"}
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    placeholder="Current password"
+                    className="h-9 text-sm pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrentPwd((p) => !p)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-muted hover:text-foreground transition-colors"
+                  >
+                    {showCurrentPwd ?
+                      <EyeOff className="size-4" />
+                    : <Eye className="size-4" />}
+                  </button>
+                </div>
+              </FieldRow>
 
-            <div className="flex justify-end mt-1">
-              <Button
-                variant="accent"
-                size="sm"
-                disabled={!currentPassword || !newPassword || !repeatPassword || passwordMismatch}
-                className="rounded-lg text-sm px-5 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <span>Update password</span>
-              </Button>
+              <FieldRow label="New">
+                <div className="relative">
+                  <Input
+                    variant="neutral"
+                    type={showNewPwd ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="New password"
+                    className="h-9 text-sm pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPwd((p) => !p)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-muted hover:text-foreground transition-colors"
+                  >
+                    {showNewPwd ?
+                      <EyeOff className="size-4" />
+                    : <Eye className="size-4" />}
+                  </button>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Confirm">
+                <div className="relative">
+                  <Input
+                    variant="neutral"
+                    type={showRepeatPwd ? "text" : "password"}
+                    value={repeatPassword}
+                    onChange={(e) => setRepeatPassword(e.target.value)}
+                    placeholder="Confirm password"
+                    className={cn(
+                      "h-9 text-sm pr-10",
+                      passwordMismatch
+                        && "border-destructive/60 focus-visible:border-destructive/80",
+                    )}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowRepeatPwd((p) => !p)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-muted hover:text-foreground transition-colors"
+                  >
+                    {showRepeatPwd ?
+                      <EyeOff className="size-4" />
+                    : <Eye className="size-4" />}
+                  </button>
+                </div>
+                {passwordMismatch && (
+                  <p className="text-sm text-destructive mt-1.5">Passwords do not match</p>
+                )}
+              </FieldRow>
+
+              <div className="flex justify-end mt-1">
+                <Button
+                  variant="accent"
+                  size="sm"
+                  disabled={!currentPassword || !newPassword || !repeatPassword || passwordMismatch}
+                  className="rounded-lg text-sm px-5 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <span>Update password</span>
+                </Button>
+              </div>
             </div>
           </div>
         </section>

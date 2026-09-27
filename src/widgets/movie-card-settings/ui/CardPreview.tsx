@@ -19,7 +19,7 @@ export const CardPreview = () => {
         Preview
       </p>
 
-      <div className="max-w-[270px] w-full">
+      <div className="max-w-67.5 w-full">
         <PosterUpload media={mediaPreviewInfo} />
       </div>
 
@@ -43,7 +43,7 @@ export const CardPreview = () => {
         ))}
       </div>
 
-      <p className="relative text-xs text-zinc-muted/40 text-center max-w-[190px] leading-relaxed">
+      <p className="relative text-xs text-zinc-muted/40 text-center max-w-47.5 leading-relaxed">
         Toggle blocks on or off for each card zone
       </p>
     </section>

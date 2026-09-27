@@ -166,11 +166,7 @@ export const CollectionsToolbar = ({
           </>
         )}
 
-        <ShareCollectionButton
-          collectionId={id ?? ""}
-          userId={userId}
-          collectionName={collectionName}
-        />
+        <ShareCollectionButton collectionId={id ?? ""} userId={userId} />
         {/* <CollectionComments /> */}
       </div>
     </div>

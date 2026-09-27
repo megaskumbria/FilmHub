@@ -1,5 +1,6 @@
 export { useWindowFileDrag } from "./useWindowFileDrag";
 export { useIsMobile } from "./use-mobile";
+export { useIsDesktop } from "./useDesktop";
 export { useThrottle } from "./use-throttle";
 export { useIntersectionObserver } from "./useIntersectionObserver";
 export { useInfiniteMedia } from "./useInfiniteMedia";

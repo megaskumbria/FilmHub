@@ -27,10 +27,6 @@ export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
 
   const { mutate: shareCollection } = useShareCollection();
 
-  // useEffect(() => {
-  //   setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function");
-  // }, []);
-
   useEffect(() => {
     if (!copied) return;
     const timeout = setTimeout(() => setCopied(false), 2000);
@@ -38,10 +34,6 @@ export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
   }, [copied]);
 
   const shareUrl = getCollectionShareUrl({ userId, collectionId });
-
-  // const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}${
-  //   collectionName ? `&text=${encodeURIComponent(collectionName)}` : ""
-  // }`;
 
   const handleCopy = async (): Promise<void> => {
     try {
@@ -55,10 +47,6 @@ export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
       toast.error("Failed to copy link", { position: "bottom-left" });
     }
   };
-
-  // const handleNativeShare = async (): Promise<void> => {
-  //   await navigator.share({ title: collectionName, url: shareUrl });
-  // };
 
   return (
     <Popover>
@@ -106,35 +94,6 @@ export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
             : <Copy className="size-4" />}
           </Button>
         </div>
-
-        {/* <div className="my-3 flex items-center gap-2">
-          <Separator className="flex-1 bg-border" />
-          <span className="text-xs text-zinc-muted">or share via</span>
-          <Separator className="flex-1 bg-border" />
-        </div>
-
-        <div className="flex items-center gap-2">
-          <a
-            href={telegramShareUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-1 items-center justify-center gap-2 h-9 rounded-lg border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted transition-colors duration-200"
-          >
-            <TelegramIcon className="size-4" />
-            <span className="text-sm">Telegram</span>
-          </a>
-
-          {canNativeShare && (
-            <Button
-              size="sm"
-              onClick={() => void handleNativeShare()}
-              className="flex-1 justify-center gap-2 h-9 rounded-lg border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted transition-colors duration-200"
-            >
-              <Share2 className="size-4" />
-              <span className="text-sm">More</span>
-            </Button>
-          )}
-        </div> */}
       </PopoverContent>
     </Popover>
   );

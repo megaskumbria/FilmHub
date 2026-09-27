@@ -21,8 +21,13 @@ import { MOVIE_CARD_LAYOUT_KEY } from "@/shared/storages/storage-keys";
 import { BlockKey } from "@/shared/types/movie-card-blocks";
 import { HelpCircle, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/shared/lib/utils";
 
-export const ZonesPanel = () => {
+interface Props {
+  className?: string;
+}
+
+export const ZonesPanel = ({ className }: Props) => {
   const { layout, setLayout, blockOptions, setBlockOption } = useMovieCardLayout();
 
   const handleChecked = (zone: ZoneKey, blockId: string, checked: boolean) => {
@@ -46,7 +51,7 @@ export const ZonesPanel = () => {
   };
 
   return (
-    <section className="flex flex-col border-r border-border bg-surface min-h-0 ">
+    <section className={cn("flex flex-col border-r border-border bg-surface min-h-0", className)}>
       <div className="flex items-center justify-between px-5 pt-5 pb-4">
         <h3 className="text-xs font-semibold text-zinc-muted tracking-widest uppercase">
           Card zones

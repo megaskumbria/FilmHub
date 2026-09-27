@@ -1,17 +1,16 @@
 "use client";
 
-import { Button, Separator } from "@/shared/ui";
-import { DialogHeader, DialogTitle } from "@/shared/ui/dialog";
-import { MenuKey } from "../lib/types";
+import { Button, Separator, DialogHeader, DialogTitle } from "@/shared/ui";
+import { type MenuKey } from "../lib/types";
 import { MENU_ITEMS } from "../model/menu-items";
 import { cn } from "@/shared/lib/utils";
 
-interface SidebarSettingsModalProps {
+interface Props {
   activeMenu: MenuKey;
   setActiveMenu: (menu: MenuKey) => void;
 }
 
-export const SidebarSettingsModal = ({ activeMenu, setActiveMenu }: SidebarSettingsModalProps) => {
+export const SidebarSettingsModal = ({ activeMenu, setActiveMenu }: Props) => {
   return (
     <aside className="w-56 shrink-0 flex flex-col border-r border-border bg-surface-subtle">
       <DialogHeader className="px-5 pt-5 pb-4">
@@ -28,11 +27,10 @@ export const SidebarSettingsModal = ({ activeMenu, setActiveMenu }: SidebarSetti
             key={key}
             onClick={() => setActiveMenu(key)}
             className={cn(
-              "relative flex items-center gap-3 w-full px-3 py-2.5 rounded-lg transition-colors overflow-hidden",
-              activeMenu === key
-                && "bg-accent/10 text-accent border border-accent/20 hover:bg-accent/10",
-              activeMenu !== key
-                && "text-zinc-muted hover:bg-border/50 hover:text-zinc-light border border-transparent",
+              "relative flex items-center justify-start gap-3 w-full px-3 py-2.5 rounded-lg transition-colors overflow-hidden",
+              activeMenu === key ?
+                "bg-accent/10 text-accent border border-accent/20 hover:bg-accent/10"
+              : "text-zinc-muted hover:bg-border/50 hover:text-zinc-light border border-transparent",
             )}
           >
             {activeMenu === key && (
