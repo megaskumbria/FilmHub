@@ -6,8 +6,9 @@ import { toast } from "sonner";
 import { useAuthStore } from "@/features/auth";
 import { type ApiFieldError } from "@/shared/types/api-error-types";
 
-export const isEmailTakenError = (error: unknown) =>
-  axios.isAxiosError<ApiFieldError>(error) && error.response?.data.status === "EMAIL_EXISTS";
+export const isEmailTakenError = (error: unknown) => {
+  return axios.isAxiosError<ApiFieldError>(error) && error.response?.data.status === "EMAIL_EXISTS";
+};
 
 export const useChangeEmail = () => {
   return useMutation({

@@ -17,11 +17,18 @@ import {
 import { cn } from "@/shared/lib/utils";
 import { changePasswordSchema, type ChangePasswordSchema } from "../model/change-password-schema";
 import { passwordFields } from "../model/password-fields";
+import {
+  isPasswordIncorrectError,
+  isSamePasswordError,
+  useChangePassword,
+} from "../lib/useChangePassword";
 
 type PasswordField = keyof ChangePasswordSchema;
 
 export const ChangePasswordForm = () => {
   const [visibleField, setVisibleField] = useState<PasswordField | null>(null);
+
+  const { mutate: changePassword, isPending: isChangingPassword } = useChangePassword();
 
   const toggleVisibility = (field: PasswordField): void => {
     setVisibleField((current) => (current === field ? null : field));
@@ -33,7 +40,34 @@ export const ChangePasswordForm = () => {
     mode: "onChange",
   });
 
-  const handleSubmitForm = () => undefined;
+  const handleSubmitForm = (data: ChangePasswordSchema) => {
+    const { currentPassword, newPassword } = data;
+
+    changePassword(
+      { currentPassword, newPassword },
+      {
+        onError: (error) => {
+          if (isPasswordIncorrectError(error)) {
+            form.setError("currentPassword", { message: "Current password is incorrect" });
+          }
+
+          if (isSamePasswordError(error)) {
+            form.setError("newPassword", {
+              message: "New password must be different from current password",
+            });
+          }
+        },
+        onSuccess: () => {
+          form.reset();
+        },
+        onSettled: () => {
+          setVisibleField(null);
+        },
+      },
+    );
+  };
+
+  const shouldDisableButton = !form.formState.isValid || isChangingPassword;
 
   return (
     <Form {...form}>
@@ -54,7 +88,7 @@ export const ChangePasswordForm = () => {
 
               return (
                 <FormItem className="flex items-center gap-4">
-                  <FormLabel className="w-28 shrink-0 text-right text-sm text-zinc-muted">
+                  <FormLabel className="w-28 shrink-0 text-right text-sm text-zinc-muted data-[error=true]:text-zinc-muted">
                     {label}
                   </FormLabel>
 
@@ -74,6 +108,7 @@ export const ChangePasswordForm = () => {
                         />
 
                         <Button
+                          type="button"
                           onClick={() => toggleVisibility(name)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-muted transition-colors hover:text-foreground"
                         >
@@ -97,10 +132,10 @@ export const ChangePasswordForm = () => {
             type="submit"
             variant="accent"
             size="sm"
-            disabled={!form.formState.isValid}
+            disabled={shouldDisableButton}
             className="rounded-lg px-5 text-sm"
           >
-            <span>Update password</span>
+            <span>{isChangingPassword ? "Updating..." : "Update password"}</span>
           </Button>
         </div>
       </form>
