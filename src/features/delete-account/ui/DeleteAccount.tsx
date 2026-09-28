@@ -1,5 +1,6 @@
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/shared/ui";
+import { DeleteAccountModal } from "./DeleteAccountModal";
 
 export const DeleteAccount = () => {
   return (
@@ -12,12 +13,14 @@ export const DeleteAccount = () => {
         </div>
       </div>
 
-      <Button
-        size="sm"
-        className="shrink-0 rounded-lg border border-destructive/40 text-destructive hover:bg-destructive/10 hover:border-destructive/60 transition-colors px-4 text-sm"
-      >
-        <span>Delete</span>
-      </Button>
+      <DeleteAccountModal>
+        <Button
+          size="sm"
+          className="shrink-0 rounded-lg border border-destructive/40 text-destructive hover:bg-destructive/10 hover:border-destructive/60 transition-colors px-4 text-sm"
+        >
+          <span>Delete</span>
+        </Button>
+      </DeleteAccountModal>
     </div>
   );
 };
