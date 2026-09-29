@@ -4,9 +4,9 @@ import { BlockOptions, useMovieCardLayout } from "@/shared/stores/movie-card-lay
 import { Media } from "@/shared/stores/movie-catalog";
 
 interface Props {
-  flagPreview?: boolean;
   disableNavigation?: boolean;
   media: Media | null;
+  flagPreview?: boolean;
 }
 
 export const PosterUpload = ({ flagPreview = false, disableNavigation = false, media }: Props) => {

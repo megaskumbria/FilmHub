@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { MOVIE_CARD_LAYOUT_KEY } from "@/shared/storages/storage-keys";
 import { ZoneKey } from "@/widgets/movie-card-settings/lib/types";
 import { persist } from "zustand/middleware";
-import { BlockKey } from "@/shared/types/movie-card-blocks";
+import { BlockKey } from "@/shared/types/movie-card-block-key";
 
 interface MovieCardLayoutStore {
   layout: Layout;

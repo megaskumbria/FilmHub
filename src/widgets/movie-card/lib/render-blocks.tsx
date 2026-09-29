@@ -1,5 +1,5 @@
 import { Media } from "@/shared/stores/movie-catalog";
-import { BlockKey } from "@/shared/types/movie-card-blocks";
+import { BlockKey } from "@/shared/types/movie-card-block-key";
 import { BlockPlacement } from "../model/cardBlocksMap";
 import { cardBlocksMap } from "../model/cardBlocksMap";
 import { Fragment } from "react";

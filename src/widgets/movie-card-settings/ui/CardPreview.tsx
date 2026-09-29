@@ -20,7 +20,7 @@ export const CardPreview = () => {
       </p>
 
       <div className="max-w-67.5 w-full">
-        <PosterUpload media={mediaPreviewInfo} />
+        <PosterUpload flagPreview={true} media={mediaPreviewInfo} />
       </div>
 
       <div className="relative flex items-center gap-2">

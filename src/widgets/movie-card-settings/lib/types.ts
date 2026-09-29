@@ -1,4 +1,4 @@
-import { BlockKey } from "@/shared/types/movie-card-blocks";
+import { BlockKey } from "@/shared/types/movie-card-block-key";
 
 export interface ZoneBlockSubOption {
   id: string;

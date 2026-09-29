@@ -1,5 +1,7 @@
+"use client";
+
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
-import { FlagBadge } from "@/entities/flag-badge/ui/FlagBadge";
+import { FlagBadge } from "@/entities";
 import { flagSoftBackground } from "@/shared/lib";
 import { FolderOpen } from "lucide-react";
 import { DotGrid, InlineSvg } from "@/shared/ui";
@@ -45,7 +47,7 @@ export const FlagPreview = memo(() => {
             backgroundColor: selectedColorBg,
             borderColor: selectedColor,
             textShadow: "0 1px 2px rgba(0, 0, 0, 0.8)",
-            fontFamily: selectedFont || "Manrope",
+            fontFamily: selectedFont,
           }}
         >
           {svgContent && <InlineSvg svg={svgContent} className="size-8 shrink-0" />}
@@ -63,12 +65,11 @@ export const FlagPreview = memo(() => {
 
           <FlagBadge
             flagItem={{
-              flagName: flagName || "New flag",
+              flagName,
               color: selectedColor,
               bgOpacity,
-              fontFamily: selectedFont || "Manrope",
+              fontFamily: selectedFont,
             }}
-            svgContent={svgContent}
           />
         </div>
       </div>
