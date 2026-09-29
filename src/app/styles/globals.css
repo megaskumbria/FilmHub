@@ -174,6 +174,13 @@
   }
 }
 
+@utility text-shadow-flag {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0 6px rgba(0, 0, 0, 0.75),
+    0 0 1px rgba(0, 0, 0, 1);
+}
+
 @keyframes dice-roll {
   0% {
     transform: rotate(0deg) scale(1);

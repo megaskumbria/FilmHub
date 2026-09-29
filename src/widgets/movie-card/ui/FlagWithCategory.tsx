@@ -11,7 +11,7 @@ interface Props {
 export const FlagWithCategory = ({ categoryName, showCategory, children }: Props) => {
   return showCategory ?
       <div className="flex flex-col gap-1">
-        <h4 className="text-[10px] font-extrabold text-zinc-muted uppercase tracking-widest drop-shadow-sm">
+        <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-white text-shadow-flag">
           {categoryName}
         </h4>
 
