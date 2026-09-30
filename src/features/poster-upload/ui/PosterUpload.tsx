@@ -1,5 +1,5 @@
 import { MovieCardPlaceholder } from "@/widgets/movie-card-settings";
-import { MediaCard } from "@/widgets/movie-card";
+import { MediaCard } from "@/widgets";
 import { BlockOptions, useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { Media } from "@/shared/stores/movie-catalog";
 
