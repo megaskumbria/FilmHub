@@ -3,13 +3,15 @@
 import { ChevronDown, Plus } from "lucide-react";
 import { FlagListItem, FlagCategoryActions } from "@/features";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { Input, AccordionItem, AccordionContent } from "@/shared/ui";
+import { Input, Button, AccordionItem, AccordionContent } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { type FlagItem, useRenameCategory } from "@/shared/hooks";
 import { FlagBadge } from "@/entities";
 import { useCreationFlagStore } from "@/features/creation-flag";
 import { type MouseEvent } from "react";
 import { useShallow } from "zustand/shallow";
+
+const MAX_FLAGS_PER_CATEGORY = 6;
 
 interface Props {
   flags: FlagItem[];
@@ -58,11 +60,16 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
     updatedAt: "",
   };
 
+  const isFlagLimitReached = flags.length >= MAX_FLAGS_PER_CATEGORY;
+
   const hasOptimisticFlag = flags.some((flag) => flag.id === "__optimistic__");
   const shouldShowGhostFlag = isCreatingNew && category.id === categoryId && !hasOptimisticFlag;
   const isEditing = editingCategoryId === categoryId;
 
-  const handleAddFlag = (category: { name: string; id: string }, e: MouseEvent<HTMLDivElement>) => {
+  const handleAddFlag = (
+    category: { name: string; id: string },
+    e: MouseEvent<HTMLButtonElement>,
+  ) => {
     const accordionItem = e.currentTarget.closest('[data-slot="accordion-item"]');
     const trigger = accordionItem?.querySelector('[data-slot="accordion-trigger"]');
 
@@ -127,18 +134,24 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
                 onDropdownClose={focusInputIfPending}
               />
 
-              <span className="px-1.5 w-6 h-6 py-0.5 flex items-center justify-center rounded text-sm font-medium tabular-nums text-zinc-muted bg-white/6 border border-border/30">
-                {flags.length}
+              <span
+                data-limit={isFlagLimitReached}
+                className="px-1.5 h-6 min-w-6 flex items-center justify-center rounded text-sm font-medium tabular-nums border border-border/30 bg-white/6 text-zinc-muted data-[limit=true]:border-accent/35 data-[limit=true]:bg-accent/10 data-[limit=true]:text-accent"
+              >
+                {flags.length}/{MAX_FLAGS_PER_CATEGORY}
               </span>
 
-              <div
+              <Button
+                type="button"
+                variant="transparent"
+                size="none"
                 data-active={category.id === categoryId && isCreatingNew}
-                role="button"
                 className="w-6 h-6 data-[active=true]:text-accent data-[active=true]:border-accent/40 data-[active=true]:bg-accent/10 flex items-center justify-center shrink-0 rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-accent hover:border-accent/40 hover:bg-accent/10 transition-colors"
                 onClick={(e) => handleAddFlag({ name: categoryName, id: categoryId }, e)}
+                disabled={isFlagLimitReached}
               >
                 <Plus className="size-5" />
-              </div>
+              </Button>
             </div>
 
             <ChevronDown className="text-zinc-muted/60 pointer-events-none size-4 shrink-0 transition-transform duration-200 group-data-[state=open]/trigger:rotate-180" />

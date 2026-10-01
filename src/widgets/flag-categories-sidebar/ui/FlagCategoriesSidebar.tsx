@@ -26,7 +26,7 @@ export const FlagCategoriesSidebar = memo(() => {
         />
       </nav>
 
-      <div className="overflow-y-auto max-h-[540px] scrollbar-minimal">
+      <div className="overflow-y-auto max-h-135 scrollbar-minimal">
         <FlagCategoryAccordion searchQuery={debouncedSearch} sortBy={sortBy} />
       </div>
     </aside>
