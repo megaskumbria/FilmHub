@@ -57,9 +57,9 @@ export const FlagGroup = ({
           <FlagBadge flagItem={flagItem} categoryName={category.name} />
         </FlagWithCategory>
       : <>
-          {flagsData.map(({ flags, categoryName }) => {
+          {flagsData.map(({ flags, categoryName, flagsCount }) => {
             return flags.map((flag, index) => {
-              const { id } = flag;
+              const { id, position } = flag;
 
               return (
                 <FlagWithCategory
@@ -67,7 +67,12 @@ export const FlagGroup = ({
                   categoryName={categoryName}
                   showCategory={showCategories}
                 >
-                  <FlagBadge flagItem={flag} categoryName={categoryName} />
+                  <FlagBadge
+                    flagItem={flag}
+                    categoryName={categoryName}
+                    level={position + 1}
+                    total={flagsCount}
+                  />
                 </FlagWithCategory>
               );
             });

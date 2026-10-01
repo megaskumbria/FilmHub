@@ -26,10 +26,7 @@ export interface FlagItem {
 export interface FlagData {
   id: string;
   categoryName: string;
-  position: number;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
+  flagsCount: number;
 
   flags: FlagItem[];
 }

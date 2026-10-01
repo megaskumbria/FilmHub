@@ -42,6 +42,12 @@ export const useSetMediaFlags = () => {
         }),
       );
 
+      const cachedCategory = previousFlags
+        .flatMap(([, data]) => data ?? [])
+        .find((category) => category.id === categoryId);
+
+      const flagsCount = cachedCategory?.flagsCount ?? cachedCategory?.flags.length ?? 0;
+
       queryClient.setQueriesData<Media[]>({ queryKey: ["media-collection"] }, (old) =>
         old?.map((media) => {
           if (media.id !== mediaId) return media;
@@ -58,10 +64,7 @@ export const useSetMediaFlags = () => {
           const updatedCategory: FlagData = {
             id: categoryId,
             categoryName,
-            position: 0,
-            userId: flag.userId,
-            createdAt: "",
-            updatedAt: "",
+            flagsCount,
             flags: [{ ...flag, isUsed: true }],
           };
 

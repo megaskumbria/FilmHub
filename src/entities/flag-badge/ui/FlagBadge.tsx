@@ -4,6 +4,7 @@ import { flagSoftBackground, loadFont } from "@/shared/lib";
 import { FlagItem } from "@/shared/hooks";
 import { InlineSvg } from "@/shared/ui";
 import { useEffect } from "react";
+import { LevelDots } from "./LevelDots";
 
 type FlagItemData = Pick<
   FlagItem,
@@ -13,10 +14,14 @@ type FlagItemData = Pick<
 interface Props {
   flagItem: FlagItemData;
   categoryName?: string | null;
+  level?: number;
+  total?: number;
 }
 
-export const FlagBadge = ({ flagItem, categoryName }: Props) => {
+export const FlagBadge = ({ flagItem, categoryName, level, total }: Props) => {
   const { flagName, color, bgOpacity, fontFamily, svgContent } = flagItem;
+
+  const shouldShowLevel = level !== undefined && total !== undefined && total > 1;
 
   const computedBg = flagSoftBackground(color, bgOpacity);
 
@@ -45,7 +50,11 @@ export const FlagBadge = ({ flagItem, categoryName }: Props) => {
       >
         {svgContent && <InlineSvg svg={svgContent} className="size-5 shrink-0" />}
 
-        {flagName}
+        <span className="flex flex-col items-start gap-1">
+          <span className="leading-tight">{flagName}</span>
+
+          {shouldShowLevel && <LevelDots level={level} total={total} />}
+        </span>
       </span>
 
       <svg
@@ -66,7 +75,7 @@ export const FlagBadge = ({ flagItem, categoryName }: Props) => {
 
       <span
         aria-hidden
-        className="absolute right-2 top-1/2 -translate-y-1/2 w-[5px] h-[5px] rounded-full opacity-75"
+        className="absolute right-2 top-1/2 -translate-y-1/2 w-1.25 h-1.25 rounded-full opacity-75"
         style={{ backgroundColor: color }}
       />
     </span>

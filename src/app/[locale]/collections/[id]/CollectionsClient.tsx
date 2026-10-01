@@ -39,8 +39,6 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
     debouncedSearchTerm,
   } = useCollectionMedia({ userId, isMyProfile, collectionId });
 
-  console.log(collections);
-
   const {
     isEditMode,
     selectedIds,
@@ -57,6 +55,8 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
     activeCollectionId,
     isMyProfile,
   });
+
+  console.log(mediaItems);
 
   return (
     <div className="max-w-410 min-h-screen w-full mx-auto px-6 pt-20 pb-16">
