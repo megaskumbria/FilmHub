@@ -6,10 +6,7 @@ import { InlineSvg } from "@/shared/ui";
 import { useEffect } from "react";
 import { LevelDots } from "./LevelDots";
 
-type FlagItemData = Pick<
-  FlagItem,
-  "flagName" | "color" | "bgOpacity" | "fontFamily" | "svgContent"
->;
+type FlagItemData = Pick<FlagItem, "flagName" | "color" | "bgOpacity" | "fontFamily" | "icon">;
 
 interface Props {
   flagItem: FlagItemData;
@@ -19,7 +16,9 @@ interface Props {
 }
 
 export const FlagBadge = ({ flagItem, categoryName, level, total }: Props) => {
-  const { flagName, color, bgOpacity, fontFamily, svgContent } = flagItem;
+  const { flagName, color, bgOpacity, fontFamily, icon } = flagItem;
+
+  const { svgContent } = icon ?? {};
 
   const shouldShowLevel = level !== undefined && total !== undefined && total > 1;
 

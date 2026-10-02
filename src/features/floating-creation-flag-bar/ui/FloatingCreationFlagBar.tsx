@@ -49,14 +49,16 @@ export const FloatingCreationFlagBar = () => {
       color: selectedColor,
       bgOpacity,
       fontFamily: selectedFont,
-      iconId: selectedIcon?.iconId,
       categoryId: category.id,
     };
 
     if (editingFlagId) {
-      editFlag({ flagId: editingFlagId, ...payload }, { onSuccess: () => cancelCreationFlag() });
+      editFlag(
+        { flagId: editingFlagId, ...payload, iconId: selectedIcon?.iconId },
+        { onSuccess: () => cancelCreationFlag() },
+      );
     } else {
-      createFlag(payload, { onSuccess: () => cancelCreationFlag() });
+      createFlag({ ...payload, icon: selectedIcon }, { onSuccess: () => cancelCreationFlag() });
     }
   };
 

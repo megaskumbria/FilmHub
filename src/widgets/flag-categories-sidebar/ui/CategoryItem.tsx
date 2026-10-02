@@ -47,17 +47,11 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
   } = useRenameCategory();
 
   const ghostFlag = {
-    id: "__new__",
     flagName: flagName || "New flag",
     color: selectedColor,
     bgOpacity,
     fontFamily: selectedFont,
-    position: 0,
-    categoryId,
-    iconId: selectedIcon?.iconName,
-    userId: "",
-    createdAt: "",
-    updatedAt: "",
+    icon: selectedIcon,
   };
 
   const isFlagLimitReached = flags.length >= MAX_FLAGS_PER_CATEGORY;

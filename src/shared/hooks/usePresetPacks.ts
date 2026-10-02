@@ -1,6 +1,7 @@
 import { apiClient } from "../api/api-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
+import { type Icon } from "./useFlags";
 
 export interface PresetFlagItem {
   id: string;
@@ -9,9 +10,7 @@ export interface PresetFlagItem {
   bgOpacity: number;
   fontFamily: string;
 
-  iconId: string | null;
-  iconName: string | null;
-  svgContent: string;
+  icon: Icon | null;
 
   position: number;
 

@@ -32,17 +32,13 @@ export const FlagGroup = ({
   );
 
   const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } = flag;
-  const { svgContent } = selectedIcon ?? {};
 
   const flagItem = {
-    id: "0",
     flagName: flagName || "New flag",
     color: selectedColor,
     fontFamily: selectedFont,
-    iconId: selectedIcon,
-    svgContent: svgContent,
-    bgOpacity: bgOpacity,
-    position: 0,
+    bgOpacity,
+    icon: selectedIcon,
   };
 
   const shouldLift = placement === "poster" && hasHover;

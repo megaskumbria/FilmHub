@@ -4,6 +4,12 @@ import { API_URL } from "../api/config";
 import { toast } from "sonner";
 import { SortBy } from "@/widgets/flag-categories-sidebar";
 
+export interface Icon {
+  svgContent: string | null;
+  iconName: string | null;
+  iconId: string;
+}
+
 export interface FlagItem {
   id: string;
   flagName: string;
@@ -18,9 +24,7 @@ export interface FlagItem {
 
   isUsed: boolean | null;
 
-  iconId?: string | null;
-  iconName?: string | null;
-  svgContent?: string | null;
+  icon: Icon | null;
 }
 
 export interface FlagData {
@@ -133,7 +137,7 @@ interface CreateFlagArgs {
   color: string;
   bgOpacity: number;
   fontFamily: string;
-  iconId?: string | null;
+  icon?: Icon | null;
   categoryId: string;
 }
 
@@ -141,8 +145,11 @@ export const useCreateFlag = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (createFlagPayload: CreateFlagArgs) => {
-      const { data } = await apiClient.post<FlagItem>(`${API_URL}/flags/create`, createFlagPayload);
+    mutationFn: async ({ icon, ...createFlagPayload }: CreateFlagArgs) => {
+      const { data } = await apiClient.post<FlagItem>(`${API_URL}/flags/create`, {
+        ...createFlagPayload,
+        iconId: icon?.iconId ?? null,
+      });
       return data;
     },
 
@@ -165,7 +172,7 @@ export const useCreateFlag = () => {
               userId: "",
               createdAt: "",
               updatedAt: "",
-              iconId: newFlag.iconId ?? null,
+              icon: newFlag.icon ?? null,
             };
 
             return { ...category, flags: [...category.flags, optimisticFlag] };

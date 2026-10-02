@@ -69,6 +69,7 @@ export const FlagPreview = memo(() => {
               color: selectedColor,
               bgOpacity,
               fontFamily: selectedFont,
+              icon: selectedIcon,
             }}
           />
         </div>

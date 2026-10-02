@@ -9,7 +9,7 @@ interface Category {
 interface SelectedIcon {
   iconName: string | null;
   svgContent: string | null;
-  iconId: string | null;
+  iconId: string;
 }
 
 export interface FlagDraft {

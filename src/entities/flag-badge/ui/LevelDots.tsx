@@ -9,12 +9,7 @@ interface Props {
 
 export const LevelDots = ({ level, total }: Props) => {
   const safeLevel = Math.min(Math.max(level, 1), total);
-
   const dotsCount = Math.min(total, MAX_LEVEL_DOTS);
-  const filledCount =
-    total > MAX_LEVEL_DOTS ?
-      Math.max(1, Math.round((safeLevel / total) * MAX_LEVEL_DOTS))
-    : safeLevel;
 
   return (
     <span
@@ -26,10 +21,7 @@ export const LevelDots = ({ level, total }: Props) => {
         <span
           key={index}
           aria-hidden
-          className={cn(
-            "size-1.5 rounded-full bg-current",
-            index < filledCount ? "" : "opacity-30",
-          )}
+          className={cn("size-1.5 rounded-full bg-current", index < safeLevel ? "" : "opacity-30")}
         />
       ))}
     </span>

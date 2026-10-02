@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => {
-  const { flagName, color, bgOpacity, id, svgContent, iconName, iconId, fontFamily } = flagItem;
+  const { flagName, color, bgOpacity, id, icon, fontFamily } = flagItem;
 
   const { ref, isDragging } = useSortable({
     id,
@@ -38,17 +38,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
 
   const { mutate: deleteFlag, isPending: isDeleting } = useDeleteFlag();
 
-  // Fix me
-  const handleSelectFlag = (
-    flagName: string,
-    category: { name: string; id: string },
-    iconName: string,
-    color: string,
-    bgOpacity: number,
-    svgContent: string,
-    iconId: string | null,
-    fontFamily: string,
-  ) => {
+  const handleSelectFlag = () => {
     updateStateUi({ isCreatingNew: false, editingFlagId: id });
     addPresetColor(color);
     updateStateFlag({
@@ -56,7 +46,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
       selectedColor: color,
       bgOpacity,
       selectedFont: fontFamily,
-      selectedIcon: { iconName, svgContent, iconId },
+      selectedIcon: icon,
       category,
     });
   };
@@ -72,18 +62,7 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
         role="button"
         data-dragging={isDragging}
         data-active={isActive}
-        onClick={() =>
-          handleSelectFlag(
-            flagName,
-            category,
-            iconName ?? "",
-            color,
-            bgOpacity,
-            svgContent ?? "",
-            iconId ?? null,
-            fontFamily,
-          )
-        }
+        onClick={handleSelectFlag}
         className={cn(
           "data-[dragging=true]:bg-white/5 data-[active=true]:bg-white/6 group hover:bg-white/5 flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all select-none",
         )}
