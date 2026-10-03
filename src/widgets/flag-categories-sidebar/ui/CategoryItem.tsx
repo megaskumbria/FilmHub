@@ -154,23 +154,36 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
       </AccordionPrimitive.Header>
 
       <AccordionContent className="pb-0">
-        <ul className="flex flex-col gap-0.5">
-          {flags.map((flag, index) => (
-            <FlagListItem
-              key={flag.id}
-              flagItem={flag}
-              category={{ name: categoryName, id: categoryId }}
-              isActive={editingFlagId === flag.id}
-              index={index}
-            />
-          ))}
+        <div className="flex gap-1">
+          <ol aria-hidden className="flex shrink-0 flex-col gap-0.5">
+            {Array.from({ length: flags.length + (shouldShowGhostFlag ? 1 : 0) }, (_, index) => (
+              <li
+                key={index}
+                className="flex h-11 w-5 items-center justify-center text-sm font-medium tabular-nums text-zinc-muted select-none"
+              >
+                {index + 1}
+              </li>
+            ))}
+          </ol>
 
-          {shouldShowGhostFlag && (
-            <li className="hover:bg-white/5 flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all select-none">
-              <FlagBadge flagItem={ghostFlag} />
-            </li>
-          )}
-        </ul>
+          <ul className="flex min-w-0 flex-1 flex-col gap-0.5">
+            {flags.map((flag, index) => (
+              <FlagListItem
+                key={flag.id}
+                flagItem={flag}
+                category={{ name: categoryName, id: categoryId }}
+                isActive={editingFlagId === flag.id}
+                index={index}
+              />
+            ))}
+
+            {shouldShowGhostFlag && (
+              <li className="hover:bg-white/5 flex h-11 items-center justify-between gap-2 px-2 rounded-lg cursor-pointer transition-all select-none">
+                <FlagBadge flagItem={ghostFlag} />
+              </li>
+            )}
+          </ul>
+        </div>
       </AccordionContent>
     </AccordionItem>
   );

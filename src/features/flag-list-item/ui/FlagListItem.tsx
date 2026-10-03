@@ -57,14 +57,14 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
   };
 
   return (
-    <li ref={ref}>
+    <li ref={ref} className="h-11">
       <div
         role="button"
         data-dragging={isDragging}
         data-active={isActive}
         onClick={handleSelectFlag}
         className={cn(
-          "data-[dragging=true]:bg-white/5 data-[active=true]:bg-white/6 group hover:bg-white/5 flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all select-none",
+          "data-[dragging=true]:bg-white/5 data-[active=true]:bg-white/6 group hover:bg-white/5 flex h-full items-center justify-between gap-2 px-2 rounded-lg cursor-pointer transition-all select-none",
         )}
         style={isActive ? { boxShadow: `inset 0 0 0 1px ${color}40` } : undefined}
       >

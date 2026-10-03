@@ -44,7 +44,7 @@ export const CreateFlagCategory = () => {
       <div className="flex items-center gap-2.5 mb-3">
         <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
 
-        <span className="text-sm font-semibold text-foreground tracking-wide">Flag categories</span>
+        <span className="text-sm font-semibold text-foreground tracking-wide">Flag scales</span>
       </div>
 
       <Form {...form}>
@@ -58,7 +58,7 @@ export const CreateFlagCategory = () => {
                   <FormControl>
                     <Input
                       variant="neutral"
-                      placeholder="Category name..."
+                      placeholder="Scale name..."
                       className="text-sm h-8 flex-1"
                       {...field}
                     />

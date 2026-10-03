@@ -35,7 +35,7 @@ export const FlagPreview = memo(() => {
         <div className="flex items-center gap-1.5">
           <FolderOpen className="size-3.5 shrink-0" />
 
-          <span className="text-sm font-medium text-zinc-muted">Category:</span>
+          <span className="text-sm font-medium text-zinc-muted">Scale:</span>
 
           <span className="text-foreground font-medium">{category.name || "Not selected"}</span>
         </div>

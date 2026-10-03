@@ -25,7 +25,7 @@ export const FlagCategoriesFilter = ({
 
         <Input
           variant="neutral"
-          placeholder="Search categories and flags..."
+          placeholder="Search scales and flags..."
           className="pl-7 pr-9 text-sm h-8"
           onChange={(e) => onSearchChange(e.target.value)}
           value={searchQuery}

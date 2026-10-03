@@ -15,7 +15,7 @@ export default function CreationFlagPage() {
         <h1 className="text-2xl font-bold text-foreground tracking-tight">Create flag</h1>
 
         <p className="text-base text-zinc-muted mt-1">
-          Flags are a graded scale from weak to strong; the category defines what you measure
+          A scale measures one thing; its flags are the levels, from weakest to strongest
         </p>
       </div>
 

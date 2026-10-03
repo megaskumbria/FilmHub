@@ -88,7 +88,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
           </TooltipTrigger>
 
           <TooltipContent>
-            <p>At most one flag per category</p>
+            <p>At most one flag per scale</p>
           </TooltipContent>
         </Tooltip>
       </header>
@@ -98,7 +98,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
           <Input
             variant="neutral"
-            placeholder="Search categories..."
+            placeholder="Search scales..."
             className="pl-7 pr-2 text-sm h-9"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
