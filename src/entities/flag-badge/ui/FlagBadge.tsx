@@ -3,6 +3,7 @@
 import { flagSoftBackground, loadFont } from "@/shared/lib";
 import { FlagItem } from "@/shared/hooks";
 import { InlineSvg } from "@/shared/ui";
+import { cn } from "@/shared/lib/utils";
 import { useEffect } from "react";
 import { LevelDots } from "./LevelDots";
 
@@ -19,7 +20,8 @@ export const FlagBadge = ({ flagItem, level, total }: Props) => {
 
   const { svgContent } = icon ?? {};
 
-  const shouldShowLevel = level !== undefined && total !== undefined && total > 1;
+  const hasLevelProps = level !== undefined && total !== undefined;
+  const shouldShowLevel = hasLevelProps && total > 1;
 
   const computedBg = flagSoftBackground(color, bgOpacity);
 
@@ -47,7 +49,12 @@ export const FlagBadge = ({ flagItem, level, total }: Props) => {
       >
         {svgContent && <InlineSvg svg={svgContent} className="size-5 shrink-0" />}
 
-        <span className="flex flex-col items-start gap-1">
+        <span
+          className={cn(
+            "flex flex-col items-start gap-1",
+            hasLevelProps && "min-h-7.5 justify-center",
+          )}
+        >
           <span className="leading-tight">{flagName}</span>
 
           {shouldShowLevel && <LevelDots level={level} total={total} />}
