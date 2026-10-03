@@ -10,12 +10,11 @@ type FlagItemData = Pick<FlagItem, "flagName" | "color" | "bgOpacity" | "fontFam
 
 interface Props {
   flagItem: FlagItemData;
-  categoryName?: string | null;
   level?: number;
   total?: number;
 }
 
-export const FlagBadge = ({ flagItem, categoryName, level, total }: Props) => {
+export const FlagBadge = ({ flagItem, level, total }: Props) => {
   const { flagName, color, bgOpacity, fontFamily, icon } = flagItem;
 
   const { svgContent } = icon ?? {};
@@ -33,7 +32,6 @@ export const FlagBadge = ({ flagItem, categoryName, level, total }: Props) => {
   return (
     <span
       className="relative inline-flex items-stretch w-fit overflow-visible backdrop-blur-md"
-      title={categoryName || ""}
       style={{ isolation: "isolate", transform: "translateZ(0)" }}
       // style={{ transform: "translateZ(0)", willChange: "transform" }}
     >

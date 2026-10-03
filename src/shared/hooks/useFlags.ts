@@ -4,6 +4,8 @@ import { API_URL } from "../api/config";
 import { toast } from "sonner";
 import { SortBy } from "@/widgets/flag-categories-sidebar";
 
+const FLAG_SCALE_QUERY_KEY = "flag-scale";
+
 export interface Icon {
   svgContent: string | null;
   iconName: string | null;
@@ -18,8 +20,6 @@ export interface FlagItem {
   position: number;
   categoryId: string;
   userId: string;
-  createdAt: string;
-  updatedAt: string;
   fontFamily: string;
 
   isUsed: boolean | null;
@@ -104,6 +104,8 @@ export const useUpdateFlagPosition = () => {
       });
       toast.error("Failed to reorder flags", { position: "bottom-left" });
     },
+
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: [FLAG_SCALE_QUERY_KEY] }),
   });
 };
 
@@ -128,7 +130,10 @@ export const useEditFlag = () => {
       return data;
     },
 
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["flags"] });
+      void queryClient.invalidateQueries({ queryKey: [FLAG_SCALE_QUERY_KEY] });
+    },
   });
 };
 
@@ -170,8 +175,6 @@ export const useCreateFlag = () => {
               isUsed: null,
               position: category.flags.length,
               userId: "",
-              createdAt: "",
-              updatedAt: "",
               icon: newFlag.icon ?? null,
             };
 
@@ -186,7 +189,10 @@ export const useCreateFlag = () => {
       toast.error("Failed to create flag", { position: "bottom-left" });
     },
 
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["flags"] });
+      void queryClient.invalidateQueries({ queryKey: [FLAG_SCALE_QUERY_KEY] });
+    },
   });
 };
 
@@ -229,6 +235,9 @@ export const useDeleteFlag = () => {
       toast.error("Failed to delete flag", { position: "bottom-left" });
     },
 
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["flags"] }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["flags"] });
+      void queryClient.invalidateQueries({ queryKey: [FLAG_SCALE_QUERY_KEY] });
+    },
   });
 };

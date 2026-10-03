@@ -10,6 +10,7 @@ export * from "./form";
 export * from "./checkbox";
 export * from "./switch";
 export * from "./popover";
+export * from "./hover-card";
 export * from "./dropdown-menu";
 export * from "./dialog";
 export * from "./avatar";

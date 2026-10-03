@@ -6,6 +6,7 @@ import { useCreationFlagStore } from "@/features/creation-flag";
 import { useShallow } from "zustand/shallow";
 import { type FlagData } from "@/shared/hooks";
 import { FlagBadge } from "@/entities";
+import { FlagScaleHoverCard } from "@/features";
 
 interface Props {
   flagsData: FlagData[];
@@ -50,10 +51,10 @@ export const FlagGroup = ({
     >
       {isPreview ?
         <FlagWithCategory categoryName={category.name} showCategory={showCategories}>
-          <FlagBadge flagItem={flagItem} categoryName={category.name} />
+          <FlagBadge flagItem={flagItem} />
         </FlagWithCategory>
       : <>
-          {flagsData.map(({ flags, categoryName, flagsCount }) => {
+          {flagsData.map(({ id: categoryId, flags, categoryName, flagsCount }) => {
             return flags.map((flag, index) => {
               const { id, position } = flag;
 
@@ -63,12 +64,13 @@ export const FlagGroup = ({
                   categoryName={categoryName}
                   showCategory={showCategories}
                 >
-                  <FlagBadge
-                    flagItem={flag}
+                  <FlagScaleHoverCard
+                    categoryId={categoryId}
                     categoryName={categoryName}
-                    level={position + 1}
-                    total={flagsCount}
-                  />
+                    currentFlagId={id}
+                  >
+                    <FlagBadge flagItem={flag} level={position + 1} total={flagsCount} />
+                  </FlagScaleHoverCard>
                 </FlagWithCategory>
               );
             });

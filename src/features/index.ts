@@ -37,3 +37,4 @@ export { ChangePasswordForm } from "./change-password";
 export { ChangeEmailForm } from "./change-email";
 export { DeleteAccount } from "./delete-account";
 export { PrivacySettings } from "./privacy-settings";
+export { FlagScaleHoverCard } from "./show-flag-scale";
