@@ -24,7 +24,7 @@ export const FloatingCreationFlagBar = () => {
     })),
   );
 
-  const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } = flag;
+  const { flagName, selectedColor, selectedFont, selectedIcon, scale, bgOpacity } = flag;
   const { isCreatingNew, editingFlagId } = ui;
 
   const isVisible = isCreatingNew || editingFlagId !== null;
@@ -42,14 +42,14 @@ export const FloatingCreationFlagBar = () => {
   const displayIsCreatingNew = isVisible ? isCreatingNew : lastSnapshotFlag?.ui.isCreatingNew;
 
   const handleSaveFlag = () => {
-    if (!category.id) return;
+    if (!scale.id) return;
 
     const payload = {
       flagName,
       color: selectedColor,
       bgOpacity,
       fontFamily: selectedFont,
-      categoryId: category.id,
+      scaleId: scale.id,
     };
 
     if (editingFlagId) {
@@ -70,7 +70,7 @@ export const FloatingCreationFlagBar = () => {
       bgOpacity,
       selectedFont,
       selectedIcon,
-      category,
+      scale,
     });
   }, [editingFlagId, isCreatingNew]);
 
@@ -83,10 +83,10 @@ export const FloatingCreationFlagBar = () => {
       || bgOpacity !== currentEditFlag.bgOpacity
       || selectedFont !== currentEditFlag.selectedFont
       || selectedIcon?.iconId !== currentEditFlag.selectedIcon?.iconId
-      || category.id !== currentEditFlag.category.id;
+      || scale.id !== currentEditFlag.scale.id;
 
     setHasChanges(changed);
-  }, [flagName, selectedColor, bgOpacity, selectedFont, selectedIcon, category, currentEditFlag]);
+  }, [flagName, selectedColor, bgOpacity, selectedFont, selectedIcon, scale, currentEditFlag]);
 
   const shouldDisabled = hasEnoughData && hasChanges;
 

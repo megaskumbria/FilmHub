@@ -11,15 +11,15 @@ const OPEN_DELAY_MS = 400;
 const CLOSE_DELAY_MS = 100;
 
 interface Props {
-  categoryId: string;
-  categoryName: string;
+  scaleId: string;
+  scaleName: string;
   currentFlagId: string;
   children: ReactNode;
 }
 
 export const FlagScaleHoverCard = ({
-  categoryId,
-  categoryName,
+  scaleId,
+  scaleName,
   currentFlagId,
   children,
 }: Props) => {
@@ -42,7 +42,7 @@ export const FlagScaleHoverCard = ({
     clearPrefetchTimer();
 
     prefetchTimerRef.current = setTimeout(() => {
-      void queryClient.prefetchQuery(flagScaleQueryOptions(categoryId));
+      void queryClient.prefetchQuery(flagScaleQueryOptions(scaleId));
     }, PREFETCH_DELAY_MS);
   };
 
@@ -58,7 +58,7 @@ export const FlagScaleHoverCard = ({
     }
 
     try {
-      await queryClient.ensureQueryData(flagScaleQueryOptions(categoryId));
+      await queryClient.ensureQueryData(flagScaleQueryOptions(scaleId));
     } catch {
       return;
     }
@@ -97,8 +97,8 @@ export const FlagScaleHoverCard = ({
         className="flex w-auto min-w-56 flex-col gap-2 border-border bg-surface-elevated p-3"
       >
         <FlagScaleContent
-          categoryId={categoryId}
-          categoryName={categoryName}
+          scaleId={scaleId}
+          scaleName={scaleName}
           currentFlagId={currentFlagId}
         />
       </HoverCardContent>

@@ -3,16 +3,16 @@
 import { ReactNode } from "react";
 
 interface Props {
-  categoryName: string | null;
-  showCategory: boolean;
+  scaleName: string | null;
+  showScale: boolean;
   children: ReactNode;
 }
 
-export const FlagWithCategory = ({ categoryName, showCategory, children }: Props) => {
-  return showCategory ?
+export const FlagWithScale = ({ scaleName, showScale, children }: Props) => {
+  return showScale ?
       <div className="flex flex-col gap-1">
         <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-white text-shadow-flag">
-          {categoryName}
+          {scaleName}
         </h4>
 
         {children}

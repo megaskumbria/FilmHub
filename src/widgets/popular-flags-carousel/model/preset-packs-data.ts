@@ -11,7 +11,7 @@ export interface PresetPack {
   id: string;
   title: string;
   description: string;
-  categoryName: string;
+  scaleName: string;
   usageCount: number;
   flags: PresetFlagItem[];
 }
@@ -21,7 +21,7 @@ export const PRESET_PACKS: PresetPack[] = [
     id: "1",
     title: "Pacing",
     description: "How fast the story moves — from glacial to breakneck",
-    categoryName: "Pacing",
+    scaleName: "Pacing",
     usageCount: 2140,
     flags: [
       {
@@ -70,7 +70,7 @@ export const PRESET_PACKS: PresetPack[] = [
     id: "2",
     title: "Emotional weight",
     description: "How hard the film hits — from featherlight to crushing",
-    categoryName: "Emotional weight",
+    scaleName: "Emotional weight",
     usageCount: 1876,
     flags: [
       {
@@ -114,7 +114,7 @@ export const PRESET_PACKS: PresetPack[] = [
     id: "3",
     title: "Predictability",
     description: "How easy the ending is to guess — from obvious to incomprehensible",
-    categoryName: "Predictability",
+    scaleName: "Predictability",
     usageCount: 1654,
     flags: [
       {
@@ -158,7 +158,7 @@ export const PRESET_PACKS: PresetPack[] = [
     id: "4",
     title: "Gloom",
     description: "Overall tone — from sunny to pitch-black",
-    categoryName: "Gloom",
+    scaleName: "Gloom",
     usageCount: 2033,
     flags: [
       {
@@ -207,7 +207,7 @@ export const PRESET_PACKS: PresetPack[] = [
     id: "5",
     title: "Absurdity",
     description: "How far the film drifts from reality — from mundane to unhinged",
-    categoryName: "Absurdity",
+    scaleName: "Absurdity",
     usageCount: 987,
     flags: [
       {
@@ -256,7 +256,7 @@ export const PRESET_PACKS: PresetPack[] = [
     id: "6",
     title: "Character believability",
     description: "How alive and convincing the characters feel",
-    categoryName: "Character believability",
+    scaleName: "Character believability",
     usageCount: 1321,
     flags: [
       {
@@ -300,7 +300,7 @@ export const PRESET_PACKS: PresetPack[] = [
     id: "7",
     title: "Viewing comfort",
     description: "How easy it is to watch — from background noise to endurance test",
-    categoryName: "Viewing comfort",
+    scaleName: "Viewing comfort",
     usageCount: 1789,
     flags: [
       {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { HelpCircle, Plus, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { type FlagItem, useDebounce, useGetFlags, useSetMediaFlags } from "@/shared/hooks";
-import { FlagsLimitNotice, FlagCategoryItem } from "@/features/set-media-flags";
+import { FlagsLimitNotice, FlagScaleItem } from "@/features/set-media-flags";
 
 const MAX_LIMIT_PER_MEDIA = 4;
 
@@ -31,22 +31,22 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
   const { mutate: setMediaFlags } = useSetMediaFlags();
 
   const handleSelectFlag = (
-    categoryName: string,
+    scaleName: string,
     flag: FlagItem,
     mediaId: number,
-    categoryId: string,
+    scaleId: string,
   ) => {
     setSelectedFlags((prev) => {
-      if (prev[categoryName]?.id === flag.id) {
+      if (prev[scaleName]?.id === flag.id) {
         const next = { ...prev };
-        delete next[categoryName];
+        delete next[scaleName];
         return next;
       }
 
-      return { ...prev, [categoryName]: flag };
+      return { ...prev, [scaleName]: flag };
     });
 
-    setMediaFlags({ mediaId, flag, categoryId, categoryName });
+    setMediaFlags({ mediaId, flag, scaleId, scaleName });
   };
 
   useEffect(() => {
@@ -58,10 +58,10 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
     if (initializedRef.current || flagsData.length === 0) return;
 
     const initialSelectedFlags = flagsData.reduce<Record<string, FlagItem>>(
-      (acc, { categoryName, flags }) => {
+      (acc, { scaleName, flags }) => {
         const usedFlag = flags.find((f) => f.isUsed);
 
-        if (usedFlag) acc[categoryName] = usedFlag;
+        if (usedFlag) acc[scaleName] = usedFlag;
 
         return acc;
       },
@@ -109,16 +109,16 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
         {flagsData.length === 0 ?
           <div className="py-6 text-center text-xs text-zinc-muted">No flags found</div>
         : <Accordion type="multiple">
-            {flagsData.map(({ id, categoryName, flags }) => (
-              <FlagCategoryItem
+            {flagsData.map(({ id, scaleName, flags }) => (
+              <FlagScaleItem
                 key={id}
                 flags={flags}
-                categoryName={categoryName}
+                scaleName={scaleName}
                 handleSelectFlag={handleSelectFlag}
                 selectedFlags={selectedFlags}
                 isLimitFlags={isLimitFlags}
                 mediaId={mediaId}
-                categoryId={id}
+                scaleId={id}
               />
             ))}
           </Accordion>

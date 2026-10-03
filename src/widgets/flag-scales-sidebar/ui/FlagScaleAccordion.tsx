@@ -2,7 +2,7 @@
 
 import { Accordion } from "@/shared/ui";
 import { useGetFlags, useUpdateFlagPosition } from "@/shared/hooks";
-import { CategoryItem, FlagCategoriesSkeleton, SortBy } from "@/widgets/flag-categories-sidebar";
+import { ScaleItem, FlagScalesSkeleton, SortBy } from "@/widgets/flag-scales-sidebar";
 import { isSortable } from "@dnd-kit/react/sortable";
 import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
@@ -12,7 +12,7 @@ interface Props {
   sortBy: SortBy;
 }
 
-export const FlagCategoryAccordion = ({ searchQuery, sortBy }: Props) => {
+export const FlagScaleAccordion = ({ searchQuery, sortBy }: Props) => {
   const { data: flagsData = [], isLoading } = useGetFlags({ searchQuery, sortBy });
 
   const { mutate: updateFlagPosition } = useUpdateFlagPosition();
@@ -23,25 +23,25 @@ export const FlagCategoryAccordion = ({ searchQuery, sortBy }: Props) => {
     const { source } = event.operation;
     if (!isSortable(source)) return;
 
-    const categoryId = source.group as string;
-    const category = flagsData.find((c) => c.id === categoryId);
-    if (!category) return;
+    const scaleId = source.group as string;
+    const scale = flagsData.find((c) => c.id === scaleId);
+    if (!scale) return;
 
-    const newFlags = move(category.flags, event);
-    if (newFlags === category.flags) return;
+    const newFlags = move(scale.flags, event);
+    if (newFlags === scale.flags) return;
 
-    updateFlagPosition({ categoryId, flagIds: newFlags.map((f) => f.id) });
+    updateFlagPosition({ scaleId, flagIds: newFlags.map((f) => f.id) });
   };
 
   return (
     <DragDropProvider onDragEnd={handleDragEnd}>
       {isLoading ?
-        Array.from({ length: 5 }).map((_, index) => <FlagCategoriesSkeleton key={index} />)
+        Array.from({ length: 5 }).map((_, index) => <FlagScalesSkeleton key={index} />)
       : flagsData.length === 0 ?
         <div className="py-24 text-center text-sm text-zinc-muted">Nothing found</div>
       : <Accordion type="multiple">
-          {flagsData.map(({ id, categoryName, flags }) => (
-            <CategoryItem key={id} flags={flags} categoryId={id} categoryName={categoryName} />
+          {flagsData.map(({ id, scaleName, flags }) => (
+            <ScaleItem key={id} flags={flags} scaleId={id} scaleName={scaleName} />
           ))}
         </Accordion>
       }

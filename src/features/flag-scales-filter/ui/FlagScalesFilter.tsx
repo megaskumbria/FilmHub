@@ -3,7 +3,7 @@
 import { Search, ArrowDownAZ, ArrowUpAZ, X } from "lucide-react";
 import { Input, Button, Separator } from "@/shared/ui";
 import { AnimatePresence, motion } from "framer-motion";
-import { SortBy } from "@/widgets/flag-categories-sidebar";
+import { SortBy } from "@/widgets/flag-scales-sidebar";
 
 interface Props {
   onSearchChange: (searchQuery: string) => void;
@@ -12,7 +12,7 @@ interface Props {
   sortBy: SortBy;
 }
 
-export const FlagCategoriesFilter = ({
+export const FlagScalesFilter = ({
   onSearchChange,
   searchQuery,
   onSortChange,

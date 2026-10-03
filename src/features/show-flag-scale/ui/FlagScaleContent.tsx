@@ -5,13 +5,13 @@ import { cn } from "@/shared/lib/utils";
 import { FlagBadge } from "@/entities";
 
 interface Props {
-  categoryId: string;
-  categoryName: string;
+  scaleId: string;
+  scaleName: string;
   currentFlagId: string;
 }
 
-export const FlagScaleContent = ({ categoryId, categoryName, currentFlagId }: Props) => {
-  const { data: scale } = useGetFlagsScale(categoryId);
+export const FlagScaleContent = ({ scaleId, scaleName, currentFlagId }: Props) => {
+  const { data: scale } = useGetFlagsScale(scaleId);
 
   if (!scale) return null;
 
@@ -19,7 +19,7 @@ export const FlagScaleContent = ({ categoryId, categoryName, currentFlagId }: Pr
     <>
       <header>
         <h4 className="text-sm font-semibold uppercase tracking-widest text-foreground">
-          {categoryName}
+          {scaleName}
         </h4>
       </header>
 

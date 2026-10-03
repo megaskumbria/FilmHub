@@ -1,6 +1,6 @@
 import { Separator } from "@/shared/ui";
 import {
-  FlagCategoriesSidebar,
+  FlagScalesSidebar,
   FlagNameFontForm,
   FlagPreview,
   PopularFlagsCarousel,
@@ -20,7 +20,7 @@ export default function CreationFlagPage() {
       </div>
 
       <main className="flex gap-4 items-start w-full">
-        <FlagCategoriesSidebar />
+        <FlagScalesSidebar />
 
         <div className="flex-1 min-w-0 grid grid-cols-[minmax(0,1fr)_1fr_auto] gap-4 h-full">
           <FlagColorPicker />
@@ -44,5 +44,5 @@ export default function CreationFlagPage() {
 }
 
 // Emotion gradient — from safe/neutral → anxious → dangerous → horrifying.
-// Each category should have its own color “character”, but within a category the intensity gradient stays consistent.
-// Flags are a graded scale from weak to strong; the category defines what you measure
+// Each scale should have its own color “character”, but within a scale the intensity gradient stays consistent.
+// Flags are a graded scale from weak to strong; the scale defines what you measure

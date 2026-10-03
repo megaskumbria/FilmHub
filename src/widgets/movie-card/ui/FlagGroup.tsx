@@ -1,7 +1,7 @@
 "use client";
 
 import { BlockPlacement } from "../model/cardBlocksMap";
-import { FlagWithCategory } from "@/widgets/movie-card";
+import { FlagWithScale } from "@/widgets/movie-card";
 import { useCreationFlagStore } from "@/features/creation-flag";
 import { useShallow } from "zustand/shallow";
 import { type FlagData } from "@/shared/hooks";
@@ -14,7 +14,7 @@ interface Props {
   hoverHeight?: number;
   hasHover?: boolean;
   placement?: BlockPlacement;
-  showCategories?: boolean;
+  showScales?: boolean;
   isPreview?: boolean;
 }
 
@@ -22,7 +22,7 @@ export const FlagGroup = ({
   hoverHeight = 0,
   hasHover,
   placement,
-  showCategories = true,
+  showScales = true,
   isPreview = false,
   flagsData,
 }: Props) => {
@@ -32,7 +32,7 @@ export const FlagGroup = ({
     })),
   );
 
-  const { flagName, selectedColor, selectedFont, selectedIcon, category, bgOpacity } = flag;
+  const { flagName, selectedColor, selectedFont, selectedIcon, scale, bgOpacity } = flag;
 
   const flagItem = {
     flagName: flagName || "New flag",
@@ -50,28 +50,20 @@ export const FlagGroup = ({
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {isPreview ?
-        <FlagWithCategory categoryName={category.name} showCategory={showCategories}>
+        <FlagWithScale scaleName={scale.name} showScale={showScales}>
           <FlagBadge flagItem={flagItem} />
-        </FlagWithCategory>
+        </FlagWithScale>
       : <>
-          {flagsData.map(({ id: categoryId, flags, categoryName, flagsCount }) => {
+          {flagsData.map(({ id: scaleId, flags, scaleName, flagsCount }) => {
             return flags.map((flag, index) => {
               const { id, position } = flag;
 
               return (
-                <FlagWithCategory
-                  key={index + id}
-                  categoryName={categoryName}
-                  showCategory={showCategories}
-                >
-                  <FlagScaleHoverCard
-                    categoryId={categoryId}
-                    categoryName={categoryName}
-                    currentFlagId={id}
-                  >
+                <FlagWithScale key={index + id} scaleName={scaleName} showScale={showScales}>
+                  <FlagScaleHoverCard scaleId={scaleId} scaleName={scaleName} currentFlagId={id}>
                     <FlagBadge flagItem={flag} level={position + 1} total={flagsCount} />
                   </FlagScaleHoverCard>
-                </FlagWithCategory>
+                </FlagWithScale>
               );
             });
           })}

@@ -1,4 +1,4 @@
-import { useDeleteFlagCategory } from "@/shared/hooks";
+import { useDeleteFlagScale } from "@/shared/hooks";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,21 +10,21 @@ import {
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 
 interface Props {
-  categoryName: string;
+  scaleName: string;
   id: string;
   isEditing: boolean;
-  handleStartRename: (currentName: string, categoryId: string) => void;
+  handleStartRename: (currentName: string, scaleId: string) => void;
   onDropdownClose: () => void;
 }
 
-export const FlagCategoryActions = ({
+export const FlagScaleActions = ({
   id,
-  categoryName,
+  scaleName,
   isEditing,
   handleStartRename,
   onDropdownClose,
 }: Props) => {
-  const { mutate: deleteCategory } = useDeleteFlagCategory();
+  const { mutate: deleteScale } = useDeleteFlagScale();
 
   return (
     <DropdownMenu>
@@ -51,7 +51,7 @@ export const FlagCategoryActions = ({
           className="text-foreground/80 hover:text-foreground focus:text-foreground focus:bg-white/6 cursor-pointer"
           onClick={(e) => {
             e.stopPropagation();
-            handleStartRename(categoryName, id);
+            handleStartRename(scaleName, id);
           }}
         >
           <Pencil className="size-3.5 text-zinc-muted" />
@@ -65,7 +65,7 @@ export const FlagCategoryActions = ({
           className="cursor-pointer focus:bg-destructive/10"
           onClick={(e) => {
             e.stopPropagation();
-            deleteCategory(id);
+            deleteScale(id);
           }}
         >
           <Trash2 className="size-3.5" />

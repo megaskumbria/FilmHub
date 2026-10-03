@@ -3,13 +3,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
 import { type FlagData } from "./useFlags";
 
-export const useCreateFlagCategory = () => {
+export const useCreateFlagScale = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (categoryName: string) => {
-      const { data } = await apiClient.post<FlagData>(`${API_URL}/flags/create-category`, {
-        categoryName,
+    mutationFn: async (scaleName: string) => {
+      const { data } = await apiClient.post<FlagData>(`${API_URL}/scales/create-scale`, {
+        scaleName,
       });
       return data;
     },
@@ -20,13 +20,13 @@ export const useCreateFlagCategory = () => {
   });
 };
 
-export const useDeleteFlagCategory = () => {
+export const useDeleteFlagScale = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (categoryId: string) => {
+    mutationFn: async (scaleId: string) => {
       const { data } = await apiClient.delete<FlagData>(
-        `${API_URL}/flags/delete-category/${categoryId}`,
+        `${API_URL}/scales/delete-scale/${scaleId}`,
       );
       return data;
     },
@@ -35,19 +35,19 @@ export const useDeleteFlagCategory = () => {
   });
 };
 
-interface RenameFlagCategoryArgs {
-  categoryId: string;
-  categoryName: string;
+interface RenameFlagScaleArgs {
+  scaleId: string;
+  scaleName: string;
 }
 
-export const useRenameFlagCategory = () => {
+export const useRenameFlagScale = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ categoryId, categoryName }: RenameFlagCategoryArgs) => {
+    mutationFn: async ({ scaleId, scaleName }: RenameFlagScaleArgs) => {
       const { data } = await apiClient.patch<FlagData>(
-        `${API_URL}/flags/rename-category/${categoryId}`,
-        { categoryName },
+        `${API_URL}/scales/rename-scale/${scaleId}`,
+        { scaleName },
       );
       return data;
     },

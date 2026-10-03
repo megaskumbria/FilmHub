@@ -14,7 +14,7 @@ interface Props {
   children: ReactNode;
 }
 export const PresetPackModal = ({ presetPack, children }: Props) => {
-  const { flags, categoryName, isAdded, id } = presetPack;
+  const { flags, scaleName, isAdded, id } = presetPack;
 
   const { mutateAsync: addPresetPack, isPending } = useAddPresetPack();
 
@@ -95,7 +95,7 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
 
               <p className="text-sm text-zinc-muted leading-relaxed">
                 The pack is added as a new scale{" "}
-                <strong className="text-foreground font-medium">"{categoryName}"</strong> in your
+                <strong className="text-foreground font-medium">"{scaleName}"</strong> in your
                 sidebar. You can edit the flags after adding.
               </p>
             </div>

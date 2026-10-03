@@ -26,7 +26,7 @@ export const cardBlocksMap = {
         hoverHeight={hoverHeight}
         hasHover={hasHover}
         placement={placement}
-        showCategories={options?.showCategories}
+        showScales={options?.showScales}
         isPreview={options?.isPreview}
         flagsData={media.mediaFlags ?? []}
       />

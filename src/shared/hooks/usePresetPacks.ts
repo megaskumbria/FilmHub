@@ -20,7 +20,7 @@ export interface PresetFlagItem {
 export interface PresetPack {
   id: string;
   title: string;
-  categoryName: string;
+  scaleName: string;
   description: string;
   usageCount: number;
   flags: PresetFlagItem[];

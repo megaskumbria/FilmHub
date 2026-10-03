@@ -17,7 +17,7 @@ export { UserCollections } from "./user-collections";
 export { ProfileHeader } from "./profile-header";
 export { CreateCollectionModal } from "./create-folder-modal";
 export { AddMovieModal } from "./add-movie-modal";
-export { FlagCategoriesSidebar } from "./flag-categories-sidebar";
+export { FlagScalesSidebar } from "./flag-scales-sidebar";
 export { PosterUploadSection } from "./poster-upload-section";
 export { FlagPreview } from "./flag-preview";
 export { FlagNameFontForm } from "./flag-name-font-form";

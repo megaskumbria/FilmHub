@@ -2,7 +2,7 @@ import { apiClient } from "../api/api-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
 import { toast } from "sonner";
-import { SortBy } from "@/widgets/flag-categories-sidebar";
+import { SortBy } from "@/widgets/flag-scales-sidebar";
 
 const FLAG_SCALE_QUERY_KEY = "flag-scale";
 
@@ -18,7 +18,7 @@ export interface FlagItem {
   color: string;
   bgOpacity: number;
   position: number;
-  categoryId: string;
+  scaleId: string;
   userId: string;
   fontFamily: string;
 
@@ -29,7 +29,7 @@ export interface FlagItem {
 
 export interface FlagData {
   id: string;
-  categoryName: string;
+  scaleName: string;
   flagsCount: number;
 
   flags: FlagItem[];
@@ -58,7 +58,7 @@ export const useGetFlags = ({ searchQuery, sortBy = "default", mediaId }: GetFla
 };
 
 interface UpdateFlagPositionArgs {
-  categoryId: string;
+  scaleId: string;
   flagIds: string[];
 }
 
@@ -66,24 +66,24 @@ export const useUpdateFlagPosition = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ categoryId, flagIds }: UpdateFlagPositionArgs) => {
+    mutationFn: async ({ scaleId, flagIds }: UpdateFlagPositionArgs) => {
       const { data } = await apiClient.patch<FlagData>(`${API_URL}/flags/reorder`, {
-        categoryId,
+        scaleId,
         flagIds,
       });
       return data;
     },
 
-    onMutate: async ({ categoryId, flagIds }) => {
+    onMutate: async ({ scaleId, flagIds }) => {
       await queryClient.cancelQueries({ queryKey: ["flags"] });
 
       const previousFlags = queryClient.getQueriesData<FlagData[]>({ queryKey: ["flags"] });
 
       queryClient.setQueriesData<FlagData[]>({ queryKey: ["flags"] }, (old) =>
-        old?.map((category) => {
-          if (category.id !== categoryId) return category;
+        old?.map((scale) => {
+          if (scale.id !== scaleId) return scale;
 
-          const flagMap = new Map(category.flags.map((f) => [f.id, f]));
+          const flagMap = new Map(scale.flags.map((f) => [f.id, f]));
           const reorderedFlags = flagIds
 
             .map((id, index) => {
@@ -92,7 +92,7 @@ export const useUpdateFlagPosition = () => {
             })
             .filter(Boolean) as FlagItem[];
 
-          return { ...category, flags: reorderedFlags };
+          return { ...scale, flags: reorderedFlags };
         }),
       );
       return { previousFlags };
@@ -116,7 +116,7 @@ interface EditFlagArgs {
   bgOpacity: number;
   fontFamily: string;
   iconId?: string | null;
-  categoryId: string;
+  scaleId: string;
 }
 
 export const useEditFlag = () => {
@@ -143,7 +143,7 @@ interface CreateFlagArgs {
   bgOpacity: number;
   fontFamily: string;
   icon?: Icon | null;
-  categoryId: string;
+  scaleId: string;
 }
 
 export const useCreateFlag = () => {
@@ -166,19 +166,19 @@ export const useCreateFlag = () => {
       queryClient.setQueryData<FlagData[]>(
         ["flags"],
         (old) =>
-          old?.map((category) => {
-            if (category.id !== newFlag.categoryId) return category;
+          old?.map((scale) => {
+            if (scale.id !== newFlag.scaleId) return scale;
 
             const optimisticFlag: FlagItem = {
               ...newFlag,
               id: "__optimistic__",
               isUsed: null,
-              position: category.flags.length,
+              position: scale.flags.length,
               userId: "",
               icon: newFlag.icon ?? null,
             };
 
-            return { ...category, flags: [...category.flags, optimisticFlag] };
+            return { ...scale, flags: [...scale.flags, optimisticFlag] };
           }) ?? [],
       );
       return { previousFlags };
@@ -198,17 +198,17 @@ export const useCreateFlag = () => {
 
 interface DeleteFlagArgs {
   flagId: string;
-  categoryId: string;
+  scaleId: string;
 }
 
 export const useDeleteFlag = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ flagId, categoryId }: DeleteFlagArgs) => {
+    mutationFn: async ({ flagId, scaleId }: DeleteFlagArgs) => {
       const { data } = await apiClient.delete<FlagItem>(`${API_URL}/flags/delete-flag`, {
         data: {
-          categoryId,
+          scaleId,
           flagId,
         },
       });
@@ -221,9 +221,9 @@ export const useDeleteFlag = () => {
       const previousFlags = queryClient.getQueryData<FlagData[]>(["flags"]);
 
       queryClient.setQueryData<FlagData[]>(["flags"], (old) =>
-        old?.map((category) => ({
-          ...category,
-          flags: category.flags.filter((flag) => flag.id !== flagId),
+        old?.map((scale) => ({
+          ...scale,
+          flags: scale.flags.filter((flag) => flag.id !== flagId),
         })),
       );
 

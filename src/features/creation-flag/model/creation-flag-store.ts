@@ -1,7 +1,7 @@
 import { PRESET_COLORS } from "@/features/flag-color-picker";
 import { create } from "zustand";
 
-interface Category {
+interface Scale {
   name: string;
   id: string;
 }
@@ -18,7 +18,7 @@ export interface FlagDraft {
   bgOpacity: number;
   selectedFont: string;
   selectedIcon: SelectedIcon | null;
-  category: Category;
+  scale: Scale;
 }
 
 interface Ui {
@@ -52,7 +52,7 @@ export const useCreationFlagStore = create<Store>((set) => {
       bgOpacity: 0.38,
       selectedFont: "Manrope",
       selectedIcon: null,
-      category: { name: "", id: "" },
+      scale: { name: "", id: "" },
     },
 
     ui: { isCreatingNew: false, editingFlagId: null },
@@ -86,7 +86,7 @@ export const useCreationFlagStore = create<Store>((set) => {
             bgOpacity: 0.38,
             selectedFont: "Manrope",
             selectedIcon: null,
-            category: {
+            scale: {
               name: "",
               id: "",
             },

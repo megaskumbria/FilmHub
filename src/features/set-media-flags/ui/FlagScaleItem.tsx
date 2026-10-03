@@ -5,45 +5,45 @@ import { FlagBadge } from "@/entities";
 
 interface Props {
   flags: FlagItem[];
-  categoryName: string;
+  scaleName: string;
   handleSelectFlag: (
-    categoryName: string,
+    scaleName: string,
     flag: FlagItem,
     mediaId: number,
-    categoryId: string,
+    scaleId: string,
   ) => void;
   selectedFlags: Record<string, FlagItem>;
   isLimitFlags: boolean;
   mediaId: number;
-  categoryId: string;
+  scaleId: string;
 }
 
-export const FlagCategoryItem = ({
+export const FlagScaleItem = ({
   flags,
-  categoryName,
+  scaleName,
   handleSelectFlag,
   selectedFlags,
   isLimitFlags,
   mediaId,
-  categoryId,
+  scaleId,
 }: Props) => {
   const isUsedFlag = flags.find((flag) => flag.isUsed);
-  const isCategorySelected = Boolean(selectedFlags[categoryName]);
-  const isCategoryBlocked = isLimitFlags && !isCategorySelected;
+  const isScaleSelected = Boolean(selectedFlags[scaleName]);
+  const isScaleBlocked = isLimitFlags && !isScaleSelected;
 
-  const displayFlag = selectedFlags[categoryName] ?? isUsedFlag;
+  const displayFlag = selectedFlags[scaleName] ?? isUsedFlag;
 
   return (
     <AccordionItem
-      value={categoryName}
+      value={scaleName}
       className={cn(
         "border-b border-border last:border-0 transition-opacity duration-300",
-        isCategoryBlocked && "opacity-40 pointer-events-none",
+        isScaleBlocked && "opacity-40 pointer-events-none",
       )}
     >
       <AccordionTrigger className="h-10 items-center px-2 py-2.5 rounded-none text-sm font-medium text-foreground/70 hover:no-underline hover:bg-white/4 hover:text-foreground transition-all gap-2 data-[state=open]:text-foreground [&>svg]:text-zinc-muted/60 [&[data-state=open]>svg]:text-zinc-muted">
         <span className="flex items-center gap-2 flex-1 min-w-0">
-          <span className="truncate">{categoryName}</span>
+          <span className="truncate">{scaleName}</span>
 
           {displayFlag && (
             <span className="ml-auto mr-1 shrink-0">
@@ -56,11 +56,11 @@ export const FlagCategoryItem = ({
       <AccordionContent className="pb-1">
         <div className="flex flex-col gap-0">
           {flags.map((flag) => {
-            const isChecked = selectedFlags[categoryName]?.id === flag.id || flag.isUsed;
+            const isChecked = selectedFlags[scaleName]?.id === flag.id || flag.isUsed;
 
             return (
               <Button
-                onClick={() => handleSelectFlag(categoryName, flag, mediaId, categoryId)}
+                onClick={() => handleSelectFlag(scaleName, flag, mediaId, scaleId)}
                 key={flag.id}
                 className={cn(
                   "flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all hover:bg-white/4",

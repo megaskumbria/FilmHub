@@ -1,25 +1,25 @@
 "use client";
 
 import { ChevronDown, Plus } from "lucide-react";
-import { FlagListItem, FlagCategoryActions } from "@/features";
+import { FlagListItem, FlagScaleActions } from "@/features";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Input, Button, AccordionItem, AccordionContent } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
-import { type FlagItem, useRenameCategory } from "@/shared/hooks";
+import { type FlagItem, useRenameScale } from "@/shared/hooks";
 import { FlagBadge } from "@/entities";
 import { useCreationFlagStore } from "@/features/creation-flag";
 import { type MouseEvent } from "react";
 import { useShallow } from "zustand/shallow";
 
-const MAX_FLAGS_PER_CATEGORY = 6;
+const MAX_FLAGS_PER_SCALE = 6;
 
 interface Props {
   flags: FlagItem[];
-  categoryId: string;
-  categoryName: string;
+  scaleId: string;
+  scaleName: string;
 }
 
-export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
+export const ScaleItem = ({ flags, scaleId, scaleName }: Props) => {
   const { flag, ui, presetColors, updateStateFlag, updateStateUi, cancelCreationFlag } =
     useCreationFlagStore(
       useShallow((state) => ({
@@ -32,19 +32,19 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
       })),
     );
 
-  const { flagName, selectedColor, bgOpacity, selectedFont, selectedIcon, category } = flag;
+  const { flagName, selectedColor, bgOpacity, selectedFont, selectedIcon, scale } = flag;
   const { isCreatingNew, editingFlagId } = ui;
 
   const {
-    editingCategoryName,
-    editingCategoryId,
+    editingScaleName,
+    editingScaleId,
     handleStartRename,
     handleConfirmRename,
     handleRenameKeyDown,
-    setEditingCategoryName,
+    setEditingScaleName,
     renameInputRef,
     focusInputIfPending,
-  } = useRenameCategory();
+  } = useRenameScale();
 
   const ghostFlag = {
     flagName: flagName || "New flag",
@@ -54,14 +54,14 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
     icon: selectedIcon,
   };
 
-  const isFlagLimitReached = flags.length >= MAX_FLAGS_PER_CATEGORY;
+  const isFlagLimitReached = flags.length >= MAX_FLAGS_PER_SCALE;
 
   const hasOptimisticFlag = flags.some((flag) => flag.id === "__optimistic__");
-  const shouldShowGhostFlag = isCreatingNew && category.id === categoryId && !hasOptimisticFlag;
-  const isEditing = editingCategoryId === categoryId;
+  const shouldShowGhostFlag = isCreatingNew && scale.id === scaleId && !hasOptimisticFlag;
+  const isEditing = editingScaleId === scaleId;
 
   const handleAddFlag = (
-    category: { name: string; id: string },
+    scale: { name: string; id: string },
     e: MouseEvent<HTMLButtonElement>,
   ) => {
     const accordionItem = e.currentTarget.closest('[data-slot="accordion-item"]');
@@ -69,10 +69,10 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
 
     if (trigger?.getAttribute("data-state") === "open") e.stopPropagation();
 
-    const isSameCategory =
-      isCreatingNew && category.id === useCreationFlagStore.getState().flag.category.id;
+    const isSameScale =
+      isCreatingNew && scale.id === useCreationFlagStore.getState().flag.scale.id;
 
-    if (isSameCategory) {
+    if (isSameScale) {
       cancelCreationFlag();
       return;
     }
@@ -80,17 +80,17 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
     updateStateFlag({
       flagName: "",
       selectedColor: presetColors[0],
-      category: { name: category.name, id: category.id },
+      scale: { name: scale.name, id: scale.id },
     });
     updateStateUi({ isCreatingNew: true, editingFlagId: null });
   };
 
-  const isMaxLength = editingCategoryName.length >= 25 && isEditing;
+  const isMaxLength = editingScaleName.length >= 25 && isEditing;
 
   return (
     <AccordionItem
-      key={categoryId}
-      value={categoryId}
+      key={scaleId}
+      value={scaleId}
       className="border-b border-border/40 last:border-0"
     >
       <AccordionPrimitive.Header className="flex">
@@ -102,10 +102,10 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
             <div className="flex flex-col w-full">
               <Input
                 ref={renameInputRef}
-                value={editingCategoryName}
-                onBlur={() => void handleConfirmRename(categoryId)}
-                onKeyDown={(e) => handleRenameKeyDown(e, categoryId)}
-                onChange={(e) => setEditingCategoryName(e.target.value)}
+                value={editingScaleName}
+                onBlur={() => void handleConfirmRename(scaleId)}
+                onKeyDown={(e) => handleRenameKeyDown(e, scaleId)}
+                onChange={(e) => setEditingScaleName(e.target.value)}
                 onClick={(e) => e.stopPropagation()}
                 className={cn(
                   "flex-1 min-w-0 bg-transparent border-0 pl-0 rounded-none outline-none text-sm h-8 text-foreground py-0 pr-1",
@@ -116,13 +116,13 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
 
               {isMaxLength && <span className="text-xs text-destructive">Max length reached</span>}
 
-              <span className={cn(!isEditing ? "block" : "hidden")}>{categoryName}</span>
+              <span className={cn(!isEditing ? "block" : "hidden")}>{scaleName}</span>
             </div>
 
             <div className="ml-auto flex items-center gap-1.5 shrink-0">
-              <FlagCategoryActions
-                id={categoryId}
-                categoryName={categoryName}
+              <FlagScaleActions
+                id={scaleId}
+                scaleName={scaleName}
                 isEditing={isEditing}
                 handleStartRename={handleStartRename}
                 onDropdownClose={focusInputIfPending}
@@ -132,16 +132,16 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
                 data-limit={isFlagLimitReached}
                 className="px-1.5 h-6 min-w-6 flex items-center justify-center rounded text-sm font-medium tabular-nums border border-border/30 bg-white/6 text-zinc-muted data-[limit=true]:border-accent/35 data-[limit=true]:bg-accent/10 data-[limit=true]:text-accent"
               >
-                {flags.length}/{MAX_FLAGS_PER_CATEGORY}
+                {flags.length}/{MAX_FLAGS_PER_SCALE}
               </span>
 
               <Button
                 type="button"
                 variant="transparent"
                 size="none"
-                data-active={category.id === categoryId && isCreatingNew}
+                data-active={scale.id === scaleId && isCreatingNew}
                 className="w-6 h-6 data-[active=true]:text-accent data-[active=true]:border-accent/40 data-[active=true]:bg-accent/10 flex items-center justify-center shrink-0 rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-accent hover:border-accent/40 hover:bg-accent/10 transition-colors"
-                onClick={(e) => handleAddFlag({ name: categoryName, id: categoryId }, e)}
+                onClick={(e) => handleAddFlag({ name: scaleName, id: scaleId }, e)}
                 disabled={isFlagLimitReached}
               >
                 <Plus className="size-5" />
@@ -171,7 +171,7 @@ export const CategoryItem = ({ flags, categoryId, categoryName }: Props) => {
               <FlagListItem
                 key={flag.id}
                 flagItem={flag}
-                category={{ name: categoryName, id: categoryId }}
+                scale={{ name: scaleName, id: scaleId }}
                 isActive={editingFlagId === flag.id}
                 index={index}
               />

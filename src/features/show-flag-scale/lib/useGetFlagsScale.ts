@@ -5,14 +5,12 @@ import type { FlagData, FlagItem } from "@/shared/hooks";
 
 export const FLAG_SCALE_QUERY_KEY = "flag-scale";
 
-export const flagScaleQueryOptions = (categoryId: string) =>
+export const flagScaleQueryOptions = (scaleId: string) =>
   queryOptions({
-    queryKey: [FLAG_SCALE_QUERY_KEY, categoryId],
+    queryKey: [FLAG_SCALE_QUERY_KEY, scaleId],
 
     queryFn: async (): Promise<FlagItem[]> => {
-      const { data } = await apiClient.get<FlagData>(
-        `${API_URL}/flags/categories/${categoryId}/scale`,
-      );
+      const { data } = await apiClient.get<FlagData>(`${API_URL}/scales/${scaleId}`);
 
       return data?.flags ?? [];
     },
@@ -21,4 +19,4 @@ export const flagScaleQueryOptions = (categoryId: string) =>
     refetchOnWindowFocus: false,
   });
 
-export const useGetFlagsScale = (categoryId: string) => useQuery(flagScaleQueryOptions(categoryId));
+export const useGetFlagsScale = (scaleId: string) => useQuery(flagScaleQueryOptions(scaleId));

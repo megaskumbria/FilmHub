@@ -2,39 +2,39 @@
 
 import { Plus } from "lucide-react";
 import { Button, Form, FormControl, FormField, FormItem, FormMessage, Input } from "@/shared/ui";
-import { CreateCategorySchema, createCategorySchema } from "../model/create-category-schema";
+import { CreateScaleSchema, createScaleSchema } from "../model/create-scale-schema";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/shared/lib/utils";
-import { useCreateFlagCategory } from "@/shared/hooks";
+import { useCreateFlagScale } from "@/shared/hooks";
 import axios from "axios";
 import type { ApiErrorMessage } from "@/shared/types/api-error-types";
 
-export const CreateFlagCategory = () => {
-  const { mutateAsync: createFlagCategoryAsync, isPending: isCreating } = useCreateFlagCategory();
+export const CreateFlagScale = () => {
+  const { mutateAsync: createFlagScaleAsync, isPending: isCreating } = useCreateFlagScale();
 
-  const form = useForm<CreateCategorySchema>({
-    resolver: zodResolver(createCategorySchema),
-    defaultValues: { categoryName: "" },
+  const form = useForm<CreateScaleSchema>({
+    resolver: zodResolver(createScaleSchema),
+    defaultValues: { scaleName: "" },
   });
 
-  const categoryName = useWatch({
+  const scaleName = useWatch({
     control: form.control,
-    name: "categoryName",
+    name: "scaleName",
   });
 
-  const charsCount = categoryName?.trim().length;
+  const charsCount = scaleName?.trim().length;
 
-  const handleSubmitForm = async (data: CreateCategorySchema) => {
-    const newCategoryName = data.categoryName.trim();
+  const handleSubmitForm = async (data: CreateScaleSchema) => {
+    const newScaleName = data.scaleName.trim();
 
     try {
-      await createFlagCategoryAsync(newCategoryName, { onSuccess: () => form.reset() });
+      await createFlagScaleAsync(newScaleName, { onSuccess: () => form.reset() });
     } catch (error) {
       console.error(error);
 
       if (axios.isAxiosError<ApiErrorMessage>(error)) {
-        form.setError("categoryName", { message: error.response?.data.message });
+        form.setError("scaleName", { message: error.response?.data.message });
       }
     }
   };
@@ -51,7 +51,7 @@ export const CreateFlagCategory = () => {
         <form onSubmit={(e) => void form.handleSubmit(handleSubmitForm)(e)}>
           <FormField
             control={form.control}
-            name="categoryName"
+            name="scaleName"
             render={({ field }) => (
               <FormItem>
                 <div className="flex gap-2">

@@ -12,20 +12,20 @@ import { useShallow } from "zustand/shallow";
 
 interface Props {
   flagItem: FlagItem;
-  category: { name: string; id: string };
+  scale: { name: string; id: string };
   isActive: boolean;
   index: number;
 }
 
-export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => {
+export const FlagListItem = ({ flagItem, scale, isActive, index }: Props) => {
   const { flagName, color, bgOpacity, id, icon, fontFamily } = flagItem;
 
   const { ref, isDragging } = useSortable({
     id,
     index,
-    type: category.id,
-    group: category.id,
-    accept: [category.id],
+    type: scale.id,
+    group: scale.id,
+    accept: [scale.id],
   });
 
   const { addPresetColor, updateStateFlag, updateStateUi } = useCreationFlagStore(
@@ -47,13 +47,13 @@ export const FlagListItem = ({ flagItem, category, isActive, index }: Props) => 
       bgOpacity,
       selectedFont: fontFamily,
       selectedIcon: icon,
-      category,
+      scale,
     });
   };
 
   const handleDeleteFlag = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    deleteFlag({ flagId: id, categoryId: category.id });
+    deleteFlag({ flagId: id, scaleId: scale.id });
   };
 
   return (

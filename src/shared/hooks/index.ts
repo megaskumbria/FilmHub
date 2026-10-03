@@ -38,17 +38,17 @@ export {
   useDeleteFlag,
 } from "./useFlags";
 export {
-  useCreateFlagCategory,
-  useDeleteFlagCategory,
-  useRenameFlagCategory,
-} from "./useFlagCategories";
+  useCreateFlagScale,
+  useDeleteFlagScale,
+  useRenameFlagScale,
+} from "./useFlagScales";
 export {
   type PresetFlagItem,
   type PresetPack,
   useGetPresetPacks,
   useAddPresetPack,
 } from "./usePresetPacks";
-export { useRenameCategory } from "./useRenameCategory";
+export { useRenameScale } from "./useRenameScale";
 export { useSetMediaFlags } from "./useMediaFlags";
 export { collectionsFeedQuery, useFeedGenres } from "./useCollectionsFeed";
 export {

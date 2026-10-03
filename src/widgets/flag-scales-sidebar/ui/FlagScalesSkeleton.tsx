@@ -4,7 +4,7 @@ interface Props {
   index?: number;
 }
 
-export const FlagCategoriesSkeleton = ({ index = 0 }: Props) => {
+export const FlagScalesSkeleton = ({ index = 0 }: Props) => {
   const widths = ["w-28", "w-20", "w-32", "w-24", "w-16"];
 
   return (

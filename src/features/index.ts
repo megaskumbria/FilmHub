@@ -21,9 +21,9 @@ export { AddMovieCollection } from "./add-movie-collection";
 export { FloatingEditBar } from "./floating-edit-bar";
 export { FloatingCreationFlagBar } from "./floating-creation-flag-bar";
 export { FlagListItem } from "./flag-list-item";
-export { CreateFlagCategory } from "./create-flag-category";
-export { FlagCategoryActions } from "./flag-category-actions";
-export { FlagCategoriesFilter } from "./flag-categories-filter";
+export { CreateFlagScale } from "./create-flag-scale";
+export { FlagScaleActions } from "./flag-scale-actions";
+export { FlagScalesFilter } from "./flag-scales-filter";
 export {
   AuthModalSignInForm,
   AuthModalSignUpForm,

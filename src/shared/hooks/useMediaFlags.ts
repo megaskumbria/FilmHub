@@ -8,8 +8,8 @@ import { toast } from "sonner";
 interface SetMediaFlagsArgs {
   mediaId: number;
   flag: FlagItem;
-  categoryId: string;
-  categoryName: string;
+  scaleId: string;
+  scaleName: string;
 }
 
 export const useSetMediaFlags = () => {
@@ -20,7 +20,7 @@ export const useSetMediaFlags = () => {
       return apiClient.patch(`${API_URL}/media-flags/set`, { mediaId, flagId: flag.id });
     },
 
-    onMutate: async ({ mediaId, flag, categoryId, categoryName }) => {
+    onMutate: async ({ mediaId, flag, scaleId, scaleName }) => {
       await queryClient.cancelQueries({ queryKey: ["flags"] });
       await queryClient.cancelQueries({ queryKey: ["media-collection"] });
 
@@ -30,23 +30,23 @@ export const useSetMediaFlags = () => {
       });
 
       queryClient.setQueriesData<FlagData[]>({ queryKey: ["flags"] }, (old) =>
-        old?.map((category) => {
-          if (category.id !== categoryId) return category;
+        old?.map((scale) => {
+          if (scale.id !== scaleId) return scale;
 
           return {
-            ...category,
-            flags: category.flags.map((f) =>
+            ...scale,
+            flags: scale.flags.map((f) =>
               f.id === flag.id ? { ...f, isUsed: !f.isUsed } : { ...f, isUsed: false },
             ),
           };
         }),
       );
 
-      const cachedCategory = previousFlags
+      const cachedScale = previousFlags
         .flatMap(([, data]) => data ?? [])
-        .find((category) => category.id === categoryId);
+        .find((scale) => scale.id === scaleId);
 
-      const flagsCount = cachedCategory?.flagsCount ?? cachedCategory?.flags.length ?? 0;
+      const flagsCount = cachedScale?.flagsCount ?? cachedScale?.flags.length ?? 0;
 
       queryClient.setQueriesData<Media[]>({ queryKey: ["media-collection"] }, (old) =>
         old?.map((media) => {
@@ -54,21 +54,21 @@ export const useSetMediaFlags = () => {
 
           const mediaFlags = media.mediaFlags ?? [];
           const isDeselect = mediaFlags
-            .find((category) => category.id === categoryId)
+            .find((scale) => scale.id === scaleId)
             ?.flags.some((f) => f.id === flag.id);
 
-          const withoutCategory = mediaFlags.filter((category) => category.id !== categoryId);
+          const withoutScale = mediaFlags.filter((scale) => scale.id !== scaleId);
 
-          if (isDeselect) return { ...media, mediaFlags: withoutCategory };
+          if (isDeselect) return { ...media, mediaFlags: withoutScale };
 
-          const updatedCategory: FlagData = {
-            id: categoryId,
-            categoryName,
+          const updatedScale: FlagData = {
+            id: scaleId,
+            scaleName,
             flagsCount,
             flags: [{ ...flag, isUsed: true }],
           };
 
-          return { ...media, mediaFlags: [...withoutCategory, updatedCategory] };
+          return { ...media, mediaFlags: [...withoutScale, updatedScale] };
         }),
       );
 

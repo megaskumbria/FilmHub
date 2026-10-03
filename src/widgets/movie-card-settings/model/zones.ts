@@ -7,7 +7,7 @@ const BLOCKS: ZoneBlock[] = [
   {
     id: "flags",
     label: "Flags",
-    subOptions: [{ id: "showCategories", label: "Scales", storeKey: "showCategories" }],
+    subOptions: [{ id: "showScales", label: "Scales", storeKey: "showScales" }],
   },
   { id: "rating", label: "Rating" },
 ];
@@ -30,7 +30,7 @@ export const ZONES: Zones[] = [
       {
         id: "flags",
         label: "Flags",
-        subOptions: [{ id: "showCategories", label: "Scales", storeKey: "showCategories" }],
+        subOptions: [{ id: "showScales", label: "Scales", storeKey: "showScales" }],
       },
     ],
   },
@@ -45,7 +45,7 @@ export const ZONES: Zones[] = [
       {
         id: "flags",
         label: "Flags",
-        subOptions: [{ id: "showCategories", label: "Scales", storeKey: "showCategories" }],
+        subOptions: [{ id: "showScales", label: "Scales", storeKey: "showScales" }],
       },
     ],
   },

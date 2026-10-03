@@ -15,7 +15,7 @@ export const FlagPreview = memo(() => {
     })),
   );
 
-  const { flagName, selectedColor, bgOpacity, selectedFont, selectedIcon, category } = flag;
+  const { flagName, selectedColor, bgOpacity, selectedFont, selectedIcon, scale } = flag;
 
   const selectedColorBg = flagSoftBackground(selectedColor, bgOpacity);
 
@@ -37,7 +37,7 @@ export const FlagPreview = memo(() => {
 
           <span className="text-sm font-medium text-zinc-muted">Scale:</span>
 
-          <span className="text-foreground font-medium">{category.name || "Not selected"}</span>
+          <span className="text-foreground font-medium">{scale.name || "Not selected"}</span>
         </div>
 
         <div

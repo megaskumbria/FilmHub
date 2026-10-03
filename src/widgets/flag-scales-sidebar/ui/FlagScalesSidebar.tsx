@@ -1,13 +1,13 @@
 "use client";
 
-import { FlagCategoryAccordion } from "./FlagCategoryAccordion";
+import { FlagScaleAccordion } from "./FlagScaleAccordion";
 import { memo } from "react";
-import { CreateFlagCategory, FlagCategoriesFilter } from "@/features";
+import { CreateFlagScale, FlagScalesFilter } from "@/features";
 import { useState } from "react";
 import { useDebounce } from "@/shared/hooks";
 import { SortBy } from "../model/types";
 
-export const FlagCategoriesSidebar = memo(() => {
+export const FlagScalesSidebar = memo(() => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortBy>("default");
 
@@ -15,10 +15,10 @@ export const FlagCategoriesSidebar = memo(() => {
 
   return (
     <aside className="sticky top-18 max-w-92 w-full h-fit shrink-0 rounded-xl border border-border/60 bg-surface-subtle flex flex-1 flex-col overflow-hidden">
-      <CreateFlagCategory />
+      <CreateFlagScale />
 
       <nav className="px-3 py-2.5 flex flex-col gap-2">
-        <FlagCategoriesFilter
+        <FlagScalesFilter
           onSearchChange={setSearchQuery}
           searchQuery={searchQuery}
           onSortChange={setSortBy}
@@ -27,7 +27,7 @@ export const FlagCategoriesSidebar = memo(() => {
       </nav>
 
       <div className="overflow-y-auto max-h-135 scrollbar-minimal">
-        <FlagCategoryAccordion searchQuery={debouncedSearch} sortBy={sortBy} />
+        <FlagScaleAccordion searchQuery={debouncedSearch} sortBy={sortBy} />
       </div>
     </aside>
   );
