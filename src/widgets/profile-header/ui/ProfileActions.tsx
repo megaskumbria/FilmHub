@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui";
 import { Check, Loader2, X, Pencil } from "lucide-react";
 import { IconUserCheck, IconUserMinus, IconUserPlus } from "@tabler/icons-react";
@@ -28,6 +29,8 @@ export const ProfileActions = ({
   handleCancelEdit,
   handleSubmitUpdate,
 }: Props) => {
+  const t = useTranslations("profile");
+
   const ensureAuth = useRequireAuth();
   const { mutate: followProfile } = useFollowProfile();
 
@@ -50,7 +53,7 @@ export const ProfileActions = ({
             disabled={isSaving}
           >
             <X className="size-3.5" />
-            <span className="text-sm">Cancel</span>
+            <span className="text-sm">{t("cancel")}</span>
           </Button>
 
           <Button
@@ -65,11 +68,11 @@ export const ProfileActions = ({
             {isSaving ?
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                <span className="text-sm">Saving...</span>
+                <span className="text-sm">{t("saving")}</span>
               </>
             : <>
                 <Check className="size-3.5" />
-                <span className="text-sm">Save</span>
+                <span className="text-sm">{t("save")}</span>
               </>
             }
           </Button>
@@ -85,7 +88,7 @@ export const ProfileActions = ({
               disabled={isSaving}
             >
               <Pencil className="size-3.5" />
-              <span className="text-sm">Edit</span>
+              <span className="text-sm">{t("edit")}</span>
             </Button>
           : <Button
               type="button"
@@ -101,16 +104,16 @@ export const ProfileActions = ({
                 <>
                   <IconUserCheck className="size-4 group-hover:hidden" />
                   <IconUserMinus className="size-4 hidden group-hover:block" />
-                  <span className="relative min-w-16 text-center">
-                    <span className="text-sm group-hover:invisible">Following</span>
+                  <span className="relative min-w-28 text-center">
+                    <span className="text-sm group-hover:invisible">{t("following")}</span>
                     <span className="absolute inset-0 flex items-center justify-center text-sm opacity-0 group-hover:opacity-100">
-                      Unfollow
+                      {t("unfollow")}
                     </span>
                   </span>
                 </>
               : <>
                   <IconUserPlus className="size-4" />
-                  <span className="text-sm">Follow</span>
+                  <span className="text-sm">{t("follow")}</span>
                 </>
               }
             </Button>

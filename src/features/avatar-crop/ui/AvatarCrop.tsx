@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { CircleStencil, Cropper, type CropperRef } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 import { IconX } from "@tabler/icons-react";
@@ -26,6 +27,8 @@ interface Props {
 }
 
 export const AvatarCrop = ({ open, imageUrl, onOpenChange, onCropDone }: Props) => {
+  const t = useTranslations("profile");
+
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const cropperRef = useRef<CropperRef>(null);
@@ -52,7 +55,9 @@ export const AvatarCrop = ({ open, imageUrl, onOpenChange, onCropDone }: Props) 
         className="sm:max-w-105 gap-0 overflow-hidden rounded-2xl border-border p-0 shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <DialogTitle className="text-base font-semibold text-foreground">Crop avatar</DialogTitle>
+          <DialogTitle className="text-base font-semibold text-foreground">
+            {t("cropAvatar")}
+          </DialogTitle>
 
           <DialogClose asChild>
             <Button
@@ -93,7 +98,7 @@ export const AvatarCrop = ({ open, imageUrl, onOpenChange, onCropDone }: Props) 
               variant="outline"
               className="h-9 px-4 rounded-xl text-sm font-medium border-border text-foreground hover:bg-white/5"
             >
-              <span>Cancel</span>
+              <span>{t("cancel")}</span>
             </Button>
           </DialogClose>
 
@@ -107,9 +112,9 @@ export const AvatarCrop = ({ open, imageUrl, onOpenChange, onCropDone }: Props) 
             {isSaving ?
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                <span className="text-sm">Saving...</span>
+                <span className="text-sm">{t("saving")}</span>
               </>
-            : <span>Save</span>}
+            : <span>{t("save")}</span>}
           </Button>
         </div>
       </DialogContent>

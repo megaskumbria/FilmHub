@@ -3,5 +3,45 @@
     "share": "Share",
     "edit": "Rename",
     "delete": "Delete"
+  },
+  "profile": {
+    "cover": "Cover",
+    "changeCover": "Change cover",
+    "bioPlaceholder": "Add a short bio...",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "save": "Save",
+    "edit": "Edit",
+    "follow": "Follow",
+    "following": "Following",
+    "unfollow": "Unfollow",
+    "you": "You",
+    "films": "{count, plural, one {Film} other {Films}}",
+    "collections": "{count, plural, one {Collection} other {Collections}}",
+    "followers": "{count, plural, one {Follower} other {Followers}}",
+    "editLinks": "Edit links",
+    "socialLinks": "Social links",
+    "noLinks": "No links added yet",
+    "maxLinks": "Maximum 4 links",
+    "addLink": "Add link",
+    "cropAvatar": "Crop avatar",
+    "people": "People",
+    "searchPeople": "Search by name or @tag...",
+    "tabs": {
+      "followers": "Followers",
+      "following": "Following"
+    },
+    "empty": {
+      "search": "No one matches that search",
+      "followers": "No followers yet",
+      "following": "Not following anyone yet"
+    },
+    "validation": {
+      "nicknameMin": "Nickname must be at least 2 characters",
+      "nicknameMax": "Nickname must be less than 24 characters",
+      "tagMin": "Tag must be at least 3 characters",
+      "tagMax": "Tag must be less than 16 characters",
+      "bioMax": "Bio must be less than 100 characters"
+    }
   }
 }

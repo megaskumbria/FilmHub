@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Film, BookOpen, Users, ChevronRight } from "lucide-react";
 import { Button, SheetTrigger } from "@/shared/ui";
 import { FollowersSheet } from "@/widgets";
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export const ProfileStats = ({ profile }: Props) => {
+  const t = useTranslations("profile");
   const { filmsCount, collectionsCount, followersCount, userId } = profile;
 
   return (
@@ -16,7 +18,9 @@ export const ProfileStats = ({ profile }: Props) => {
         <div className="flex items-center gap-1.5">
           <Film className="size-4 text-zinc-muted shrink-0" />
           <span className="text-foreground font-bold text-base">{filmsCount}</span>
-          <span className="text-zinc-muted text-sm font-medium">Films</span>
+          <span className="text-zinc-muted text-sm font-medium">
+            {t("films", { count: filmsCount })}
+          </span>
         </div>
       </div>
 
@@ -26,7 +30,9 @@ export const ProfileStats = ({ profile }: Props) => {
         <div className="flex items-center gap-1.5">
           <BookOpen className="size-4 text-zinc-muted shrink-0" />
           <span className="text-foreground font-bold text-base">{collectionsCount}</span>
-          <span className="text-zinc-muted text-sm font-medium">Collections</span>
+          <span className="text-zinc-muted text-sm font-medium">
+            {t("collections", { count: collectionsCount })}
+          </span>
         </div>
       </div>
 
@@ -40,7 +46,9 @@ export const ProfileStats = ({ profile }: Props) => {
           >
             <Users className="size-4 text-zinc-muted shrink-0" />
             <span className="text-foreground font-bold text-base">{followersCount}</span>
-            <span className="text-zinc-muted text-sm font-medium">Followers</span>
+            <span className="text-zinc-muted text-sm font-medium">
+              {t("followers", { count: followersCount })}
+            </span>
             <ChevronRight className="size-3.5 text-zinc-muted" />
           </Button>
         </SheetTrigger>

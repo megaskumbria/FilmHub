@@ -42,7 +42,3 @@ export default function CreationFlagPage() {
     </div>
   );
 }
-
-// Emotion gradient — from safe/neutral → anxious → dangerous → horrifying.
-// Each scale should have its own color “character”, but within a scale the intensity gradient stays consistent.
-// Flags are a graded scale from weak to strong; the scale defines what you measure

@@ -3,5 +3,45 @@
     "share": "Share",
     "edit": "Rename",
     "delete": "Delete"
+  },
+  "profile": {
+    "cover": "Обложка",
+    "changeCover": "Сменить обложку",
+    "bioPlaceholder": "Коротко о себе...",
+    "cancel": "Отмена",
+    "saving": "Сохранение...",
+    "save": "Сохранить",
+    "edit": "Изменить",
+    "follow": "Подписаться",
+    "following": "Подписаны",
+    "unfollow": "Отписаться",
+    "you": "Это вы",
+    "films": "{count, plural, one {Фильм} few {Фильма} many {Фильмов} other {Фильмов}}",
+    "collections": "{count, plural, one {Коллекция} few {Коллекции} many {Коллекций} other {Коллекций}}",
+    "followers": "{count, plural, one {Подписчик} few {Подписчика} many {Подписчиков} other {Подписчиков}}",
+    "editLinks": "Изменить ссылки",
+    "socialLinks": "Соцсети",
+    "noLinks": "Ссылок пока нет",
+    "maxLinks": "Не больше 4 ссылок",
+    "addLink": "Добавить ссылку",
+    "cropAvatar": "Обрезать аватар",
+    "people": "Люди",
+    "searchPeople": "Имя или @тег...",
+    "tabs": {
+      "followers": "Подписчики",
+      "following": "Подписки"
+    },
+    "empty": {
+      "search": "Никого не нашлось",
+      "followers": "Подписчиков пока нет",
+      "following": "Подписок пока нет"
+    },
+    "validation": {
+      "nicknameMin": "Ник должен содержать минимум 2 символа",
+      "nicknameMax": "Ник не длиннее 24 символов",
+      "tagMin": "Тег должен содержать минимум 3 символа",
+      "tagMax": "Тег не длиннее 16 символов",
+      "bioMax": "О себе не длиннее 100 символов"
+    }
   }
 }

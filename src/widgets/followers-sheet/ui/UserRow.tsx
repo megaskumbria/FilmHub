@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { type FollowUser, useFollowProfile } from "@/shared/hooks";
 import { getAvatarColor } from "@/shared/lib";
 import { Avatar, AvatarFallback, Button } from "@/shared/ui";
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export const UserRow = ({ user }: Props) => {
+  const t = useTranslations("profile");
+
   const { mutate: followProfile } = useFollowProfile();
   const ensureAuth = useRequireAuth();
 
@@ -48,15 +51,15 @@ export const UserRow = ({ user }: Props) => {
         </Link>
 
         {isMe ?
-          <span className="shrink-0 inline-flex h-8 w-28 items-center justify-center rounded-lg bg-accent/10 text-sm font-medium text-accent">
-            You
+          <span className="shrink-0 inline-flex h-8 w-36 items-center justify-center rounded-lg bg-accent/10 text-sm font-medium text-accent">
+            {t("you")}
           </span>
         : <Button
             onClick={handleFollowProfile}
-            className="shrink-0 h-8 w-28 justify-center px-2 rounded-lg text-sm border border-border text-primary hover:text-foreground transition-colors"
+            className="shrink-0 h-8 w-36 justify-center px-2 rounded-lg text-sm border border-border text-primary hover:text-foreground transition-colors"
             variant={isFollowing ? undefined : "accent"}
           >
-            <span>{isFollowing ? "Unfollow" : "Follow"}</span>
+            <span>{isFollowing ? t("unfollow") : t("follow")}</span>
           </Button>
         }
       </div>

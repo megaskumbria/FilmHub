@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link2, Plus, X } from "lucide-react";
 import {
   Button,
@@ -18,6 +19,8 @@ interface Props {
 }
 
 export const SocialLinksPopover = ({ links, onChange }: Props) => {
+  const t = useTranslations("profile");
+
   const handleUpdateLink = (index: number, url: string): void => {
     onChange(links.map((link, i) => (i === index ? url : link)));
   };
@@ -37,13 +40,13 @@ export const SocialLinksPopover = ({ links, onChange }: Props) => {
           className="rounded-lg gap-2 border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted transition-colors"
         >
           <Link2 className="size-4" />
-          <span className="text-sm whitespace-nowrap">Edit links</span>
+          <span className="text-sm whitespace-nowrap">{t("editLinks")}</span>
         </Button>
       </PopoverTrigger>
 
       <PopoverContent align="end" className="w-80 rounded-xl border-border bg-surface">
         <PopoverHeader className="mb-3">
-          <PopoverTitle className="text-sm text-foreground">Social links</PopoverTitle>
+          <PopoverTitle className="text-sm text-foreground">{t("socialLinks")}</PopoverTitle>
         </PopoverHeader>
 
         <div className="flex flex-col gap-2">
@@ -73,7 +76,7 @@ export const SocialLinksPopover = ({ links, onChange }: Props) => {
           ))}
 
           {links.length === 0 && (
-            <p className="py-2 text-center text-sm text-zinc-muted">No links added yet</p>
+            <p className="py-2 text-center text-sm text-zinc-muted">{t("noLinks")}</p>
           )}
         </div>
 
@@ -84,7 +87,7 @@ export const SocialLinksPopover = ({ links, onChange }: Props) => {
           className="mt-3 w-full justify-center gap-1.5 rounded-lg border border-border text-sm text-zinc-muted hover:text-foreground hover:border-zinc-muted transition-colors disabled:opacity-50 disabled:pointer-events-none"
         >
           <Plus className="size-3.5" />
-          <span>{isLimitReached ? "Maximum 4 links" : "Add link"}</span>
+          <span>{isLimitReached ? t("maxLinks") : t("addLink")}</span>
         </Button>
       </PopoverContent>
     </Popover>

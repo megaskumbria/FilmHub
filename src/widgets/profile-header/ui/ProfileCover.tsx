@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { cn } from "@/shared/lib/utils";
 import { Check, ImagePlus, Loader2, X } from "lucide-react";
 import { Button } from "@/shared/ui";
@@ -20,6 +21,7 @@ export const ProfileCover = ({
   isUpdatingCover,
   onUpdateCover,
 }: Props) => {
+  const t = useTranslations("profile");
   const { fileInputRef, handleFileSelect, previewUrl, clearFile, file } = useFileSelect();
 
   const handleSaveCover = async (): Promise<void> => {
@@ -37,7 +39,7 @@ export const ProfileCover = ({
       <ProfileCoverAtmosphere userId={userId} />
 
       {customCover && (
-        <Image src={customCover} alt="Cover" fill className="z-1 object-cover" priority />
+        <Image src={customCover} alt={t("cover")} fill className="z-1 object-cover" priority />
       )}
 
       <input
@@ -94,7 +96,7 @@ export const ProfileCover = ({
               onClick={() => fileInputRef.current?.click()}
             >
               <ImagePlus className="size-4" />
-              <span className="text-sm">Change cover</span>
+              <span className="text-sm">{t("changeCover")}</span>
             </Button>
           }
         </div>

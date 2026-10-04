@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Form, FormControl, FormField, FormItem, FormMessage, Input } from "@/shared/ui";
 import { UseFormReturn } from "react-hook-form";
 import { type ProfileEditSchema } from "../model/profile-edit-schema";
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }: Props) => {
+  const t = useTranslations("profile");
   const { nickname, tag, bio } = profile;
 
   return (
@@ -70,7 +72,7 @@ export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }
                       <Input
                         variant="ghost"
                         maxLength={100}
-                        placeholder="Add a short bio..."
+                        placeholder={t("bioPlaceholder")}
                         {...field}
                         className="h-auto w-full max-w-xs rounded-none border-0 border-b border-border/60 p-0 text-sm text-foreground placeholder:text-zinc-muted/60 focus-visible:border-accent focus-visible:ring-0"
                       />
