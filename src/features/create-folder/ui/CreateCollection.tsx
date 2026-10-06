@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { COLOR_PRESETS } from "@/widgets/create-folder-modal/model/color-presets";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionNameRow } from "./CollectionNameRow";
@@ -8,7 +9,10 @@ import { CollectionColorPicker } from "./CollectionColorPicker";
 import { CollectionCustomCover } from "./CollectionCustomCover";
 import { DialogClose, Button, Form } from "@/shared/ui";
 import { useForm } from "react-hook-form";
-import { createCollectionSchema, CreateCollectionSchema } from "../model/create-collection-schema";
+import {
+  useCreateCollectionSchema,
+  type CreateCollectionSchema,
+} from "../model/useCreateCollectionSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Collection, useCreateCollection, useEditCollection } from "@/shared/hooks";
 import { cn } from "@/shared/lib/utils";
@@ -19,6 +23,9 @@ interface Props {
 }
 
 export const CreateCollection = ({ onSuccess, initialData }: Props) => {
+  const t = useTranslations("collections.create");
+  const createCollectionSchema = useCreateCollectionSchema();
+
   const form = useForm<CreateCollectionSchema>({
     resolver: zodResolver(createCollectionSchema),
     defaultValues: {
@@ -66,7 +73,7 @@ export const CreateCollection = ({ onSuccess, initialData }: Props) => {
               className="border border-border rounded-lg text-sm text-muted hover:text-foreground"
               disabled={isPending}
             >
-              <span>Cancel</span>
+              <span>{t("cancel")}</span>
             </Button>
           </DialogClose>
 
@@ -82,8 +89,8 @@ export const CreateCollection = ({ onSuccess, initialData }: Props) => {
             type="submit"
           >
             {isPending ?
-              <span className="font-medium">{isUpdating ? "Editing..." : "Creating..."}</span>
-            : <span className="font-medium">{initialData ? "Edit" : "Create"}</span>}
+              <span className="font-medium">{isUpdating ? t("editing") : t("creating")}</span>
+            : <span className="font-medium">{initialData ? t("edit") : t("create")}</span>}
           </Button>
         </div>
       </form>

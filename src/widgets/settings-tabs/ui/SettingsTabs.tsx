@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { SETTINGS_TABS, type SettingsTab } from "../model/tabs";
 import { motion } from "framer-motion";
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export const SettingsTabs = ({ activeTab, setActiveTab }: Props) => {
+  const t = useTranslations("settings.tabs");
   const handleTabChange = (tabKey: string): void => setActiveTab(tabKey as SettingsTab);
 
   return (
@@ -30,7 +32,7 @@ export const SettingsTabs = ({ activeTab, setActiveTab }: Props) => {
 
               <span className="relative z-10 flex items-center justify-center gap-2">
                 {tab.icon}
-                {tab.label}
+                {t(tab.tabKey)}
               </span>
             </TabsTrigger>
           ))}

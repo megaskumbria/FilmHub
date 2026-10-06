@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Form, FormControl, FormField, FormItem, FormMessage, Input } from "@/shared/ui";
 import { UseFormReturn } from "react-hook-form";
-import { type ProfileEditSchema } from "../model/profile-edit-schema";
+import { type ProfileEditSchema } from "../model/useProfileEditSchema";
 import { type UserProfile } from "@/shared/hooks";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }: Props) => {
-  const t = useTranslations("profile");
+  const t = useTranslations("collections.profile");
   const { nickname, tag, bio } = profile;
 
   return (

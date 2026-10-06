@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/shared/ui";
 import { setSkipDeleteConfirm } from "@/shared/hooks";
+import { useTranslations } from "next-intl";
 
 interface Props {
   children: ReactNode;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export function DeleteFolderModal({ children, isDeleting, onConfirm }: Props) {
+  const t = useTranslations("collections.delete");
   const [isSkip, setIsSkip] = useState(false);
 
   const handleSkip = (checked: boolean) => setIsSkip(checked);
@@ -36,7 +38,7 @@ export function DeleteFolderModal({ children, isDeleting, onConfirm }: Props) {
       <DialogContent
         showCloseButton={false}
         aria-describedby={undefined}
-        className="sm:max-w-[380px] gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
+        className="sm:max-w-95 gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
       >
         <div className="relative flex items-end px-6 pt-10 pb-6 bg-red-500/[0.07] border-b border-red-500/15 overflow-hidden">
           <IconAlertTriangle
@@ -51,25 +53,23 @@ export function DeleteFolderModal({ children, isDeleting, onConfirm }: Props) {
 
             <div className="flex flex-col gap-0.5">
               <DialogTitle className="text-base font-semibold text-foreground leading-tight">
-                Delete collection?
+                {t("title")}
               </DialogTitle>
 
-              <p className="text-sm text-zinc-muted">This cannot be undone.</p>
+              <p className="text-sm text-zinc-muted">{t("undo")}</p>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-5 px-6 py-5">
-          <p className="text-sm text-zinc-muted leading-relaxed">
-            The collection and all its contents will be permanently removed from your account.
-          </p>
+          <p className="text-sm text-zinc-muted leading-relaxed">{t("body")}</p>
 
           <label
             htmlFor="skip-confirm"
             className="flex cursor-pointer items-center gap-2.5 select-none w-fit"
           >
             <Checkbox id="skip-confirm" onCheckedChange={handleSkip} />
-            <span className="text-sm text-zinc-muted">Don't ask again</span>
+            <span className="text-sm text-zinc-muted">{t("skip")}</span>
           </label>
         </div>
 
@@ -79,16 +79,16 @@ export function DeleteFolderModal({ children, isDeleting, onConfirm }: Props) {
               variant="outline"
               className="h-9 px-4 rounded-xl text-sm font-medium border-border text-foreground hover:bg-white/5"
             >
-              <span>Cancel</span>
+              <span>{t("cancel")}</span>
             </Button>
           </DialogClose>
 
           <Button
             onClick={handleConfirm}
             disabled={isDeleting}
-            className="h-9 px-4 rounded-xl text-sm font-semibold bg-red-500 hover:bg-red-600 text-white border-0 min-w-[80px]"
+            className="h-9 px-4 rounded-xl text-sm font-semibold bg-red-500 hover:bg-red-600 text-white border-0 min-w-20"
           >
-            <span>{isDeleting ? "Deleting..." : "Delete"}</span>
+            <span>{isDeleting ? t("deleting") : t("delete")}</span>
           </Button>
         </div>
       </DialogContent>

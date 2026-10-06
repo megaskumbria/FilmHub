@@ -2,7 +2,6 @@ import { Media } from "@/shared/stores/movie-catalog";
 import { create } from "zustand";
 import { MOVIE_CARD_PREVIEW_KEY } from "@/shared/storages/storage-keys";
 import { persist } from "zustand/middleware";
-import { toast } from "sonner";
 
 interface RandomPosterStore {
   mediaPreviewInfo: Media | null;
@@ -20,7 +19,6 @@ export const useRandomPosterStore = create<RandomPosterStore>()(
       resetPosterPreview: () => {
         set({ mediaPreviewInfo: null });
         useRandomPosterStore.persist.clearStorage();
-        toast.success("Poster preview reset", { position: "bottom-left" });
       },
     }),
     {

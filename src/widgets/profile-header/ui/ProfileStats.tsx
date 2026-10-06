@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const ProfileStats = ({ profile }: Props) => {
-  const t = useTranslations("profile");
+  const t = useTranslations("collections.profile");
   const { filmsCount, collectionsCount, followersCount, userId } = profile;
 
   return (

@@ -10,8 +10,10 @@ import { Button } from "@/shared/ui";
 import { Eye, EyeOff } from "lucide-react";
 import { MediaType } from "@/shared/stores/movie-catalog";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function MoviePage() {
+  const t = useTranslations("movie");
   const [selectedPoster, setSelectedPoster] = useState<string | null>(null);
   const [isUiHidden, setIsUiHidden] = useState(false);
   const searchParams = useSearchParams();
@@ -30,12 +32,6 @@ export default function MoviePage() {
   const titleToDisplay = originalName || title;
   const poster = selectedPoster ?? backdropUrl;
   const shouldShowCarousel = stillsReady && backdropUrl;
-
-  // .still-thumb {
-  //   aspect-ratio: 16 / 9; /* или 4/3, как решите под мобилку */
-  //   object-fit: cover;
-  //   width: 100%;
-  // }
 
   return (
     <div className="relative w-full overflow-hidden h-screen">
@@ -85,7 +81,7 @@ export default function MoviePage() {
               {isUiHidden ?
                 <Eye className="size-3.5" />
               : <EyeOff className="size-3.5" />}
-              <span>{isUiHidden ? "Show UI" : "Poster only"}</span>
+              <span>{isUiHidden ? t("showUi") : t("posterOnly")}</span>
             </Button>
 
             {shouldShowCarousel && (

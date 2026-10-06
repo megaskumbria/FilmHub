@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { Button } from "@/shared/ui";
 import { SocialLinksPopover } from "./SocialLinksPopover";
 import { SocialLinkIcon } from "./SocialLinkIcon";
@@ -15,7 +14,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createProfileEditSchema, type ProfileEditSchema } from "../model/profile-edit-schema";
+import { useProfileEditSchema, type ProfileEditSchema } from "../model/useProfileEditSchema";
 import { ProfileCover } from "./ProfileCover";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileIdentity } from "./ProfileIdentity";
@@ -28,21 +27,10 @@ interface Props {
 }
 
 export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
-  const t = useTranslations("profile");
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [socialLinks, setSocialLinks] = useState<string[]>([]);
 
-  const profileEditSchema = useMemo(
-    () =>
-      createProfileEditSchema({
-        nicknameMin: t("validation.nicknameMin"),
-        nicknameMax: t("validation.nicknameMax"),
-        tagMin: t("validation.tagMin"),
-        tagMax: t("validation.tagMax"),
-        bioMax: t("validation.bioMax"),
-      }),
-    [t],
-  );
+  const profileEditSchema = useProfileEditSchema();
 
   const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile();
   const { mutateAsync: updateCover, isPending: isUpdatingCover } = useUpdateProfileCover();

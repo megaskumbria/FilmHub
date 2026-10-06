@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Bookmark } from "lucide-react";
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const Header = ({ initialUser }: Props) => {
+  const t = useTranslations("header");
   const [scrolled, setScrolled] = useState(false);
 
   const openAuthModal = useAuthModalStore((s) => s.open);
@@ -50,14 +52,14 @@ export const Header = ({ initialUser }: Props) => {
             href="/"
             className="text-sm font-medium text-white/80 hover:text-white transition-colors"
           >
-            Home
+            {t("home")}
           </Link>
 
           <Link
             href="/movie-search"
             className="text-sm font-medium text-white/80 hover:text-white transition-colors"
           >
-            Movies
+            {t("movies")}
           </Link>
         </nav>
 
@@ -70,7 +72,7 @@ export const Header = ({ initialUser }: Props) => {
               className="flex h-9 items-center gap-2 rounded-lg bg-linear-to-r from-accent to-accent/80 px-4 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:from-accent/90 hover:to-accent/70"
             >
               <Bookmark className="size-4" />
-              <span>My collections</span>
+              <span>{t("myCollections")}</span>
             </Link>
           )}
 
@@ -83,7 +85,7 @@ export const Header = ({ initialUser }: Props) => {
               className="h-9 justify-center gap-0 rounded-lg border border-white/20 bg-white/10 px-4 text-white shadow-sm transition-colors hover:border-accent/40 hover:bg-white/20"
               onClick={openAuthModal}
             >
-              <span className="text-sm font-semibold tracking-tight">Sign in</span>
+              <span className="text-sm font-semibold tracking-tight">{t("signIn")}</span>
             </Button>
           }
         </div>

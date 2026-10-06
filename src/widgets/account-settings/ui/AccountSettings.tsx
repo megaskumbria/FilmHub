@@ -1,8 +1,11 @@
+import { useTranslations } from "next-intl";
 import { Lock, Shield } from "lucide-react";
 import { Separator } from "@/shared/ui";
 import { ChangeEmailForm, ChangePasswordForm, DeleteAccount, PrivacySettings } from "@/features";
 
 export const AccountSettings = () => {
+  const t = useTranslations("settings");
+
   return (
     <div className="h-full overflow-y-auto drawer-scroll">
       <div className="p-7 flex flex-col gap-8">
@@ -15,8 +18,8 @@ export const AccountSettings = () => {
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-foreground">Security</p>
-              <p className="text-sm text-zinc-muted mt-0.5">Email and password used to sign in</p>
+              <p className="text-sm font-semibold text-foreground">{t("security.title")}</p>
+              <p className="text-sm text-zinc-muted mt-0.5">{t("security.description")}</p>
             </div>
           </header>
 
@@ -40,7 +43,7 @@ export const AccountSettings = () => {
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-foreground">Privacy</p>
+              <p className="text-sm font-semibold text-foreground">{t("privacy.title")}</p>
             </div>
           </header>
 

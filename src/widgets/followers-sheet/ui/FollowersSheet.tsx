@@ -28,7 +28,7 @@ interface Props {
 }
 
 export const FollowersSheet = ({ children, userId }: Props) => {
-  const t = useTranslations("profile");
+  const t = useTranslations("collections.profile");
 
   const [activeTab, setActiveTab] = useState<TabValue>(TABS[0]);
   const [search, setSearch] = useState<string>("");

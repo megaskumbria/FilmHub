@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   Popover,
   PopoverTrigger,
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export const UserMenu = ({ initialUser }: Props) => {
+  const t = useTranslations("header.menu");
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -81,7 +83,7 @@ export const UserMenu = ({ initialUser }: Props) => {
           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-destructive/15 text-destructive/80 transition-colors ">
             <LogOut size={16} strokeWidth={2} />
           </span>
-          <span className="flex-1 text-left">Log out</span>
+          <span className="flex-1 text-left">{t("logout")}</span>
         </Button>
       </PopoverContent>
     </Popover>

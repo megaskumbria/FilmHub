@@ -19,6 +19,7 @@ import { ZoneKey } from "../lib/types";
 import { useMovieCardLayout, defaultLayout } from "@/shared/stores/movie-card-layout";
 import { MOVIE_CARD_LAYOUT_KEY } from "@/shared/storages/storage-keys";
 import { BlockKey } from "@/shared/types/movie-card-block-key";
+import { useTranslations } from "next-intl";
 import { HelpCircle, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/shared/lib/utils";
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export const ZonesPanel = ({ className }: Props) => {
+  const t = useTranslations("settings.card");
   const { layout, setLayout, blockOptions, setBlockOption } = useMovieCardLayout();
 
   const handleChecked = (zone: ZoneKey, blockId: string, checked: boolean) => {
@@ -47,14 +49,14 @@ export const ZonesPanel = ({ className }: Props) => {
 
   const handleReset = () => {
     setLayout(defaultLayout);
-    toast.success("Settings reset to defaults", { position: "bottom-left" });
+    toast.success(t("resetToast"), { position: "bottom-left" });
   };
 
   return (
     <section className={cn("flex flex-col border-r border-border bg-surface min-h-0", className)}>
       <div className="flex items-center justify-between px-5 pt-5 pb-4">
         <h3 className="text-xs font-semibold text-zinc-muted tracking-widest uppercase">
-          Card zones
+          {t("zones")}
         </h3>
 
         <div className="flex items-center gap-1.5 max-h-3">
@@ -70,7 +72,7 @@ export const ZonesPanel = ({ className }: Props) => {
             </TooltipTrigger>
 
             <TooltipContent>
-              <p className="text-sm">Reset to defaults</p>
+              <p className="text-sm">{t("resetHint")}</p>
             </TooltipContent>
           </Tooltip>
 
@@ -80,7 +82,7 @@ export const ZonesPanel = ({ className }: Props) => {
             </TooltipTrigger>
 
             <TooltipContent>
-              <p className="text-sm">A block can only be active in one zone.</p>
+              <p className="text-sm">{t("oneZone")}</p>
             </TooltipContent>
           </Tooltip>
         </div>
@@ -93,13 +95,13 @@ export const ZonesPanel = ({ className }: Props) => {
         defaultValue={ZONES.map((z) => z.key)}
         className="px-4 py-1 overflow-y-auto drawer-scroll"
       >
-        {ZONES.map(({ key, label, dotClass, blocks }) => {
+        {ZONES.map(({ key, dotClass, blocks }) => {
           return (
             <AccordionItem key={key} value={key} className="border-border">
               <AccordionTrigger className="cursor-pointer text-xs font-bold tracking-widest text-zinc-muted hover:no-underline hover:text-foreground px-1 py-3.5 [&>svg]:size-3 [&>svg]:text-zinc-muted/50 [&>svg]:translate-y-0 hover:[&>svg]:text-foreground [&>svg]:transition-colors">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                   <span className={`size-1.5 rounded-full shrink-0 ${dotClass}`} />
-                  <span>{label}</span>
+                  <span>{t(key)}</span>
                 </div>
               </AccordionTrigger>
 
@@ -119,7 +121,7 @@ export const ZonesPanel = ({ className }: Props) => {
                             checked={isChecked}
                             onCheckedChange={(checked) => handleChecked(key, block.id, !!checked)}
                           />
-                          {block.label}
+                          {t(block.id)}
                         </Label>
 
                         {isChecked && block.subOptions && (
@@ -131,7 +133,7 @@ export const ZonesPanel = ({ className }: Props) => {
                                 className="flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-surface-subtle transition-colors group/sub cursor-pointer"
                               >
                                 <span className="text-xs text-zinc-muted/60 group-hover/sub:text-zinc-muted transition-colors">
-                                  {opt.label}
+                                  {t("scales")}
                                 </span>
 
                                 <Switch

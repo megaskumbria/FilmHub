@@ -6,8 +6,10 @@ import { Search, X } from "lucide-react";
 import { Input } from "@/shared/ui";
 import { useFilterMedia } from "@/features";
 import { useDebounce } from "@/shared/hooks";
+import { useTranslations } from "next-intl";
 
 export const MovieSearchPanel = () => {
+  const t = useTranslations("catalog");
   const [input, setInput] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
@@ -40,7 +42,7 @@ export const MovieSearchPanel = () => {
           onChange={(e) => setInput(e.target.value)}
           onFocus={() => setIsSearchFocused(true)}
           onBlur={() => setIsSearchFocused(false)}
-          placeholder="Search movies, series..."
+          placeholder={t("search")}
           variant="neutral"
           className="h-10 pl-9 pr-9 text-sm"
         />

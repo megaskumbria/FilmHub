@@ -6,8 +6,10 @@ import { SettingsModal } from "@/widgets";
 import { Settings } from "lucide-react";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { useRandomPosterAction } from "@/shared/hooks";
+import { useTranslations } from "next-intl";
 
 export const PosterUploadSection = () => {
+  const t = useTranslations("flags.poster");
   const { mediaPreviewInfo, resetPosterPreview } = useRandomPosterStore();
   const { isPending, handleGetRandomPoster } = useRandomPosterAction();
 
@@ -24,7 +26,7 @@ export const PosterUploadSection = () => {
       <div className="flex items-center justify-between z-10">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <span className="text-sm font-semibold text-foreground tracking-wide">Poster</span>
+          <span className="text-sm font-semibold text-foreground tracking-wide">{t("title")}</span>
         </div>
 
         <SettingsModal defaultMenu="movie-card">
@@ -32,7 +34,7 @@ export const PosterUploadSection = () => {
             <Settings className="size-4 text-zinc-muted/90 group-hover:text-foreground/70 transition-colors" />
 
             <span className="text-xs text-zinc-muted/90 font-semibold tracking-widest transition-colors group-hover:text-foreground/70 ">
-              Configure
+              {t("configure")}
             </span>
           </Button>
         </SettingsModal>
@@ -54,7 +56,7 @@ export const PosterUploadSection = () => {
         <SettingsModal defaultMenu="movie-card">
           <Button className="w-full pt-4 z-10">
             <span className="text-xs text-center hover:text-foreground/70 text-zinc-muted/90 font-semibold tracking-widest transition-colors ">
-              Enable the flag in settings to show it here
+              {t("enable")}
             </span>
           </Button>
         </SettingsModal>

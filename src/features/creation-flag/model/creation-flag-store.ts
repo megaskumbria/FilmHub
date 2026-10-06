@@ -47,7 +47,7 @@ export const useCreationFlagStore = create<Store>((set) => {
     lastSnapshotFlag: null,
 
     flag: {
-      flagName: "New flag",
+      flagName: "",
       selectedColor: "rgba(139, 92, 246, 1)",
       bgOpacity: 0.38,
       selectedFont: "Manrope",

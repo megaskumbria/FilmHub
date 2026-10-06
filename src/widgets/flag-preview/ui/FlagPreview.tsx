@@ -7,8 +7,10 @@ import { FolderOpen } from "lucide-react";
 import { DotGrid, InlineSvg } from "@/shared/ui";
 import { useShallow } from "zustand/shallow";
 import { memo } from "react";
+import { useTranslations } from "next-intl";
 
 export const FlagPreview = memo(() => {
+  const t = useTranslations("flags");
   const { flag } = useCreationFlagStore(
     useShallow((state) => ({
       flag: state.flag,
@@ -20,13 +22,16 @@ export const FlagPreview = memo(() => {
   const selectedColorBg = flagSoftBackground(selectedColor, bgOpacity);
 
   const { svgContent } = selectedIcon ?? {};
+  const displayName = flagName || t("newFlag");
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 flex-1">
       <div className="flex items-center gap-2">
         <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
 
-        <span className="text-sm font-semibold text-foreground tracking-wide">Flag preview</span>
+        <span className="text-sm font-semibold text-foreground tracking-wide">
+          {t("preview.title")}
+        </span>
       </div>
 
       <div className="relative h-full flex flex-col items-center justify-center gap-4 rounded-lg bg-obsidian/60 border border-border/30 py-4">
@@ -35,9 +40,11 @@ export const FlagPreview = memo(() => {
         <div className="flex items-center gap-1.5">
           <FolderOpen className="size-3.5 shrink-0" />
 
-          <span className="text-sm font-medium text-zinc-muted">Scale:</span>
+          <span className="text-sm font-medium text-zinc-muted">{t("preview.scale")}</span>
 
-          <span className="text-foreground font-medium">{scale.name || "Not selected"}</span>
+          <span className="text-foreground font-medium">
+            {scale.name || t("preview.notSelected")}
+          </span>
         </div>
 
         <div
@@ -56,16 +63,16 @@ export const FlagPreview = memo(() => {
             className="text-lg font-bold"
             style={{ color: selectedColor, textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
           >
-            {flagName || "New flag"}
+            {displayName}
           </span>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-sm text-zinc-muted">Badge style:</span>
+          <span className="text-sm text-zinc-muted">{t("preview.badgeStyle")}</span>
 
           <FlagBadge
             flagItem={{
-              flagName,
+              flagName: displayName,
               color: selectedColor,
               bgOpacity,
               fontFamily: selectedFont,

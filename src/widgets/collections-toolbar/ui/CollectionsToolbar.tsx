@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { cn } from "@/shared/lib/utils";
 import { Input, Button, Separator } from "@/shared/ui";
 import { Search, EyeOff, Eye, Pencil, Heart, Share2 } from "lucide-react";
@@ -39,6 +40,7 @@ export const CollectionsToolbar = ({
   onToggleEditMode,
   isLoading = false,
 }: Props) => {
+  const t = useTranslations("collections.toolbar");
   const ensureAuth = useRequireAuth();
 
   const focusRef = useRef<HTMLInputElement>(null);
@@ -120,7 +122,7 @@ export const CollectionsToolbar = ({
               value={searchTerm}
               variant="neutral"
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search collections..."
+              placeholder={t("search")}
               className="h-9 text-sm rounded-lg border-border bg-surface placeholder:text-zinc-muted"
             />
           </div>
@@ -161,7 +163,7 @@ export const CollectionsToolbar = ({
               )}
             >
               <Pencil className="shrink-0 size-4" />
-              <span className="text-sm">{isEditMode ? "Done" : "Edit"}</span>
+              <span className="text-sm">{isEditMode ? t("done") : t("edit")}</span>
             </Button>
           </>
         )}

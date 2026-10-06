@@ -13,8 +13,10 @@ import { Film } from "lucide-react";
 import { motion } from "framer-motion";
 import { useGenres } from "@/shared/hooks";
 import { useFilterMedia } from "../model/filter-media-store";
+import { useTranslations } from "next-intl";
 
 export const GenreSelect = () => {
+  const t = useTranslations("catalog");
   const { data: dataGenres = [], isLoading } = useGenres();
   const { selectedGenre, setSelectedGenre } = useFilterMedia();
 
@@ -27,7 +29,7 @@ export const GenreSelect = () => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <Film className="size-3.5" />
-        Genre
+        {t("genre")}
       </Label>
 
       <Select
@@ -35,7 +37,7 @@ export const GenreSelect = () => {
         onValueChange={(value) => setSelectedGenre({ id: value, name: "" })}
       >
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Select genre" />
+          <SelectValue placeholder={t("genrePlaceholder")} />
         </SelectTrigger>
 
         <SelectContent

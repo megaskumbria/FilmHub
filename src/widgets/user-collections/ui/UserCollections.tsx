@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { CreateCollectionModal, EmptyStateCollection } from "@/widgets";
@@ -30,6 +31,7 @@ export const UserCollections = ({
   isPending,
   hasCollectionItems,
 }: Props) => {
+  const t = useTranslations("collections.list");
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -55,14 +57,14 @@ export const UserCollections = ({
       : <section>
           <div className="flex items-center justify-between mb-5 pt-5">
             <h2 className="text-lg font-semibold text-foreground">
-              {isMyProfile ? "My collections" : "Collections"}
+              {isMyProfile ? t("mine") : t("theirs")}
             </h2>
 
             {isMyProfile && (
               <CreateCollectionModal isEditing={false}>
                 <Button variant="accent" size="sm" className="rounded-lg gap-2">
                   <Plus className="size-4" />
-                  <span className="text-sm font-medium">Create</span>
+                  <span className="text-sm font-medium">{t("create")}</span>
                 </Button>
               </CreateCollectionModal>
             )}

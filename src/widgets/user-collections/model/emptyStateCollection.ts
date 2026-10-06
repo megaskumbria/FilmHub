@@ -3,7 +3,7 @@ import { IconSkull, IconHeart, IconMask, IconClock } from "@tabler/icons-react";
 
 export type EmptyStateCollectionPreview = {
   icon: TablerIcon;
-  label: string;
+  labelKey: "horrors" | "favourites" | "mysterious" | "rewatch";
   color: string;
   rotate: string;
   opacity: string;
@@ -14,7 +14,7 @@ export type EmptyStateCollectionPreview = {
 export const EMPTY_STATE_COLLECTION_PREVIEWS: (EmptyStateCollectionPreview | null)[] = [
   {
     icon: IconSkull,
-    label: "Horrors",
+    labelKey: "horrors",
     color: "#6366f1",
     rotate: "-rotate-3",
     opacity: "opacity-40",
@@ -23,7 +23,7 @@ export const EMPTY_STATE_COLLECTION_PREVIEWS: (EmptyStateCollectionPreview | nul
   },
   {
     icon: IconHeart,
-    label: "Favourites",
+    labelKey: "favourites",
     color: "#ec4899",
     rotate: "-rotate-1",
     opacity: "opacity-65",
@@ -33,7 +33,7 @@ export const EMPTY_STATE_COLLECTION_PREVIEWS: (EmptyStateCollectionPreview | nul
   null,
   {
     icon: IconMask,
-    label: "Mysterious",
+    labelKey: "mysterious",
     color: "#f59e0b",
     rotate: "rotate-1",
     opacity: "opacity-65",
@@ -42,7 +42,7 @@ export const EMPTY_STATE_COLLECTION_PREVIEWS: (EmptyStateCollectionPreview | nul
   },
   {
     icon: IconClock,
-    label: "To rewatch",
+    labelKey: "rewatch",
     color: "#10b981",
     rotate: "rotate-3",
     opacity: "opacity-40",

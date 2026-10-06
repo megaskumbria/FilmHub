@@ -5,77 +5,84 @@ import { SheetTrigger } from "@/shared/ui";
 import { ReactNode } from "react";
 
 interface UserActionsGroup {
-  label: string;
+  labelKey: string;
   items: UserActionsButton[];
 }
 
 interface UserActionsButton {
   icon: LucideIcon;
+  labelKey: string;
   soon?: boolean;
-  render: (userId?: string) => ReactNode;
+  render: (label: string, userId?: string) => ReactNode;
 }
 
 export const ACTION_GROUPS: UserActionsGroup[] = [
   {
-    label: "Account",
+    labelKey: "account",
     items: [
       {
         icon: Users,
-        render: (userId?: string) => (
+        labelKey: "subscriptions",
+        render: (label, userId) => (
           <FollowersSheet userId={userId ?? ""}>
             <SheetTrigger asChild>
-              <ActionButton icon={Users}>Subscriptions</ActionButton>
+              <ActionButton icon={Users}>{label}</ActionButton>
             </SheetTrigger>
           </FollowersSheet>
         ),
       },
       {
         icon: BarChart3,
-        render: () => (
+        labelKey: "statistics",
+        render: (label) => (
           <ActionButton icon={BarChart3} soon={true}>
-            Statistics
+            {label}
           </ActionButton>
         ),
       },
       {
         icon: Folder,
-        render: () => (
+        labelKey: "achievements",
+        render: (label) => (
           <ActionButton icon={Folder} soon={true}>
-            Achievements
+            {label}
           </ActionButton>
         ),
       },
     ],
   },
   {
-    label: "Collections",
+    labelKey: "collections",
     items: [
       {
         icon: Clapperboard,
-        render: (userId?: string) => (
+        labelKey: "myCollections",
+        render: (label, userId) => (
           <ActionButton icon={Clapperboard} href={`/collections/${userId}`}>
-            My collections
+            {label}
           </ActionButton>
         ),
       },
       {
         icon: Flag,
-        render: () => (
+        labelKey: "flags",
+        render: (label) => (
           <ActionButton icon={Flag} href="/creation-flag">
-            Flags
+            {label}
           </ActionButton>
         ),
       },
     ],
   },
   {
-    label: "System",
+    labelKey: "system",
     items: [
       {
         icon: Settings,
-        render: () => (
+        labelKey: "settings",
+        render: (label) => (
           <SettingsModal>
-            <ActionButton icon={Settings}>Settings</ActionButton>
+            <ActionButton icon={Settings}>{label}</ActionButton>
           </SettingsModal>
         ),
       },

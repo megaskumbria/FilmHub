@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Checkbox, Popover, PopoverContent, PopoverTrigger, AddBookmarkButton } from "@/shared/ui";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
 import { type Media } from "@/shared/stores/movie-catalog";
@@ -50,6 +50,7 @@ export const MediaCard = ({
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
   const locale = useLocale();
+  const t = useTranslations("movie.card");
 
   const {
     posterUrl,
@@ -67,7 +68,7 @@ export const MediaCard = ({
 
   const { poster, body, hover } = layout;
 
-  const titleToDisplay = name || originalTitle || originalName || title || "Untitled";
+  const titleToDisplay = name || originalTitle || originalName || title || t("untitled");
   const yearOfRelease = new Date(releaseDate || firstAirDate).getFullYear();
 
   const mediaForBlocks = {

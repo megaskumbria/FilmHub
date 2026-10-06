@@ -21,8 +21,10 @@ import { useCountries } from "@/shared/hooks";
 import type { Country } from "@/shared/hooks/useCountries";
 import { EarthIcon } from "@/shared/icons";
 import { LockKeyholeIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export const CountrySelect = () => {
+  const t = useTranslations("catalog");
   const countryAnchorRef = useComboboxAnchor();
   const { selectedCountry, setSelectedCountry, isFrozenFilterCountry } = useFilterMedia();
   const { data: dataCountries = [], isLoading } = useCountries();
@@ -36,7 +38,7 @@ export const CountrySelect = () => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <EarthIcon className="size-3.5" />
-        Country
+        {t("country")}
       </Label>
 
       <div ref={countryAnchorRef} className="relative w-full">
@@ -60,7 +62,7 @@ export const CountrySelect = () => {
                 </TooltipTrigger>
 
                 <TooltipContent side="top" className="text-sm">
-                  <span>Country filter is unavailable while searching</span>
+                  <span>{t("countryLocked")}</span>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -75,7 +77,7 @@ export const CountrySelect = () => {
           isItemEqualToValue={(a, b) => a.iso31661 === b.iso31661}
         >
           <ComboboxInput
-            placeholder="Select country"
+            placeholder={t("countryPlaceholder")}
             className="py-2 w-full rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors"
             disabled={isFrozenFilterCountry}
           />
@@ -85,7 +87,7 @@ export const CountrySelect = () => {
             className="bg-graphite border-border/40 shadow-xl"
           >
             <ComboboxEmpty>
-              <div className="p-4 text-sm text-muted">No countries found</div>
+              <div className="p-4 text-sm text-muted">{t("countryEmpty")}</div>
             </ComboboxEmpty>
 
             <ComboboxList>

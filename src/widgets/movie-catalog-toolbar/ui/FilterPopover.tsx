@@ -4,8 +4,10 @@ import { Popover, PopoverContent, PopoverTrigger, Button } from "@/shared/ui";
 import { Filter, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GenreSelect, YearSelect, SortSelect, CountrySelect, useFilterMedia } from "@/features";
+import { useTranslations } from "next-intl";
 
 export const FilterPopover = () => {
+  const t = useTranslations("catalog");
   const {
     selectedGenre,
     setSelectedGenre,
@@ -33,7 +35,7 @@ export const FilterPopover = () => {
         <Button className="flex justify-center gap-x-2 relative h-9 px-2.5 max-w-32 w-full rounded-lg bg-graphite border border-border/40 hover:bg-surface hover:border-accent/30 shadow-sm hover:shadow-accent/10 transition-all duration-300 text-sm font-medium">
           <Filter className="size-4 group-data-[state=open]:rotate-90 transition-transform duration-300" />
 
-          <span>Filters</span>
+          <span>{t("filters")}</span>
 
           <AnimatePresence>
             {hasActiveFilters && (
@@ -70,7 +72,7 @@ export const FilterPopover = () => {
               <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
                 <Filter className="size-4 text-accent" />
               </div>
-              <h3 className="font-semibold text-base">Search filters</h3>
+              <h3 className="font-semibold text-base">{t("filterTitle")}</h3>
             </div>
           </header>
 
@@ -95,7 +97,7 @@ export const FilterPopover = () => {
                   variant="accent"
                 >
                   <RotateCcw className="size-4" />
-                  Reset
+                  <span>{t("reset")}</span>
                 </Button>
               </motion.footer>
             )}

@@ -8,8 +8,10 @@ import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
 import { Skeleton } from "@/shared/ui";
 import { useFilterMedia } from "@/features";
 import { extractUniqueMedia } from "@/shared/lib";
+import { useTranslations } from "next-intl";
 
 export const MovieGrid = () => {
+  const t = useTranslations("catalog");
   const {
     selectedGenre,
     selectedSort,
@@ -82,7 +84,7 @@ export const MovieGrid = () => {
 
       {allMedia.length === 0 && (
         <div className="flex justify-center items-center h-full">
-          <p className="text-center text-sm text-muted">No results found</p>
+          <p className="text-center text-sm text-muted">{t("empty")}</p>
         </div>
       )}
 

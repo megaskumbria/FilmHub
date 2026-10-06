@@ -5,8 +5,10 @@ import { Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { DATA_YEARS } from "../model/dataYears";
 import { useFilterMedia } from "../model/filter-media-store";
+import { useTranslations } from "next-intl";
 
 export const YearSelect = () => {
+  const t = useTranslations("catalog");
   const { selectedYear, setSelectedYear } = useFilterMedia();
 
   return (
@@ -18,12 +20,12 @@ export const YearSelect = () => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <Calendar className="size-3.5" />
-        Release year
+        {t("year")}
       </Label>
 
       <Select value={selectedYear} onValueChange={setSelectedYear}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Select period" />
+          <SelectValue placeholder={t("yearPlaceholder")} />
         </SelectTrigger>
 
         <SelectContent
@@ -33,7 +35,9 @@ export const YearSelect = () => {
         >
           {DATA_YEARS.map((year) => (
             <SelectItem key={year.value} value={year.value}>
-              {year.label}
+              {year.value === "before-1990" || year.value === "2020-today" ?
+                t(`years.${year.value}`)
+              : year.label}
             </SelectItem>
           ))}
         </SelectContent>

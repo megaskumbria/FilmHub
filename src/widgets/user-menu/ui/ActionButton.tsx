@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui/button";
 import { LucideIcon } from "lucide-react";
 import { forwardRef, ReactNode } from "react";
@@ -12,6 +13,8 @@ interface Props {
 
 export const ActionButton = forwardRef<HTMLButtonElement, Props>(
   ({ icon: Icon, children, soon, href, ...props }, ref) => {
+    const t = useTranslations("header.menu");
+
     const content = (
       <Button
         ref={ref}
@@ -29,7 +32,7 @@ export const ActionButton = forwardRef<HTMLButtonElement, Props>(
 
         {soon && (
           <span className="rounded-md bg-secondary/80 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
-            Soon
+            {t("soon")}
           </span>
         )}
       </Button>

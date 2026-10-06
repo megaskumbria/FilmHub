@@ -18,6 +18,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import type { GoogleFont } from "@/shared/lib/fonts";
 import { fetchGoogleFonts, fontSupportsCyrillic, loadFont } from "@/shared/lib/fonts";
+import { useTranslations } from "next-intl";
 import { Label } from "@/shared/ui/label";
 import { Switch } from "@/shared/ui/switch";
 import { cn } from "@/shared/lib/utils";
@@ -128,6 +129,7 @@ export function FontPicker({
   className,
   showFilters = true,
 }: FontPickerProps) {
+  const t = useTranslations("flags.fontPicker");
   const [selectedFont, setSelectedFont] = React.useState<GoogleFont | null>(null);
   const [search, setSearch] = React.useState("");
   const [isOpen, setIsOpen] = React.useState(false);
@@ -214,7 +216,7 @@ export function FontPicker({
           role="combobox"
           aria-expanded={isOpen}
           aria-haspopup="listbox"
-          aria-label="Select font"
+          aria-label={t("selectAria")}
           className={cn(
             "group w-full relative h-9 justify-between px-2 border-border/40 bg-input/60 text-foreground font-normal",
             "hover:border-border hover:bg-input/80",
@@ -226,7 +228,7 @@ export function FontPicker({
           <span className="truncate text-sm">
             {selectedFont ?
               <span>{selectedFont.family}</span>
-            : <span className="text-zinc-muted/70">Choose a font...</span>}
+            : <span className="text-zinc-muted/70">{t("choose")}</span>}
           </span>
           <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-muted/50" />
         </Button>
@@ -241,7 +243,7 @@ export function FontPicker({
       >
         <Command className="bg-transparent">
           <CommandInput
-            placeholder="Search fonts..."
+            placeholder={t("search")}
             value={search}
             onValueChange={setSearch}
             className="text-sm placeholder:text-zinc-muted/60 w-full"
@@ -253,30 +255,34 @@ export function FontPicker({
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm">
                       <Filter className="h-3.5 w-3.5" />
-                      <span className="text-xs capitalize">
-                        {selectedCategory === "all" ? "All categories" : selectedCategory}
+                      <span className="text-xs">
+                        {selectedCategory === "all" ?
+                          t("allCategories")
+                        : t.has(`categories.${selectedCategory}`) ?
+                          t(`categories.${selectedCategory}`)
+                        : selectedCategory}
                       </span>
                       <ChevronsUpDown className="ml-1 h-3 w-3 opacity-50" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="start"
-                    className="border-border/60 bg-surface-subtle w-[200px]"
+                    className="border-border/60 bg-surface-subtle w-50"
                   >
                     <DropdownMenuRadioGroup
                       value={selectedCategory}
                       onValueChange={setSelectedCategory}
                     >
                       <DropdownMenuRadioItem value="all">
-                        <span>All categories</span>
+                        <span>{t("allCategories")}</span>
                       </DropdownMenuRadioItem>
                       {categories.map((category) => (
-                        <DropdownMenuRadioItem
-                          key={category}
-                          value={category}
-                          className="capitalize"
-                        >
-                          <span>{category}</span>
+                        <DropdownMenuRadioItem key={category} value={category}>
+                          <span>
+                            {t.has(`categories.${category}`) ?
+                              t(`categories.${category}`)
+                            : category}
+                          </span>
                         </DropdownMenuRadioItem>
                       ))}
                     </DropdownMenuRadioGroup>
@@ -289,18 +295,18 @@ export function FontPicker({
                   size="sm"
                   checked={cyrillicOnly}
                   onCheckedChange={setCyrillicOnly}
-                  aria-label="Only fonts that support Cyrillic script"
+                  aria-label={t("cyrillicAria")}
                 />
                 <Label
                   htmlFor="font-picker-cyrillic"
                   className="text-zinc-muted cursor-pointer gap-1.5 font-normal"
                 >
-                  <span className="text-xs">Cyrillic</span>
+                  <span className="text-xs">{t("cyrillic")}</span>
                 </Label>
               </div>
             </div>
             <span className="text-zinc-muted/60 shrink-0 text-xs">
-              {filteredFonts.length} fonts
+              {t("count", { count: filteredFonts.length })}
             </span>
           </div>
           {isLoading ?
@@ -309,7 +315,7 @@ export function FontPicker({
             </div>
           : error ?
             <div className="text-destructive flex items-center justify-center p-4 text-sm">
-              Failed to load fonts.
+              {t("loadFailed")}
             </div>
           : <>
               <CommandEmpty className="text-zinc-muted py-6 text-sm text-center">

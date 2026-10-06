@@ -3,12 +3,14 @@ import { formatUsageCount } from "@/shared/lib";
 import { Crown, Users, X } from "lucide-react";
 import { getPackAccentColor, getPackAccentRgb } from "@/widgets/popular-flags-carousel";
 import { type PresetPack } from "@/shared/hooks";
+import { useTranslations } from "next-intl";
 
 interface Props {
   presetPack: PresetPack;
 }
 
 export const PresetPackModalHeader = ({ presetPack }: Props) => {
+  const t = useTranslations("flags.packs");
   const { usageCount, title, description } = presetPack;
 
   const accentColor = getPackAccentColor(presetPack);
@@ -39,12 +41,12 @@ export const PresetPackModalHeader = ({ presetPack }: Props) => {
               }}
             >
               <Crown className="size-3" />
-              <span>PRO pack</span>
+              <span>{t("proPack")}</span>
             </span>
 
             <span className="flex items-center gap-1 text-xs text-zinc-muted">
               <Users className="size-3" />
-              <span>{formatUsageCount(usageCount)} users</span>
+              <span>{t("users", { count: formatUsageCount(usageCount) })}</span>
             </span>
           </div>
 
@@ -57,7 +59,7 @@ export const PresetPackModalHeader = ({ presetPack }: Props) => {
 
         <DialogClose
           className="shrink-0 mt-0.5 size-7 flex items-center justify-center rounded-lg border border-border/40 bg-white/4 text-zinc-muted hover:text-foreground hover:bg-white/8 transition-colors cursor-pointer"
-          aria-label="Close"
+          aria-label={t("close")}
         >
           <X className="size-5" />
         </DialogClose>

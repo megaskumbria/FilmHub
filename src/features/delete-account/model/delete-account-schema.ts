@@ -1,7 +1,14 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-export const deleteAccountSchema = z.object({
-  password: z.string().min(1, "Password is required"),
-});
+export const useDeleteAccountSchema = () => {
+  const t = useTranslations("settings.deleteAccount");
 
-export type DeleteAccountSchema = z.infer<typeof deleteAccountSchema>;
+  return z.object({
+    password: z.string().min(1, t("passwordRequired")),
+  });
+};
+
+export type DeleteAccountSchema = z.infer<ReturnType<typeof useDeleteAccountSchema>>;

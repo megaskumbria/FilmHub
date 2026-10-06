@@ -16,12 +16,7 @@ import { CastMember, TmdbMovie } from "@/shared/hooks/useMedia";
 import { AddMovieCollection } from "@/features";
 import { useState } from "react";
 import { useRequireAuth } from "@/features/auth";
-
-const formatDuration = (min: number) => {
-  const h = Math.floor(min / 60);
-  const m = min % 60;
-  return h > 0 ? `${h}h ${m}m` : `${m}m`;
-};
+import { useTranslations } from "next-intl";
 
 interface Props {
   movie: TmdbMovie;
@@ -30,7 +25,14 @@ interface Props {
 }
 
 export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
+  const t = useTranslations("movie");
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const formatDuration = (min: number) => {
+    const hours = Math.floor(min / 60);
+    const minutes = min % 60;
+    return hours > 0 ? t("duration", { hours, minutes }) : t("minutes", { minutes });
+  };
 
   const ensureAuth = useRequireAuth();
 
@@ -79,7 +81,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
             </span>
           : <span className="flex items-center gap-1.5 text-white/70">
               <Tv className="size-3.5" />
-              {numberOfSeasons} {numberOfSeasons === 1 ? "Season" : "Seasons"}
+              {numberOfSeasons && t("seasons", { count: numberOfSeasons })}
             </span>
           }
         </div>
@@ -109,7 +111,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
               className="transition-all duration-200 gap-1 rounded-lg font-semibold text-sm shadow-lg shadow-accent/30"
             >
               <Plus className="size-4" />
-              <span>Add to collection</span>
+              <span>{t("addToCollection")}</span>
             </Button>
           </PopoverTrigger>
 
@@ -125,7 +127,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
         <div className="flex items-stretch h-10 rounded-lg border border-white/20 bg-white/10 overflow-hidden">
           <Button className="transition-all duration-200 gap-1 h-full rounded-none bg-transparent hover:bg-white/10 font-semibold text-sm text-white border-none shadow-none px-4">
             <Link2 className="size-4" />
-            <span>Generate link</span>
+            <span>{t("generateLink")}</span>
           </Button>
 
           <div className="w-px self-center h-5 bg-white/15 shrink-0" />
@@ -138,7 +140,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
             </TooltipTrigger>
 
             <TooltipContent>
-              <p className="text-sm">Builds a link to a free source for watching the film.</p>
+              <p className="text-sm">{t("linkHint")}</p>
             </TooltipContent>
           </Tooltip>
         </div>

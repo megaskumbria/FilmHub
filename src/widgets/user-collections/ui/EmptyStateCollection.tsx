@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui";
 import { Plus } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export const EmptyStateCollection = ({ isMyProfile, userId }: Props) => {
+  const t = useTranslations("collections.emptyState");
+
   if (!isMyProfile) return <EmptyStateVisitorCollections userId={userId} />;
 
   return (
@@ -35,7 +38,7 @@ export const EmptyStateCollection = ({ isMyProfile, userId }: Props) => {
 
                   <div className="px-3 py-2.5 bg-surface-subtle flex items-center gap-2">
                     <span className="text-sm font-medium text-foreground/70 group-hover:text-foreground transition-colors duration-200">
-                      Create collection
+                      {t("create")}
                     </span>
                   </div>
                 </div>
@@ -71,7 +74,7 @@ export const EmptyStateCollection = ({ isMyProfile, userId }: Props) => {
                 </div>
 
                 <div className="px-3 py-2.5 bg-surface-subtle flex items-center justify-between gap-2">
-                  <p className="text-sm font-medium text-foreground truncate">{item.label}</p>
+                  <p className="text-sm font-medium text-foreground truncate">{t(item.labelKey)}</p>
                   <span className="text-xs text-muted shrink-0">{item.count}</span>
                 </div>
               </div>

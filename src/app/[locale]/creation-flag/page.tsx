@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Separator } from "@/shared/ui";
 import {
   FlagScalesSidebar,
@@ -8,15 +9,15 @@ import {
 } from "@/widgets";
 import { FlagColorPicker, FloatingCreationFlagBar } from "@/features";
 
-export default function CreationFlagPage() {
+export default async function CreationFlagPage() {
+  const t = await getTranslations("flags");
+
   return (
     <div className="max-w-410 w-full px-4 mx-auto pt-20 pb-16">
       <div className="mb-8 flex flex-col">
-        <h1 className="text-2xl font-bold text-foreground tracking-tight">Create flag</h1>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight">{t("title")}</h1>
 
-        <p className="text-base text-zinc-muted mt-1">
-          A scale measures one thing; its flags are the levels, from weakest to strongest
-        </p>
+        <p className="text-base text-zinc-muted mt-1">{t("subtitle")}</p>
       </div>
 
       <main className="flex gap-4 items-start w-full">

@@ -11,6 +11,7 @@ import { sliderNavigationButton } from "@/shared/lib";
 import { useRef, useState, useEffect } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
+import { useTranslations } from "next-intl";
 
 // import { PRESET_PACKS } from "../model/preset-packs-data";
 
@@ -35,6 +36,7 @@ const SWIPER_BREAKPOINTS = {
 };
 
 export const PopularFlagsCarousel = () => {
+  const t = useTranslations("flags.packs");
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
@@ -72,7 +74,7 @@ export const PopularFlagsCarousel = () => {
     <section>
       <div className="flex items-center gap-2.5 mb-5">
         <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-        <h3 className="text-sm font-semibold text-foreground tracking-wide">Popular packs</h3>
+        <h3 className="text-sm font-semibold text-foreground tracking-wide">{t("popular")}</h3>
 
         <span className="ml-auto flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border border-gold/30 bg-gold/8 text-gold">
           <Crown className="size-3" />

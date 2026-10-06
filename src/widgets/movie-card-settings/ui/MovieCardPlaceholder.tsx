@@ -1,4 +1,8 @@
+import { useTranslations } from "next-intl";
+
 export const MovieCardPlaceholder = () => {
+  const t = useTranslations("settings.card");
+
   return (
     <>
       <div className="relative aspect-2/3 rounded-xl border border-white/8 bg-zinc-900 flex items-center justify-center overflow-hidden shadow-2xl shadow-black/70 ring-1 ring-white/5">
@@ -10,13 +14,13 @@ export const MovieCardPlaceholder = () => {
 
         <div className="absolute top-3 left-3">
           <span className="text-xs font-bold tracking-wider text-blue-400/70 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20 uppercase">
-            poster
+            {t("poster")}
           </span>
         </div>
 
         <div className="absolute bottom-3 left-3">
           <span className="text-xs font-bold tracking-wider text-accent/70 bg-accent/10 px-1.5 py-0.5 rounded border border-accent/20 uppercase">
-            hover
+            {t("hover")}
           </span>
         </div>
       </div>
@@ -25,7 +29,7 @@ export const MovieCardPlaceholder = () => {
         <div className="absolute inset-0 bg-linear-to-br from-zinc-800/60 via-zinc-900/80 to-zinc-950" />
         <div className="relative z-10 flex items-center justify-between mb-3">
           <span className="text-xs font-bold tracking-wider text-emerald-accent/80 bg-emerald-accent/10 px-1.5 py-0.5 rounded border border-emerald-accent/20 uppercase">
-            body
+            {t("body")}
           </span>
         </div>
       </div>

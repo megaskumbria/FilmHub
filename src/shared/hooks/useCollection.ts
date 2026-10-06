@@ -1,6 +1,6 @@
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
-import type { CreateCollectionSchema } from "@/features/create-folder/model/create-collection-schema";
+import type { CreateCollectionSchema } from "@/features/create-folder/model/useCreateCollectionSchema";
 import { apiClient } from "../api/api-client";
 import { type Media, type MediaType } from "../stores/movie-catalog";
 import { getGuestId } from "../lib";

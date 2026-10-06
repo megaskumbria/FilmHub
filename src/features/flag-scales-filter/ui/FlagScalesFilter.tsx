@@ -3,6 +3,7 @@
 import { Search, ArrowDownAZ, ArrowUpAZ, X } from "lucide-react";
 import { Input, Button, Separator } from "@/shared/ui";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { SortBy } from "@/widgets/flag-scales-sidebar";
 
 interface Props {
@@ -12,12 +13,9 @@ interface Props {
   sortBy: SortBy;
 }
 
-export const FlagScalesFilter = ({
-  onSearchChange,
-  searchQuery,
-  onSortChange,
-  sortBy,
-}: Props) => {
+export const FlagScalesFilter = ({ onSearchChange, searchQuery, onSortChange, sortBy }: Props) => {
+  const t = useTranslations("flags.scales");
+
   return (
     <>
       <div className="relative">
@@ -25,7 +23,7 @@ export const FlagScalesFilter = ({
 
         <Input
           variant="neutral"
-          placeholder="Search scales and flags..."
+          placeholder={t("search")}
           className="pl-7 pr-9 text-sm h-8"
           onChange={(e) => onSearchChange(e.target.value)}
           value={searchQuery}
@@ -49,7 +47,7 @@ export const FlagScalesFilter = ({
 
       <div className="flex items-center gap-1.5">
         <span className="text-xs text-zinc-muted/90 font-semibold uppercase tracking-widest shrink-0">
-          Sort
+          {t("sort")}
         </span>
 
         <Separator className="flex-1 bg-border/30" />
@@ -60,7 +58,7 @@ export const FlagScalesFilter = ({
             variant="transparent"
             size="icon-xs"
             className="data-[active=true]:text-foreground data-[active=true]:border-border/70 data-[active=true]:bg-white/6 h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
-            title="Alphabetical (A → Z)"
+            title={t("sortAsc")}
             onClick={() => onSortChange(sortBy === "asc" ? "default" : "asc")}
           >
             <ArrowDownAZ className="size-3.5" />
@@ -71,7 +69,7 @@ export const FlagScalesFilter = ({
             variant="transparent"
             size="icon-xs"
             className="data-[active=true]:text-foreground data-[active=true]:border-border/70 data-[active=true]:bg-white/6 h-6 w-6 justify-center rounded-md border border-border/40 bg-white/4 text-zinc-muted/70 hover:text-foreground hover:border-border/70 hover:bg-white/6 transition-colors"
-            title="Alphabetical (Z → A)"
+            title={t("sortDesc")}
             onClick={() => onSortChange(sortBy === "desc" ? "default" : "desc")}
           >
             <ArrowUpAZ className="size-3.5" />

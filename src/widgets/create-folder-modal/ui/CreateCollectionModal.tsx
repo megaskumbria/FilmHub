@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { IconX } from "@tabler/icons-react";
 import {
   Button,
@@ -25,6 +26,8 @@ interface Props {
 }
 
 export function CreateCollectionModal({ children, isEditing, initialData }: Props) {
+  const t = useTranslations("collections.create");
+
   const [isOpen, setIsOpen] = useState(false);
 
   const remaining = TOTAL_FOLDERS - USED_FOLDERS;
@@ -37,12 +40,12 @@ export function CreateCollectionModal({ children, isEditing, initialData }: Prop
       <DialogContent
         showCloseButton={false}
         aria-describedby={undefined}
-        className="sm:max-w-[460px] gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
+        className="sm:max-w-115 gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
       >
         <DialogHeader className="flex flex-row items-center justify-between border-b border-border px-5 py-4">
           <div className="flex items-center gap-3">
             <DialogTitle className="text-base font-semibold text-foreground">
-              {isEditing ? "Edit collection" : "New collection"}
+              {isEditing ? t("editTitle") : t("new")}
             </DialogTitle>
 
             <div

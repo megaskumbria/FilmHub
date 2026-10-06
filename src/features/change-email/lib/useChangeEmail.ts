@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import axios from "axios";
 import { apiClient } from "@/shared/api/api-client";
 import { API_URL } from "@/shared/api/config";
@@ -11,6 +12,8 @@ export const isEmailTakenError = (error: unknown) => {
 };
 
 export const useChangeEmail = () => {
+  const t = useTranslations("settings.security");
+
   return useMutation({
     mutationFn: async (email: string) => {
       return await apiClient.post(`${API_URL}/auth/change-email`, {
@@ -22,13 +25,13 @@ export const useChangeEmail = () => {
       const { user, setUser } = useAuthStore.getState();
       setUser({ ...user, email });
 
-      toast.success("Email changed successfully");
+      toast.success(t("emailChanged"));
     },
 
     onError: (error) => {
       if (isEmailTakenError(error)) return;
 
-      toast.error("Failed to change email");
+      toast.error(t("emailFailed"));
     },
   });
 };

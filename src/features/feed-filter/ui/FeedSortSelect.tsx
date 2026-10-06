@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
 import { ArrowUpDown } from "lucide-react";
 import { motion } from "framer-motion";
@@ -5,6 +6,7 @@ import { DATA_FEED_SORT_OPTIONS } from "../model/dataFeedSortOptions";
 import { useCollectionsFeedStore } from "../model/collectionsFeed.store";
 
 export const FeedSortSelect = () => {
+  const t = useTranslations("home");
   const { sort, setFilter } = useCollectionsFeedStore();
 
   return (
@@ -16,12 +18,12 @@ export const FeedSortSelect = () => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <ArrowUpDown className="size-3.5" />
-        Sort by
+        {t("sort")}
       </Label>
 
       <Select value={sort} onValueChange={(value) => setFilter({ sort: value })}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Select sort" />
+          <SelectValue placeholder={t("sortPlaceholder")} />
         </SelectTrigger>
 
         <SelectContent
@@ -31,7 +33,7 @@ export const FeedSortSelect = () => {
         >
           {DATA_FEED_SORT_OPTIONS.map((option) => (
             <SelectItem key={option.value} value={option.value}>
-              {option.label}
+              {t(`sortOptions.${option.value}`)}
             </SelectItem>
           ))}
         </SelectContent>

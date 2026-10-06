@@ -9,8 +9,10 @@ import ColorPicker from "react-best-gradient-color-picker";
 import { useThrottle } from "@/shared/hooks";
 import { OpacitySlider } from "@/features/opacity-slider";
 import { useShallow } from "zustand/shallow";
+import { useTranslations } from "next-intl";
 
 export const FlagColorPicker = memo(() => {
+  const t = useTranslations("flags.color");
   const { flag, presetColors, updateStateFlag } = useCreationFlagStore(
     useShallow((state) => ({
       flag: state.flag,
@@ -33,7 +35,7 @@ export const FlagColorPicker = memo(() => {
         <header className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-            <Label className="text-sm font-semibold text-foreground">Background color</Label>
+            <Label className="text-sm font-semibold text-foreground">{t("background")}</Label>
           </div>
 
           <Popover>
@@ -61,7 +63,7 @@ export const FlagColorPicker = memo(() => {
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
                   <span className="w-0.5 h-3.5 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-                  <span className="text-sm font-semibold text-foreground">Pick a color</span>
+                  <span className="text-sm font-semibold text-foreground">{t("pick")}</span>
                 </div>
 
                 <ColorPicker
@@ -77,7 +79,7 @@ export const FlagColorPicker = memo(() => {
                 />
 
                 <div className="flex items-center justify-between pt-1 border-t border-border/40 gap-2">
-                  <span className="text-xs text-zinc-muted shrink-0">Selected:</span>
+                  <span className="text-xs text-zinc-muted shrink-0">{t("selected")}</span>
                   <div className="flex items-center gap-1.5 min-w-0">
                     <span
                       className="size-4 rounded border border-white/10 shrink-0"

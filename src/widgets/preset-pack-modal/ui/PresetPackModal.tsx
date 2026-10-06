@@ -8,12 +8,14 @@ import { ReactNode } from "react";
 import { PresetPackModalHeader } from "./PresetPackModalHeader";
 import { type PresetPack, useAddPresetPack } from "@/shared/hooks";
 import { cn } from "@/shared/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface Props {
   presetPack: PresetPack;
   children: ReactNode;
 }
 export const PresetPackModal = ({ presetPack, children }: Props) => {
+  const t = useTranslations("flags.packs");
   const { flags, scaleName, isAdded, id } = presetPack;
 
   const { mutateAsync: addPresetPack, isPending } = useAddPresetPack();
@@ -26,9 +28,9 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
   const isActionDisabled = isAdded || isPending;
 
   const buttonLabel =
-    isAdded ? "Added"
-    : isPending ? "Adding..."
-    : "Add pack to collection";
+    isAdded ? t("added")
+    : isPending ? t("adding")
+    : t("add");
 
   return (
     <Dialog>
@@ -45,7 +47,7 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
           <div className="px-6 py-4">
             <div className="flex items-center gap-2 mb-3">
               <h3 className="text-xs font-semibold text-zinc-muted uppercase tracking-widest">
-                Flags in this pack
+                {t("flagsInPack")}
               </h3>
 
               <span
@@ -94,9 +96,12 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
               />
 
               <p className="text-sm text-zinc-muted leading-relaxed">
-                The pack is added as a new scale{" "}
-                <strong className="text-foreground font-medium">"{scaleName}"</strong> in your
-                sidebar. You can edit the flags after adding.
+                {t.rich("addHint", {
+                  name: scaleName,
+                  strong: (chunks) => (
+                    <strong className="text-foreground font-medium">{chunks}</strong>
+                  ),
+                })}
               </p>
             </div>
 

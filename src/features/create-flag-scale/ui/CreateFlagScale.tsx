@@ -2,7 +2,8 @@
 
 import { Plus } from "lucide-react";
 import { Button, Form, FormControl, FormField, FormItem, FormMessage, Input } from "@/shared/ui";
-import { CreateScaleSchema, createScaleSchema } from "../model/create-scale-schema";
+import { useTranslations } from "next-intl";
+import { CreateScaleSchema, useCreateScaleSchema } from "../model/useCreateScaleSchema";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/shared/lib/utils";
@@ -11,6 +12,8 @@ import axios from "axios";
 import type { ApiErrorMessage } from "@/shared/types/api-error-types";
 
 export const CreateFlagScale = () => {
+  const t = useTranslations("flags.scales");
+  const createScaleSchema = useCreateScaleSchema();
   const { mutateAsync: createFlagScaleAsync, isPending: isCreating } = useCreateFlagScale();
 
   const form = useForm<CreateScaleSchema>({
@@ -44,7 +47,7 @@ export const CreateFlagScale = () => {
       <div className="flex items-center gap-2.5 mb-3">
         <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
 
-        <span className="text-sm font-semibold text-foreground tracking-wide">Flag scales</span>
+        <span className="text-sm font-semibold text-foreground tracking-wide">{t("title")}</span>
       </div>
 
       <Form {...form}>
@@ -58,7 +61,7 @@ export const CreateFlagScale = () => {
                   <FormControl>
                     <Input
                       variant="neutral"
-                      placeholder="Scale name..."
+                      placeholder={t("namePlaceholder")}
                       className="text-sm h-8 flex-1"
                       {...field}
                     />
@@ -75,7 +78,7 @@ export const CreateFlagScale = () => {
                     disabled={isCreating}
                   >
                     <Plus className="size-3.5 group-hover:rotate-180 transition-transform duration-200" />
-                    <span>{isCreating ? "Creating..." : "Create"}</span>
+                    <span>{isCreating ? t("creating") : t("create")}</span>
                   </Button>
                 </div>
 

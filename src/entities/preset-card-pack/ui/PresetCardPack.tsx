@@ -6,12 +6,14 @@ import { PresetPackModal } from "@/widgets";
 import { formatUsageCount } from "@/shared/lib";
 import { MouseEvent } from "react";
 import { type PresetPack } from "@/shared/hooks";
+import { useTranslations } from "next-intl";
 
 interface Props {
   presetPack: PresetPack;
 }
 
 export const PresetCardPack = ({ presetPack }: Props) => {
+  const t = useTranslations("flags.packs");
   const { title, description, flags, usageCount, isAdded } = presetPack;
 
   const accentColor = getPackAccentColor(presetPack);
@@ -58,7 +60,7 @@ export const PresetCardPack = ({ presetPack }: Props) => {
           {isAdded && (
             <span className="flex items-center gap-1 text-xs font-semibold px-1.5 py-0.5 rounded-lg bg-emerald-500/12 text-emerald-400 border border-emerald-500/25 shrink-0">
               <Check className="size-3" />
-              <span>Added</span>
+              <span>{t("added")}</span>
             </span>
           )}
         </header>
@@ -85,12 +87,12 @@ export const PresetCardPack = ({ presetPack }: Props) => {
         <footer className="min-h-6.5 shrink-0 relative flex w-full items-center justify-between pt-2 border-t border-border/30">
           <span className="flex items-center gap-1 text-xs text-zinc-muted">
             <Users className="size-3" />
-            <span>{formatUsageCount(usageCount)} users</span>
+            <span>{t("users", { count: formatUsageCount(usageCount) })}</span>
           </span>
 
           <div className="flex items-center gap-1">
             <span className="text-xs font-medium transition-colors" style={{ color: accentColor }}>
-              Details
+              {t("details")}
             </span>
 
             <ArrowRight className="size-3" style={{ color: accentColor }} />

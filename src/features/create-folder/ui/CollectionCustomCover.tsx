@@ -1,8 +1,11 @@
+import { useTranslations } from "next-intl";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui";
 import { IconCamera, IconCrown, IconLock } from "@tabler/icons-react";
 
 export const CollectionCustomCover = () => {
+  const t = useTranslations("collections.create");
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-2">
@@ -10,7 +13,7 @@ export const CollectionCustomCover = () => {
 
         <div className="flex items-center gap-1.5 text-xs text-zinc-muted">
           <IconCrown className="size-3 text-amber-400" />
-          <span>Premium</span>
+          <span>{t("premium")}</span>
         </div>
 
         <div className="h-px flex-1 bg-border" />
@@ -29,8 +32,8 @@ export const CollectionCustomCover = () => {
         </div>
 
         <div className="flex flex-col items-start gap-0.5 flex-1">
-          <span className="text-sm font-medium text-foreground">Custom cover</span>
-          <span className="text-xs text-zinc-muted">Upload your own image for the folder</span>
+          <span className="text-sm font-medium text-foreground">{t("customCover")}</span>
+          <span className="text-xs text-zinc-muted">{t("customCoverHint")}</span>
         </div>
         <IconLock className="size-4 text-zinc-muted group-hover:text-amber-400 transition-colors" />
       </Button>

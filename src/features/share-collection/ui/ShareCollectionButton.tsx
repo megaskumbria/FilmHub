@@ -16,6 +16,7 @@ import {
 import { cn } from "@/shared/lib/utils";
 import { getCollectionShareUrl } from "../lib/getCollectionShareUrl";
 import { useShareCollection } from "@/shared/hooks";
+import { useTranslations } from "next-intl";
 
 interface Props {
   collectionId: string;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
+  const t = useTranslations("collections.share");
   const [copied, setCopied] = useState<boolean>(false);
 
   const { mutate: shareCollection } = useShareCollection();
@@ -40,11 +42,11 @@ export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
 
-      toast.success("Link copied to clipboard", { position: "bottom-left" });
+      toast.success(t("copied"), { position: "bottom-left" });
 
       shareCollection(collectionId);
     } catch {
-      toast.error("Failed to copy link", { position: "bottom-left" });
+      toast.error(t("copyFailed"), { position: "bottom-left" });
     }
   };
 
@@ -64,11 +66,9 @@ export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
         className="w-80 rounded-xl border-border bg-surface"
       >
         <PopoverHeader className="mb-3">
-          <PopoverTitle className="text-sm text-foreground">Share collection</PopoverTitle>
+          <PopoverTitle className="text-sm text-foreground">{t("title")}</PopoverTitle>
 
-          <PopoverDescription className="text-xs text-zinc-muted">
-            Anyone with the link can view this collection
-          </PopoverDescription>
+          <PopoverDescription className="text-xs text-zinc-muted">{t("hint")}</PopoverDescription>
         </PopoverHeader>
 
         <div className="flex items-center gap-2">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { collectionsFeedQuery, useDebounce } from "@/shared/hooks";
 import { FilterFeed } from "@/widgets";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ import { Search, X } from "lucide-react";
 import { useState } from "react";
 
 export const HomeClient = () => {
+  const t = useTranslations("home");
   const [searchQuery, setSearchQuery] = useState("");
 
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
@@ -27,13 +29,13 @@ export const HomeClient = () => {
       {/* <BestCollectionsSlider /> */}
 
       <section className="flex flex-col gap-5 mb-10">
-        <h1 className="font-serif text-5xl font-bold text-primary tracking-tight">
-          Browse the shelves
-        </h1>
+        <h1 className="font-serif text-5xl font-bold text-primary tracking-tight">{t("title")}</h1>
 
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 w-full">
-            <p className="text-sm text-muted shrink-0">{collectionsCount} collections</p>
+            <p className="text-sm text-muted shrink-0">
+              {t("collections", { count: collectionsCount ?? 0 })}
+            </p>
 
             <InputGroup className="max-w-82 w-full h-9 rounded-full bg-surface border border-border shadow-sm hover:border-zinc-muted/60 focus-within:bg-surface-elevated transition-all duration-200">
               <InputGroupAddon>
@@ -43,7 +45,7 @@ export const HomeClient = () => {
               <InputGroupInput
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search collections..."
+                placeholder={t("search")}
                 className="placeholder:text-muted text-foreground"
               />
 

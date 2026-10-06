@@ -8,6 +8,7 @@ import {
   Button,
 } from "@/shared/ui";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   scaleName: string;
@@ -24,6 +25,7 @@ export const FlagScaleActions = ({
   handleStartRename,
   onDropdownClose,
 }: Props) => {
+  const t = useTranslations("flags.scales");
   const { mutate: deleteScale } = useDeleteFlagScale();
 
   return (
@@ -55,7 +57,7 @@ export const FlagScaleActions = ({
           }}
         >
           <Pencil className="size-3.5 text-zinc-muted" />
-          <span>Rename</span>
+          <span>{t("rename")}</span>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator className="bg-border/40" />
@@ -69,7 +71,7 @@ export const FlagScaleActions = ({
           }}
         >
           <Trash2 className="size-3.5" />
-          <span>Delete</span>
+          <span>{t("delete")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

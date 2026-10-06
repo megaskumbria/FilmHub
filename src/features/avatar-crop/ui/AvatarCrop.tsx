@@ -27,7 +27,7 @@ interface Props {
 }
 
 export const AvatarCrop = ({ open, imageUrl, onOpenChange, onCropDone }: Props) => {
-  const t = useTranslations("profile");
+  const t = useTranslations("collections.profile");
 
   const [isSaving, setIsSaving] = useState<boolean>(false);
 

@@ -2,6 +2,7 @@ import { apiClient } from "../api/api-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { SortBy } from "@/widgets/flag-scales-sidebar";
 
 const FLAG_SCALE_QUERY_KEY = "flag-scale";
@@ -63,6 +64,7 @@ interface UpdateFlagPositionArgs {
 }
 
 export const useUpdateFlagPosition = () => {
+  const t = useTranslations("flags.toasts");
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -102,7 +104,7 @@ export const useUpdateFlagPosition = () => {
       context?.previousFlags.forEach(([queryKey, data]) => {
         queryClient.setQueryData(queryKey, data);
       });
-      toast.error("Failed to reorder flags", { position: "bottom-left" });
+      toast.error(t("reorderFailed"), { position: "bottom-left" });
     },
 
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: [FLAG_SCALE_QUERY_KEY] }),
@@ -147,6 +149,7 @@ interface CreateFlagArgs {
 }
 
 export const useCreateFlag = () => {
+  const t = useTranslations("flags.toasts");
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -186,7 +189,7 @@ export const useCreateFlag = () => {
 
     onError: (_err, _vars, context) => {
       queryClient.setQueryData(["flags"], context?.previousFlags);
-      toast.error("Failed to create flag", { position: "bottom-left" });
+      toast.error(t("createFailed"), { position: "bottom-left" });
     },
 
     onSuccess: () => {
@@ -202,6 +205,7 @@ interface DeleteFlagArgs {
 }
 
 export const useDeleteFlag = () => {
+  const t = useTranslations("flags.toasts");
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -232,7 +236,7 @@ export const useDeleteFlag = () => {
 
     onError: (_err, _vars, context) => {
       queryClient.setQueryData(["flags"], context?.previousFlags);
-      toast.error("Failed to delete flag", { position: "bottom-left" });
+      toast.error(t("deleteFailed"), { position: "bottom-left" });
     },
 
     onSuccess: () => {

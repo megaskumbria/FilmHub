@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -15,10 +16,12 @@ import {
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { useAuthStore } from "@/features/auth";
-import { changeEmailSchema, type ChangeEmailSchema } from "../model/change-email-schema";
+import { useChangeEmailSchema, type ChangeEmailSchema } from "../model/change-email-schema";
 import { isEmailTakenError, useChangeEmail } from "../lib/useChangeEmail";
 
 export const ChangeEmailForm = () => {
+  const t = useTranslations("settings.security");
+  const changeEmailSchema = useChangeEmailSchema();
   const storedEmail = useAuthStore((state) => state.user.email) ?? "";
 
   const { mutate: changeEmail, isPending: isChangingEmail } = useChangeEmail();
@@ -35,7 +38,7 @@ export const ChangeEmailForm = () => {
     changeEmail(data.email, {
       onError: (error) => {
         if (!isEmailTakenError(error)) return;
-        form.setError("email", { message: "This email is already taken" });
+        form.setError("email", { message: t("emailTaken") });
       },
     });
   };
@@ -52,7 +55,7 @@ export const ChangeEmailForm = () => {
           render={({ field, fieldState }) => (
             <FormItem className="flex items-center gap-4">
               <FormLabel className="w-28 shrink-0 text-sm text-zinc-muted text-right">
-                Email
+                {t("email")}
               </FormLabel>
 
               <div className="min-w-0 flex-1">
@@ -61,7 +64,7 @@ export const ChangeEmailForm = () => {
                     <Input
                       variant="neutral"
                       type="email"
-                      placeholder="email@example.com"
+                      placeholder={t("emailPlaceholder")}
                       className={cn(
                         "h-9 text-sm",
                         fieldState.invalid
@@ -78,7 +81,7 @@ export const ChangeEmailForm = () => {
                     disabled={shouldDisableButton}
                     className="shrink-0 rounded-lg border-border px-4 text-sm text-foreground transition-colors hover:border-accent/40 hover:bg-accent/5 disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    <span>{isChangingEmail ? "Saving..." : "Save"}</span>
+                    <span>{isChangingEmail ? t("saving") : t("save")}</span>
                   </Button>
                 </div>
 

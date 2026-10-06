@@ -13,7 +13,8 @@ import {
   SheetTitle,
 } from "@/shared/ui";
 import { Textarea } from "@/shared/ui/textarea";
-import { mockComments, type Comment } from "../model/mockComments";
+import { useMockComments, type Comment } from "../model/mockComments";
+import { useTranslations } from "next-intl";
 import {
   CommentByline,
   CommentVoteButtons,
@@ -24,7 +25,9 @@ import {
 const MAX_TEXT_LENGTH = 200;
 
 export function CollectionComments() {
-  const [comments, setComments] = useState<Comment[]>(mockComments);
+  const t = useTranslations("collections.comments");
+  const initialComments = useMockComments();
+  const [comments, setComments] = useState<Comment[]>(initialComments);
   const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [replyText, setReplyText] = useState("");
@@ -93,12 +96,12 @@ export function CollectionComments() {
         <CommentsSheetHeader totalCount={totalCount} />
 
         <div className="drawer-scroll flex-1 overflow-y-auto px-5 py-4 space-y-6">
-          {/* {comments.length === 0 && (
+          {comments.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
               <MessageSquare className="size-10 text-zinc-muted opacity-30" />
-              <p className="text-sm text-zinc-muted">Be the first to leave a comment</p>
+              <p className="text-sm text-zinc-muted">{t("empty")}</p>
             </div>
-          )} */}
+          )}
 
           {comments.map((comment, index) => {
             const { id, author, timestamp, likes, dislikes } = comment;
@@ -133,7 +136,7 @@ export function CollectionComments() {
                           onClick={() => toggleExpand(comment.id)}
                           className="ml-1 text-accent text-xs hover:underline cursor-pointer"
                         >
-                          {isExpanded ? "Show less" : "Read more"}
+                          {isExpanded ? t("showLess") : t("readMore")}
                         </button>
                       )}
                     </p>
@@ -161,8 +164,8 @@ export function CollectionComments() {
                           <Textarea
                             value={replyText}
                             onChange={(e) => setReplyText(e.target.value)}
-                            placeholder={`Reply to ${comment.author.handle}…`}
-                            className="min-h-[68px] text-sm bg-background border-border resize-none"
+                            placeholder={t("replyTo", { handle: comment.author.handle })}
+                            className="min-h-17 text-sm bg-background border-border resize-none"
                             autoFocus
                           />
                           <div className="flex justify-end gap-2">
@@ -173,7 +176,7 @@ export function CollectionComments() {
                               }}
                               className="h-7 px-3 rounded-lg text-xs border border-border text-zinc-muted hover:text-foreground transition-colors"
                             >
-                              <span>Cancel</span>
+                              <span>{t("cancel")}</span>
                             </Button>
                             <Button
                               variant="accent"
@@ -182,7 +185,7 @@ export function CollectionComments() {
                               className="h-7 px-3 rounded-lg text-xs gap-1.5"
                             >
                               <Send className="size-3" />
-                              <span>Reply</span>
+                              <span>{t("reply")}</span>
                             </Button>
                           </div>
                         </div>
@@ -225,7 +228,7 @@ export function CollectionComments() {
                                   onClick={() => toggleExpand(reply.id)}
                                   className="ml-1 text-accent text-xs hover:underline cursor-pointer"
                                 >
-                                  {isReplyExpanded ? "Show less" : "Read more"}
+                                  {isReplyExpanded ? t("showLess") : t("readMore")}
                                 </Button>
                               )}
                             </p>

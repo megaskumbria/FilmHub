@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { apiClient } from "@/shared/api/api-client";
 import { API_URL } from "@/shared/api/config";
 import { useMutation } from "@tanstack/react-query";
@@ -23,19 +24,21 @@ interface ChangePasswordPayload {
 }
 
 export const useChangePassword = () => {
+  const t = useTranslations("settings.security");
+
   return useMutation({
     mutationFn: (payload: ChangePasswordPayload) => {
       return apiClient.patch(`${API_URL}/auth/change-password`, payload);
     },
 
     onSuccess: () => {
-      toast.success("Password changed successfully");
+      toast.success(t("passwordChanged"));
     },
 
     onError: (error) => {
       if (isPasswordIncorrectError(error) || isSamePasswordError(error)) return;
 
-      toast.error("Failed to change password");
+      toast.error(t("passwordFailed"));
     },
   });
 };

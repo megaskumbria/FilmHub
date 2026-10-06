@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
 import { Layers } from "lucide-react";
 import { motion } from "framer-motion";
@@ -5,6 +6,7 @@ import { DATA_MEDIA_COUNT_OPTIONS } from "../model/dataMediaCountOptions";
 import { useCollectionsFeedStore } from "../model/collectionsFeed.store";
 
 export const MediaCountSelect = () => {
+  const t = useTranslations("home");
   const { quantity, setFilter } = useCollectionsFeedStore();
 
   return (
@@ -16,12 +18,12 @@ export const MediaCountSelect = () => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <Layers className="size-3.5" />
-        Collection size
+        {t("size")}
       </Label>
 
       <Select value={quantity} onValueChange={(value) => setFilter({ quantity: value })}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Select size" />
+          <SelectValue placeholder={t("sizePlaceholder")} />
         </SelectTrigger>
 
         <SelectContent
@@ -31,7 +33,7 @@ export const MediaCountSelect = () => {
         >
           {DATA_MEDIA_COUNT_OPTIONS.map((option) => (
             <SelectItem key={option.value} value={option.value}>
-              {option.label}
+              {t(`sizeOptions.${option.value}`)}
             </SelectItem>
           ))}
         </SelectContent>

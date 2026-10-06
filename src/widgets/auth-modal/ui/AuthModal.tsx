@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Clapperboard, X } from "lucide-react";
 import {
   Dialog,
@@ -17,30 +18,18 @@ import {
 import { AuthModalSignInForm, AuthModalSignUpForm, useAuthModalStore } from "@/features/auth";
 import { FooterAuthModal } from "./FooterAuthModal";
 
-interface Tab {
-  label: string;
-  value: "signin" | "signup";
-}
-
-const TABS: Tab[] = [
-  {
-    label: "Sign in",
-    value: "signin",
-  },
-  {
-    label: "Sign up",
-    value: "signup",
-  },
-];
+const TABS = ["signin", "signup"] as const;
+export type Tab = (typeof TABS)[number];
 
 export function AuthModal() {
-  const [tab, setTab] = useState<Tab["value"]>("signin");
+  const t = useTranslations("auth");
+  const [tab, setTab] = useState<Tab>("signin");
 
   const { isOpen, open, close } = useAuthModalStore();
 
   return (
     <Dialog open={isOpen} onOpenChange={(v) => (v ? open() : close())}>
-      <DialogTitle className="sr-only">Authentication</DialogTitle>
+      <DialogTitle className="sr-only">{t("title")}</DialogTitle>
 
       <DialogContent
         aria-describedby={undefined}
@@ -68,19 +57,15 @@ export function AuthModal() {
           </DialogClose>
         </DialogHeader>
 
-        <Tabs
-          value={tab}
-          onValueChange={(v) => setTab(v as "signin" | "signup")}
-          className="w-full gap-0"
-        >
+        <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)} className="w-full gap-0">
           <TabsList className="flex w-full group-data-[orientation=horizontal]/tabs:h-auto h-auto rounded-none p-0 bg-transparent border-b border-border/60">
-            {TABS.map((t) => (
+            {TABS.map((value) => (
               <TabsTrigger
-                key={t.value}
-                value={t.value}
+                key={value}
+                value={value}
                 className="cursor-pointer flex-1 h-auto rounded-none border-0 border-b-2 border-transparent px-2 py-3 text-sm font-medium tracking-wide text-zinc-muted dark:text-zinc-muted transition-all hover:text-foreground data-[state=active]:border-accent data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:bg-transparent after:hidden"
               >
-                <span>{t.label}</span>
+                <span>{value === "signin" ? t("signIn") : t("signUp")}</span>
               </TabsTrigger>
             ))}
           </TabsList>

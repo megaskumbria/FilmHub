@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const UserRow = ({ user }: Props) => {
-  const t = useTranslations("profile");
+  const t = useTranslations("collections.profile");
 
   const { mutate: followProfile } = useFollowProfile();
   const ensureAuth = useRequireAuth();

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useLocale } from "next-intl";
-import { EMPTY_MESSAGES } from "../model/emptyMessages";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Props {
   isMyProfile: boolean;
@@ -10,12 +9,13 @@ interface Props {
 
 export const EmptyStateCollectionFilms = ({ isMyProfile, searchQuery = "" }: Props) => {
   const locale = useLocale();
+  const t = useTranslations("collections.emptyFilms");
 
   const hasSearch = searchQuery.trim().length > 0;
-
-  const kind = hasSearch ? "search" : "empty";
   const audience = isMyProfile ? "own" : "visitor";
-  const { title, text } = EMPTY_MESSAGES[kind][audience];
+
+  const title = hasSearch ? t("search.title") : t(`empty.${audience}.title`);
+  const text = hasSearch ? null : t(`empty.${audience}.text`);
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-8 h-80">

@@ -1,8 +1,13 @@
+"use client";
+
 import { AvatarFallback, Avatar, Button } from "@/shared/ui";
 import { Textarea } from "@/shared/ui/textarea";
 import { Send } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export const CommentsSheetFooter = () => {
+  const t = useTranslations("collections.comments");
+
   return (
     <footer className="border-t border-border px-5 py-4 shrink-0 space-y-3 bg-surface">
       <div className="flex gap-3">
@@ -19,8 +24,8 @@ export const CommentsSheetFooter = () => {
           <Textarea
             value=""
             onChange={() => {}}
-            placeholder="Write a comment…"
-            className="placeholder:text-zinc-muted w-full min-h-[72px] text-sm bg-background border-border resize-none pr-16 pb-10"
+            placeholder={t("placeholder")}
+            className="placeholder:text-zinc-muted w-full min-h-18 text-sm bg-background border-border resize-none pr-16 pb-10"
           />
 
           <Button

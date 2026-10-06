@@ -7,6 +7,7 @@ import { DeleteFolderModal } from "@/features/delete-folder-modal";
 import { Loader2, Settings, Trash2 } from "lucide-react";
 import { Collection, useDeleteCollection } from "@/shared/hooks";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { useSkipDeleteConfirm } from "@/shared/hooks";
 
 interface Props {
@@ -17,17 +18,18 @@ interface Props {
 }
 
 export const FolderMetaBar = ({ collection, name, isHovered, isMyProfile }: Props) => {
+  const t = useTranslations("collections.delete");
   const { mutate: deleteCollection, isPending: isDeleting } = useDeleteCollection();
   const { id, posters, moviesCount } = collection;
 
   const handleDeleteCollection = () => {
     deleteCollection(id, {
       onSuccess: () => {
-        toast.success("Collection deleted successfully", { position: "bottom-left" });
+        toast.success(t("deleted"), { position: "bottom-left" });
       },
 
       onError: () => {
-        toast.error("Failed to delete collection", { position: "bottom-left" });
+        toast.error(t("failed"), { position: "bottom-left" });
       },
     });
   };

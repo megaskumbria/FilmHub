@@ -3,6 +3,7 @@
 import { useGetFlagsScale } from "../lib/useGetFlagsScale";
 import { cn } from "@/shared/lib/utils";
 import { FlagBadge } from "@/entities";
+import { useTranslations } from "next-intl";
 
 interface Props {
   scaleId: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const FlagScaleContent = ({ scaleId, scaleName, currentFlagId }: Props) => {
+  const t = useTranslations("flags");
   const { data: scale } = useGetFlagsScale(scaleId);
 
   if (!scale) return null;
@@ -23,7 +25,7 @@ export const FlagScaleContent = ({ scaleId, scaleName, currentFlagId }: Props) =
         </h4>
       </header>
 
-      <p className="text-sm text-zinc-muted">Weakest</p>
+      <p className="text-sm text-zinc-muted">{t("weakest")}</p>
 
       <ol className="flex flex-col gap-1">
         {scale.map(({ id, ...flagItem }, index) => {
@@ -46,7 +48,7 @@ export const FlagScaleContent = ({ scaleId, scaleName, currentFlagId }: Props) =
         })}
       </ol>
 
-      <p className="text-sm text-zinc-muted">Strongest</p>
+      <p className="text-sm text-zinc-muted">{t("strongest")}</p>
     </>
   );
 };

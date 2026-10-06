@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconAlertTriangle } from "@tabler/icons-react";
@@ -20,7 +21,7 @@ import {
   Input,
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
-import { deleteAccountSchema, type DeleteAccountSchema } from "../model/delete-account-schema";
+import { useDeleteAccountSchema, type DeleteAccountSchema } from "../model/delete-account-schema";
 import { isPasswordIncorrectError, useDeleteAccount } from "../lib/useDeleteAccount";
 
 interface Props {
@@ -28,6 +29,8 @@ interface Props {
 }
 
 export function DeleteAccountModal({ children }: Props) {
+  const t = useTranslations("settings.deleteAccount");
+  const deleteAccountSchema = useDeleteAccountSchema();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,7 +46,7 @@ export function DeleteAccountModal({ children }: Props) {
     deleteAccount(data.password, {
       onError: (error) => {
         if (isPasswordIncorrectError(error)) {
-          form.setError("password", { message: "Password is incorrect" });
+          form.setError("password", { message: t("passwordIncorrect") });
         }
       },
       onSuccess: () => {
@@ -83,10 +86,10 @@ export function DeleteAccountModal({ children }: Props) {
 
             <div className="flex flex-col gap-0.5">
               <DialogTitle className="text-base font-semibold text-foreground leading-tight">
-                Delete account?
+                {t("confirmTitle")}
               </DialogTitle>
 
-              <p className="text-sm text-zinc-muted">This cannot be undone.</p>
+              <p className="text-sm text-zinc-muted">{t("cannotUndo")}</p>
             </div>
           </div>
         </div>
@@ -94,10 +97,7 @@ export function DeleteAccountModal({ children }: Props) {
         <Form {...form}>
           <form onSubmit={(e) => void form.handleSubmit(handleSubmitForm)(e)}>
             <div className="flex flex-col gap-4 px-6 py-5">
-              <p className="text-sm text-zinc-muted leading-relaxed">
-                All your data, collections and settings will be permanently removed from your
-                account. Enter your password to confirm.
-              </p>
+              <p className="text-sm text-zinc-muted leading-relaxed">{t("warning")}</p>
 
               <FormField
                 control={form.control}
@@ -109,7 +109,7 @@ export function DeleteAccountModal({ children }: Props) {
                         <Input
                           variant="neutral"
                           type={isPasswordVisible ? "text" : "password"}
-                          placeholder="Password"
+                          placeholder={t("password")}
                           className={cn(
                             "h-9 pr-10 text-sm",
                             fieldState.invalid
@@ -143,7 +143,7 @@ export function DeleteAccountModal({ children }: Props) {
                   variant="outline"
                   className="h-9 px-4 rounded-xl text-sm font-medium border-border text-foreground hover:bg-white/5"
                 >
-                  <span>Cancel</span>
+                  <span>{t("cancel")}</span>
                 </Button>
               </DialogClose>
 
@@ -152,7 +152,7 @@ export function DeleteAccountModal({ children }: Props) {
                 disabled={!form.formState.isValid || isDeletingAccount}
                 className="h-9 px-4 rounded-xl text-sm font-semibold bg-red-500 hover:bg-red-600 text-white border-0 min-w-20"
               >
-                <span>{isDeletingAccount ? "Deleting..." : "Delete"}</span>
+                <span>{isDeletingAccount ? t("deleting") : t("delete")}</span>
               </Button>
             </div>
           </form>

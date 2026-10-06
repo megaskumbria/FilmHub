@@ -4,6 +4,7 @@ import { ThumbsUp, ThumbsDown, CornerDownRight } from "lucide-react";
 import { Button } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 type Vote = "up" | "down";
 
@@ -24,6 +25,7 @@ export const CommentVoteButtons = ({
   isReplying,
   setReplyText,
 }: CommentVoteButtonsProps) => {
+  const t = useTranslations("collections.comments");
   const [votes, setVotes] = useState<Record<number, Vote>>({});
 
   const toggleVote = (id: number, direction: Vote) => {
@@ -94,7 +96,7 @@ export const CommentVoteButtons = ({
         )}
       >
         <CornerDownRight className="size-3" />
-        <span>Reply</span>
+        <span>{t("reply")}</span>
       </Button>
     </div>
   );

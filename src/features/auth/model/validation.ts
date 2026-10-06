@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import z from "zod";
 
 export const signUpFormSchema = z
@@ -24,20 +27,27 @@ export const signInFormSchema = z.object({
 //     "Invalid email or phone number",
 //   );
 
-export const signInSchema = z.object({
-  // emailOrPhone,
-  email: z.string().email("Invalid email"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+export const useSignInSchema = () => {
+  const t = useTranslations("auth.validation");
 
-export const signUpSchema = z.object({
-  email: z.string().email("Invalid email"),
-  username: z.string().min(5, "Username must be at least 5 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+  return z.object({
+    email: z.string().email(t("email")),
+    password: z.string().min(8, t("passwordMin")),
+  });
+};
+
+export const useSignUpSchema = () => {
+  const t = useTranslations("auth.validation");
+
+  return z.object({
+    email: z.string().email(t("email")),
+    username: z.string().min(5, t("usernameMin")),
+    password: z.string().min(8, t("passwordMin")),
+  });
+};
 
 export type SignInFormSchema = z.infer<typeof signInFormSchema>;
-export type SignInSchema = z.infer<typeof signInSchema>;
+export type SignInSchema = z.infer<ReturnType<typeof useSignInSchema>>;
 
 export type SignUpFormSchema = z.infer<typeof signUpFormSchema>;
-export type SignUpSchema = z.infer<typeof signUpSchema>;
+export type SignUpSchema = z.infer<ReturnType<typeof useSignUpSchema>>;

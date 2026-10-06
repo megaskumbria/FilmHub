@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Button, Label, Slider } from "@/shared/ui";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { useShallow } from "zustand/shallow";
@@ -6,6 +9,7 @@ import { FLAG_BACKGROUND_ALPHA } from "@/shared/lib";
 import { cn } from "@/shared/lib/utils";
 
 export const OpacitySlider = () => {
+  const t = useTranslations("flags");
   const { flag, updateStateFlag } = useCreationFlagStore(
     useShallow((state) => ({
       flag: state.flag,
@@ -22,7 +26,7 @@ export const OpacitySlider = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="w-0.5 h-3.5 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <Label className="text-sm font-semibold text-foreground">Background opacity</Label>
+          <Label className="text-sm font-semibold text-foreground">{t("opacity")}</Label>
         </div>
 
         <div className="flex items-center gap-1.5">

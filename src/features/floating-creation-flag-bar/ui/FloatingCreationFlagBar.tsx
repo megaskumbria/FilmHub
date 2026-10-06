@@ -7,8 +7,10 @@ import { useCreateFlag, useEditFlag } from "@/shared/hooks";
 import { type FlagDraft, useCreationFlagStore } from "@/features/creation-flag";
 import { useState, useEffect } from "react";
 import { useShallow } from "zustand/shallow";
+import { useTranslations } from "next-intl";
 
 export const FloatingCreationFlagBar = () => {
+  const t = useTranslations("flags.bar");
   const [currentEditFlag, setCurrentEditFlag] = useState<FlagDraft | null>(null);
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -99,7 +101,7 @@ export const FloatingCreationFlagBar = () => {
     >
       <div className="flex items-center gap-3 px-5 py-3 rounded-2xl border border-border bg-surface shadow-[0_8px_32px_-4px_rgba(0,0,0,0.8),0_0_0_1px_rgba(155,86,240,0.12)]">
         <div className="text-sm text-zinc-muted">
-          <span>{displayIsCreatingNew ? "New flag: " : "Editing: "}</span>
+          <span>{displayIsCreatingNew ? t("new") : t("editing")} </span>
 
           <span
             className={cn(
@@ -107,7 +109,7 @@ export const FloatingCreationFlagBar = () => {
               displayName ? "text-foreground" : "text-zinc-muted italic",
             )}
           >
-            {displayName || "Untitled"}
+            {displayName || t("untitled")}
           </span>
         </div>
 
@@ -124,7 +126,7 @@ export const FloatingCreationFlagBar = () => {
           )}
         >
           <Save className="size-3.5 shrink-0" />
-          <span>{!isCreatingNew ? "Save changes" : "Save flag"}</span>
+          <span>{!isCreatingNew ? t("saveChanges") : t("save")}</span>
         </Button>
 
         <Separator orientation="vertical" className="h-4" />

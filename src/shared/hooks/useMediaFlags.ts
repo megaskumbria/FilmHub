@@ -4,6 +4,7 @@ import { API_URL } from "../api/config";
 import { Media } from "../stores/movie-catalog";
 import { FlagData, FlagItem } from "./useFlags";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface SetMediaFlagsArgs {
   mediaId: number;
@@ -13,6 +14,7 @@ interface SetMediaFlagsArgs {
 }
 
 export const useSetMediaFlags = () => {
+  const t = useTranslations("flags.toasts");
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -79,7 +81,7 @@ export const useSetMediaFlags = () => {
       context?.previousFlags.forEach(([key, data]) => queryClient.setQueryData(key, data));
       context?.previousCollections.forEach(([key, data]) => queryClient.setQueryData(key, data));
 
-      toast.error("Failed to update flag", { position: "bottom-left" });
+      toast.error(t("updateFailed"), { position: "bottom-left" });
     },
   });
 };

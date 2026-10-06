@@ -5,8 +5,10 @@ import { ArrowUpDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { DATA_SORT_OPTIONS } from "../model/dataSortOptions";
 import { useFilterMedia } from "../model/filter-media-store";
+import { useTranslations } from "next-intl";
 
 export const SortSelect = () => {
+  const t = useTranslations("catalog");
   const { selectedSort, setSelectedSort } = useFilterMedia();
 
   return (
@@ -18,12 +20,12 @@ export const SortSelect = () => {
     >
       <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
         <ArrowUpDown className="size-3.5" />
-        Sort
+        {t("sort")}
       </Label>
 
       <Select value={selectedSort} onValueChange={setSelectedSort}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
-          <SelectValue placeholder="Select sort" />
+          <SelectValue placeholder={t("sortPlaceholder")} />
         </SelectTrigger>
 
         <SelectContent
@@ -33,7 +35,7 @@ export const SortSelect = () => {
         >
           {DATA_SORT_OPTIONS.map((option) => (
             <SelectItem key={option.value} value={option.value}>
-              {option.label}
+              {t(`sortOptions.${option.value}`)}
             </SelectItem>
           ))}
         </SelectContent>

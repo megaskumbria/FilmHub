@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
@@ -15,7 +16,10 @@ import {
   Input,
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
-import { changePasswordSchema, type ChangePasswordSchema } from "../model/change-password-schema";
+import {
+  useChangePasswordSchema,
+  type ChangePasswordSchema,
+} from "../model/change-password-schema";
 import { passwordFields } from "../model/password-fields";
 import {
   isPasswordIncorrectError,
@@ -26,6 +30,8 @@ import {
 type PasswordField = keyof ChangePasswordSchema;
 
 export const ChangePasswordForm = () => {
+  const t = useTranslations("settings.security");
+  const changePasswordSchema = useChangePasswordSchema();
   const [visibleField, setVisibleField] = useState<PasswordField | null>(null);
 
   const { mutate: changePassword, isPending: isChangingPassword } = useChangePassword();
@@ -48,12 +54,12 @@ export const ChangePasswordForm = () => {
       {
         onError: (error) => {
           if (isPasswordIncorrectError(error)) {
-            form.setError("currentPassword", { message: "Current password is incorrect" });
+            form.setError("currentPassword", { message: t("passwordIncorrect") });
           }
 
           if (isSamePasswordError(error)) {
             form.setError("newPassword", {
-              message: "New password must be different from current password",
+              message: t("passwordSame"),
             });
           }
         },
@@ -69,13 +75,19 @@ export const ChangePasswordForm = () => {
 
   const shouldDisableButton = !form.formState.isValid || isChangingPassword;
 
+  const fieldCopy = {
+    currentPassword: { label: t("current"), placeholder: t("currentPlaceholder") },
+    newPassword: { label: t("new"), placeholder: t("newPlaceholder") },
+    confirmPassword: { label: t("confirm"), placeholder: t("confirmPlaceholder") },
+  };
+
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-4"
         onSubmit={(e) => void form.handleSubmit(handleSubmitForm)(e)}
       >
-        {passwordFields.map(({ name, label, placeholder }) => (
+        {passwordFields.map(({ name }) => (
           <FormField
             key={name}
             control={form.control}
@@ -89,7 +101,7 @@ export const ChangePasswordForm = () => {
               return (
                 <FormItem className="flex items-center gap-4">
                   <FormLabel className="w-28 shrink-0 text-right text-sm text-zinc-muted data-[error=true]:text-zinc-muted">
-                    {label}
+                    {fieldCopy[name].label}
                   </FormLabel>
 
                   <div className="min-w-0 flex-1">
@@ -98,7 +110,7 @@ export const ChangePasswordForm = () => {
                         <Input
                           variant="neutral"
                           type={visibleField === name ? "text" : "password"}
-                          placeholder={placeholder}
+                          placeholder={fieldCopy[name].placeholder}
                           className={cn(
                             "h-9 pr-10 text-sm",
                             showInvalidBorder
@@ -135,7 +147,7 @@ export const ChangePasswordForm = () => {
             disabled={shouldDisableButton}
             className="rounded-lg px-5 text-sm"
           >
-            <span>{isChangingPassword ? "Updating..." : "Update password"}</span>
+            <span>{isChangingPassword ? t("updating") : t("update")}</span>
           </Button>
         </div>
       </form>

@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui";
 import { Check, Loader2, X, Pencil } from "lucide-react";
 import { IconUserCheck, IconUserMinus, IconUserPlus } from "@tabler/icons-react";
-import { type ProfileEditSchema } from "../model/profile-edit-schema";
+import { type ProfileEditSchema } from "../model/useProfileEditSchema";
 import { UseFormReturn } from "react-hook-form";
 import { type UserProfile, useFollowProfile } from "@/shared/hooks";
 import { useRequireAuth } from "@/features/auth";
@@ -29,7 +29,7 @@ export const ProfileActions = ({
   handleCancelEdit,
   handleSubmitUpdate,
 }: Props) => {
-  const t = useTranslations("profile");
+  const t = useTranslations("collections.profile");
 
   const ensureAuth = useRequireAuth();
   const { mutate: followProfile } = useFollowProfile();

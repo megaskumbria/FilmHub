@@ -1,7 +1,14 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-export const changeEmailSchema = z.object({
-  email: z.string().trim().email("Enter a valid email"),
-});
+export const useChangeEmailSchema = () => {
+  const t = useTranslations("settings.security");
 
-export type ChangeEmailSchema = z.infer<typeof changeEmailSchema>;
+  return z.object({
+    email: z.string().trim().email(t("emailInvalid")),
+  });
+};
+
+export type ChangeEmailSchema = z.infer<ReturnType<typeof useChangeEmailSchema>>;

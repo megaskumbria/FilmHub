@@ -21,7 +21,7 @@ export const ProfileCover = ({
   isUpdatingCover,
   onUpdateCover,
 }: Props) => {
-  const t = useTranslations("profile");
+  const t = useTranslations("collections.profile");
   const { fileInputRef, handleFileSelect, previewUrl, clearFile, file } = useFileSelect();
 
   const handleSaveCover = async (): Promise<void> => {

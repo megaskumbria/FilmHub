@@ -1,15 +1,18 @@
+import { useTranslations } from "next-intl";
 import { cn } from "@/shared/lib/utils";
 import { FormControl, FormField, FormItem, FormLabel } from "@/shared/ui";
 import { COLOR_PRESETS } from "@/widgets/create-folder-modal/model/color-presets";
 import { Button } from "@/shared/ui";
 import { UseFormReturn } from "react-hook-form";
-import { CreateCollectionSchema } from "../model/create-collection-schema";
+import { CreateCollectionSchema } from "../model/useCreateCollectionSchema";
 
 interface Props {
   form: UseFormReturn<CreateCollectionSchema>;
 }
 
 export const CollectionColorPicker = ({ form }: Props) => {
+  const t = useTranslations("collections.create");
+
   return (
     <FormField
       control={form.control}
@@ -17,7 +20,7 @@ export const CollectionColorPicker = ({ form }: Props) => {
       render={({ field }) => (
         <FormItem className="flex flex-col gap-2.5">
           <FormLabel className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-            Color
+            {t("color")}
           </FormLabel>
 
           <FormControl>

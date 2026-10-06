@@ -10,6 +10,7 @@ import { FlagBadge } from "@/entities";
 import { useCreationFlagStore } from "@/features/creation-flag";
 import { type MouseEvent } from "react";
 import { useShallow } from "zustand/shallow";
+import { useTranslations } from "next-intl";
 
 const MAX_FLAGS_PER_SCALE = 6;
 
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const ScaleItem = ({ flags, scaleId, scaleName }: Props) => {
+  const t = useTranslations("flags");
   const { flag, ui, presetColors, updateStateFlag, updateStateUi, cancelCreationFlag } =
     useCreationFlagStore(
       useShallow((state) => ({
@@ -47,7 +49,7 @@ export const ScaleItem = ({ flags, scaleId, scaleName }: Props) => {
   } = useRenameScale();
 
   const ghostFlag = {
-    flagName: flagName || "New flag",
+    flagName: flagName || t("newFlag"),
     color: selectedColor,
     bgOpacity,
     fontFamily: selectedFont,
@@ -60,17 +62,13 @@ export const ScaleItem = ({ flags, scaleId, scaleName }: Props) => {
   const shouldShowGhostFlag = isCreatingNew && scale.id === scaleId && !hasOptimisticFlag;
   const isEditing = editingScaleId === scaleId;
 
-  const handleAddFlag = (
-    scale: { name: string; id: string },
-    e: MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleAddFlag = (scale: { name: string; id: string }, e: MouseEvent<HTMLButtonElement>) => {
     const accordionItem = e.currentTarget.closest('[data-slot="accordion-item"]');
     const trigger = accordionItem?.querySelector('[data-slot="accordion-trigger"]');
 
     if (trigger?.getAttribute("data-state") === "open") e.stopPropagation();
 
-    const isSameScale =
-      isCreatingNew && scale.id === useCreationFlagStore.getState().flag.scale.id;
+    const isSameScale = isCreatingNew && scale.id === useCreationFlagStore.getState().flag.scale.id;
 
     if (isSameScale) {
       cancelCreationFlag();
@@ -114,7 +112,9 @@ export const ScaleItem = ({ flags, scaleId, scaleName }: Props) => {
                 maxLength={25}
               />
 
-              {isMaxLength && <span className="text-xs text-destructive">Max length reached</span>}
+              {isMaxLength && (
+                <span className="text-xs text-destructive">{t("scales.maxLength")}</span>
+              )}
 
               <span className={cn(!isEditing ? "block" : "hidden")}>{scaleName}</span>
             </div>

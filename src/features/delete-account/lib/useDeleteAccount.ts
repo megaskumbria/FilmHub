@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import axios from "axios";
 import { apiClient } from "@/shared/api/api-client";
 import { API_URL } from "@/shared/api/config";
@@ -12,6 +13,8 @@ export const isPasswordIncorrectError = (error: unknown) => {
 };
 
 export const useDeleteAccount = () => {
+  const t = useTranslations("settings.deleteAccount");
+
   return useMutation({
     mutationFn: (password: string) => {
       return apiClient.delete(`${API_URL}/auth/account`, {
@@ -24,7 +27,7 @@ export const useDeleteAccount = () => {
     onError: (error) => {
       if (isPasswordIncorrectError(error)) return;
 
-      toast.error("Failed to delete account");
+      toast.error(t("failed"));
     },
   });
 };

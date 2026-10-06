@@ -15,7 +15,8 @@ import {
   Button,
 } from "@/shared/ui";
 import { GoogleIcon } from "@/shared/icons";
-import { signUpSchema, type SignUpSchema } from "../model/validation";
+import { useTranslations } from "next-intl";
+import { useSignUpSchema, type SignUpSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
 import axios from "axios";
 import { ApiErrorMessage } from "@/shared/types/api-error-types";
@@ -26,6 +27,8 @@ interface Props {
 }
 
 export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
+  const t = useTranslations("auth");
+  const signUpSchema = useSignUpSchema();
   const [showPassword, setShowPassword] = useState(false);
 
   const { signUp, isLoading } = useAuthStore();
@@ -62,14 +65,14 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
           render={({ field }) => (
             <FormItem className="gap-1.5">
               <FormLabel className="block text-foreground/80 text-sm font-medium mb-0 tracking-tight">
-                Email
+                {t("email")}
               </FormLabel>
 
               <FormControl>
                 <Input
                   variant="neutral"
                   inputSize="lg"
-                  placeholder="you@example.com"
+                  placeholder={t("emailPlaceholder")}
                   className="rounded-lg bg-input/60 border-border/80 focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-all"
                   {...field}
                 />
@@ -86,14 +89,14 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
           render={({ field }) => (
             <FormItem className="gap-1.5">
               <FormLabel className="block text-foreground/80 text-sm font-medium mb-0 tracking-tight">
-                Username
+                {t("username")}
               </FormLabel>
 
               <FormControl>
                 <Input
                   variant="neutral"
                   inputSize="lg"
-                  placeholder="your_username"
+                  placeholder={t("usernamePlaceholder")}
                   className="rounded-lg bg-input/60 border-border/80 focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-all"
                   {...field}
                 />
@@ -110,7 +113,7 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
           render={({ field }) => (
             <FormItem className="gap-1.5">
               <FormLabel className="block text-foreground/80 text-sm font-medium mb-0 tracking-tight">
-                Password
+                {t("password")}
               </FormLabel>
 
               <FormControl>
@@ -150,12 +153,12 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
           disabled={isLoading}
           className="mt-1 h-10 w-full justify-center rounded-lg bg-accent font-semibold text-accent-foreground shadow-md shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>{isLoading ? "Signing up..." : "Create account"}</span>
+          <span>{isLoading ? t("signingUp") : t("createAccount")}</span>
         </Button>
 
         <div className="relative flex items-center gap-3 py-1">
           <div className="h-px flex-1 bg-border/60" />
-          <span className="text-xs font-medium text-zinc-muted">or continue with</span>
+          <span className="text-xs font-medium text-zinc-muted">{t("continueWith")}</span>
           <div className="h-px flex-1 bg-border/60" />
         </div>
 

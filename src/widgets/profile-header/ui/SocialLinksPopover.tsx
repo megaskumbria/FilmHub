@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const SocialLinksPopover = ({ links, onChange }: Props) => {
-  const t = useTranslations("profile");
+  const t = useTranslations("collections.profile");
 
   const handleUpdateLink = (index: number, url: string): void => {
     onChange(links.map((link, i) => (i === index ? url : link)));

@@ -7,6 +7,7 @@ import { useShallow } from "zustand/shallow";
 import { type FlagData } from "@/shared/hooks";
 import { FlagBadge } from "@/entities";
 import { FlagScaleHoverCard } from "@/features";
+import { useTranslations } from "next-intl";
 
 interface Props {
   flagsData: FlagData[];
@@ -26,6 +27,7 @@ export const FlagGroup = ({
   isPreview = false,
   flagsData,
 }: Props) => {
+  const t = useTranslations("flags");
   const { flag } = useCreationFlagStore(
     useShallow((state) => ({
       flag: state.flag,
@@ -35,7 +37,7 @@ export const FlagGroup = ({
   const { flagName, selectedColor, selectedFont, selectedIcon, scale, bgOpacity } = flag;
 
   const flagItem = {
-    flagName: flagName || "New flag",
+    flagName: flagName || t("newFlag"),
     color: selectedColor,
     fontFamily: selectedFont,
     bgOpacity,

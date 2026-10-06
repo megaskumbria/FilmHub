@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { cn } from "@/shared/lib/utils";
 import { Button, Checkbox, Label, Separator } from "@/shared/ui";
 import { Trash2 } from "lucide-react";
@@ -23,6 +24,7 @@ export const FloatingEditBar = ({
   onDelete,
   isDeleting,
 }: Props) => {
+  const t = useTranslations("collections.editBar");
   const isVisible = isEditMode && totalCountsMedia > 0;
 
   return (
@@ -47,7 +49,7 @@ export const FloatingEditBar = ({
             onCheckedChange={onSelectAll}
             disabled={isDeleting}
           />
-          <span>{isAllSelected ? "Deselect all" : "Select all"}</span>
+          <span>{isAllSelected ? t("deselectAll") : t("selectAll")}</span>
         </Label>
 
         <Separator orientation="vertical" className="h-4 bg-border" />
@@ -77,7 +79,7 @@ export const FloatingEditBar = ({
           )}
         >
           <Trash2 className="size-3.5 shrink-0" />
-          <span>{isDeleting ? "Removing..." : "Remove"}</span>
+          <span>{isDeleting ? t("removing") : t("remove")}</span>
         </Button>
       </div>
     </div>

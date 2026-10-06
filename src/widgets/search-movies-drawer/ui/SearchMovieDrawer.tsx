@@ -11,6 +11,7 @@ import {
   Input,
   Skeleton,
 } from "@/shared/ui";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ChevronRight, Search, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
@@ -22,6 +23,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
 export const SearchMovieDrawer = () => {
+  const t = useTranslations("header.search");
+
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -78,7 +81,7 @@ export const SearchMovieDrawer = () => {
             <Input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search movies..."
+              placeholder={t("placeholder")}
               className="w-full h-11 pl-10 placeholder:text-zinc-muted"
             />
 
@@ -100,7 +103,7 @@ export const SearchMovieDrawer = () => {
         </DrawerHeader>
 
         {!isLoading && allMedia.length === 0 && (
-          <p className="text-center text-sm text-muted">No results found</p>
+          <p className="text-center text-sm text-muted">{t("empty")}</p>
         )}
 
         <div
@@ -148,7 +151,7 @@ export const SearchMovieDrawer = () => {
             className="group flex items-center justify-center gap-0.5"
           >
             <p className="text-center text-sm text-muted group-hover:text-muted/70  transition-all">
-              More results
+              {t("more")}
             </p>
             <ChevronRight className="size-5 text-muted translate-y-1px group-hover:text-muted/70  transition-all" />
           </Link>

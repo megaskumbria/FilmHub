@@ -9,6 +9,7 @@ import { useAddMediaToCollection, collectionQueryOptions } from "@/shared/hooks"
 import { useQuery } from "@tanstack/react-query";
 import { CollectionCompactCard, CollectionCompactCardSkeleton } from "@/entities";
 import { MediaType } from "@/shared/stores/movie-catalog";
+import { useTranslations } from "next-intl";
 
 const IS_MY_COLLECTION = true;
 
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
+  const t = useTranslations("movie.collections");
   const [selectedCollections, setSelectedCollections] = useState<Set<string>>(new Set());
   const [collectionSearch, setCollectionSearch] = useState("");
 
@@ -61,11 +63,13 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
       <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
         <div className="flex items-center gap-2.5">
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <span className="text-sm font-semibold text-foreground tracking-wide">Collections</span>
+          <span className="text-sm font-semibold text-foreground tracking-wide">{t("title")}</span>
         </div>
 
         {selectedCollections.size > 0 && (
-          <span className="text-xs text-zinc-muted">{selectedCollections.size} selected</span>
+          <span className="text-xs text-zinc-muted">
+            {t("selected", { count: selectedCollections.size })}
+          </span>
         )}
       </header>
 
@@ -74,7 +78,7 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
           <Input
             variant="neutral"
-            placeholder="Search collections..."
+            placeholder={t("search")}
             className="pl-7 pr-2 text-sm h-9"
             value={collectionSearch}
             onChange={(e) => setCollectionSearch(e.target.value)}
@@ -86,7 +90,7 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
         {isLoading ?
           Array.from({ length: 3 }).map((_, i) => <CollectionCompactCardSkeleton key={i} />)
         : filteredCollections?.length === 0 ?
-          <div className="py-6 text-center text-xs text-zinc-muted">No collections found</div>
+          <div className="py-6 text-center text-xs text-zinc-muted">{t("empty")}</div>
         : filteredCollections?.map((collection) => (
             <CollectionCompactCard
               key={collection.id}
@@ -104,7 +108,7 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
           className="flex items-center gap-1.5 text-zinc-muted hover:text-foreground transition-colors"
         >
           <Plus className="size-3.5 shrink-0" />
-          <span className="text-sm">New collection</span>
+          <span className="text-sm">{t("new")}</span>
         </Link>
 
         <Button
@@ -115,9 +119,13 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
           {isPending || isFetching ?
             <div className="flex items-center gap-1.5">
               <Loader2 className="size-3.5 animate-spin" />
-              <span>Adding...</span>
+              <span>{t("adding")}</span>
             </div>
-          : <span>Add{selectedCount}</span>}
+          : <span>
+              {t("add")}
+              {selectedCount}
+            </span>
+          }
         </Button>
       </footer>
     </div>

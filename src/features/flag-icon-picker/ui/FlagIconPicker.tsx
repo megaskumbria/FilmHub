@@ -8,12 +8,14 @@ import { memo, useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
 import { useInfiniteIcons, useIntersectionObserver, useDebounce } from "@/shared/hooks";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { useTranslations } from "next-intl";
 
 const COLS = 8;
 const ROW_HEIGHT = 42;
 const LIMIT = 120;
 
 export const FlagIconPicker = memo(() => {
+  const t = useTranslations("flags.form");
   const [searchQuery, setSearchQuery] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -69,7 +71,7 @@ export const FlagIconPicker = memo(() => {
 
           <Input
             variant="neutral"
-            placeholder="Search icons…"
+            placeholder={t("searchIcons")}
             className="pl-8"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -78,7 +80,7 @@ export const FlagIconPicker = memo(() => {
         <Separator />
 
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-sm text-foreground">Selected:</span>
+          <span className="text-sm text-foreground">{t("selected")}</span>
 
           <div className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
             {svgContent && <InlineSvg svg={svgContent} className="size-5 text-accent" />}

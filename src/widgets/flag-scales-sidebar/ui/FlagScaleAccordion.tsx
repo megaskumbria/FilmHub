@@ -6,6 +6,7 @@ import { ScaleItem, FlagScalesSkeleton, SortBy } from "@/widgets/flag-scales-sid
 import { isSortable } from "@dnd-kit/react/sortable";
 import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
+import { useTranslations } from "next-intl";
 
 interface Props {
   searchQuery: string;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const FlagScaleAccordion = ({ searchQuery, sortBy }: Props) => {
+  const t = useTranslations("flags.scales");
   const { data: flagsData = [], isLoading } = useGetFlags({ searchQuery, sortBy });
 
   const { mutate: updateFlagPosition } = useUpdateFlagPosition();
@@ -38,7 +40,7 @@ export const FlagScaleAccordion = ({ searchQuery, sortBy }: Props) => {
       {isLoading ?
         Array.from({ length: 5 }).map((_, index) => <FlagScalesSkeleton key={index} />)
       : flagsData.length === 0 ?
-        <div className="py-24 text-center text-sm text-zinc-muted">Nothing found</div>
+        <div className="py-24 text-center text-sm text-zinc-muted">{t("nothingFound")}</div>
       : <Accordion type="multiple">
           {flagsData.map(({ id, scaleName, flags }) => (
             <ScaleItem key={id} flags={flags} scaleId={id} scaleName={scaleName} />

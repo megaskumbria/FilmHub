@@ -1,14 +1,21 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-export const changePasswordSchema = z
-  .object({
-    currentPassword: z.string().min(1),
-    newPassword: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+export const useChangePasswordSchema = () => {
+  const t = useTranslations("settings.security");
 
-export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
+  return z
+    .object({
+      currentPassword: z.string().min(1, t("currentRequired")),
+      newPassword: z.string().min(8, t("passwordMin")),
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+      message: t("passwordMismatch"),
+      path: ["confirmPassword"],
+    });
+};
+
+export type ChangePasswordSchema = z.infer<ReturnType<typeof useChangePasswordSchema>>;

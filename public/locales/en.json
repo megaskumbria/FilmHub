@@ -4,44 +4,471 @@
     "edit": "Rename",
     "delete": "Delete"
   },
-  "profile": {
-    "cover": "Cover",
-    "changeCover": "Change cover",
-    "bioPlaceholder": "Add a short bio...",
-    "cancel": "Cancel",
-    "saving": "Saving...",
-    "save": "Save",
-    "edit": "Edit",
-    "follow": "Follow",
-    "following": "Following",
-    "unfollow": "Unfollow",
-    "you": "You",
-    "films": "{count, plural, one {Film} other {Films}}",
-    "collections": "{count, plural, one {Collection} other {Collections}}",
-    "followers": "{count, plural, one {Follower} other {Followers}}",
-    "editLinks": "Edit links",
-    "socialLinks": "Social links",
-    "noLinks": "No links added yet",
-    "maxLinks": "Maximum 4 links",
-    "addLink": "Add link",
-    "cropAvatar": "Crop avatar",
-    "people": "People",
-    "searchPeople": "Search by name or @tag...",
-    "tabs": {
-      "followers": "Followers",
-      "following": "Following"
+  "header": {
+    "home": "Home",
+    "movies": "Movies",
+    "myCollections": "My collections",
+    "signIn": "Sign in",
+    "search": {
+      "placeholder": "Search movies...",
+      "empty": "No results found",
+      "more": "More results"
     },
-    "empty": {
-      "search": "No one matches that search",
-      "followers": "No followers yet",
-      "following": "Not following anyone yet"
-    },
-    "validation": {
-      "nicknameMin": "Nickname must be at least 2 characters",
-      "nicknameMax": "Nickname must be less than 24 characters",
-      "tagMin": "Tag must be at least 3 characters",
-      "tagMax": "Tag must be less than 16 characters",
-      "bioMax": "Bio must be less than 100 characters"
+    "menu": {
+      "account": "Account",
+      "subscriptions": "Subscriptions",
+      "statistics": "Statistics",
+      "achievements": "Achievements",
+      "collections": "Collections",
+      "myCollections": "My collections",
+      "flags": "Flags",
+      "system": "System",
+      "settings": "Settings",
+      "logout": "Log out",
+      "soon": "Soon"
     }
+  },
+  "collections": {
+    "profile": {
+      "cover": "Cover",
+      "changeCover": "Change cover",
+      "bioPlaceholder": "Add a short bio...",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "save": "Save",
+      "edit": "Edit",
+      "follow": "Follow",
+      "following": "Following",
+      "unfollow": "Unfollow",
+      "you": "You",
+      "films": "{count, plural, one {Film} other {Films}}",
+      "collections": "{count, plural, one {Collection} other {Collections}}",
+      "followers": "{count, plural, one {Follower} other {Followers}}",
+      "editLinks": "Edit links",
+      "socialLinks": "Social links",
+      "noLinks": "No links added yet",
+      "maxLinks": "Maximum 4 links",
+      "addLink": "Add link",
+      "cropAvatar": "Crop avatar",
+      "people": "People",
+      "searchPeople": "Search by name or @tag...",
+      "tabs": {
+        "followers": "Followers",
+        "following": "Following"
+      },
+      "empty": {
+        "search": "No one matches that search",
+        "followers": "No followers yet",
+        "following": "Not following anyone yet"
+      },
+      "validation": {
+        "nicknameMin": "Nickname must be at least 2 characters",
+        "nicknameMax": "Nickname must be less than 24 characters",
+        "tagMin": "Tag must be at least 3 characters",
+        "tagMax": "Tag must be less than 16 characters",
+        "bioMax": "Bio must be less than 100 characters"
+      }
+    },
+    "toolbar": {
+      "search": "Search collections...",
+      "edit": "Edit",
+      "done": "Done"
+    },
+    "list": {
+      "mine": "My collections",
+      "theirs": "Collections",
+      "create": "Create"
+    },
+    "editBar": {
+      "selectAll": "Select all",
+      "deselectAll": "Deselect all",
+      "remove": "Remove",
+      "removing": "Removing..."
+    },
+    "create": {
+      "new": "New collection",
+      "editTitle": "Edit collection",
+      "name": "Name",
+      "namePlaceholder": "e.g. Favorite thrillers",
+      "icon": "Icon",
+      "color": "Color",
+      "premium": "Premium",
+      "customCover": "Custom cover",
+      "customCoverHint": "Upload your own image for the folder",
+      "cancel": "Cancel",
+      "create": "Create",
+      "edit": "Edit",
+      "creating": "Creating...",
+      "editing": "Editing...",
+      "nameMax": "Name must be less than 50 characters"
+    },
+    "emptyFilms": {
+      "empty": {
+        "own": {
+          "title": "no films added",
+          "text": "Browse the catalogue to find something to add"
+        },
+        "visitor": {
+          "title": "no films added",
+          "text": "This collection doesn't have any films yet"
+        }
+      },
+      "search": {
+        "title": "no results"
+      }
+    },
+    "emptyState": {
+      "create": "Create collection",
+      "horrors": "Horrors",
+      "favourites": "Favourites",
+      "mysterious": "Mysterious",
+      "rewatch": "To rewatch",
+      "noneYet": "no collections yet",
+      "visitor": "{name} hasn't created any collections yet",
+      "visitorUnknown": "This user hasn't created any collections yet"
+    },
+    "delete": {
+      "title": "Delete collection?",
+      "undo": "This cannot be undone.",
+      "body": "The collection and all its contents will be permanently removed from your account.",
+      "skip": "Don't ask again",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "deleted": "Collection deleted successfully",
+      "failed": "Failed to delete collection"
+    },
+    "share": {
+      "title": "Share collection",
+      "hint": "Anyone with the link can view this collection",
+      "copied": "Link copied to clipboard",
+      "copyFailed": "Failed to copy link"
+    },
+    "comments": {
+      "title": "Comments",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "popular": "Popular",
+      "empty": "Be the first to leave a comment",
+      "placeholder": "Write a comment…",
+      "replyTo": "Reply to {handle}…",
+      "cancel": "Cancel",
+      "reply": "Reply",
+      "showLess": "Show less",
+      "readMore": "Read more",
+      "mock": {
+        "c1": "Great picks! I especially liked the 80s classics. You rarely see a list where films from different eras mesh this well — you can tell the curator knows their stuff.",
+        "c1r1": "Thanks! I tried to choose titles that still feel relevant today.",
+        "c1r2": "Same as Alex — the director choices really stand out; you can feel the expertise.",
+        "c2": "Solid list, but a few genre staples are missing. Carpenter's \"The Thing\" and Argento's \"Suspiria\" come to mind — no serious horror roundup feels complete without them. Planning to add?",
+        "c2r1": "On the roadmap! \"The Thing\" will definitely be in the next update.",
+        "c3": "Saved this for later — I have been looking for something exactly like it.",
+        "c3r1": "Glad it helped — I will keep adding to the collection.",
+        "c4": "I do not quite follow the selection logic. A few entries do not match the theme.",
+        "c5": "Followed your profile — lists this thoughtful are rare. You can tell you really love film. Keep it up; I am looking forward to the next updates!",
+        "h2": "2 hours ago",
+        "h1": "1 hour ago",
+        "m45": "45 minutes ago",
+        "h5": "5 hours ago",
+        "h4": "4 hours ago",
+        "yesterday": "yesterday",
+        "d2": "2 days ago",
+        "d3": "3 days ago"
+      }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "account": "Account",
+      "movie-card": "Movie card"
+    },
+    "security": {
+      "title": "Security",
+      "description": "Email and password used to sign in",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "save": "Save",
+      "saving": "Saving...",
+      "emailInvalid": "Enter a valid email",
+      "emailTaken": "This email is already taken",
+      "emailChanged": "Email changed successfully",
+      "emailFailed": "Failed to change email",
+      "current": "Current",
+      "currentPlaceholder": "Current password",
+      "currentRequired": "Enter your current password",
+      "new": "New",
+      "newPlaceholder": "New password",
+      "confirm": "Confirm",
+      "confirmPlaceholder": "Confirm password",
+      "update": "Update password",
+      "updating": "Updating...",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match",
+      "passwordIncorrect": "Current password is incorrect",
+      "passwordSame": "New password must be different from the current one",
+      "passwordChanged": "Password changed successfully",
+      "passwordFailed": "Failed to change password"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "privateProfile": "Private profile",
+      "privateProfileHint": "Followers require approval; collections stay hidden from strangers",
+      "publicStats": "Public statistics",
+      "publicStatsHint": "Other users can see your viewing stats",
+      "soon": "Soon"
+    },
+    "deleteAccount": {
+      "title": "Delete account",
+      "hint": "This action cannot be undone",
+      "delete": "Delete",
+      "confirmTitle": "Delete account?",
+      "cannotUndo": "This cannot be undone.",
+      "warning": "All your data, collections and settings will be permanently removed. Enter your password to confirm.",
+      "password": "Password",
+      "passwordRequired": "Password is required",
+      "passwordIncorrect": "Password is incorrect",
+      "cancel": "Cancel",
+      "deleting": "Deleting...",
+      "failed": "Failed to delete account"
+    },
+    "card": {
+      "zones": "Card zones",
+      "resetHint": "Reset to defaults",
+      "resetToast": "Settings reset to defaults",
+      "oneZone": "A block can only be active in one zone.",
+      "preview": "Preview",
+      "previewHint": "Toggle blocks on or off for each card zone",
+      "random": "Random poster",
+      "rolling": "Rolling...",
+      "reset": "Reset",
+      "posterReset": "Poster preview reset",
+      "poster": "Poster",
+      "hover": "Hover",
+      "body": "Body",
+      "title": "Title",
+      "description": "Description",
+      "genres": "Genres",
+      "flags": "Flags",
+      "scales": "Scales",
+      "rating": "Rating"
+    }
+  },
+  "home": {
+    "title": "Browse the shelves",
+    "collections": "{count, plural, one {# collection} other {# collections}}",
+    "search": "Search collections...",
+    "filters": "Filters",
+    "filterTitle": "Collection filter",
+    "reset": "Reset",
+    "genre": "Genre",
+    "genrePlaceholder": "Select genre",
+    "size": "Collection size",
+    "sizePlaceholder": "Select size",
+    "sort": "Sort by",
+    "sortPlaceholder": "Select sort",
+    "sortOptions": {
+      "rating": "By rating",
+      "likes": "By likes",
+      "views": "By views",
+      "newest": "Newest first",
+      "oldest": "Oldest first"
+    },
+    "sizeOptions": {
+      "5": "5+ movies",
+      "10": "10+ movies",
+      "20": "20+ movies",
+      "50": "50+ movies",
+      "100": "100+ movies",
+      "500": "500+ movies"
+    }
+  },
+  "flags": {
+    "title": "Create flag",
+    "subtitle": "A scale measures one thing; its flags are the levels, from weakest to strongest",
+    "newFlag": "New flag",
+    "opacity": "Background opacity",
+    "weakest": "Weakest",
+    "strongest": "Strongest",
+    "scales": {
+      "title": "Flag scales",
+      "namePlaceholder": "Scale name...",
+      "create": "Create",
+      "creating": "Creating...",
+      "nameMax": "Name must be less than 25 characters",
+      "search": "Search scales and flags...",
+      "sort": "Sort",
+      "sortAsc": "Alphabetical (A → Z)",
+      "sortDesc": "Alphabetical (Z → A)",
+      "nothingFound": "Nothing found",
+      "maxLength": "Max length reached",
+      "rename": "Rename",
+      "delete": "Delete"
+    },
+    "preview": {
+      "title": "Flag preview",
+      "scale": "Scale:",
+      "notSelected": "Not selected",
+      "badgeStyle": "Badge style:"
+    },
+    "form": {
+      "title": "Settings",
+      "flagName": "Flag name",
+      "namePlaceholder": "Enter a name...",
+      "maxChars": "Up to 30 characters",
+      "font": "Font",
+      "selected": "Selected:",
+      "icon": "Icon",
+      "chooseIcon": "Choose an icon...",
+      "chooseIconTitle": "Choose an icon",
+      "searchIcons": "Search icons…"
+    },
+    "color": {
+      "background": "Background color",
+      "pick": "Pick a color",
+      "selected": "Selected:"
+    },
+    "bar": {
+      "new": "New flag:",
+      "editing": "Editing:",
+      "untitled": "Untitled",
+      "saveChanges": "Save changes",
+      "save": "Save flag"
+    },
+    "toasts": {
+      "reorderFailed": "Failed to reorder flags",
+      "createFailed": "Failed to create flag",
+      "deleteFailed": "Failed to delete flag",
+      "updateFailed": "Failed to update flag",
+      "posterFailed": "Failed to get random poster"
+    },
+    "poster": {
+      "title": "Poster",
+      "configure": "Configure",
+      "enable": "Enable the flag in settings to show it here"
+    },
+    "fontPicker": {
+      "choose": "Choose a font...",
+      "selectAria": "Select font",
+      "search": "Search fonts...",
+      "allCategories": "All categories",
+      "cyrillic": "Cyrillic",
+      "cyrillicAria": "Only fonts that support Cyrillic script",
+      "count": "{count, plural, one {# font} other {# fonts}}",
+      "loadFailed": "Failed to load fonts.",
+      "empty": "No fonts found.",
+      "categories": {
+        "serif": "Serif",
+        "sans-serif": "Sans serif",
+        "display": "Display",
+        "handwriting": "Handwriting",
+        "monospace": "Monospace"
+      }
+    },
+    "packs": {
+      "popular": "Popular packs",
+      "added": "Added",
+      "users": "{count} users",
+      "details": "Details",
+      "flagsInPack": "Flags in this pack",
+      "addHint": "The pack is added as a new scale <strong>\"{name}\"</strong> in your sidebar. You can edit the flags after adding.",
+      "add": "Add pack to collection",
+      "adding": "Adding...",
+      "proPack": "PRO pack",
+      "close": "Close"
+    }
+  },
+  "auth": {
+    "title": "Authentication",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "password": "Password",
+    "forgot": "Forgot password?",
+    "signingIn": "Signing in...",
+    "continueWith": "or continue with",
+    "username": "Username",
+    "usernamePlaceholder": "your_username",
+    "signingUp": "Signing up...",
+    "createAccount": "Create account",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "validation": {
+      "email": "Invalid email",
+      "passwordMin": "Password must be at least 8 characters",
+      "usernameMin": "Username must be at least 5 characters"
+    }
+  },
+  "movie": {
+    "addToCollection": "Add to collection",
+    "generateLink": "Generate link",
+    "linkHint": "Builds a link to a free source for watching the film.",
+    "cast": "Cast",
+    "seasons": "{count, plural, one {# season} other {# seasons}}",
+    "showUi": "Show UI",
+    "posterOnly": "Poster only",
+    "duration": "{hours}h {minutes}m",
+    "minutes": "{minutes}m",
+    "collections": {
+      "title": "Collections",
+      "search": "Search collections...",
+      "empty": "No collections found",
+      "selected": "{count} selected",
+      "new": "New collection",
+      "add": "Add",
+      "adding": "Adding..."
+    },
+    "flags": {
+      "title": "Flags",
+      "onePerScale": "At most one flag per scale",
+      "search": "Search scales...",
+      "empty": "No flags found",
+      "create": "Create flag",
+      "limit": "Limit reached ({current}/{max})",
+      "limitHint": "Remove a flag to pick another"
+    },
+    "card": {
+      "untitled": "Untitled",
+      "imdb": "IMDB Rating",
+      "tmdb": "TMDB Rating"
+    }
+  },
+  "catalog": {
+    "all": "All",
+    "movie": "Movies",
+    "tv": "Series",
+    "search": "Search movies, series...",
+    "empty": "No results found",
+    "filters": "Filters",
+    "filterTitle": "Search filters",
+    "reset": "Reset",
+    "genre": "Genre",
+    "genrePlaceholder": "Select genre",
+    "year": "Release year",
+    "yearPlaceholder": "Select period",
+    "sort": "Sort",
+    "sortPlaceholder": "Select sort",
+    "country": "Country",
+    "countryPlaceholder": "Select country",
+    "countryLocked": "Country filter is unavailable while searching",
+    "countryEmpty": "No countries found",
+    "sortOptions": {
+      "rating": "By rating",
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "az": "By name: A-Z",
+      "za": "By name: Z-A"
+    },
+    "years": {
+      "before-1990": "Before 1990",
+      "2020-today": "2020-Today"
+    }
+  },
+  "common": {
+    "close": "Close",
+    "sidebar": "Sidebar",
+    "sidebarDescription": "Displays the mobile sidebar.",
+    "toggleSidebar": "Toggle Sidebar"
   }
 }

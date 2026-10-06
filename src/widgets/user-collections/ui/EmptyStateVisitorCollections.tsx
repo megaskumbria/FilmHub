@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { profileQueryOptions } from "@/shared/hooks";
 
@@ -15,6 +16,7 @@ const MiniFolder = () => (
 );
 
 export const EmptyStateVisitorCollections = ({ userId }: Props) => {
+  const t = useTranslations("collections.emptyState");
   const { data: profile } = useQuery(profileQueryOptions({ userId }));
   const nickname = profile?.nickname;
 
@@ -35,7 +37,7 @@ export const EmptyStateVisitorCollections = ({ userId }: Props) => {
             <div className="h-px flex-1 bg-border/30" />
 
             <p className="text-sm text-muted/60 tracking-widest uppercase whitespace-nowrap select-none">
-              no collections yet
+              {t("noneYet")}
             </p>
 
             <div className="h-px flex-1 bg-border/30" />
@@ -50,9 +52,7 @@ export const EmptyStateVisitorCollections = ({ userId }: Props) => {
       </div>
 
       <p className="text-sm text-muted text-center max-w-md">
-        {nickname ?
-          `${nickname} hasn't created any collections yet`
-        : "This user hasn't created any collections yet"}
+        {nickname ? t("visitor", { name: nickname }) : t("visitorUnknown")}
       </p>
     </section>
   );

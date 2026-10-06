@@ -6,6 +6,7 @@ import { HelpCircle, Plus, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { type FlagItem, useDebounce, useGetFlags, useSetMediaFlags } from "@/shared/hooks";
 import { FlagsLimitNotice, FlagScaleItem } from "@/features/set-media-flags";
+import { useTranslations } from "next-intl";
 
 const MAX_LIMIT_PER_MEDIA = 4;
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
+  const t = useTranslations("movie.flags");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFlags, setSelectedFlags] = useState<Record<string, FlagItem>>({});
 
@@ -79,7 +81,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
       <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
         <div className="flex items-center gap-2.5">
           <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <span className="text-sm font-semibold text-foreground tracking-wide">Flags</span>
+          <span className="text-sm font-semibold text-foreground tracking-wide">{t("title")}</span>
         </div>
 
         <Tooltip>
@@ -88,7 +90,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
           </TooltipTrigger>
 
           <TooltipContent>
-            <p>At most one flag per scale</p>
+            <p>{t("onePerScale")}</p>
           </TooltipContent>
         </Tooltip>
       </header>
@@ -98,7 +100,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
           <Input
             variant="neutral"
-            placeholder="Search scales..."
+            placeholder={t("search")}
             className="pl-7 pr-2 text-sm h-9"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -107,7 +109,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
 
       <div className="overflow-y-auto max-h-92 px-1.5 drawer-scroll relative">
         {flagsData.length === 0 ?
-          <div className="py-6 text-center text-xs text-zinc-muted">No flags found</div>
+          <div className="py-6 text-center text-xs text-zinc-muted">{t("empty")}</div>
         : <Accordion type="multiple">
             {flagsData.map(({ id, scaleName, flags }) => (
               <FlagScaleItem
@@ -131,7 +133,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
         <Link href="/creation-flag">
           <Button className="w-full h-8 text-zinc-muted hover:text-accent hover:bg-accent/10 transition-all px-2 gap-1.5 rounded-lg justify-start">
             <Plus className="size-3 shrink-0" />
-            <span>Create flag</span>
+            <span>{t("create")}</span>
           </Button>
         </Link>
       </footer>

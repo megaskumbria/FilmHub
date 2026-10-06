@@ -3,14 +3,12 @@
 import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { MediaCategory, useMediaCatalog } from "@/shared/stores/movie-catalog";
+import { useTranslations } from "next-intl";
 
-const tabs = [
-  { label: "All", value: "all" },
-  { label: "Movies", value: "movie" },
-  { label: "Series", value: "tv" },
-];
+const TABS = ["all", "movie", "tv"] as const;
 
 export const CategoryTabs = () => {
+  const t = useTranslations("catalog");
   const { category, setCategory } = useMediaCatalog();
 
   return (
@@ -21,13 +19,13 @@ export const CategoryTabs = () => {
       }}
     >
       <TabsList className="relative items-center justify-center rounded-lg bg-graphite p-1 h-10 border border-border/40 gap-0.5">
-        {tabs.map((tab) => (
+        {TABS.map((value) => (
           <TabsTrigger
-            key={tab.label}
-            value={tab.value}
+            key={value}
+            value={value}
             className="cursor-pointer relative z-10 rounded-md px-4 py-3 text-sm font-medium transition-colors duration-200 data-[state=active]:text-accent-foreground data-[state=inactive]:text-zinc-muted hover:text-foreground"
           >
-            {category === tab.value && (
+            {category === value && (
               <motion.div
                 layoutId="activeTab"
                 className="absolute inset-0 rounded-md bg-linear-to-br from-accent to-accent/80 shadow-md shadow-accent/20"
@@ -39,7 +37,7 @@ export const CategoryTabs = () => {
               />
             )}
 
-            <span className="relative z-10">{tab.label}</span>
+            <span className="relative z-10">{t(value)}</span>
           </TabsTrigger>
         ))}
       </TabsList>
