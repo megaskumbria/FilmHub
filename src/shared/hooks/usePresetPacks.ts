@@ -1,21 +1,7 @@
 import { apiClient } from "../api/api-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
-import { type Icon } from "./useFlags";
-
-export interface PresetFlagItem {
-  id: string;
-  flagName: string;
-  color: string;
-  bgOpacity: number;
-  fontFamily: string;
-
-  icon: Icon | null;
-
-  position: number;
-
-  packId: string;
-}
+import type { FlagItem } from "./useFlags";
 
 export interface PresetPack {
   id: string;
@@ -23,7 +9,10 @@ export interface PresetPack {
   scaleName: string;
   description: string;
   usageCount: number;
-  flags: PresetFlagItem[];
+  locale: "en" | "ru";
+  key: string;
+
+  flags: FlagItem[];
 
   isAdded: boolean;
 }

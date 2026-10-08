@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 import { Button } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
+import { useLangToggle } from "../lib/useLangToggle";
 
 type Lang = "Ru" | "En";
 
@@ -15,12 +16,13 @@ export const LangToggle = () => {
   const pathname = usePathname();
   const locale = useLocale();
 
-  const switchTo = (lang: Lang) => {
-    const newPath = pathname.replace(/^\/(ru|en)/, `/${lang}`);
+  const { mutate: toggleLang } = useLangToggle();
 
-    startTransition(() => {
-      router.replace(newPath);
-    });
+  const switchTo = (lang: Lang) => {
+    toggleLang({ language: lang === "Ru" ? "ru" : "en" });
+
+    const newPath = pathname.replace(/^\/(ru|en)/, `/${lang}`);
+    startTransition(() => router.replace(newPath));
   };
 
   const detectedLanguage = locale === "ru" ? "En" : "Ru";

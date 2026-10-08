@@ -13,8 +13,6 @@ import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 import { useTranslations } from "next-intl";
 
-// import { PRESET_PACKS } from "../model/preset-packs-data";
-
 const SKELETON_ITEMS = Array.from({ length: 7 }, (_, index) => index);
 
 const SWIPER_BREAKPOINTS = {

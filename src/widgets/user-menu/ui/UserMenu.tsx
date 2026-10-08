@@ -34,7 +34,6 @@ export const UserMenu = ({ initialUser }: Props) => {
   const nickname = hasHydrated ? user.nickname : initialUser?.nickname;
   const userId = hasHydrated ? user.id : initialUser?.id;
   const avatarUrl = hasHydrated ? user.avatarUrl : initialUser?.avatarUrl;
-  // const email = hasHydrated ? user.email : initialUser?.email;
 
   const firstAvatarLetter = nickname?.charAt(0).toUpperCase();
 
@@ -66,7 +65,6 @@ export const UserMenu = ({ initialUser }: Props) => {
       >
         <section className="flex flex-col justify-start items-start">
           <div className="text-2xl font-medium text-primary">{nickname}</div>
-          {/* <div className="text-sm text-muted">{email}</div> */}
         </section>
 
         <LangToggle />
