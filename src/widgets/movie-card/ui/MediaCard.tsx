@@ -17,6 +17,7 @@ export const POPOVER_MODE = {
   ADD_COLLECTION: "add-collection",
   EDIT_COLLECTION: "edit-collection",
 };
+
 export type PopoverMode = (typeof POPOVER_MODE)[keyof typeof POPOVER_MODE];
 
 interface Props {

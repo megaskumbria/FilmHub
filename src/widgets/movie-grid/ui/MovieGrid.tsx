@@ -4,14 +4,16 @@ import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { useEffect } from "react";
 import { MediaCard } from "@/widgets";
 import { useMediaCatalog } from "@/shared/stores/movie-catalog";
-import { useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
+import { infiniteMediaQueryOptions, useIntersectionObserver } from "@/shared/hooks";
 import { Skeleton } from "@/shared/ui";
 import { useFilterMedia } from "@/features";
 import { extractUniqueMedia } from "@/shared/lib";
 import { useTranslations } from "next-intl";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const MovieGrid = () => {
   const t = useTranslations("catalog");
+
   const {
     selectedGenre,
     selectedSort,
@@ -27,14 +29,16 @@ export const MovieGrid = () => {
     setFrozenFilterCountry(searchQuery.length > 0);
   }, [searchQuery]);
 
-  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia({
-    category,
-    searchQuery,
-    selectedGenre: selectedGenre.id,
-    selectedSort: selectedSort,
-    selectedYear: selectedYear,
-    selectedCountry: searchQuery.length > 0 ? "" : selectedCountry.iso31661,
-  });
+  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    infiniteMediaQueryOptions({
+      category,
+      searchQuery,
+      selectedGenre: selectedGenre.id,
+      selectedSort,
+      selectedYear,
+      selectedCountry: searchQuery.length > 0 ? "" : selectedCountry.iso31661,
+    }),
+  );
 
   const ref = useIntersectionObserver(
     () => {

@@ -17,10 +17,11 @@ import { ChevronRight, Search, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { MediaCard } from "@/widgets/movie-card";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
-import { useDebounce, useInfiniteMedia, useIntersectionObserver } from "@/shared/hooks";
+import { useDebounce, useIntersectionObserver, infiniteMediaQueryOptions } from "@/shared/hooks";
 import { extractUniqueMedia } from "@/shared/lib";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const SearchMovieDrawer = () => {
   const t = useTranslations("header.search");
@@ -34,11 +35,14 @@ export const SearchMovieDrawer = () => {
 
   const debouncedSearch = useDebounce(searchQuery, 300);
 
-  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteMedia({
-    category: "all",
-    searchQuery: debouncedSearch,
-    enabled: open,
-  });
+  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    infiniteMediaQueryOptions({
+      scope: "search-drawer",
+      category: "all",
+      searchQuery: debouncedSearch,
+      enabled: open,
+    }),
+  );
 
   const ref = useIntersectionObserver(
     () => {
@@ -52,8 +56,6 @@ export const SearchMovieDrawer = () => {
   const pathname = usePathname();
 
   useEffect(() => setOpen(false), [pathname]);
-
-  // console.log(isLoading);
 
   return (
     <Drawer direction="top" open={open} onOpenChange={setOpen}>

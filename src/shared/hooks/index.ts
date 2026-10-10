@@ -3,7 +3,7 @@ export { useIsMobile } from "./use-mobile";
 export { useIsDesktop } from "./useDesktop";
 export { useThrottle } from "./use-throttle";
 export { useIntersectionObserver } from "./useIntersectionObserver";
-export { useInfiniteMedia } from "./useInfiniteMedia";
+export { infiniteMediaQueryOptions } from "./useInfiniteMedia";
 export { useDebounce } from "./useDebounce";
 export { useGenres } from "./useGenres";
 export { useCountries } from "./useCountries";
@@ -37,17 +37,8 @@ export {
   useEditFlag,
   useDeleteFlag,
 } from "./useFlags";
-export {
-  useCreateFlagScale,
-  useDeleteFlagScale,
-  useRenameFlagScale,
-} from "./useFlagScales";
-export {
-  type PresetFlagItem,
-  type PresetPack,
-  useGetPresetPacks,
-  useAddPresetPack,
-} from "./usePresetPacks";
+export { useCreateFlagScale, useDeleteFlagScale, useRenameFlagScale } from "./useFlagScales";
+export { type PresetPack, useGetPresetPacks, useAddPresetPack } from "./usePresetPacks";
 export { useRenameScale } from "./useRenameScale";
 export { useSetMediaFlags } from "./useMediaFlags";
 export { collectionsFeedQuery, useFeedGenres } from "./useCollectionsFeed";

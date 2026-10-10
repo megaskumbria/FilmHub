@@ -1,21 +1,23 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLocale } from "next-intl";
+import { infiniteQueryOptions } from "@tanstack/react-query";
 import { type MediaData, type MediaCategory } from "../stores/movie-catalog";
 import { API_URL } from "../api/config";
 import { FilterSortType, FilterYearType } from "@/features/media-filters";
 import { apiClient } from "../api/api-client";
 
-interface UseInfiniteMediaArgs {
+interface InfiniteMediaQueryOptionsArgs {
   category: MediaCategory;
   searchQuery?: string;
   selectedGenre?: string;
   selectedSort?: FilterSortType;
   selectedYear?: FilterYearType;
   selectedCountry?: string;
+
   enabled?: boolean;
+
+  scope?: string;
 }
 
-export const useInfiniteMedia = ({
+export const infiniteMediaQueryOptions = ({
   category,
   searchQuery = "",
   selectedGenre = "",
@@ -23,12 +25,12 @@ export const useInfiniteMedia = ({
   selectedYear = "",
   selectedCountry = "",
   enabled = true,
-}: UseInfiniteMediaArgs) => {
-  const locale = useLocale();
-
-  return useInfiniteQuery({
+  scope = "catalog",
+}: InfiniteMediaQueryOptionsArgs) => {
+  return infiniteQueryOptions({
     queryKey: [
       "media",
+      scope,
       {
         category,
         searchQuery,
@@ -36,13 +38,12 @@ export const useInfiniteMedia = ({
         selectedSort,
         selectedYear,
         selectedCountry,
-        locale,
       },
     ],
 
     queryFn: async ({ pageParam = 1, signal }) => {
       const { data } = await apiClient.get<MediaData>(
-        `${API_URL}/movies?media_type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}&country=${selectedCountry}&language=${locale}`,
+        `${API_URL}/movies?media_type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}&country=${selectedCountry}`,
         { signal },
       );
       return data;
@@ -54,8 +55,8 @@ export const useInfiniteMedia = ({
       return page + 1;
     },
 
-    enabled,
-    staleTime: 1000 * 60 * 5,
     initialPageParam: 1,
+    staleTime: 1000 * 60 * 5,
+    enabled,
   });
 };
