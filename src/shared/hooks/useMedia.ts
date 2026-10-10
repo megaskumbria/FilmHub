@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useLocale } from "next-intl";
 import { API_URL } from "../api/config";
 import { MediaType } from "../stores/movie-catalog";
+import { apiClient } from "../api/api-client";
 
 export interface Genre {
   id: number;
@@ -42,17 +43,6 @@ export interface CastMember {
   order: number;
   knownForDepartment: string;
 }
-
-// export interface Backdrop {
-//   filePath: string;
-//   width: number;
-//   height: number;
-//   voteAverage: number;
-//   voteCount: number;
-//   url: string | null;
-//   aspectRatio: number;
-//   iso6391: string;
-// }
 
 export interface MovieCredits {
   cast: CastMember[];
@@ -174,14 +164,18 @@ export interface TmdbMovie {
 }
 
 export const useMovie = (id: number, mediaType: MediaType) => {
+  const locale = useLocale();
+  const hasMediaType = mediaType === "movie" || mediaType === "tv";
+
   return useQuery({
-    queryKey: ["movie", id, mediaType],
+    queryKey: ["movie", id, mediaType, locale],
     queryFn: async () => {
-      const { data } = await axios.get<TmdbMovie>(
-        `${API_URL}/movies/movie/${id}?media_type=${mediaType}`,
+      const { data } = await apiClient.get<TmdbMovie>(
+        `${API_URL}/movies/movie/${id}?media_type=${mediaType}&language=${locale}`,
       );
       return data;
     },
+    enabled: hasMediaType,
     staleTime: 1000 * 60 * 60,
     refetchOnWindowFocus: false,
   });

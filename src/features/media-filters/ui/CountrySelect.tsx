@@ -72,7 +72,7 @@ export const CountrySelect = () => {
           value={selectedCountry.iso31661 ? selectedCountry : null}
           onValueChange={(country) => country && setSelectedCountry(country)}
           items={dataCountries}
-          itemToStringLabel={(country) => country.englishName}
+          itemToStringLabel={(country) => country.nativeName}
           itemToStringValue={(country) => country.iso31661}
           isItemEqualToValue={(a, b) => a.iso31661 === b.iso31661}
         >
@@ -99,7 +99,7 @@ export const CountrySelect = () => {
                 </div>
               : (country: Country) => (
                   <ComboboxItem key={country.iso31661} value={country}>
-                    {country.englishName}
+                    {country.nativeName}
                   </ComboboxItem>
                 )
               }

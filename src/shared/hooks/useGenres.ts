@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { apiClient } from "../api/api-client";
 import { API_URL } from "../api/config";
 
 export interface Genre {
@@ -11,7 +11,7 @@ export const useGenres = () => {
   return useQuery({
     queryKey: ["genres"],
     queryFn: async () => {
-      const { data } = await axios.get<Genre[]>(`${API_URL}/movies/genres`);
+      const { data } = await apiClient.get<Genre[]>(`${API_URL}/movies/genres`);
       return data;
     },
     staleTime: 1000 * 60 * 60,
