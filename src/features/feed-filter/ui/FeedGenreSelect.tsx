@@ -4,6 +4,7 @@ import { Film } from "lucide-react";
 import { motion } from "framer-motion";
 import { useFeedGenres } from "@/shared/hooks";
 import { useCollectionsFeedStore } from "../model/collectionsFeed.store";
+import { capitalize } from "@/shared/lib";
 
 export const FeedGenreSelect = () => {
   const t = useTranslations("home");
@@ -29,7 +30,7 @@ export const FeedGenreSelect = () => {
           <SelectValue placeholder={t("genrePlaceholder")}>
             {selectedGenre && (
               <span className="flex w-full items-center justify-between gap-3 pr-1">
-                <span className="truncate">{selectedGenre.genre}</span>
+                <span className="truncate">{capitalize(selectedGenre.genre)}</span>
 
                 <span className="flex size-6 shrink-0 items-center justify-center rounded-md border border-border text-muted">
                   {selectedGenre.quantity}
@@ -52,7 +53,7 @@ export const FeedGenreSelect = () => {
               className="w-full [&>span:last-child]:flex-1 [&>span:last-child]:min-w-0 pr-2"
             >
               <div className="flex w-full items-center justify-between">
-                <span>{genre.genre}</span>
+                <span>{capitalize(genre.genre)}</span>
                 <span className="text-muted">{genre.quantity}</span>
               </div>
             </SelectItem>

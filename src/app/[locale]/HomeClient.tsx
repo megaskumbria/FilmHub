@@ -24,6 +24,8 @@ export const HomeClient = () => {
 
   const collectionsCount = collectionsFeed?.length;
 
+  console.log("collectionsFeed", collectionsFeed);
+
   return (
     <main className="max-w-410 w-full mx-auto px-6 pt-20 pb-16">
       {/* <BestCollectionsSlider /> */}

@@ -6,3 +6,4 @@ export { formatUsageCount } from "./formatUsageCount";
 export { sliderNavigationButton } from "./sliderNavigationButton";
 export { getAvatarColor } from "./getAvatarColor";
 export { getGuestId } from "./getGuestId";
+export { capitalize } from "./capitalize";

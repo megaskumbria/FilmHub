@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import { useGenres } from "@/shared/hooks";
 import { useFilterMedia } from "../model/filter-media-store";
 import { useTranslations } from "next-intl";
+import { capitalize } from "@/shared/lib";
 
 export const GenreSelect = () => {
   const t = useTranslations("catalog");
@@ -53,7 +54,7 @@ export const GenreSelect = () => {
             </div>
           : dataGenres.map((genre) => (
               <SelectItem key={genre.id} value={genre.id}>
-                {genre.name}
+                {capitalize(genre.name)}
               </SelectItem>
             ))
           }
