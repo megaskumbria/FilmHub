@@ -17,9 +17,9 @@ export const HomeClient = () => {
 
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-  const { genre, sort, quantity } = useCollectionsFeedStore();
+  const { genreId, sort, quantity } = useCollectionsFeedStore();
   const { data: collectionsFeed } = useQuery(
-    collectionsFeedQuery({ genre, sort, quantity, searchQuery: debouncedSearchQuery }),
+    collectionsFeedQuery({ genreId, sort, quantity, searchQuery: debouncedSearchQuery }),
   );
 
   const collectionsCount = collectionsFeed?.length;

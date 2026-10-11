@@ -1,18 +1,9 @@
-import { cookies } from "next/headers";
 import { CollectionsClient } from "./CollectionsClient";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
-import { API_URL } from "@/shared/api/config";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { collectionQueryOptions, collectionMediaQueryOptions } from "@/shared/hooks";
 import { profileQueryOptions } from "@/shared/hooks";
-
-interface AccessTokenPayload {
-  sub: string;
-  email: string;
-  username: string;
-  exp: number;
-}
+import { getAccessToken } from "@/shared/lib/getAccessToken";
 
 interface SearchParams {
   collectionId: string;
@@ -29,28 +20,9 @@ interface Props {
 }
 
 export default async function MyCollectionsPage({ params, searchParams }: Props) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("accessToken")?.value;
+  const token = await getAccessToken();
+
   const userId = token ? jwtDecode<{ sub: string }>(token).sub : "";
-
-  let validToken = cookieStore.get("accessToken")?.value;
-  const refreshToken = cookieStore.get("refreshToken")?.value;
-
-  if (validToken) {
-    const payload = jwtDecode<AccessTokenPayload>(validToken);
-    const isExpired = payload.exp * 1000 < Date.now();
-
-    if (isExpired && refreshToken) {
-      const { data } = await axios.post<{ accessToken: string }>(
-        `${API_URL}/auth/refresh`,
-        {},
-        {
-          headers: { Cookie: `refreshToken=${refreshToken}` },
-        },
-      );
-      validToken = data.accessToken;
-    }
-  }
 
   const queryClient = new QueryClient();
 
@@ -60,10 +32,8 @@ export default async function MyCollectionsPage({ params, searchParams }: Props)
   const isMyCollection = id === userId;
 
   const [collections] = await Promise.all([
-    queryClient.fetchQuery(
-      collectionQueryOptions({ userId: id, isMyCollection, token: validToken }),
-    ),
-    queryClient.prefetchQuery(profileQueryOptions({ userId: id, token: validToken })),
+    queryClient.fetchQuery(collectionQueryOptions({ userId: id, isMyCollection, token })),
+    queryClient.prefetchQuery(profileQueryOptions({ userId: id, token })),
   ]);
 
   const firstCollectionId = collectionId ? collectionId : (collections?.[0]?.id ?? "");
@@ -72,7 +42,7 @@ export default async function MyCollectionsPage({ params, searchParams }: Props)
     collectionMediaQueryOptions({
       collectionId: firstCollectionId,
       userId: id,
-      token: validToken,
+      token,
       searchQuery: "",
     }),
   );

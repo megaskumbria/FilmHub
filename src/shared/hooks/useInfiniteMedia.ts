@@ -15,6 +15,7 @@ interface InfiniteMediaQueryOptionsArgs {
   enabled?: boolean;
 
   scope?: string;
+  token?: string;
 }
 
 export const infiniteMediaQueryOptions = ({
@@ -26,6 +27,7 @@ export const infiniteMediaQueryOptions = ({
   selectedCountry = "",
   enabled = true,
   scope = "catalog",
+  token,
 }: InfiniteMediaQueryOptionsArgs) => {
   return infiniteQueryOptions({
     queryKey: [
@@ -44,7 +46,10 @@ export const infiniteMediaQueryOptions = ({
     queryFn: async ({ pageParam = 1, signal }) => {
       const { data } = await apiClient.get<MediaData>(
         `${API_URL}/movies?media_type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}&country=${selectedCountry}`,
-        { signal },
+        {
+          signal,
+          ...(token ? { headers: { Cookie: `accessToken=${token}` } } : {}),
+        },
       );
       return data;
     },

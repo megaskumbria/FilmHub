@@ -7,10 +7,10 @@ import { useCollectionsFeedStore } from "../model/collectionsFeed.store";
 
 export const FeedGenreSelect = () => {
   const t = useTranslations("home");
-  const { genre, setFilter } = useCollectionsFeedStore();
+  const { genreId, setFilter } = useCollectionsFeedStore();
   const { data: genresData } = useFeedGenres();
 
-  const selectedGenre = genresData?.find((genreItem) => genreItem.genre === genre);
+  const selectedGenre = genresData?.find((genreItem) => genreItem.id === genreId);
 
   return (
     <motion.div
@@ -24,7 +24,7 @@ export const FeedGenreSelect = () => {
         {t("genre")}
       </Label>
 
-      <Select value={genre} onValueChange={(value) => setFilter({ genre: value })}>
+      <Select value={genreId} onValueChange={(value) => setFilter({ genreId: value })}>
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
           <SelectValue placeholder={t("genrePlaceholder")}>
             {selectedGenre && (
@@ -47,8 +47,8 @@ export const FeedGenreSelect = () => {
           {genresData?.map((genre) => (
             <SelectItem
               hideCheckIcon={true}
-              key={genre.genre}
-              value={genre.genre}
+              key={genre.id}
+              value={genre.id}
               className="w-full [&>span:last-child]:flex-1 [&>span:last-child]:min-w-0 pr-2"
             >
               <div className="flex w-full items-center justify-between">

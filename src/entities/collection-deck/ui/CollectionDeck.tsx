@@ -34,7 +34,6 @@ interface Props {
   collection: CollectionFeedItem;
 }
 
-// It needs to be refactored
 export const CollectionDeck = ({ collection }: Props) => {
   const [hovered, setHovered] = useState(false);
 

@@ -13,9 +13,9 @@ import {
 
 export const FilterFeed = () => {
   const t = useTranslations("home");
-  const { resetFilter, genre, sort, quantity } = useCollectionsFeedStore();
+  const { resetFilter, genreId, sort, quantity } = useCollectionsFeedStore();
 
-  const hasActiveFilters = genre || sort || quantity;
+  const hasActiveFilters = genreId || sort || quantity;
 
   return (
     <Popover>
@@ -34,7 +34,7 @@ export const FilterFeed = () => {
                 className="absolute -top-1 -right-1 size-5 rounded-full bg-accent border-2 border-background flex items-center justify-center"
               >
                 <span className="text-[10px] font-bold text-white">
-                  {[genre, sort, quantity].filter(Boolean).length}
+                  {[genreId, sort, quantity].filter(Boolean).length}
                 </span>
               </motion.div>
             )}

@@ -1,8 +1,11 @@
 import { MovieCatalogToolbar, MovieGrid } from "@/widgets";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { infiniteMediaQueryOptions } from "@/shared/hooks";
+import { getAccessToken } from "@/shared/lib/getAccessToken";
 
 export default async function MovieSearchPage() {
+  const token = await getAccessToken();
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchInfiniteQuery(
@@ -13,6 +16,7 @@ export default async function MovieSearchPage() {
       selectedSort: "",
       selectedYear: "",
       selectedCountry: "",
+      token,
     }),
   );
 

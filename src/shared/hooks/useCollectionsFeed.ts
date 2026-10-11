@@ -1,7 +1,7 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
-import axios from "axios";
 import { type QuantitySortOption, type SortOption } from "@/features/feed-filter";
+import { apiClient } from "../api/api-client";
 
 interface OwnerCollection {
   userId: string;
@@ -22,26 +22,31 @@ export interface CollectionFeedItem {
 }
 
 interface CollectionsFeedArgs {
-  genre?: string;
+  genreId?: string;
   sort?: SortOption;
   quantity?: QuantitySortOption;
   searchQuery?: string;
+  token?: string;
 }
 
 export const collectionsFeedQuery = ({
-  genre = "",
+  genreId = "",
   sort = "",
   quantity = "",
   searchQuery = "",
+  token,
 }: CollectionsFeedArgs = {}) =>
   queryOptions({
-    queryKey: ["collections-feed", genre, sort, quantity, searchQuery],
+    queryKey: ["collections-feed", genreId, sort, quantity, searchQuery],
     queryFn: async ({ queryKey, signal }) => {
-      const [, genre, sort, quantity, searchQuery] = queryKey;
+      const [, genreId, sort, quantity, searchQuery] = queryKey;
 
-      const { data } = await axios.get<CollectionFeedItem[]>(
-        `${API_URL}/collections-feed?genre=${genre}&sort=${sort}&quantity=${quantity}&searchQuery=${searchQuery}`,
-        { signal },
+      const { data } = await apiClient.get<CollectionFeedItem[]>(
+        `${API_URL}/collections-feed?genreId=${genreId}&sort=${sort}&quantity=${quantity}&searchQuery=${searchQuery}`,
+        {
+          signal,
+          ...(token ? { headers: { Cookie: `accessToken=${token}` } } : {}),
+        },
       );
 
       return data;
@@ -53,13 +58,16 @@ export const collectionsFeedQuery = ({
 interface FeedGenresResponse {
   genre: string;
   quantity: number;
+  id: string;
 }
 
 export const useFeedGenres = () => {
   return useQuery({
     queryKey: ["feed-genres"],
     queryFn: async () => {
-      const { data } = await axios.get<FeedGenresResponse[]>(`${API_URL}/collections-feed/genres`);
+      const { data } = await apiClient.get<FeedGenresResponse[]>(
+        `${API_URL}/collections-feed/genres`,
+      );
       return data;
     },
     staleTime: 1000 * 60 * 60,
