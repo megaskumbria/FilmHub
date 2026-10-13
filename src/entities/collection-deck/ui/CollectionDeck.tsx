@@ -47,7 +47,7 @@ export const CollectionDeck = ({ collection }: Props) => {
     moviesCount,
     id,
   } = collection;
-  const { username, avatarUrl, userId } = collection.owner;
+  const { nickname, avatarUrl, userId } = collection.owner;
 
   const positions = hovered ? hoveredPositions : restingPositions;
 
@@ -55,7 +55,7 @@ export const CollectionDeck = ({ collection }: Props) => {
   const stageHeight = CARD_H + STACK_RESERVE_Y;
 
   const normalizedGenres = genres.slice(0, 3).join(" · ");
-  const firstAvatarLetter = username?.charAt(0).toUpperCase();
+  const firstAvatarLetter = nickname?.charAt(0).toUpperCase();
 
   return (
     <Link href={`/collections/${userId}?collectionId=${id}`} className="block">
@@ -154,7 +154,7 @@ export const CollectionDeck = ({ collection }: Props) => {
             </div>
 
             <Avatar className="size-8">
-              {avatarUrl && <AvatarImage className="rounded-full" src={avatarUrl} alt={username} />}
+              {avatarUrl && <AvatarImage className="rounded-full" src={avatarUrl} alt={nickname} />}
 
               <AvatarFallback
                 style={{ backgroundColor: getAvatarColor(userId) }}

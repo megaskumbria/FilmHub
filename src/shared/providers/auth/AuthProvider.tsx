@@ -12,10 +12,10 @@ export const AuthProvider = ({ children, initialUser }: Props) => {
 
   useEffect(() => {
     if (initialUser) {
-      const { id, email, nickname, avatarUrl } = initialUser;
-      setUser({ id, email, nickname, avatarUrl });
+      const { id, email, nickname, avatarUrl, language } = initialUser;
+      setUser({ id, email, nickname, avatarUrl, language });
     } else {
-      setUser({ id: null, email: null, nickname: null, avatarUrl: null });
+      setUser({ id: null, email: null, nickname: null, avatarUrl: null, language: "en" });
     }
     setHasHydrated(true);
   }, [initialUser, setUser, setHasHydrated]);

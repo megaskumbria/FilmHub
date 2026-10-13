@@ -388,8 +388,8 @@
     "forgot": "Забыли пароль?",
     "signingIn": "Вход...",
     "continueWith": "или продолжить через",
-    "username": "Ник",
-    "usernamePlaceholder": "ваш_ник",
+    "nickname": "Ник",
+    "nicknamePlaceholder": "ваш_ник",
     "signingUp": "Регистрация...",
     "createAccount": "Создать аккаунт",
     "noAccount": "Нет аккаунта?",
@@ -397,7 +397,7 @@
     "validation": {
       "email": "Некорректная почта",
       "passwordMin": "Пароль не короче 8 символов",
-      "usernameMin": "Ник не короче 5 символов"
+      "nicknameMin": "Ник не короче 5 символов"
     }
   },
   "movie": {

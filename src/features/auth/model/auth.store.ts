@@ -2,8 +2,10 @@ import { create } from "zustand";
 import { API_URL } from "@/shared/api/config";
 import { apiClient } from "@/shared/api/api-client";
 
+export type Language = "ru" | "en";
+
 export interface SignUpData {
-  username: string;
+  nickname: string;
   email: string;
   password: string;
 }
@@ -18,6 +20,7 @@ export interface User {
   email: string | null;
   nickname: string | null;
   avatarUrl: string | null;
+  language: Language;
 }
 
 interface AuthResponse {
@@ -25,7 +28,7 @@ interface AuthResponse {
   accessToken: string;
 }
 
-const EMPTY_USER: User = { id: null, email: null, nickname: null, avatarUrl: null };
+const EMPTY_USER: User = { id: null, email: null, nickname: null, avatarUrl: null, language: "en" };
 
 interface Store {
   user: User;
@@ -33,8 +36,8 @@ interface Store {
   setUser: (user: User) => void;
   setHasHydrated: (value: boolean) => void;
 
-  signUp: (data: SignUpData) => Promise<void>;
-  signIn: (data: SignInData) => Promise<void>;
+  signUp: (data: SignUpData) => Promise<User>;
+  signIn: (data: SignInData) => Promise<User>;
   isLoading: boolean;
 
   logout: () => void;
@@ -46,8 +49,8 @@ export const useAuthStore = create<Store>((set) => ({
 
   isLoading: false,
 
-  setUser: ({ nickname, email, id, avatarUrl }: User) =>
-    set({ user: { nickname, email, id, avatarUrl } }),
+  setUser: ({ nickname, email, id, avatarUrl, language }: User) =>
+    set({ user: { nickname, email, id, avatarUrl, language } }),
   setHasHydrated: (value) => set({ hasHydrated: value }),
 
   signUp: async (data: SignUpData) => {
@@ -55,8 +58,11 @@ export const useAuthStore = create<Store>((set) => ({
       set({ isLoading: true });
       const response = await apiClient.post<AuthResponse>(`${API_URL}/auth/register`, data);
 
-      const { id, email, nickname, avatarUrl } = response.data.user;
-      set({ user: { id, email, nickname, avatarUrl }, isLoading: false, hasHydrated: true });
+      const { id, email, nickname, avatarUrl, language } = response.data.user;
+      const user: User = { id, email, nickname, avatarUrl, language };
+
+      set({ user, isLoading: false, hasHydrated: true });
+      return user;
     } finally {
       set({ isLoading: false });
     }
@@ -67,8 +73,11 @@ export const useAuthStore = create<Store>((set) => ({
       set({ isLoading: true });
       const response = await apiClient.post<AuthResponse>(`${API_URL}/auth/login`, data);
 
-      const { id, email, nickname, avatarUrl } = response.data.user;
-      set({ user: { id, email, nickname, avatarUrl }, isLoading: false, hasHydrated: true });
+      const { id, email, nickname, avatarUrl, language } = response.data.user;
+      const user: User = { id, email, nickname, avatarUrl, language };
+
+      set({ user, isLoading: false, hasHydrated: true });
+      return user;
     } finally {
       set({ isLoading: false });
     }

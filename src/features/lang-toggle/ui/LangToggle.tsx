@@ -1,34 +1,24 @@
 "use client";
 
-import { useTransition } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { Button } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
+import { useSwitchLocale, type Locale } from "@/shared/hooks";
 import { useLangToggle } from "../lib/useLangToggle";
 
-type Lang = "Ru" | "En";
-
 export const LangToggle = () => {
-  const [, startTransition] = useTransition();
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const locale = useLocale();
+  const switchLocale = useSwitchLocale();
 
   const { mutate: toggleLang } = useLangToggle();
 
-  const switchTo = (lang: Lang) => {
-    const nextLocale = lang === "Ru" ? "ru" : "en";
+  const switchTo = (lang: Locale) => {
+    const nextLocale = lang === "ru" ? "ru" : "en";
     toggleLang({ language: nextLocale });
-
-    const nextPath = pathname.replace(/^\/(ru|en)/, `/${nextLocale}`);
-    const query = searchParams.toString();
-
-    startTransition(() => router.replace(query ? `${nextPath}?${query}` : nextPath));
+    switchLocale(nextLocale);
   };
 
-  const detectedLanguage = locale === "ru" ? "En" : "Ru";
+  const detectedLanguage = locale === "ru" ? "en" : "ru";
 
   return (
     <Button

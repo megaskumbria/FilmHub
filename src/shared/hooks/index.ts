@@ -53,5 +53,6 @@ export {
   useFollowProfile,
 } from "./useProfile";
 export { useFileSelect } from "./useFileSelect";
-export { useLogout } from "./useLogout";
+export { useLogout } from "../../features/logout/lib/useLogout";
 export { useSyncAuthSession } from "./useSyncAuthSession";
+export { useSwitchLocale, type Locale } from "./useSwitchLocale";

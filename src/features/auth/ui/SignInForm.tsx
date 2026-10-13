@@ -20,7 +20,7 @@ import { useTranslations } from "next-intl";
 import { useSignInSchema, type SignInSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
 import { ApiErrorMessage } from "@/shared/types/api-error-types";
-import { useSyncAuthSession } from "@/shared/hooks";
+import { useSyncAuthSession, useSwitchLocale } from "@/shared/hooks";
 
 interface Props {
   onSuccess: () => void;
@@ -33,6 +33,7 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
 
   const { signIn, isLoading } = useAuthStore();
   const syncAuthSession = useSyncAuthSession();
+  const switchLocale = useSwitchLocale();
 
   const form = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
@@ -41,8 +42,9 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
 
   const handleSubmitForm = async (data: SignInSchema) => {
     try {
-      await signIn(data);
+      const user = await signIn(data);
       syncAuthSession();
+      switchLocale(user.language);
       onSuccess();
     } catch (e) {
       console.error(e);

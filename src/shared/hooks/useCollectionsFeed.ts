@@ -5,7 +5,7 @@ import { apiClient } from "../api/api-client";
 
 interface OwnerCollection {
   userId: string;
-  username: string;
+  nickname: string;
   avatarUrl: string | null;
 }
 

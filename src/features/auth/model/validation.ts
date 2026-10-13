@@ -41,7 +41,7 @@ export const useSignUpSchema = () => {
 
   return z.object({
     email: z.string().email(t("email")),
-    username: z.string().min(5, t("usernameMin")),
+    nickname: z.string().min(5, t("nicknameMin")),
     password: z.string().min(8, t("passwordMin")),
   });
 };

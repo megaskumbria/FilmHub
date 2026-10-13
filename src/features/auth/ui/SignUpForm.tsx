@@ -20,7 +20,7 @@ import { useSignUpSchema, type SignUpSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
 import axios from "axios";
 import { ApiErrorMessage } from "@/shared/types/api-error-types";
-import { useSyncAuthSession } from "@/shared/hooks";
+import { useSyncAuthSession, useSwitchLocale } from "@/shared/hooks";
 
 interface Props {
   onSuccess: () => void;
@@ -33,16 +33,18 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
 
   const { signUp, isLoading } = useAuthStore();
   const syncAuthSession = useSyncAuthSession();
+  const switchLocale = useSwitchLocale();
 
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: { email: "", username: "", password: "" },
+    defaultValues: { email: "", nickname: "", password: "" },
   });
 
   const handleSubmitForm = async (data: SignUpSchema) => {
     try {
-      await signUp(data);
+      const user = await signUp(data);
       syncAuthSession();
+      switchLocale(user.language);
       onSuccess();
     } catch (e) {
       console.error(e);
@@ -85,18 +87,18 @@ export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
 
         <FormField
           control={form.control}
-          name="username"
+          name="nickname"
           render={({ field }) => (
             <FormItem className="gap-1.5">
               <FormLabel className="block text-foreground/80 text-sm font-medium mb-0 tracking-tight">
-                {t("username")}
+                {t("nickname")}
               </FormLabel>
 
               <FormControl>
                 <Input
                   variant="neutral"
                   inputSize="lg"
-                  placeholder={t("usernamePlaceholder")}
+                  placeholder={t("nicknamePlaceholder")}
                   className="rounded-lg bg-input/60 border-border/80 focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-all"
                   {...field}
                 />

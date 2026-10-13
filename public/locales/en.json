@@ -388,8 +388,8 @@
     "forgot": "Forgot password?",
     "signingIn": "Signing in...",
     "continueWith": "or continue with",
-    "username": "Username",
-    "usernamePlaceholder": "your_username",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "your_nickname",
     "signingUp": "Signing up...",
     "createAccount": "Create account",
     "noAccount": "Don't have an account?",
@@ -397,7 +397,7 @@
     "validation": {
       "email": "Invalid email",
       "passwordMin": "Password must be at least 8 characters",
-      "usernameMin": "Username must be at least 5 characters"
+      "nicknameMin": "Nickname must be at least 5 characters"
     }
   },
   "movie": {
