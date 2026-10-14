@@ -6,7 +6,6 @@ import { ICONS } from "@/widgets/create-folder-modal/model/icons";
 import { CollectionNameRow } from "./CollectionNameRow";
 import { CollectionIconPicker } from "./CollectionIconPicker";
 import { CollectionColorPicker } from "./CollectionColorPicker";
-import { CollectionCustomCover } from "./CollectionCustomCover";
 import { DialogClose, Button, Form } from "@/shared/ui";
 import { useForm } from "react-hook-form";
 import {
@@ -53,6 +52,8 @@ export const CreateCollection = ({ onSuccess, initialData }: Props) => {
   const selectedPreset = selectedColorHex;
   const selectedIcon = (ICONS.find(({ iconName }) => iconName === iconNameField) ?? ICONS[0]).icon;
 
+  const isLoading = isPending || isUpdating;
+
   return (
     <Form {...form}>
       <form onSubmit={(e) => void form.handleSubmit(handleSubmitForm)(e)}>
@@ -63,7 +64,7 @@ export const CreateCollection = ({ onSuccess, initialData }: Props) => {
 
           <CollectionColorPicker form={form} />
 
-          <CollectionCustomCover />
+          {/* <CollectionCustomCover /> */}
         </div>
 
         <div className="px-5 py-4 border-t border-border flex items-center justify-end gap-2">
@@ -83,9 +84,8 @@ export const CreateCollection = ({ onSuccess, initialData }: Props) => {
             className={cn(
               "rounded-lg text-sm transition-all duration-150",
               collectionName.trim().length < 3 && "opacity-50 pointer-events-none",
-              (isUpdating || isPending) && "opacity-50 pointer-events-none",
             )}
-            disabled={isPending || isUpdating}
+            disabled={isLoading}
             type="submit"
           >
             {isPending ?
