@@ -28,6 +28,25 @@
       "soon": "Soon"
     }
   },
+  "support": {
+    "button": "Support the project",
+    "title": "Support FilmHub",
+    "description": "FilmHub is an independent project built by one person. Your support helps cover hosting and keeps new features coming.",
+    "boosty": {
+      "title": "Support",
+      "hint": "Pay with a bank card"
+    },
+    "or": "or",
+    "crypto": {
+      "title": "USDT",
+      "network": "TRC-20",
+      "addressLabel": "USDT wallet address (TRC-20)",
+      "warning": "Send only USDT on the TRC-20 network. Transfers on other networks will be lost.",
+      "copy": "Copy address",
+      "copied": "Address copied",
+      "copyFailed": "Failed to copy the address"
+    }
+  },
   "collections": {
     "profile": {
       "cover": "Cover",
