@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Check, Copy, Share2 } from "lucide-react";
-import { toast } from "sonner";
 import {
   Button,
   Input,
@@ -15,7 +13,7 @@ import {
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { getCollectionShareUrl } from "../lib/getCollectionShareUrl";
-import { useShareCollection } from "@/shared/hooks";
+import { useCopyToClipboard, useShareCollection } from "@/shared/hooks";
 import { useTranslations } from "next-intl";
 
 interface Props {
@@ -25,29 +23,18 @@ interface Props {
 
 export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
   const t = useTranslations("collections.share");
-  const [copied, setCopied] = useState<boolean>(false);
+  const { copied, copy } = useCopyToClipboard({
+    success: t("copied"),
+    error: t("copyFailed"),
+  });
 
   const { mutate: shareCollection } = useShareCollection();
-
-  useEffect(() => {
-    if (!copied) return;
-    const timeout = setTimeout(() => setCopied(false), 2000);
-    return () => clearTimeout(timeout);
-  }, [copied]);
 
   const shareUrl = getCollectionShareUrl({ userId, collectionId });
 
   const handleCopy = async (): Promise<void> => {
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-
-      toast.success(t("copied"), { position: "bottom-left" });
-
-      shareCollection(collectionId);
-    } catch {
-      toast.error(t("copyFailed"), { position: "bottom-left" });
-    }
+    const didCopy = await copy(shareUrl);
+    if (didCopy) shareCollection(collectionId);
   };
 
   return (

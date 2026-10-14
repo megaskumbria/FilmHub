@@ -1,33 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { IconAlertTriangle, IconCheck, IconCopy } from "@tabler/icons-react";
-import { toast } from "sonner";
 import { Button, Input, Label } from "@/shared/ui";
 import { UsdtIcon } from "@/shared/icons";
 import { cn } from "@/shared/lib/utils";
+import { useCopyToClipboard } from "@/shared/hooks";
 import { USDT_TRC20_ADDRESS } from "../model/support-config";
 
 export const CryptoDonation = () => {
   const t = useTranslations("support.crypto");
-  const [copied, setCopied] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!copied) return;
-    const timeout = setTimeout(() => setCopied(false), 2000);
-    return () => clearTimeout(timeout);
-  }, [copied]);
-
-  const handleCopy = async (): Promise<void> => {
-    try {
-      await navigator.clipboard.writeText(USDT_TRC20_ADDRESS);
-      setCopied(true);
-      toast.success(t("copied"), { position: "bottom-left" });
-    } catch {
-      toast.error(t("copyFailed"), { position: "bottom-left" });
-    }
-  };
+  const { copied, copy } = useCopyToClipboard({
+    success: t("copied"),
+    error: t("copyFailed"),
+  });
 
   return (
     <section className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-4">
@@ -55,7 +41,7 @@ export const CryptoDonation = () => {
 
       <Button
         type="button"
-        onClick={() => void handleCopy()}
+        onClick={() => void copy(USDT_TRC20_ADDRESS)}
         className={cn(
           "h-10 w-full gap-2 rounded-xl border text-sm font-medium transition-colors duration-200",
           copied ?

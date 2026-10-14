@@ -56,3 +56,4 @@ export { useFileSelect } from "./useFileSelect";
 export { useLogout } from "../../features/logout/lib/useLogout";
 export { useSyncAuthSession } from "./useSyncAuthSession";
 export { useSwitchLocale, type Locale } from "./useSwitchLocale";
+export { useCopyToClipboard } from "./useCopyToClipboard";
