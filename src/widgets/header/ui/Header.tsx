@@ -61,6 +61,15 @@ export const Header = ({ initialUser }: Props) => {
           >
             {t("movies")}
           </Link>
+
+          {!userId && (
+            <Link
+              href="/about"
+              className="hidden whitespace-nowrap text-sm font-medium text-white/80 transition-colors hover:text-white md:inline-block"
+            >
+              {t("about")}
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-2">

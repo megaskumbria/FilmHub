@@ -7,6 +7,7 @@
   "header": {
     "home": "Home",
     "movies": "Movies",
+    "about": "About",
     "myCollections": "My collections",
     "signIn": "Sign in",
     "search": {
@@ -24,6 +25,7 @@
       "flags": "Flags",
       "system": "System",
       "settings": "Settings",
+      "about": "About",
       "logout": "Log out",
       "soon": "Soon"
     }
@@ -45,6 +47,70 @@
       "copy": "Copy address",
       "copied": "Address copied",
       "copyFailed": "Failed to copy the address"
+    }
+  },
+  "about": {
+    "version": "Version {version}",
+    "title": "About the project",
+    "lead": "FilmHub is a place where you collect movies into collections, share them with friends, and browse what other people have put together. It also lets you describe a film in a way no review can: with flags.",
+    "collections": {
+      "title": "Collections",
+      "text": "Put movies into collections, show them to your friends, and see what others are collecting. Adding a movie is quick and convenient, so you don't have to jump between tabs every time."
+    },
+    "flags": {
+      "title": "<accent>Flags</accent> are FilmHub's signature feature",
+      "steps": {
+        "what": "What it is",
+        "how": "How it works",
+        "result": "What you get"
+      },
+      "poster": "Your movie",
+      "what": "A flag is a way to express how you feel about a movie and the state it leaves you in. It paints the film in your own tone and gives it character.",
+      "how": "Instead of writing a review, you use a single flag to show how excessive the movie felt to you.",
+      "result": "Other users read your impression at a glance: this one has a lot of blood, and that one has a brilliant ending.",
+      "examples": {
+        "gore": "Lots of blood",
+        "finale": "Brilliant ending",
+        "twist": "Unexpected twist",
+        "cozy": "Cozy evening"
+      }
+    },
+    "cards": {
+      "title": "A movie card made your way",
+      "text": "You decide what information appears on a movie card and how it looks. Set it up once, and all of your collections will look exactly the way you like."
+    },
+    "call": "<accent>Create!</accent> Give your movies your own aesthetic with flags and share what you watch with friends.",
+    "roadmap": {
+      "title": "Roadmap",
+      "status": "Planned",
+      "items": {
+        "achievements": {
+          "title": "Achievements",
+          "text": "Rewards for activity and interesting finds in the world of cinema."
+        },
+        "statistics": {
+          "title": "Statistics",
+          "text": "A detailed picture of your taste: genres, countries, years, and more."
+        },
+        "comments": {
+          "title": "Collection comments",
+          "text": "Discuss collections with their authors right on the collection page."
+        },
+        "aiPicks": {
+          "title": "AI movie picks",
+          "text": "Recommendations built from your collection and your taste."
+        }
+      }
+    },
+    "community": {
+      "title": "Community on Telegram",
+      "text": "The project has a themed chat. We are always open to your ideas and suggestions, and we also talk about all sorts of things.",
+      "note": "How often do you see a project with its own chat? We have one.",
+      "button": "Open in Telegram"
+    },
+    "support": {
+      "title": "Support the project",
+      "text": "FilmHub is an independent project built by one person. Your support helps cover hosting and keeps new features coming."
     }
   },
   "collections": {

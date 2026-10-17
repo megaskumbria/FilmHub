@@ -32,3 +32,4 @@ export { StackPoster } from "./stack-poster";
 export { FilterFeed } from "./filter-feed";
 export { MediaCardSkeleton } from "./movie-card";
 export { SettingsTabs } from "./settings-tabs";
+export { AboutProject } from "./about-project";

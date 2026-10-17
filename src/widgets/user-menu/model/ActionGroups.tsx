@@ -1,4 +1,13 @@
-import { BarChart3, Clapperboard, Flag, Folder, LucideIcon, Settings, Users } from "lucide-react";
+import {
+  BarChart3,
+  Clapperboard,
+  Flag,
+  Folder,
+  Info,
+  LucideIcon,
+  Settings,
+  Users,
+} from "lucide-react";
 import { ActionButton } from "../ui/ActionButton";
 import { SettingsModal, FollowersSheet } from "@/widgets";
 import { SheetTrigger } from "@/shared/ui";
@@ -84,6 +93,15 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
           <SettingsModal>
             <ActionButton icon={Settings}>{label}</ActionButton>
           </SettingsModal>
+        ),
+      },
+      {
+        icon: Info,
+        labelKey: "about",
+        render: (label) => (
+          <ActionButton icon={Info} href="/about">
+            {label}
+          </ActionButton>
         ),
       },
     ],

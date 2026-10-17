@@ -38,4 +38,4 @@ export { DeleteAccount } from "./delete-account";
 export { PrivacySettings } from "./privacy-settings";
 export { FlagScaleHoverCard } from "./show-flag-scale";
 export { LogoutButton } from "./logout";
-export { SupportProject } from "./support-project";
+export { SupportProject, SupportOptions } from "./support-project";
