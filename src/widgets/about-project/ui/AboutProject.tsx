@@ -1,5 +1,5 @@
 import { AboutHero } from "./AboutHero";
-import { AboutFeatures } from "./AboutFeatures";
+import { AboutFeatures } from "./about-features/AboutFeatures";
 import { AboutFlags } from "./AboutFlags";
 import { AboutCall } from "./AboutCall";
 import { AboutRoadmap } from "./AboutRoadmap";

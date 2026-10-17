@@ -1,0 +1,62 @@
+@keyframes card-settings-track {
+  0%,
+  3% {
+    background-color: var(--slate-edge);
+  }
+  6%,
+  56% {
+    background-color: var(--emerald-accent);
+  }
+  62%,
+  100% {
+    background-color: var(--slate-edge);
+  }
+}
+
+@keyframes card-settings-thumb {
+  0%,
+  3% {
+    translate: 0 0;
+  }
+  6%,
+  56% {
+    translate: 1.25rem 0;
+  }
+  62%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes card-settings-reveal {
+  0%,
+  4% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  10%,
+  56% {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  62%,
+  100% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+
+@keyframes card-settings-scrim {
+  0%,
+  4% {
+    opacity: 0;
+  }
+  10%,
+  82% {
+    opacity: 1;
+  }
+  88%,
+  100% {
+    opacity: 0;
+  }
+}

@@ -77,7 +77,15 @@
     },
     "cards": {
       "title": "A movie card made your way",
-      "text": "You decide what information appears on a movie card and how it looks. Set it up once, and all of your collections will look exactly the way you like."
+      "text": "You decide what information appears on a movie card and how it looks. Set it up once, and all of your collections will look exactly the way you like.",
+      "demo": {
+        "title": "Breaking Bad",
+        "description": "A dying teacher turns to crime to protect his family.",
+        "genres": {
+          "drama": "Drama",
+          "crime": "Crime"
+        }
+      }
     },
     "call": "<accent>Create!</accent> Give your movies your own aesthetic with flags and share what you watch with friends.",
     "roadmap": {

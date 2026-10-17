@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "./base.css";
 @import "./drawer-scroll.css";
+@import "./about-card-settings.css";
 
 @layer base {
   :root {
