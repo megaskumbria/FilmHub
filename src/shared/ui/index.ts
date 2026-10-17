@@ -28,3 +28,4 @@ export * from "./InlineSvg";
 export * from "./input-group";
 export * from "./sonner";
 export * from "./AddBookmarkButton";
+export * from "./FilmPerforation";

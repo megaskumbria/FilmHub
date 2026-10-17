@@ -1,15 +1,10 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { IconHeart } from "@tabler/icons-react";
-import { Button } from "@/shared/ui";
+import { Button, FilmPerforation } from "@/shared/ui";
 import { TelegramIcon } from "@/shared/icons";
 import { cn } from "@/shared/lib/utils";
-import {
-  APP_VERSION,
-  FILM_FRAME_COLORS,
-  SUPPORT_ANCHOR,
-  TELEGRAM_URL,
-} from "../model/about-config";
-import { FilmPerforation } from "./FilmPerforation";
+import { APP_VERSION, SUPPORT_ANCHOR, TELEGRAM_URL } from "../model/about-config";
 
 const VIEWFINDER_CORNERS = [
   "left-0 top-0 border-l-2 border-t-2 rounded-tl-2xl",
@@ -18,7 +13,12 @@ const VIEWFINDER_CORNERS = [
   "bottom-0 right-0 border-b-2 border-r-2 rounded-br-2xl",
 ];
 
-const RIBBON_FRAMES = [...FILM_FRAME_COLORS, ...FILM_FRAME_COLORS];
+const RIBBON_FRAMES = Array.from(
+  { length: 10 },
+  (_, index) => `/images/frames/frame-${index + 1}.webp`,
+);
+
+const RIBBON_COPIES = [0, 1, 2, 3];
 
 export const AboutHero = async () => {
   const t = await getTranslations("about");
@@ -27,7 +27,7 @@ export const AboutHero = async () => {
     <header className="relative isolate flex flex-col gap-16 sm:gap-20">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -top-24 -z-10 h-[44rem]"
+        className="pointer-events-none absolute inset-x-0 -top-24 -z-10 h-176"
         style={{
           background:
             "radial-gradient(55% 60% at 50% 0%, color-mix(in oklab, var(--accent) 32%, transparent), transparent 72%)",
@@ -48,13 +48,7 @@ export const AboutHero = async () => {
           ))}
 
           <div className="flex flex-col items-start gap-7">
-            <span className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-1.5 text-sm font-medium tracking-wide text-zinc-light">
-              <span
-                aria-hidden
-                className="size-2 rounded-full bg-destructive shadow-[0_0_10px_var(--destructive)] motion-safe:animate-pulse"
-              />
-              {t("version", { version: APP_VERSION })}
-            </span>
+            <p className="text-sm text-zinc-muted">{t("version", { version: APP_VERSION })}</p>
 
             <h1 className="font-unbounded text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
               {t("title")}
@@ -97,16 +91,27 @@ export const AboutHero = async () => {
         <div className="flex flex-col gap-2.5 border-y border-border bg-obsidian py-2.5 shadow-2xl shadow-black/60">
           <FilmPerforation />
 
-          <div className="flex gap-2.5 px-2.5">
-            {RIBBON_FRAMES.map((color, index) => (
-              <div
-                key={index}
-                className="aspect-3/2 w-36 shrink-0 rounded-md border border-white/5 sm:w-48"
-                style={{
-                  background: `radial-gradient(120% 90% at 30% 20%, ${color}66, transparent 60%), var(--surface-subtle)`,
-                }}
-              />
-            ))}
+          <div className="overflow-hidden">
+            <div className="flex w-max animate-[film-ribbon-scroll_60s_linear_infinite] will-change-transform motion-reduce:animate-none">
+              {RIBBON_COPIES.map((copy) => (
+                <div key={copy} className="flex shrink-0 gap-2.5 pr-2.5">
+                  {RIBBON_FRAMES.map((src) => (
+                    <div
+                      key={src}
+                      className="relative aspect-3/2 w-36 shrink-0 overflow-hidden rounded-md border border-white/5 sm:w-48"
+                    >
+                      <Image
+                        src={src}
+                        alt=""
+                        fill
+                        sizes="192px"
+                        className="object-cover brightness-75 select-none"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
 
           <FilmPerforation />

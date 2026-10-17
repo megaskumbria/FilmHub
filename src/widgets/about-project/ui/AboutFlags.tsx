@@ -4,7 +4,7 @@ import { FlagBadge } from "@/entities";
 import { DotGrid } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
 import { EXAMPLE_FLAGS, FLAG_STEPS } from "../model/about-config";
-import { FilmPerforation } from "./FilmPerforation";
+import { FilmPerforation } from "../../../shared/ui/FilmPerforation";
 
 const FLAG_PLACEMENTS = [
   "-rotate-3 translate-x-1 sm:translate-x-2",

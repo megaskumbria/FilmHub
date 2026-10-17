@@ -36,11 +36,3 @@ export const EXAMPLE_FLAGS: ExampleFlag[] = [
 ];
 
 export const FLAG_STEPS = ["what", "how", "result"] as const;
-
-export const FILM_FRAME_COLORS = [
-  ...EXAMPLE_FLAGS.map(({ color }) => color),
-  "#9b56f0",
-  "#ef4444",
-  "#10b981",
-  "#f59e0b",
-];
