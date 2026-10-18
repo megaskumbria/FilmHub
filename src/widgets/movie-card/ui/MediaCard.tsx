@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { Checkbox, Popover, PopoverContent, PopoverTrigger, AddBookmarkButton } from "@/shared/ui";
+import {
+  Checkbox,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  AddBookmarkButton,
+  CardShirt,
+} from "@/shared/ui";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -48,6 +55,7 @@ export const MediaCard = ({
 }: Props) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [hoverHeight, setHoverHeight] = useState(0);
+  const [loadedPosterUrl, setLoadedPosterUrl] = useState<string | null>(null);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
   const locale = useLocale();
@@ -68,6 +76,8 @@ export const MediaCard = ({
 
   const { poster, body, hover } = layout;
 
+  const isPosterLoaded = loadedPosterUrl === posterUrl;
+
   const titleToDisplay = name || originalName || title || t("untitled");
   const yearOfRelease = new Date(releaseDate || firstAirDate).getFullYear();
 
@@ -85,6 +95,8 @@ export const MediaCard = ({
 
   const shouldAccessBorder = isEditMode && isChecked;
   const shouldShowAddPopover = shouldShowAddButton && mode && !isEditMode;
+
+  const hasRoute = disableNavigation || isEditMode;
 
   const ensureAuth = useRequireAuth();
 
@@ -110,9 +122,7 @@ export const MediaCard = ({
 
       <Link
         className={cn(fillHeight && "flex-1 min-h-0")}
-        href={
-          disableNavigation || isEditMode ? "" : `/${locale}/movies/${id}?mediaType=${mediaType}`
-        }
+        href={hasRoute ? "" : `/${locale}/movies/${id}?mediaType=${mediaType}`}
       >
         <div
           className={cn(
@@ -125,13 +135,28 @@ export const MediaCard = ({
           }}
           onMouseLeave={() => setHoverHeight(0)}
         >
+          {posterUrl && !isPosterLoaded && (
+            <CardShirt className="absolute inset-0 h-full rounded-none border-0" />
+          )}
+
           {posterUrl && (
             <Image
               src={posterUrl}
               alt={titleToDisplay}
               width={cardWidth}
               height={435}
-              className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-110"
+              onLoad={(event) => {
+                // Wait until the browser has decoded the bitmap so it can be painted instantly.
+                event.currentTarget
+                  .decode()
+                  .catch(() => {})
+                  .finally(() => setLoadedPosterUrl(posterUrl));
+              }}
+              onError={() => setLoadedPosterUrl(posterUrl)}
+              className={cn(
+                "relative h-full w-full object-cover transition-[scale,opacity] duration-300 ease-out group-hover:scale-110",
+                isPosterLoaded ? "opacity-100" : "opacity-0",
+              )}
             />
           )}
 

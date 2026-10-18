@@ -29,3 +29,4 @@ export * from "./input-group";
 export * from "./sonner";
 export * from "./AddBookmarkButton";
 export * from "./FilmPerforation";
+export * from "./card-shirt";

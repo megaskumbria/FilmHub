@@ -3,9 +3,9 @@
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { useEffect } from "react";
 import { MediaCard } from "@/widgets";
+import { CardShirt } from "@/shared/ui";
 import { useMediaCatalog } from "@/shared/stores/movie-catalog";
 import { infiniteMediaQueryOptions, useIntersectionObserver } from "@/shared/hooks";
-import { Skeleton } from "@/shared/ui";
 import { useFilterMedia } from "@/features";
 import { extractUniqueMedia } from "@/shared/lib";
 import { useTranslations } from "next-intl";
@@ -25,9 +25,7 @@ export const MovieGrid = () => {
   const { category } = useMediaCatalog();
   const { layout } = useMovieCardLayout();
 
-  useEffect(() => {
-    setFrozenFilterCountry(searchQuery.length > 0);
-  }, [searchQuery]);
+  useEffect(() => setFrozenFilterCountry(searchQuery.length > 0), [searchQuery]);
 
   const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery(
     infiniteMediaQueryOptions({
@@ -53,7 +51,7 @@ export const MovieGrid = () => {
     return (
       <ul className="grid grid-cols-5 gap-4">
         {Array.from({ length: 10 }).map((_, i) => (
-          <Skeleton key={i} className="w-full border border-border aspect-2/3 rounded-xl" />
+          <CardShirt key={i} />
         ))}
       </ul>
     );
@@ -78,12 +76,7 @@ export const MovieGrid = () => {
         ))}
 
         {isFetchingNextPage
-          && Array.from({ length: 10 }).map((_, i) => (
-            <Skeleton
-              key={`skeleton-${i}`}
-              className="w-full border border-border aspect-2/3 rounded-xl"
-            />
-          ))}
+          && Array.from({ length: 10 }).map((_, i) => <CardShirt key={`card-shirt-${i}`} />)}
       </ul>
 
       {allMedia.length === 0 && (

@@ -9,7 +9,7 @@ import {
   Drawer,
   Button,
   Input,
-  Skeleton,
+  CardShirt,
 } from "@/shared/ui";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -116,7 +116,7 @@ export const SearchMovieDrawer = () => {
             {isLoading && (
               <>
                 {Array.from({ length: 10 }).map((_, i) => (
-                  <Skeleton key={i} className="w-full border border-border aspect-2/3 rounded-xl" />
+                  <CardShirt key={`card-shirt-${i}`} />
                 ))}
               </>
             )}
@@ -138,9 +138,7 @@ export const SearchMovieDrawer = () => {
               ))}
 
             {isFetchingNextPage
-              && Array.from({ length: 10 }).map((_, i) => (
-                <Skeleton key={i} className="w-full border border-border aspect-2/3 rounded-xl" />
-              ))}
+              && Array.from({ length: 10 }).map((_, i) => <CardShirt key={`card-shirt-${i}`} />)}
 
             <div ref={ref} style={{ height: 1 }} />
           </div>
