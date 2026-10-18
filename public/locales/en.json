@@ -58,7 +58,7 @@
       "text": "Put movies into collections, show them to your friends, and see what others are collecting. Adding a movie is quick and convenient, so you don't have to jump between tabs every time."
     },
     "flags": {
-      "title": "<accent>Flags</accent> are FilmHub's signature feature",
+      "title": "Flags are FilmHub's signature feature",
       "steps": {
         "what": "What it is",
         "how": "How it works",

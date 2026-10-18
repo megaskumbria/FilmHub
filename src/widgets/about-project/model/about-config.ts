@@ -35,4 +35,14 @@ export const EXAMPLE_FLAGS: ExampleFlag[] = [
   { key: "cozy", color: "#10b981" },
 ];
 
+export interface FlagShowcaseFilm {
+  poster: string;
+  flags: string[];
+}
+
+export const FLAG_SHOWCASE: FlagShowcaseFilm[] = [
+  { poster: "/images/resident-evil-poster.webp", flags: ["gore", "twist"] },
+  { poster: "/images/avengers-poster.webp", flags: ["finale"] },
+];
+
 export const FLAG_STEPS = ["what", "how", "result"] as const;
