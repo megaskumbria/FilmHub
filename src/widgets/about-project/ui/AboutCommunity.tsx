@@ -12,10 +12,7 @@ export const AboutCommunity = async () => {
   return (
     <section aria-labelledby="about-community" className="mx-auto w-full max-w-6xl px-5 sm:px-8">
       <div className="relative isolate grid grid-cols-1 items-center gap-12 overflow-hidden rounded-3xl border border-border bg-card p-7 sm:p-12 lg:grid-cols-[1.15fr_1fr]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-24 -top-24 -z-10 size-96 rounded-full bg-accent/20 blur-3xl"
-        />
+        <div className="pointer-events-none absolute -right-24 -top-24 -z-10 size-96 rounded-full bg-accent/20 blur-3xl" />
 
         <div className="flex flex-col items-start gap-6">
           <TelegramIcon className="size-14" aria-hidden="true" />

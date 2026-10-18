@@ -5,7 +5,7 @@ import { cn } from "@/shared/lib/utils";
 import { SUPPORT_ANCHOR } from "../model/about-config";
 
 const TICKET_NOTCH =
-  "absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-border bg-background";
+  "absolute z-10 size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-border bg-background";
 
 export const AboutSupport = async () => {
   const t = await getTranslations("about.support");
@@ -44,7 +44,7 @@ export const AboutSupport = async () => {
         </header>
 
         <div aria-hidden className="relative h-px md:h-auto md:w-px">
-          <span className="absolute inset-x-8 top-0 border-t-2 border-dashed border-slate-edge md:inset-x-auto md:inset-y-8 md:left-0 md:border-l-2 md:border-t-0" />
+          <span className="absolute inset-x-4 top-0 z-0 border-t-2 border-dashed border-slate-edge md:inset-x-auto md:inset-y-4 md:left-0 md:border-l-2 md:border-t-0" />
           <span className={cn(TICKET_NOTCH, "left-0 top-1/2 md:left-1/2 md:top-0")} />
           <span className={cn(TICKET_NOTCH, "left-full top-1/2 md:left-1/2 md:top-full")} />
         </div>

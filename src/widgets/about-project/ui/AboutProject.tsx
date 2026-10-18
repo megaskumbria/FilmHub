@@ -2,7 +2,7 @@ import { AboutHero } from "./AboutHero";
 import { AboutFeatures } from "./about-features/AboutFeatures";
 import { AboutFlags } from "./about-flags/AboutFlags";
 import { AboutCall } from "./AboutCall";
-import { AboutRoadmap } from "./AboutRoadmap";
+// import { AboutRoadmap } from "./about-roadmap/AboutRoadmap";
 import { AboutCommunity } from "./AboutCommunity";
 import { AboutSupport } from "./AboutSupport";
 
@@ -13,7 +13,7 @@ export const AboutProject = () => {
       <AboutFeatures />
       <AboutFlags />
       <AboutCall />
-      <AboutRoadmap />
+      {/* <AboutRoadmap /> */}
       <AboutCommunity />
       <AboutSupport />
     </main>

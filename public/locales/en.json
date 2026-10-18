@@ -94,19 +94,37 @@
       "items": {
         "achievements": {
           "title": "Achievements",
-          "text": "Rewards for activity and interesting finds in the world of cinema."
+          "text": "Rewards for activity and interesting finds in the world of cinema.",
+          "preview": {
+            "name": "Cinephile"
+          }
         },
         "statistics": {
           "title": "Statistics",
-          "text": "A detailed picture of your taste: genres, countries, years, and more."
+          "text": "A detailed picture of your taste: genres, countries, years, and more.",
+          "preview": {
+            "drama": "Drama",
+            "scifi": "Sci-Fi",
+            "thriller": "Thriller",
+            "comedy": "Comedy"
+          }
         },
         "comments": {
           "title": "Collection comments",
-          "text": "Discuss collections with their authors right on the collection page."
+          "text": "Discuss collections with their authors right on the collection page.",
+          "preview": {
+            "firstName": "Alex",
+            "firstText": "Great collection! Added it to my list right away.",
+            "secondName": "Maria",
+            "secondText": "Thanks! Start with \"Dune\", you won't regret it."
+          }
         },
         "aiPicks": {
           "title": "AI movie picks",
-          "text": "Recommendations built from your collection and your taste."
+          "text": "Recommendations built from your collection and your taste.",
+          "preview": {
+            "caption": "Picked for your taste"
+          }
         }
       }
     },
