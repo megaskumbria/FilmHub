@@ -18,26 +18,26 @@ export const CategoryTabs = () => {
         setCategory(value as MediaCategory);
       }}
     >
-      <TabsList className="relative items-center justify-center rounded-lg bg-graphite p-1 h-10 border border-border/40 gap-0.5">
+      <TabsList
+        aria-label={t("categories")}
+        className="h-auto items-end gap-x-5 gap-y-2 flex-wrap justify-start rounded-none bg-transparent p-0 sm:gap-x-8"
+      >
         {TABS.map((value) => (
           <TabsTrigger
             key={value}
             value={value}
-            className="cursor-pointer relative z-10 rounded-md px-4 py-3 text-sm font-medium transition-colors duration-200 data-[state=active]:text-accent-foreground data-[state=inactive]:text-zinc-muted hover:text-foreground"
+            className="group cursor-pointer relative h-auto flex-none rounded-none border-0 px-0 pb-3 pt-0 font-unbounded text-xl font-semibold tracking-tight transition-colors duration-300 sm:text-4xl data-[state=active]:text-foreground data-[state=inactive]:text-zinc-muted/50 hover:text-zinc-light focus-visible:ring-0 focus-visible:outline-none focus-visible:text-foreground"
           >
+            <span className="relative z-10">{t(value)}</span>
+
             {category === value && (
-              <motion.div
-                layoutId="activeTab"
-                className="absolute inset-0 rounded-md bg-linear-to-br from-accent to-accent/80 shadow-md shadow-accent/20"
-                transition={{
-                  type: "spring",
-                  stiffness: 380,
-                  damping: 30,
-                }}
+              <motion.span
+                layoutId="activeCategory"
+                aria-hidden
+                className="absolute inset-x-0 bottom-0 h-1 rounded-full bg-linear-to-r from-accent to-accent/40 shadow-[0_0_16px_var(--accent)]"
+                transition={{ type: "spring", stiffness: 380, damping: 32 }}
               />
             )}
-
-            <span className="relative z-10">{t(value)}</span>
           </TabsTrigger>
         ))}
       </TabsList>

@@ -546,6 +546,13 @@
     }
   },
   "catalog": {
+    "categories": "Categories",
+    "genres": "Genres",
+    "allGenres": "All genres",
+    "clearSearch": "Clear search",
+    "activeFilters": "Active filters",
+    "removeFilter": "Remove filter",
+    "resetAll": "Reset all",
     "all": "All",
     "movie": "Movies",
     "tv": "Series",

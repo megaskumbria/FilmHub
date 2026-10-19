@@ -2,15 +2,14 @@
 
 import { Popover, PopoverContent, PopoverTrigger, Button } from "@/shared/ui";
 import { Filter, RotateCcw } from "lucide-react";
+import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { GenreSelect, YearSelect, SortSelect, CountrySelect, useFilterMedia } from "@/features";
+import { YearSelect, SortSelect, CountrySelect, useFilterMedia } from "@/features";
 import { useTranslations } from "next-intl";
 
 export const FilterPopover = () => {
   const t = useTranslations("catalog");
   const {
-    selectedGenre,
-    setSelectedGenre,
     selectedYear,
     setSelectedYear,
     selectedSort,
@@ -19,11 +18,12 @@ export const FilterPopover = () => {
     setSelectedCountry,
   } = useFilterMedia();
 
-  const hasActiveFilters =
-    selectedGenre.id || selectedYear || selectedSort || selectedCountry.iso31661;
+  const activeFiltersCount = [selectedYear, selectedSort, selectedCountry.iso31661].filter(
+    Boolean,
+  ).length;
+  const hasActiveFilters = activeFiltersCount > 0;
 
   const handleReset = () => {
-    setSelectedGenre({ id: "", name: "" });
     setSelectedYear("");
     setSelectedSort("");
     setSelectedCountry({ iso31661: "", englishName: "", nativeName: "" });
@@ -32,27 +32,23 @@ export const FilterPopover = () => {
   return (
     <Popover>
       <PopoverTrigger asChild className="group">
-        <Button className="flex justify-center gap-x-2 relative h-9 px-2.5 max-w-32 w-full rounded-lg bg-graphite border border-border/40 hover:bg-surface hover:border-accent/30 shadow-sm hover:shadow-accent/10 transition-all duration-300 text-sm font-medium">
-          <Filter className="size-4 group-data-[state=open]:rotate-90 transition-transform duration-300" />
+        <Button className="relative shrink-0 h-11 gap-x-2 rounded-full border border-border/40 bg-graphite px-4 hover:border-accent/40 hover:bg-surface data-[state=open]:border-accent/50 data-[state=open]:bg-surface transition-colors duration-300">
+          <IconAdjustmentsHorizontal className="size-4.5 text-zinc-muted group-hover:text-accent group-data-[state=open]:text-accent transition-colors" />
 
-          <span>{t("filters")}</span>
+          <span className="hidden text-sm font-medium sm:inline">{t("filters")}</span>
 
           <AnimatePresence>
             {hasActiveFilters && (
-              <motion.div
+              <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                className="absolute -top-1 -right-1 size-5 rounded-full bg-accent border-2 border-background flex items-center justify-center"
+                className="flex size-5 items-center justify-center rounded-full bg-accent"
               >
-                <span className="text-[10px] font-bold text-white">
-                  {
-                    [selectedGenre.id, selectedYear, selectedSort, selectedCountry.iso31661].filter(
-                      Boolean,
-                    ).length
-                  }
+                <span className="text-sm font-semibold leading-none text-accent-foreground">
+                  {activeFiltersCount}
                 </span>
-              </motion.div>
+              </motion.span>
             )}
           </AnimatePresence>
         </Button>
@@ -77,7 +73,6 @@ export const FilterPopover = () => {
           </header>
 
           <div className="p-4 space-y-4">
-            <GenreSelect />
             <YearSelect />
             <SortSelect />
             <CountrySelect />

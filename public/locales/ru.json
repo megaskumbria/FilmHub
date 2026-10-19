@@ -546,6 +546,13 @@
     }
   },
   "catalog": {
+    "categories": "Категории",
+    "genres": "Жанры",
+    "allGenres": "Все жанры",
+    "clearSearch": "Очистить поиск",
+    "activeFilters": "Активные фильтры",
+    "removeFilter": "Убрать фильтр",
+    "resetAll": "Сбросить всё",
     "all": "Все",
     "movie": "Фильмы",
     "tv": "Сериалы",

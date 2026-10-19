@@ -146,7 +146,6 @@ export const MediaCard = ({
               width={cardWidth}
               height={435}
               onLoad={(event) => {
-                // Wait until the browser has decoded the bitmap so it can be painted instantly.
                 event.currentTarget
                   .decode()
                   .catch(() => {})

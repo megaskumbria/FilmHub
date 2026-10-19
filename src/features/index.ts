@@ -11,6 +11,7 @@ export {
   SortSelect,
   CountrySelect,
   useFilterMedia,
+  DATA_YEARS,
 } from "./media-filters";
 export { FeedGenreSelect, FeedSortSelect } from "./feed-filter";
 export { CreateCollection } from "./create-folder";

@@ -3,20 +3,28 @@
 import { MovieSearchPanel } from "./MovieSearchPanel";
 import { CategoryTabs } from "./CategoryTabs";
 import { FilterPopover } from "./FilterPopover";
+import { GenreRail } from "./GenreRail";
+import { ActiveFilters } from "./ActiveFilters";
 
 export const MovieCatalogToolbar = () => {
   return (
-    <section className="relative mb-8 rounded-2xl bg-graphite border border-border/40 p-5 overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-accent/40 to-transparent" />
+    <section aria-labelledby="catalog-title" className="relative mb-10">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-20 -left-10 h-48 w-136 max-w-full rounded-full bg-accent/10 blur-3xl"
+      />
 
-      <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-1/2 h-24 bg-accent/8 blur-3xl rounded-full pointer-events-none" />
-
-      <MovieSearchPanel />
-
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <header className="relative mb-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between pt-4">
         <CategoryTabs />
-        <FilterPopover />
-      </div>
+
+        <div className="flex w-full items-center gap-2 lg:w-auto lg:pb-3">
+          <MovieSearchPanel />
+          <FilterPopover />
+        </div>
+      </header>
+
+      <GenreRail />
+      <ActiveFilters />
     </section>
   );
 };
