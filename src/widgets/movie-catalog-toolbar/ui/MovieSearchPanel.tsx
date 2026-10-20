@@ -38,7 +38,6 @@ export const MovieSearchPanel = () => {
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Escape" && e.currentTarget.blur()}
         placeholder={t("search")}
-        aria-label={t("search")}
         variant="neutral"
         className="h-11 rounded-full pl-11 pr-12 text-sm shadow-none [&::-webkit-search-cancel-button]:hidden focus-visible:shadow-[0_0_0_4px_color-mix(in_srgb,var(--accent)_15%,transparent)]"
       />
@@ -56,7 +55,6 @@ export const MovieSearchPanel = () => {
             <Button
               type="button"
               onClick={handleClear}
-              aria-label={t("clearSearch")}
               className="group size-6 rounded-full bg-muted/15 hover:bg-accent/20 transition-colors"
             >
               <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
