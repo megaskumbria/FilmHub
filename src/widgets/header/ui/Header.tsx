@@ -2,13 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Bookmark } from "lucide-react";
-import { Button } from "@/shared/ui";
+import { IconBookmarks } from "@tabler/icons-react";
+import { Button, Separator } from "@/shared/ui";
 import { SearchMovieDrawer, UserMenu } from "@/widgets";
 import { cn } from "@/shared/lib/utils";
 import { useAuthStore, useAuthModalStore, type User } from "@/features/auth";
-// import { LogoSvg } from "@/shared/assets/LogoSvg";
 
 interface Props {
   initialUser: User | null;
@@ -16,15 +16,23 @@ interface Props {
 
 export const Header = ({ initialUser }: Props) => {
   const t = useTranslations("header");
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const pathWithoutLocale = pathname.replace(/^\/(en|ru)(?=\/|$)/, "") || "/";
 
   const openAuthModal = useAuthModalStore((s) => s.open);
 
   const { hasHydrated, user } = useAuthStore();
   const userId = hasHydrated ? user.id : (initialUser?.id ?? null);
 
+  const navLinks = [
+    { href: "/", label: t("home") },
+    { href: "/movie-search", label: t("movies") },
+  ];
+
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
+    handler();
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -32,57 +40,66 @@ export const Header = ({ initialUser }: Props) => {
   return (
     <header
       className={cn(
-        "fixed top-0 z-50 w-full px-10 py-3 transition-colors duration-300 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:transition-colors after:duration-300",
+        "fixed top-0 z-50 w-full transition-colors duration-300",
         scrolled ?
-          "bg-background/95 after:bg-border/40"
-        : "bg-linear-to-b from-black/75 via-black/20 to-transparent after:bg-transparent",
+          "border-border/60 bg-background/95"
+        : "border-transparent bg-linear-to-b from-black/80 via-black/30 to-transparent",
       )}
     >
-      <div className="flex w-full items-center justify-between gap-3">
-        <nav className="flex min-w-0 items-center gap-6">
+      <div className="flex h-16 w-full items-stretch justify-between gap-4 px-4">
+        <div className="flex min-w-0 items-stretch gap-4">
           <Link
             href="/"
-            className="shrink-0 flex items-baseline gap-0 font-black text-xl tracking-tight hover:opacity-85 transition-opacity"
+            aria-label="FilmHub"
+            className={cn("group flex shrink-0 items-center gap-2.5 self-center rounded-lg")}
           >
-            <span className="text-primary">Film</span>
-            <span className="text-accent">Hub</span>
+            <span className="hidden font-unbounded text-lg font-semibold tracking-tight sm:inline">
+              <span className="text-foreground">Film</span>
+              <span className="text-accent">Hub</span>
+            </span>
           </Link>
 
-          <Link
-            href="/"
-            className="text-sm font-medium text-white/80 hover:text-white transition-colors"
-          >
-            {t("home")}
-          </Link>
+          <nav className="flex items-stretch">
+            <ul className="flex items-stretch gap-1">
+              {navLinks.map(({ href, label }) => {
+                const isActive = pathWithoutLocale === href;
 
-          <Link
-            href="/movie-search"
-            className="text-sm font-medium text-white/80 hover:text-white transition-colors"
-          >
-            {t("movies")}
-          </Link>
+                return (
+                  <li key={href} className="flex">
+                    <Link
+                      href={href}
+                      className={cn(
+                        "relative flex items-center whitespace-nowrap px-3 text-base font-medium transition-colors",
+                        isActive ? "text-foreground" : "text-zinc-muted hover:text-zinc-light",
+                      )}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
 
-          {!userId && (
-            <Link
-              href="/about"
-              className="hidden whitespace-nowrap text-sm font-medium text-white/80 transition-colors hover:text-white md:inline-block"
-            >
-              {t("about")}
-            </Link>
-          )}
-        </nav>
-
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
           <SearchMovieDrawer />
 
+          <Separator orientation="vertical" className="hidden h-6 bg-white/10 sm:block" />
+
           {userId && (
-            <Link
-              href={`/collections/${userId}`}
-              className="flex h-9 items-center gap-2 rounded-lg bg-linear-to-r from-accent to-accent/80 px-4 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:from-accent/90 hover:to-accent/70"
+            <Button
+              asChild
+              variant="transparent"
+              className={cn(
+                "h-9 gap-2 rounded-lg bg-accent px-3 text-accent-foreground transition-colors hover:bg-(--button-hover) sm:px-4",
+              )}
             >
-              <Bookmark className="size-4" />
-              <span>{t("myCollections")}</span>
-            </Link>
+              <Link href={`/collections/${userId}`}>
+                <IconBookmarks className="size-4.5" stroke={2} />
+                <span className="hidden text-sm font-semibold sm:inline">{t("myCollections")}</span>
+              </Link>
+            </Button>
           )}
 
           {userId ?
@@ -90,11 +107,12 @@ export const Header = ({ initialUser }: Props) => {
           : <Button
               type="button"
               variant="transparent"
-              size="sm"
-              className="h-9 justify-center gap-0 rounded-lg border border-white/20 bg-white/10 px-4 text-white shadow-sm transition-colors hover:border-accent/40 hover:bg-white/20"
+              className={cn(
+                "h-9 rounded-lg bg-foreground px-4 text-background transition-colors hover:bg-zinc-light",
+              )}
               onClick={openAuthModal}
             >
-              <span className="text-sm font-semibold tracking-tight">{t("signIn")}</span>
+              <span className="text-sm font-semibold">{t("signIn")}</span>
             </Button>
           }
         </div>

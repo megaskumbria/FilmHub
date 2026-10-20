@@ -62,7 +62,8 @@ export const SearchMovieDrawer = () => {
       <DrawerTrigger asChild>
         <Button
           variant="transparent"
-          className="flex size-9 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white/80 shadow-sm transition-colors hover:border-accent/40 hover:bg-white/20 hover:text-white"
+          aria-label={t("placeholder")}
+          className="flex size-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/60 transition-colors outline-none hover:border-white/20 hover:bg-white/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Search className="size-4" />
         </Button>
