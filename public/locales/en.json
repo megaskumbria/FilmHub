@@ -181,9 +181,17 @@
       }
     },
     "toolbar": {
-      "search": "Search collections...",
+      "search": "Search in collection...",
+      "clearSearch": "Clear search",
       "edit": "Edit",
-      "done": "Done"
+      "done": "Done",
+      "items": "{count, plural, one {# film} other {# films}}",
+      "views": "Views",
+      "shares": "Shares",
+      "like": "Like",
+      "public": "Public",
+      "private": "Private",
+      "actions": "Manage collection"
     },
     "list": {
       "mine": "My collections",

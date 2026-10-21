@@ -1,6 +1,7 @@
 "use client";
 
-import { Check, Copy, Share2 } from "lucide-react";
+import { Check, Copy } from "lucide-react";
+import { IconShare3 } from "@tabler/icons-react";
 import {
   Button,
   Input,
@@ -19,9 +20,10 @@ import { useTranslations } from "next-intl";
 interface Props {
   collectionId: string;
   userId: string;
+  className?: string;
 }
 
-export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
+export const ShareCollectionButton = ({ collectionId, userId, className }: Props) => {
   const t = useTranslations("collections.share");
   const { copied, copy } = useCopyToClipboard({
     success: t("copied"),
@@ -42,9 +44,13 @@ export const ShareCollectionButton = ({ collectionId, userId }: Props) => {
       <PopoverTrigger asChild>
         <Button
           size="sm"
-          className="transition-colors rounded-lg h-9 p-0 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+          aria-label={t("title")}
+          className={cn(
+            "transition-colors rounded-lg h-9 p-0 bg-transparent border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted",
+            className,
+          )}
         >
-          <Share2 className="size-4" />
+          <IconShare3 className="size-4.5" />
         </Button>
       </PopoverTrigger>
 

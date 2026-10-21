@@ -33,6 +33,8 @@ export {
 } from "./auth";
 export { AvatarCrop, canvasToFile } from "./avatar-crop";
 export { ShareCollectionButton } from "./share-collection";
+export { CollectionToolbarActions } from "./collection-toolbar-actions";
+export { LikeCollectionButton } from "./like-collection";
 export { ChangePasswordForm } from "./change-password";
 export { ChangeEmailForm } from "./change-email";
 export { DeleteAccount } from "./delete-account";
