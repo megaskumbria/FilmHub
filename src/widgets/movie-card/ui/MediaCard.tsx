@@ -196,6 +196,9 @@ export const MediaCard = ({
 
           <PopoverContent
             side="bottom"
+            onOpenAutoFocus={(e) => {
+              if (mode === POPOVER_MODE.ADD_FLAG) e.preventDefault();
+            }}
             className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full"
           >
             {mode === POPOVER_MODE.ADD_FLAG && (

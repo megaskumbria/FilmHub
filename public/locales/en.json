@@ -545,7 +545,11 @@
       "empty": "No flags found",
       "create": "Create flag",
       "limit": "Limit reached ({current}/{max})",
-      "limitHint": "Remove a flag to pick another"
+      "limitHint": "Remove a flag to pick another",
+      "selected": "{current} of {max} selected",
+      "pickHint": "Pick flags from the scales below",
+      "remove": "Remove",
+      "flagsCount": "{count, plural, one {# flag} other {# flags}}"
     },
     "card": {
       "untitled": "Untitled",

@@ -2,13 +2,16 @@
 
 import { Button, Input, Tooltip, TooltipTrigger, TooltipContent, Accordion } from "@/shared/ui";
 import Link from "next/link";
-import { HelpCircle, Plus, Search } from "lucide-react";
+import { IconFlag3, IconHelpCircle, IconPlus, IconSearch, IconFlagOff } from "@tabler/icons-react";
 import { useState, useEffect, useRef } from "react";
 import { type FlagItem, useDebounce, useGetFlags, useSetMediaFlags } from "@/shared/hooks";
-import { FlagsLimitNotice, FlagScaleItem } from "@/features/set-media-flags";
 import { useTranslations } from "next-intl";
-
-const MAX_LIMIT_PER_MEDIA = 4;
+import { cn } from "@/shared/lib/utils";
+import { FlagScaleItem } from "./FlagScaleItem";
+import { FlagsLimitNotice } from "./FlagsLimitNotice";
+import { FlagQuotaMeter } from "./FlagQuotaMeter";
+import { SelectedFlagsTray } from "./SelectedFlagsTray";
+import { MAX_LIMIT_PER_MEDIA } from "../model/constants";
 
 interface Props {
   mediaId: number;
@@ -51,6 +54,10 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
     setMediaFlags({ mediaId, flag, scaleId, scaleName });
   };
 
+  const handleRemoveFlag = (scaleName: string, flag: FlagItem) => {
+    handleSelectFlag(scaleName, flag, mediaId, flag.scaleId);
+  };
+
   useEffect(() => {
     if (!popoverOpen) {
       initializedRef.current = false;
@@ -74,43 +81,76 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
     initializedRef.current = true;
   }, [popoverOpen, flagsData]);
 
-  const isLimitFlags = Object.values(selectedFlags).length >= MAX_LIMIT_PER_MEDIA;
+  const selectedList = Object.values(selectedFlags);
+  const isLimitFlags = selectedList.length >= MAX_LIMIT_PER_MEDIA;
 
   return (
-    <div className="flex flex-col w-96">
-      <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
-        <div className="flex items-center gap-2.5">
-          <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <span className="text-sm font-semibold text-foreground tracking-wide">{t("title")}</span>
+    <section className="relative flex flex-col w-96 overflow-hidden">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -top-28 -right-16 size-60 rounded-full bg-accent/20 blur-3xl"
+      />
+
+      <header className="relative flex flex-col gap-3 px-4 pt-4 pb-3">
+        <div className="flex items-center gap-3">
+          <span className="relative flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-accent to-accent/50 text-white  ring-1 ring-white/10">
+            <IconFlag3 className="size-5" stroke={2} />
+          </span>
+
+          <div className="flex flex-col min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-foreground leading-tight tracking-wide">
+              {t("title")}
+            </h2>
+
+            <span
+              className={cn(
+                "text-sm leading-tight mt-0.5 tabular-nums transition-colors",
+                isLimitFlags ? "text-accent" : "text-zinc-muted",
+              )}
+            >
+              {t("selected", { current: selectedList.length, max: MAX_LIMIT_PER_MEDIA })}
+            </span>
+          </div>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button className="size-8 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/6 transition-colors">
+                <IconHelpCircle className="size-5" />
+              </Button>
+            </TooltipTrigger>
+
+            <TooltipContent>
+              <p>{t("onePerScale")}</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <HelpCircle className="size-4 text-zinc-muted hover:text-foreground transition-colors cursor-pointer" />
-          </TooltipTrigger>
-
-          <TooltipContent>
-            <p>{t("onePerScale")}</p>
-          </TooltipContent>
-        </Tooltip>
+        <FlagQuotaMeter flags={selectedList} />
       </header>
 
-      <nav className="p-2.5">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
+      <div className="relative flex flex-col gap-2.5 px-3 pb-3">
+        <SelectedFlagsTray selectedFlags={selectedFlags} onRemove={handleRemoveFlag} />
+
+        <div role="search" className="relative">
+          <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
           <Input
             variant="neutral"
             placeholder={t("search")}
-            className="pl-7 pr-2 text-sm h-9"
+            className="pl-9 pr-3 text-sm h-10 rounded-xl"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-      </nav>
+      </div>
 
-      <div className="overflow-y-auto max-h-92 px-1.5 drawer-scroll relative">
+      <div className="relative overflow-y-auto max-h-80 px-3 drawer-scroll border-t border-border/40 pt-3">
         {flagsData.length === 0 ?
-          <div className="py-6 text-center text-xs text-zinc-muted">{t("empty")}</div>
-        : <Accordion type="multiple">
+          <div className="flex flex-col items-center gap-2 py-8 text-center">
+            <span className="flex size-10 items-center justify-center rounded-full bg-white/4 text-zinc-muted">
+              <IconFlagOff className="size-5" />
+            </span>
+            <p className="text-sm text-zinc-muted">{t("empty")}</p>
+          </div>
+        : <Accordion type="multiple" className="flex flex-col gap-2 pb-3">
             {flagsData.map(({ id, scaleName, flags }) => (
               <FlagScaleItem
                 key={id}
@@ -129,14 +169,17 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
         {isLimitFlags && <FlagsLimitNotice />}
       </div>
 
-      <footer className="px-2 py-2 border-t border-border/40 bg-linear-to-r from-accent/3 via-transparent to-transparent">
-        <Link href="/creation-flag">
-          <Button className="w-full h-8 text-zinc-muted hover:text-accent hover:bg-accent/10 transition-all px-2 gap-1.5 rounded-lg justify-start">
-            <Plus className="size-3 shrink-0" />
-            <span>{t("create")}</span>
-          </Button>
-        </Link>
+      <footer className="relative px-3 py-3 border-t border-border/40">
+        <Button
+          asChild
+          className="w-full h-10 gap-2 rounded-xl border border-dashed border-border/70 text-zinc-muted hover:text-accent hover:border-accent/50 hover:bg-accent/8 transition-all"
+        >
+          <Link href="/creation-flag">
+            <IconPlus className="size-4 shrink-0" />
+            <span className="text-sm font-medium">{t("create")}</span>
+          </Link>
+        </Button>
       </footer>
-    </div>
+    </section>
   );
 };

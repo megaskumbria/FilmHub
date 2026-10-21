@@ -545,7 +545,11 @@
       "empty": "Флаги не найдены",
       "create": "Создать флаг",
       "limit": "Достигнут лимит ({current}/{max})",
-      "limitHint": "Уберите флаг, чтобы выбрать другой"
+      "limitHint": "Уберите флаг, чтобы выбрать другой",
+      "selected": "Выбрано {current} из {max}",
+      "pickHint": "Выберите флаги из шкал ниже",
+      "remove": "Убрать",
+      "flagsCount": "{count, plural, one {# флаг} few {# флага} many {# флагов} other {# флага}}"
     },
     "card": {
       "untitled": "Без названия",
