@@ -409,6 +409,7 @@
     "opacity": "Прозрачность фона",
     "weakest": "Слабее",
     "strongest": "Сильнее",
+    "level": "Уровень {current} из {total}",
     "scales": {
       "title": "Шкалы флагов",
       "namePlaceholder": "Название шкалы...",

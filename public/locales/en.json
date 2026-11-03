@@ -409,6 +409,7 @@
     "opacity": "Background opacity",
     "weakest": "Weakest",
     "strongest": "Strongest",
+    "level": "Level {current} of {total}",
     "scales": {
       "title": "Flag scales",
       "namePlaceholder": "Scale name...",

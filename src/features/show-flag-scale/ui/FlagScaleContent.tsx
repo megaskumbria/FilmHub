@@ -1,9 +1,10 @@
 "use client";
 
-import { useGetFlagsScale } from "../lib/useGetFlagsScale";
-import { cn } from "@/shared/lib/utils";
-import { FlagBadge } from "@/entities";
 import { useTranslations } from "next-intl";
+import { useGetFlagsScale } from "../lib/useGetFlagsScale";
+import { ScaleRung } from "./ScaleRung";
+
+const FALLBACK_COLOR = "var(--accent)";
 
 interface Props {
   scaleId: string;
@@ -17,38 +18,51 @@ export const FlagScaleContent = ({ scaleId, scaleName, currentFlagId }: Props) =
 
   if (!scale) return null;
 
+  const total = scale.length;
+  const currentIndex = scale.findIndex(({ id }) => id === currentFlagId);
+  const currentColor = scale[currentIndex]?.color ?? FALLBACK_COLOR;
+
   return (
-    <>
-      <header>
-        <h4 className="text-sm font-semibold uppercase tracking-widest text-foreground">
+    <article
+      className="flex flex-col gap-3 p-4"
+      style={{
+        backgroundImage: `radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, ${currentColor} 18%, transparent), transparent 65%)`,
+      }}
+    >
+      <header className="flex items-start justify-between gap-6">
+        <h4 className="font-unbounded text-base leading-tight font-semibold text-foreground">
           {scaleName}
         </h4>
+
+        {currentIndex >= 0 && (
+          <p className="flex items-baseline font-unbounded leading-none tabular-nums">
+            <span className="sr-only">{t("level", { current: currentIndex + 1, total })}</span>
+
+            <span aria-hidden className="text-2xl font-bold" style={{ color: currentColor }}>
+              {currentIndex + 1}
+            </span>
+
+            <span aria-hidden className="text-sm text-zinc-muted">
+              /{total}
+            </span>
+          </p>
+        )}
       </header>
 
-      <p className="text-sm text-zinc-muted">{t("weakest")}</p>
-
-      <ol className="flex flex-col gap-1">
-        {scale.map(({ id, ...flagItem }, index) => {
-          const isCurrent = id === currentFlagId;
-
-          return (
-            <li
-              key={id}
-              aria-current={isCurrent ? "true" : undefined}
-              className={cn(
-                "flex items-center gap-2 rounded-lg border px-2 py-1.5",
-                isCurrent ? "border-accent/60 bg-accent/10" : "border-transparent",
-              )}
-            >
-              <span className="w-4 text-sm tabular-nums text-zinc-muted">{index + 1}</span>
-
-              <FlagBadge flagItem={flagItem} />
-            </li>
-          );
-        })}
-      </ol>
-
-      <p className="text-sm text-zinc-muted">{t("strongest")}</p>
-    </>
+      <div className="flex flex-col gap-1">
+        <ol className="flex flex-col-reverse">
+          {scale.map((flag, index) => (
+            <ScaleRung
+              key={flag.id}
+              flag={flag}
+              index={index}
+              currentIndex={currentIndex}
+              lowerColor={scale[index - 1]?.color}
+              upperColor={scale[index + 1]?.color}
+            />
+          ))}
+        </ol>
+      </div>
+    </article>
   );
 };

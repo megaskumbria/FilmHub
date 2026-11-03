@@ -17,12 +17,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const FlagScaleHoverCard = ({
-  scaleId,
-  scaleName,
-  currentFlagId,
-  children,
-}: Props) => {
+export const FlagScaleHoverCard = ({ scaleId, scaleName, currentFlagId, children }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const isHoveredRef = useRef<boolean>(false);
@@ -94,13 +89,9 @@ export const FlagScaleHoverCard = ({
         sideOffset={8}
         collisionPadding={12}
         onClick={handleStopNavigation}
-        className="flex w-auto min-w-56 flex-col gap-2 border-border bg-surface-elevated p-3"
+        className="w-auto max-w-80 min-w-60 overflow-hidden rounded-xl border-border bg-surface-elevated p-0 shadow-popover"
       >
-        <FlagScaleContent
-          scaleId={scaleId}
-          scaleName={scaleName}
-          currentFlagId={currentFlagId}
-        />
+        <FlagScaleContent scaleId={scaleId} scaleName={scaleName} currentFlagId={currentFlagId} />
       </HoverCardContent>
     </HoverCard>
   );
