@@ -34,11 +34,7 @@ export const SocialLinksPopover = ({ links, onChange }: Props) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant="transparent"
-          size="sm"
-          className="rounded-lg gap-2 border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted transition-colors"
-        >
+        <Button variant="subtle" size="sm" className="h-9 gap-2 rounded-full px-4">
           <Link2 className="size-4" />
           <span className="text-sm whitespace-nowrap">{t("editLinks")}</span>
         </Button>

@@ -59,12 +59,12 @@ export const ProfileAvatar = ({
 
   return (
     <>
-      <div className="relative">
-        <Avatar className="size-20 rounded-2xl ">
+      <div className="relative w-fit shrink-0">
+        <Avatar className="size-24 rounded-3xl bg-surface ring-4 ring-surface shadow-2xl shadow-black/50 sm:size-28">
           {avatarSrc ?
-            <img src={avatarSrc} alt="" className="size-full z-1 rounded-2xl object-cover" />
+            <img src={avatarSrc} alt="" className="size-full z-1 rounded-3xl object-cover" />
           : <AvatarFallback
-              className="text-white text-3xl font-bold z-1 rounded-2xl ring-4 ring-surface"
+              className="z-1 rounded-3xl font-unbounded text-4xl font-bold text-white"
               style={{ backgroundColor: getAvatarColor(userId) }}
             >
               {firstAvatarLetter}
@@ -88,7 +88,7 @@ export const ProfileAvatar = ({
               size="icon-sm"
               onClick={() => avatarInputRef.current?.click()}
               disabled={isUpdatingAvatar}
-              className="absolute z-10 -bottom-1.5 -right-1.5 justify-center rounded-full ring-2 ring-surface"
+              className="absolute z-10 -bottom-2 -right-2 rounded-full ring-4 ring-surface"
             >
               {isUpdatingAvatar ?
                 <Loader2 className="size-4 animate-spin" strokeWidth={3} />

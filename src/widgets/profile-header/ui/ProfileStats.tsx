@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Film, BookOpen, Users, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Button, SheetTrigger } from "@/shared/ui";
 import { FollowersSheet } from "@/widgets";
 import { type UserProfile } from "@/shared/hooks";
@@ -13,46 +13,41 @@ export const ProfileStats = ({ profile }: Props) => {
   const { filmsCount, collectionsCount, followersCount, userId } = profile;
 
   return (
-    <div className="flex items-center gap-4">
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-1.5">
-          <Film className="size-4 text-zinc-muted shrink-0" />
-          <span className="text-foreground font-bold text-base">{filmsCount}</span>
-          <span className="text-zinc-muted text-sm font-medium">
-            {t("films", { count: filmsCount })}
-          </span>
-        </div>
-      </div>
+    <ul className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-border/60 pt-5">
+      <li className="flex items-baseline gap-2">
+        <span className="font-unbounded text-xl font-semibold tabular-nums text-foreground">
+          {filmsCount}
+        </span>
+        <span className="text-sm text-zinc-muted">{t("films", { count: filmsCount })}</span>
+      </li>
 
-      <div className="flex items-center gap-4">
-        <span className="h-4 w-px bg-border" aria-hidden />
+      <li className="flex items-baseline gap-2">
+        <span className="font-unbounded text-xl font-semibold tabular-nums text-foreground">
+          {collectionsCount}
+        </span>
+        <span className="text-sm text-zinc-muted">
+          {t("collections", { count: collectionsCount })}
+        </span>
+      </li>
 
-        <div className="flex items-center gap-1.5">
-          <BookOpen className="size-4 text-zinc-muted shrink-0" />
-          <span className="text-foreground font-bold text-base">{collectionsCount}</span>
-          <span className="text-zinc-muted text-sm font-medium">
-            {t("collections", { count: collectionsCount })}
-          </span>
-        </div>
-      </div>
-
-      <span className="h-4 w-px bg-border" aria-hidden />
-
-      <FollowersSheet userId={userId}>
-        <SheetTrigger asChild>
-          <Button
-            type="button"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-background border border-border cursor-pointer hover:border-accent/50 hover:bg-accent/5 transition-colors"
-          >
-            <Users className="size-4 text-zinc-muted shrink-0" />
-            <span className="text-foreground font-bold text-base">{followersCount}</span>
-            <span className="text-zinc-muted text-sm font-medium">
-              {t("followers", { count: followersCount })}
-            </span>
-            <ChevronRight className="size-3.5 text-zinc-muted" />
-          </Button>
-        </SheetTrigger>
-      </FollowersSheet>
-    </div>
+      <li>
+        <FollowersSheet userId={userId}>
+          <SheetTrigger asChild>
+            <Button
+              type="button"
+              className="group -mx-3 items-baseline gap-2 rounded-xl px-3 py-1.5 transition-colors hover:bg-surface-elevated"
+            >
+              <span className="font-unbounded text-xl font-semibold tabular-nums text-foreground">
+                {followersCount}
+              </span>
+              <span className="text-sm text-zinc-muted transition-colors group-hover:text-foreground">
+                {t("followers", { count: followersCount })}
+              </span>
+              <ChevronRight className="size-3.5 self-center text-zinc-muted transition-transform group-hover:translate-x-0.5" />
+            </Button>
+          </SheetTrigger>
+        </FollowersSheet>
+      </li>
+    </ul>
   );
 };

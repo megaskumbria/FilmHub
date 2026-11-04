@@ -20,8 +20,11 @@ const inputVariants = cva(
           "bg-secondary/50 border-border/60 text-foreground placeholder:text-muted focus-visible:border-accent/60 focus-visible:ring-accent/20 transition-all",
         neutral:
           "rounded-lg bg-graphite border-border/40 placeholder:text-zinc-muted focus-visible:border-accent/50 focus-visible:ring-0 focus-visible:ring-accent/20 focus-visible:outline-none transition-all",
+        underline:
+          "rounded-none border-0 border-b border-border/60 shadow-none placeholder:text-zinc-muted/60 focus-visible:border-accent focus-visible:ring-0 transition-colors",
       },
       inputSize: {
+        none: "h-auto p-0",
         sm: "h-8 px-2.5 py-1 text-sm",
         default: "h-9 px-3 py-1",
         lg: "h-11 px-4 py-2 text-base",

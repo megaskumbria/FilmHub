@@ -6,7 +6,6 @@ import { type ProfileEditSchema } from "../model/useProfileEditSchema";
 import { UseFormReturn } from "react-hook-form";
 import { type UserProfile, useFollowProfile } from "@/shared/hooks";
 import { useRequireAuth } from "@/features/auth";
-import { cn } from "@/shared/lib/utils";
 
 interface Props {
   user: UserProfile;
@@ -47,9 +46,10 @@ export const ProfileActions = ({
         <>
           <Button
             type="button"
+            variant="subtle"
             size="sm"
             onClick={handleCancelEdit}
-            className="transition-colors rounded-lg h-9 gap-1.5 px-3 border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted"
+            className="h-9 gap-1.5 rounded-full px-4"
             disabled={isSaving}
           >
             <X className="size-3.5" />
@@ -61,7 +61,7 @@ export const ProfileActions = ({
             type="button"
             variant="accent"
             size="sm"
-            className="transition-colors rounded-lg h-9 gap-1.5 px-3"
+            className="h-9 gap-1.5 rounded-full px-4"
             onClick={() => void form.handleSubmit(handleSubmitUpdate)()}
             disabled={isSaving}
           >
@@ -82,8 +82,8 @@ export const ProfileActions = ({
             <Button
               key="profile-edit"
               type="button"
-              variant="accent"
-              className="transition-colors rounded-md px-2.5 h-9 gap-2"
+              variant="subtle"
+              className="h-9 gap-2 rounded-full px-4"
               onClick={handleStartEdit}
               disabled={isSaving}
             >
@@ -92,12 +92,8 @@ export const ProfileActions = ({
             </Button>
           : <Button
               type="button"
-              variant={isFollowing ? undefined : "accent"}
-              className={cn(
-                "group transition-colors rounded-lg px-3 h-9 gap-2",
-                isFollowing
-                  && "border border-border bg-background text-zinc-muted hover:border-zinc-muted hover:text-foreground",
-              )}
+              variant={isFollowing ? "subtle" : "accent"}
+              className="group h-9 gap-2 rounded-full px-4"
               onClick={handleFollowProfile}
             >
               {isFollowing ?
