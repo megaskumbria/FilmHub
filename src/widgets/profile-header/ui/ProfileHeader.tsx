@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui";
 import { SocialLinksPopover } from "./SocialLinksPopover";
 import { SocialLinkIcon } from "./SocialLinkIcon";
@@ -10,6 +11,7 @@ import {
   useUpdateProfile,
   useUpdateProfileCover,
   useUpdateProfileAvatar,
+  isTagTakenError,
 } from "@/shared/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -27,6 +29,7 @@ interface Props {
 }
 
 export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
+  const t = useTranslations("collections.profile.validation");
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [socialLinks, setSocialLinks] = useState<string[]>([]);
 
@@ -67,8 +70,14 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   };
 
   const handleSubmitUpdate = async (profileData: ProfileEditSchema): Promise<void> => {
-    await updateProfile({ ...profileData, socialUrls: socialLinks });
-    setIsEditing(false);
+    try {
+      await updateProfile({ ...profileData, socialUrls: socialLinks });
+      setIsEditing(false);
+    } catch (error) {
+      if (!isTagTakenError(error)) throw error;
+
+      form.setError("tag", { message: t("tagTaken") });
+    }
   };
 
   const urls = isEditing ? socialLinks : (socialUrls ?? []);

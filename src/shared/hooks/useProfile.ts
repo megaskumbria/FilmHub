@@ -5,9 +5,11 @@ import {
   useInfiniteQuery,
   InfiniteData,
 } from "@tanstack/react-query";
+import axios from "axios";
 import { API_URL } from "@/shared/api/config";
 import { apiClient } from "../api/api-client";
 import { useAuthStore } from "@/features/auth";
+import { type ApiFieldError } from "@/shared/types/api-error-types";
 
 export interface UserProfile {
   userId: string;
@@ -50,6 +52,10 @@ type UpdateProfilePaylod = Partial<{
   coverUrl: string | null;
   socialUrls: string[];
 }>;
+
+export const isTagTakenError = (error: unknown) => {
+  return axios.isAxiosError<ApiFieldError>(error) && error.response?.data.status === "TAG_EXISTS";
+};
 
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();

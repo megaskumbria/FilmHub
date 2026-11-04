@@ -46,6 +46,7 @@ export {
   profileQueryOptions,
   type UserProfile,
   useUpdateProfile,
+  isTagTakenError,
   useUpdateProfileCover,
   useUpdateProfileAvatar,
   useInfiniteFollows,

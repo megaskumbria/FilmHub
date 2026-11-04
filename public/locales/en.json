@@ -177,6 +177,8 @@
         "nicknameMax": "Nickname must be less than 24 characters",
         "tagMin": "Tag must be at least 3 characters",
         "tagMax": "Tag must be less than 16 characters",
+        "tagCharset": "Allowed characters: a-z, 0-9, _",
+        "tagTaken": "This tag is already taken",
         "bioMax": "Bio must be less than 100 characters"
       }
     },

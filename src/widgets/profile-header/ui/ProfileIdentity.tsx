@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Form, FormControl, FormField, FormItem, FormMessage, Input } from "@/shared/ui";
 import { UseFormReturn } from "react-hook-form";
-import { type ProfileEditSchema } from "../model/useProfileEditSchema";
+import { sanitizeTag, type ProfileEditSchema } from "../model/useProfileEditSchema";
 import { type UserProfile } from "@/shared/hooks";
 
 interface Props {
@@ -14,6 +14,19 @@ interface Props {
 export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }: Props) => {
   const t = useTranslations("collections.profile");
   const { nickname, tag, bio } = profile;
+
+  const handleTagChange = (value: string): void => {
+    const sanitized = sanitizeTag(value);
+
+    form.setValue("tag", sanitized, { shouldDirty: true, shouldValidate: false });
+
+    if (value === sanitized) {
+      if (form.getFieldState("tag").error) form.clearErrors("tag");
+      return;
+    }
+
+    form.setError("tag", { type: "charset", message: t("validation.tagCharset") });
+  };
 
   return (
     <div className="min-w-0 flex-1">
@@ -56,7 +69,11 @@ export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }
                         variant="underline"
                         inputSize="none"
                         maxLength={16}
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        spellCheck={false}
                         {...field}
+                        onChange={(event) => handleTagChange(event.target.value)}
                         className="w-40 pb-0.5 text-sm text-zinc-muted md:text-sm focus-visible:text-foreground"
                       />
                     </FormControl>
