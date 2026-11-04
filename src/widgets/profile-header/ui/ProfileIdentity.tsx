@@ -113,7 +113,11 @@ export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }
 
           <p className="mt-1 text-sm font-medium text-zinc-muted">@{tag}</p>
 
-          {bio && <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-light/85">{bio}</p>}
+          {bio && (
+            <p className="min-w-0 wrap-break-word mt-2 max-w-xl text-sm leading-relaxed text-zinc-light/85">
+              {bio}
+            </p>
+          )}
         </>
       }
     </div>
