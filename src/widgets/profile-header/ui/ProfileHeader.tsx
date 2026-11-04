@@ -28,6 +28,9 @@ interface Props {
   userId: string;
 }
 
+const filledSocialLinks = (links: string[]): string[] =>
+  links.map((link) => link.trim()).filter((link) => link.length > 0);
+
 export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   const t = useTranslations("collections.profile.validation");
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -43,6 +46,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
 
   const form = useForm<ProfileEditSchema>({
     resolver: zodResolver(profileEditSchema),
+    mode: "onChange",
     defaultValues: {
       nickname: "",
       tag: "",
@@ -70,8 +74,11 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
   };
 
   const handleSubmitUpdate = async (profileData: ProfileEditSchema): Promise<void> => {
+    const nextLinks = filledSocialLinks(socialLinks);
+
     try {
-      await updateProfile({ ...profileData, socialUrls: socialLinks });
+      await updateProfile({ ...profileData, socialUrls: nextLinks });
+      setSocialLinks(nextLinks);
       setIsEditing(false);
     } catch (error) {
       if (!isTagTakenError(error)) throw error;
@@ -80,7 +87,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
     }
   };
 
-  const urls = isEditing ? socialLinks : (socialUrls ?? []);
+  const urls = filledSocialLinks(isEditing ? socialLinks : (socialUrls ?? []));
   const isSaving = isUpdatingAvatar || isUpdatingCover || isUpdating;
 
   return (

@@ -18,7 +18,7 @@ export const useProfileEditSchema = () => {
       .min(3, t("tagMin"))
       .max(16, t("tagMax"))
       .regex(/^[a-zA-Z0-9_]+$/, t("tagCharset")),
-    bio: z.string().trim().max(100, t("bioMax")),
+    bio: z.string().trim().max(70, t("bioMax")),
   });
 };
 

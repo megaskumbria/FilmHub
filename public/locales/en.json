@@ -179,7 +179,7 @@
         "tagMax": "Tag must be less than 16 characters",
         "tagCharset": "Allowed characters: a-z, 0-9, _",
         "tagTaken": "This tag is already taken",
-        "bioMax": "Bio must be less than 100 characters"
+        "bioMax": "Bio can't be longer than 70 characters"
       }
     },
     "toolbar": {

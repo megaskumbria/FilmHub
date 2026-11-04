@@ -93,7 +93,6 @@ export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }
                     <Input
                       variant="underline"
                       inputSize="none"
-                      maxLength={100}
                       placeholder={t("bioPlaceholder")}
                       {...field}
                       className="pb-0.5 text-sm text-zinc-light md:text-sm"
