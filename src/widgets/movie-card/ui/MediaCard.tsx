@@ -6,6 +6,9 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Sheet,
+  SheetContent,
+  SheetTrigger,
   AddBookmarkButton,
   CardShirt,
 } from "@/shared/ui";
@@ -53,7 +56,7 @@ export const MediaCard = ({
   isChecked = false,
   fillHeight = false,
 }: Props) => {
-  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [isAddActionOpen, setIsAddActionOpen] = useState(false);
   const [hoverHeight, setHoverHeight] = useState(0);
   const [loadedPosterUrl, setLoadedPosterUrl] = useState<string | null>(null);
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
@@ -94,7 +97,9 @@ export const MediaCard = ({
   const isEditMode = mode === POPOVER_MODE.EDIT_COLLECTION;
 
   const shouldAccessBorder = isEditMode && isChecked;
-  const shouldShowAddPopover = shouldShowAddButton && mode && !isEditMode;
+  const shouldShowAddAction = shouldShowAddButton && Boolean(mode) && !isEditMode;
+  const shouldShowFlagSheet = shouldShowAddAction && mode === POPOVER_MODE.ADD_FLAG;
+  const shouldShowCollectionPopover = shouldShowAddAction && mode === POPOVER_MODE.ADD_COLLECTION;
 
   const hasRoute = disableNavigation || isEditMode;
 
@@ -102,7 +107,7 @@ export const MediaCard = ({
 
   const handleOpenChange = (open: boolean) => {
     if (open && !ensureAuth()) return;
-    setPopoverOpen(open);
+    setIsAddActionOpen(open);
   };
 
   return (
@@ -188,24 +193,40 @@ export const MediaCard = ({
         </div>
       </Link>
 
-      {shouldShowAddPopover && (
-        <Popover open={popoverOpen} onOpenChange={handleOpenChange}>
+      {shouldShowFlagSheet && (
+        <Sheet open={isAddActionOpen} onOpenChange={handleOpenChange}>
+          <SheetTrigger asChild>
+            <AddBookmarkButton />
+          </SheetTrigger>
+
+          <SheetContent
+            side="right"
+            showCloseButton={false}
+            onOpenAutoFocus={(event) => {
+              event.preventDefault();
+              const content = event.currentTarget as HTMLElement | null;
+              content?.querySelector<HTMLInputElement>("input")?.focus();
+            }}
+            className="w-[min(26rem,92vw)] gap-0 overflow-hidden border-l border-border/60 bg-surface p-0 shadow-popover sm:max-w-104"
+          >
+            <SetMediaFlags mediaId={id} isOpen={isAddActionOpen} />
+          </SheetContent>
+        </Sheet>
+      )}
+
+      {shouldShowCollectionPopover && (
+        <Popover open={isAddActionOpen} onOpenChange={handleOpenChange}>
           <PopoverTrigger asChild>
             <AddBookmarkButton />
           </PopoverTrigger>
 
-          <PopoverContent
-            side="bottom"
-            onOpenAutoFocus={(e) => {
-              if (mode === POPOVER_MODE.ADD_FLAG) e.preventDefault();
-            }}
-            className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full"
-          >
-            {mode === POPOVER_MODE.ADD_FLAG && (
-              <SetMediaFlags mediaId={id} popoverOpen={popoverOpen} />
-            )}
+          <PopoverContent className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full">
             {mode === POPOVER_MODE.ADD_COLLECTION && (
-              <AddMovieCollection popoverOpen={popoverOpen} mediaId={id} mediaType={mediaType} />
+              <AddMovieCollection
+                popoverOpen={isAddActionOpen}
+                mediaId={id}
+                mediaType={mediaType}
+              />
             )}
           </PopoverContent>
         </Popover>

@@ -1,8 +1,25 @@
 "use client";
 
-import { Button, Input, Tooltip, TooltipTrigger, TooltipContent, Accordion } from "@/shared/ui";
+import {
+  Button,
+  Input,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  Accordion,
+  SheetClose,
+  SheetDescription,
+  SheetTitle,
+} from "@/shared/ui";
 import Link from "next/link";
-import { IconFlag3, IconHelpCircle, IconPlus, IconSearch, IconFlagOff } from "@tabler/icons-react";
+import {
+  IconFlag3,
+  IconHelpCircle,
+  IconPlus,
+  IconSearch,
+  IconFlagOff,
+  IconX,
+} from "@tabler/icons-react";
 import { useState, useEffect, useRef } from "react";
 import { type FlagItem, useDebounce, useGetFlags, useSetMediaFlags } from "@/shared/hooks";
 import { useTranslations } from "next-intl";
@@ -15,11 +32,12 @@ import { MAX_LIMIT_PER_MEDIA } from "../model/constants";
 
 interface Props {
   mediaId: number;
-  popoverOpen: boolean;
+  isOpen: boolean;
 }
 
-export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
+export const SetMediaFlags = ({ mediaId, isOpen }: Props) => {
   const t = useTranslations("movie.flags");
+  const tCommon = useTranslations("common");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFlags, setSelectedFlags] = useState<Record<string, FlagItem>>({});
 
@@ -59,7 +77,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
   };
 
   useEffect(() => {
-    if (!popoverOpen) {
+    if (!isOpen) {
       initializedRef.current = false;
       return;
     }
@@ -79,28 +97,28 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
 
     setSelectedFlags(initialSelectedFlags);
     initializedRef.current = true;
-  }, [popoverOpen, flagsData]);
+  }, [isOpen, flagsData]);
 
   const selectedList = Object.values(selectedFlags);
   const isLimitFlags = selectedList.length >= MAX_LIMIT_PER_MEDIA;
 
   return (
-    <section className="relative flex flex-col w-96 overflow-hidden">
+    <section className="relative flex h-full min-h-0 w-full flex-1 flex-col overflow-hidden">
       <span
         aria-hidden
         className="pointer-events-none absolute -top-28 -right-16 size-60 rounded-full bg-accent/20 blur-3xl"
       />
 
-      <header className="relative flex flex-col gap-3 px-4 pt-4 pb-3">
+      <header className="relative flex shrink-0 flex-col gap-3 px-4 pt-4 pb-3">
         <div className="flex items-center gap-3">
           <span className="relative flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-accent to-accent/50 text-white  ring-1 ring-white/10">
             <IconFlag3 className="size-5" stroke={2} />
           </span>
 
           <div className="flex flex-col min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-foreground leading-tight tracking-wide">
+            <SheetTitle className="text-base font-semibold text-foreground leading-tight tracking-wide">
               {t("title")}
-            </h2>
+            </SheetTitle>
 
             <span
               className={cn(
@@ -112,23 +130,35 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
             </span>
           </div>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button className="size-8 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/6 transition-colors">
-                <IconHelpCircle className="size-5" />
-              </Button>
-            </TooltipTrigger>
+          <div className="ml-auto flex shrink-0 items-center gap-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button className="size-8 rounded-lg text-zinc-muted hover:text-foreground hover:bg-white/6 transition-colors">
+                  <IconHelpCircle className="size-5" />
+                </Button>
+              </TooltipTrigger>
 
-            <TooltipContent>
-              <p>{t("onePerScale")}</p>
-            </TooltipContent>
-          </Tooltip>
+              <TooltipContent>
+                <p>{t("onePerScale")}</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <SheetClose asChild>
+              <Button
+                aria-label={tCommon("close")}
+                className="size-8 rounded-lg text-zinc-muted transition-colors hover:bg-white/6 hover:text-foreground"
+              >
+                <IconX className="size-5" />
+              </Button>
+            </SheetClose>
+          </div>
         </div>
 
         <FlagQuotaMeter flags={selectedList} />
+        <SheetDescription className="sr-only">{t("onePerScale")}</SheetDescription>
       </header>
 
-      <div className="relative flex flex-col gap-2.5 px-3 pb-3">
+      <div className="relative flex shrink-0 flex-col gap-2.5 px-3 pb-3">
         <SelectedFlagsTray selectedFlags={selectedFlags} onRemove={handleRemoveFlag} />
 
         <div role="search" className="relative">
@@ -142,7 +172,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
         </div>
       </div>
 
-      <div className="relative overflow-y-auto max-h-80 px-3 drawer-scroll border-t border-border/40 pt-3">
+      <div className="relative min-h-0 flex-1 overflow-y-auto px-3 drawer-scroll border-t border-border/40 pt-3">
         {flagsData.length === 0 ?
           <div className="flex flex-col items-center gap-2 py-8 text-center">
             <span className="flex size-10 items-center justify-center rounded-full bg-white/4 text-zinc-muted">
@@ -169,7 +199,7 @@ export const SetMediaFlags = ({ mediaId, popoverOpen }: Props) => {
         {isLimitFlags && <FlagsLimitNotice />}
       </div>
 
-      <footer className="relative px-3 py-3 border-t border-border/40">
+      <footer className="relative shrink-0 px-3 py-3 border-t border-border/40">
         <Button
           asChild
           className="w-full h-10 gap-2 rounded-xl border border-dashed border-border/70 text-zinc-muted hover:text-accent hover:border-accent/50 hover:bg-accent/8 transition-all"

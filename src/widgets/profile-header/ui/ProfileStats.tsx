@@ -36,9 +36,9 @@ export const ProfileStats = ({ profile }: Props) => {
           <SheetTrigger asChild>
             <Button
               type="button"
-              className="group -mx-3 items-center gap-1 rounded-xl px-3 py-1.5 transition-colors hover:bg-surface-elevated"
+              className="group -mx-3 items-center rounded-xl px-3 py-1.5 transition-colors hover:bg-surface-elevated"
             >
-              <span className="font-unbounded text-xl font-semibold tabular-nums text-foreground">
+              <span className="font-unbounded text-xl pr-2 font-semibold tabular-nums text-foreground">
                 {followersCount}
               </span>
 
@@ -46,7 +46,7 @@ export const ProfileStats = ({ profile }: Props) => {
                 {t("followers", { count: followersCount })}
               </span>
 
-              <ChevronRight className="size-5 self-center text-zinc-muted transition-transform group-hover:translate-x-0.5" />
+              <ChevronRight className="size-6 self-center pl-1 text-zinc-muted transition-transform group-hover:translate-x-0.5" />
             </Button>
           </SheetTrigger>
         </FollowersSheet>
