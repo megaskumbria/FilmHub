@@ -59,7 +59,7 @@ export function AddMovieModal({ children }: AddMovieModalProps) {
       <DialogContent
         showCloseButton={false}
         aria-describedby={undefined}
-        className="sm:max-w-[560px] gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
+        className="sm:max-w-140 gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
       >
         <DialogHeader className="flex flex-row items-center justify-between border-b border-border px-5 py-4">
           <DialogTitle className="text-base font-semibold text-foreground">

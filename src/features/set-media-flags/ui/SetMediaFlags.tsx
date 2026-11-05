@@ -37,7 +37,6 @@ interface Props {
 
 export const SetMediaFlags = ({ mediaId, isOpen }: Props) => {
   const t = useTranslations("movie.flags");
-  const tCommon = useTranslations("common");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFlags, setSelectedFlags] = useState<Record<string, FlagItem>>({});
 
@@ -144,10 +143,7 @@ export const SetMediaFlags = ({ mediaId, isOpen }: Props) => {
             </Tooltip>
 
             <SheetClose asChild>
-              <Button
-                aria-label={tCommon("close")}
-                className="size-8 rounded-lg text-zinc-muted transition-colors hover:bg-white/6 hover:text-foreground"
-              >
+              <Button className="size-8 rounded-lg text-zinc-muted transition-colors hover:bg-white/6 hover:text-foreground">
                 <IconX className="size-5" />
               </Button>
             </SheetClose>
