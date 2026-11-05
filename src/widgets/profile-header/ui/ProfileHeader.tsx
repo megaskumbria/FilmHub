@@ -123,9 +123,9 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
                 <ul className="flex items-center gap-1.5">
                   {urls.map((url, index) => (
                     <li key={index}>
-                      <Button asChild variant="subtle" size="icon" className="rounded-full">
+                      <Button asChild variant="transparent" size="icon" className="rounded-full">
                         <a href={url} target="_blank" rel="noopener noreferrer">
-                          <SocialLinkIcon url={url} className="size-5 rounded-md" />
+                          <SocialLinkIcon url={url} className="size-8 rounded-md" />
                         </a>
                       </Button>
                     </li>
