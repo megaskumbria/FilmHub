@@ -62,8 +62,8 @@ export const ProfileCover = ({
       {isMyProfile && (
         <div
           className={cn(
-            "absolute top-4 right-4 z-10 flex items-center gap-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100 sm:top-5 sm:right-5",
-            previewUrl && "opacity-100",
+            "absolute top-4 right-4 z-10 flex items-center gap-2 opacity-100 transition-opacity duration-200 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 focus-within:opacity-100 sm:top-5 sm:right-5",
+            previewUrl && "[@media(hover:hover)]:opacity-100",
           )}
         >
           {previewUrl ?
@@ -75,7 +75,7 @@ export const ProfileCover = ({
                 onClick={handleCancelCover}
                 disabled={isUpdatingCover}
                 aria-label={t("cancel")}
-                className="rounded-full text-red-300 hover:text-red-200"
+                className="size-11 rounded-full text-red-300 hover:text-red-200 lg:size-9"
               >
                 <X className="size-4.5" />
               </Button>
@@ -87,7 +87,7 @@ export const ProfileCover = ({
                 onClick={() => void handleSaveCover()}
                 disabled={isUpdatingCover}
                 aria-label={t("save")}
-                className="rounded-full text-emerald-300 hover:text-emerald-200"
+                className="size-11 rounded-full text-emerald-300 hover:text-emerald-200 lg:size-9"
               >
                 {isUpdatingCover ?
                   <Loader2 className="size-4.5 animate-spin" />
@@ -98,7 +98,7 @@ export const ProfileCover = ({
               type="button"
               variant="glass"
               size="sm"
-              className="h-9 rounded-full gap-2 px-4"
+              className="h-11 rounded-full gap-2 px-4 lg:h-9"
               onClick={() => fileInputRef.current?.click()}
             >
               <ImagePlus className="size-4" />

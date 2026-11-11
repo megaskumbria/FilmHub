@@ -13,7 +13,7 @@ export const ProfileStats = ({ profile }: Props) => {
   const { filmsCount, collectionsCount, followersCount, userId } = profile;
 
   return (
-    <ul className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-border/60 pt-5">
+    <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-border/60 pt-4 sm:mt-7 sm:gap-x-8 sm:gap-y-3 sm:pt-5">
       <li className="flex items-center gap-2">
         <span className="font-unbounded text-xl font-semibold tabular-nums text-foreground">
           {filmsCount}
@@ -36,7 +36,7 @@ export const ProfileStats = ({ profile }: Props) => {
           <SheetTrigger asChild>
             <Button
               type="button"
-              className="group -mx-3 items-center rounded-xl px-3 py-1.5 transition-colors hover:bg-surface-elevated"
+              className="group -mx-2 min-h-11 items-center rounded-xl px-2 py-2.5 transition-colors hover:bg-surface-elevated sm:-mx-3 sm:px-3 sm:py-1.5"
             >
               <span className="font-unbounded text-xl pr-2 font-semibold tabular-nums text-foreground">
                 {followersCount}

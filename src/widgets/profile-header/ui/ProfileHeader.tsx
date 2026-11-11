@@ -100,8 +100,8 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
         onUpdateCover={updateCover}
       />
 
-      <div className="relative z-10 -mt-20 px-6 pb-6 sm:px-10 sm:pb-8">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-6">
+      <div className="relative z-10 -mt-20 min-w-0 px-4 pb-5 sm:px-8 sm:pb-8 lg:px-10">
+        <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
           <ProfileAvatar
             isMyProfile={isMyProfile}
             onUpdateAvatar={updateAvatar}
@@ -110,7 +110,7 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
             isEditing={isEditing}
           />
 
-          <div className="flex min-w-0 flex-1 flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex min-w-0 flex-1 flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <ProfileIdentity
               isEditing={isEditing}
               profile={profile}
@@ -118,36 +118,47 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
               handleSubmitUpdate={handleSubmitUpdate}
             />
 
-            <div className="flex shrink-0 items-center gap-2">
-              {urls.length > 0 && (
-                <ul className="flex items-center gap-1.5">
-                  {urls.map((url, index) => (
-                    <li key={index}>
-                      <Button asChild variant="transparent" size="icon" className="rounded-full">
-                        <a href={url} target="_blank" rel="noopener noreferrer">
-                          <SocialLinkIcon url={url} className="size-8 rounded-md" />
-                        </a>
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
+            <div className="flex min-w-0 flex-col gap-3 lg:shrink-0 lg:flex-row lg:items-center lg:gap-2">
+              {(urls.length > 0 || isEditing) && (
+                <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
+                  {urls.length > 0 && (
+                    <ul className="flex min-w-0 max-w-full flex-wrap items-center gap-1">
+                      {urls.map((url, index) => (
+                        <li key={index}>
+                          <Button
+                            asChild
+                            variant="transparent"
+                            size="icon"
+                            className="size-11 rounded-full lg:size-9"
+                          >
+                            <a href={url} target="_blank" rel="noopener noreferrer">
+                              <SocialLinkIcon url={url} className="size-8 rounded-md" />
+                            </a>
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <AnimatePresence>
+                    {isEditing && (
+                      <motion.div
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: "auto", opacity: 1 }}
+                        exit={{ width: 0, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="max-w-full overflow-hidden"
+                      >
+                        <SocialLinksPopover links={socialLinks} onChange={setSocialLinks} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               )}
 
-              <AnimatePresence>
-                {isEditing && (
-                  <motion.div
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: "auto", opacity: 1 }}
-                    exit={{ width: 0, opacity: 0 }}
-                    transition={{ duration: 0.2, ease: "easeInOut" }}
-                    className="overflow-hidden"
-                  >
-                    <SocialLinksPopover links={socialLinks} onChange={setSocialLinks} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {urls.length > 0 && <span className="mx-1.5 h-6 w-px bg-border" aria-hidden />}
+              {urls.length > 0 && (
+                <span className="mx-1.5 hidden h-6 w-px bg-border lg:block" aria-hidden />
+              )}
 
               <ProfileActions
                 user={profile}

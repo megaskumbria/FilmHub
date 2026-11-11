@@ -49,7 +49,7 @@ export const ProfileActions = ({
             variant="subtle"
             size="sm"
             onClick={handleCancelEdit}
-            className="h-9 gap-1.5 rounded-full px-4"
+            className="h-11 gap-1.5 rounded-full px-4 lg:h-9"
             disabled={isSaving}
           >
             <X className="size-3.5" />
@@ -61,7 +61,7 @@ export const ProfileActions = ({
             type="button"
             variant="accent"
             size="sm"
-            className="h-9 gap-1.5 rounded-full px-4"
+            className="h-11 gap-1.5 rounded-full px-4 lg:h-9"
             onClick={() => void form.handleSubmit(handleSubmitUpdate)()}
             disabled={isSaving}
           >
@@ -83,7 +83,7 @@ export const ProfileActions = ({
               key="profile-edit"
               type="button"
               variant="subtle"
-              className="h-9 gap-2 rounded-full px-4"
+              className="h-11 gap-2 rounded-full px-4 lg:h-9"
               onClick={handleStartEdit}
               disabled={isSaving}
             >
@@ -93,7 +93,7 @@ export const ProfileActions = ({
           : <Button
               type="button"
               variant={isFollowing ? "subtle" : "accent"}
-              className="group h-9 gap-2 rounded-full px-4"
+              className="group h-11 gap-2 rounded-full px-4 lg:h-9"
               onClick={handleFollowProfile}
             >
               {isFollowing ?
