@@ -49,6 +49,13 @@ export const toHex = (color: string) => {
     .toUpperCase()}`;
 };
 
+export const toRgba = (color: string) => {
+  const { r, g, b } = parseColor(color);
+  const channel = (value: number) => Math.max(0, Math.min(255, Math.round(value)));
+
+  return `rgba(${channel(r)}, ${channel(g)}, ${channel(b)}, 1)`;
+};
+
 const toHsl = ({ r, g, b }: Rgb) => {
   const [rn, gn, bn] = [r / 255, g / 255, b / 255];
   const max = Math.max(rn, gn, bn);

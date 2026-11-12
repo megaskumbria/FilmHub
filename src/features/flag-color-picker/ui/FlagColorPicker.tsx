@@ -12,12 +12,12 @@ import { cn } from "@/shared/lib/utils";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
 import { Pipette } from "lucide-react";
 import { memo, useEffect, useMemo, useState } from "react";
-import ColorPicker from "react-best-gradient-color-picker";
+import { HexColorPicker } from "react-colorful";
 import { useThrottle } from "@/shared/hooks";
 import { OpacitySlider } from "@/features/opacity-slider";
 import { useShallow } from "zustand/shallow";
 import { useTranslations } from "next-intl";
-import { buildReels, parseColor, readableInk, toHex } from "../lib/color";
+import { buildReels, parseColor, readableInk, toHex, toRgba } from "../lib/color";
 
 const SELECTED_GROW = 6;
 
@@ -74,10 +74,7 @@ export const FlagColorPicker = memo(() => {
 
         <Popover onOpenChange={(open) => open && setTempColor(selectedColor)}>
           <PopoverTrigger asChild>
-            <Button
-              aria-label={t("pick")}
-              className="group block w-full rounded-lg border border-border/40 bg-obsidian py-1.5 text-left transition-colors hover:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
+            <Button className="group block w-full rounded-lg border border-border/40 bg-obsidian py-1.5 text-left transition-colors hover:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <FilmPerforation />
 
               <span
@@ -116,16 +113,10 @@ export const FlagColorPicker = memo(() => {
                 <span className="text-sm font-semibold text-foreground">{t("pick")}</span>
               </div>
 
-              <ColorPicker
-                value={tempColor}
-                onChange={setTempColor}
-                hideColorTypeBtns
-                hideGradientControls
-                hidePresets
-                hideInputType
-                disableDarkMode
-                width={260}
-                height={160}
+              <HexColorPicker
+                className="flag-colorful"
+                color={toHex(tempColor)}
+                onChange={(hex: string) => setTempColor(toRgba(hex))}
               />
 
               <div className="flex items-center justify-between pt-1 border-t border-border/40 gap-2">
@@ -172,16 +163,12 @@ export const FlagColorPicker = memo(() => {
                 return (
                   <Button
                     key={color}
-                    // Pointers are handled by the reel; this covers keyboard activation only.
                     onClick={(event) =>
                       event.detail === 0 && updateStateFlag({ selectedColor: color })
                     }
                     onFocus={(event) =>
                       event.currentTarget.matches(":focus-visible") && setPreviewColor(color)
                     }
-                    title={toHex(color)}
-                    aria-label={toHex(color)}
-                    aria-pressed={isSelected}
                     className={cn(
                       "h-full min-w-0 basis-0 grow outline-none transition-[flex-grow] duration-200 ease-out motion-reduce:transition-none",
                       previewColor === color && "grow-5",

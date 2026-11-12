@@ -134,21 +134,45 @@
   }
 }
 
-#rbgcp-color-picker {
-  background-color: #1c1c1f !important;
+.flag-colorful.react-colorful {
+  width: 260px;
+  height: auto;
+  gap: 12px;
 }
 
-#rbgcp-hex-input,
-#rbgcp-R-input,
-#rbgcp-G-input,
-#rbgcp-B-input,
-#rbgcp-A-input,
-#rbgcp-C-input,
-#rbgcp-M-input,
-#rbgcp-Y-input,
-#rbgcp-K-input {
-  color: white !important;
-  border: 1px solid #27272a !important;
+.flag-colorful .react-colorful__saturation {
+  flex-grow: 0;
+  height: 160px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+  background-repeat: no-repeat;
+  background-size: calc(100% + 2px) calc(100% + 2px);
+  background-position: -1px -1px;
+}
+
+.flag-colorful .react-colorful__hue {
+  height: 12px;
+  border-radius: 999px;
+}
+
+.flag-colorful .react-colorful__pointer {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+}
+
+.flag-colorful .react-colorful__saturation-pointer {
+  background-color: transparent;
+}
+
+.flag-colorful .react-colorful__interactive:focus-visible {
+  outline: none;
+}
+
+.flag-colorful .react-colorful__interactive:focus-visible .react-colorful__pointer {
+  box-shadow: 0 0 0 2px rgba(155, 86, 240, 0.9);
 }
 
 @layer utilities {
