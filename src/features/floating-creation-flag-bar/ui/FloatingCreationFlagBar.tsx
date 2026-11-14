@@ -32,12 +32,15 @@ export const FloatingCreationFlagBar = () => {
   const isVisible = isCreatingNew || editingFlagId !== null;
   const isPending = isCreating || isUpdating;
 
-  const displayFlagName = isVisible ? flagName : (lastSnapshotFlag?.flag.flagName ?? "");
+  const displayFlagName = isVisible ? flagName : lastSnapshotFlag?.flag.flagName;
   const displaySelectedColor = isVisible ? selectedColor : lastSnapshotFlag?.flag.selectedColor;
   const displaySelectedFont = isVisible ? selectedFont : lastSnapshotFlag?.flag.selectedFont;
 
   const hasEnoughData =
-    displayFlagName.length > 0 && Boolean(displaySelectedColor) && Boolean(displaySelectedFont);
+    displayFlagName
+    && displayFlagName.length > 0
+    && Boolean(displaySelectedColor)
+    && Boolean(displaySelectedFont);
 
   const displayName = isVisible ? flagName : lastSnapshotFlag?.flag.flagName;
 
@@ -95,50 +98,51 @@ export const FloatingCreationFlagBar = () => {
   return (
     <div
       className={cn(
-        "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 duration-300 ease-out",
+        "fixed bottom-6 left-1/2 z-50 w-max max-w-[calc(100%-2rem)] -translate-x-1/2 duration-300 ease-out",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none",
       )}
     >
-      <div className="flex items-center gap-3 px-5 py-3 rounded-2xl border border-border bg-surface shadow-[0_8px_32px_-4px_rgba(0,0,0,0.8),0_0_0_1px_rgba(155,86,240,0.12)]">
-        <div className="text-sm text-zinc-muted">
+      <div className="flex w-max max-w-full flex-col items-center gap-2.5 rounded-2xl border border-border bg-surface px-4 py-3 shadow-[0_8px_32px_-4px_rgba(0,0,0,0.8),0_0_0_1px_rgba(155,86,240,0.12)] sm:flex-row sm:gap-3 sm:px-5">
+        <p className="max-w-full text-center text-sm leading-snug text-zinc-muted sm:text-left">
           <span>{displayIsCreatingNew ? t("new") : t("editing")} </span>
-
           <span
             className={cn(
-              "font-medium transition-colors",
+              "font-medium wrap-break-word transition-colors",
               displayName ? "text-foreground" : "text-zinc-muted italic",
             )}
           >
             {displayName || t("untitled")}
           </span>
+        </p>
+
+        <Separator orientation="vertical" className="hidden h-4 sm:block" />
+
+        <div className="flex items-center gap-3">
+          <Button
+            onClick={handleSaveFlag}
+            disabled={isPending}
+            variant={shouldDisabled ? "accent" : "outline"}
+            size="default"
+            className={cn(
+              "h-8 shrink-0 gap-1.5 rounded-lg px-4 text-sm whitespace-nowrap select-none transition-transform duration-200 active:scale-95",
+              !shouldDisabled && "opacity-50 pointer-events-none",
+            )}
+          >
+            <Save className="size-3.5 shrink-0" />
+            <span>{!isCreatingNew ? t("saveChanges") : t("save")}</span>
+          </Button>
+
+          <Separator orientation="vertical" className="h-4" />
+
+          <Button
+            onClick={cancelCreationFlag}
+            variant="transparent"
+            size="none"
+            className="flex shrink-0 items-center justify-center rounded-lg p-1 text-zinc-muted transition-colors duration-150 hover:bg-white/5 hover:text-foreground"
+          >
+            <X className="size-6 shrink-0" />
+          </Button>
         </div>
-
-        <Separator orientation="vertical" className="h-4" />
-
-        <Button
-          onClick={handleSaveFlag}
-          disabled={isPending}
-          variant={shouldDisabled ? "accent" : "outline"}
-          size="default"
-          className={cn(
-            "h-8 px-4 rounded-lg gap-1.5 text-sm select-none active:scale-95 duration-200 transition-transform",
-            !shouldDisabled && "opacity-50 pointer-events-none",
-          )}
-        >
-          <Save className="size-3.5 shrink-0" />
-          <span>{!isCreatingNew ? t("saveChanges") : t("save")}</span>
-        </Button>
-
-        <Separator orientation="vertical" className="h-4" />
-
-        <Button
-          onClick={cancelCreationFlag}
-          variant="transparent"
-          size="none"
-          className="p-1 rounded-lg flex items-center justify-center text-zinc-muted hover:text-foreground hover:bg-white/5 transition-colors duration-150 shrink-0"
-        >
-          <X className="size-6 shrink-0" />
-        </Button>
       </div>
     </div>
   );

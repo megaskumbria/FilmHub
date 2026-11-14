@@ -20,7 +20,7 @@ interface Props {
 export const FlagListItem = ({ flagItem, scale, isActive, index }: Props) => {
   const { flagName, color, bgOpacity, id, icon, fontFamily } = flagItem;
 
-  const { ref, isDragging } = useSortable({
+  const { ref, handleRef, isDragging } = useSortable({
     id,
     index,
     type: scale.id,
@@ -88,17 +88,23 @@ export const FlagListItem = ({ flagItem, scale, isActive, index }: Props) => {
             >
               {isDeleting ?
                 <Loader2 className="size-4 animate-spin text-zinc-muted" />
-              : <Trash2 className="size-4 text-zinc-muted opacity-0 group-hover:opacity-100 hover:text-red-400 transition-all duration-150 cursor-pointer" />
+              : <Trash2 className="size-4 text-zinc-muted opacity-100 transition-all duration-150 cursor-pointer hover:text-red-400 [@media(hover:hover)]:lg:opacity-0 [@media(hover:hover)]:lg:group-hover:opacity-100" />
               }
             </Button>
           </div>
 
           <Separator
             orientation="vertical"
-            className="h-3 bg-border/40 transition-all duration-150 opacity-0 group-hover:opacity-100"
+            className="h-3 bg-border/40 opacity-100 transition-all duration-150 [@media(hover:hover)]:lg:opacity-0 [@media(hover:hover)]:lg:group-hover:opacity-100"
           />
 
-          <GripVertical className="cursor-grab size-4.5 text-zinc-muted opacity-0 group-hover:opacity-100 transition-all duration-150" />
+          <span
+            ref={handleRef}
+            data-vaul-no-drag
+            className="flex size-5 cursor-grab touch-none items-center justify-center active:cursor-grabbing"
+          >
+            <GripVertical className="size-4.5 text-zinc-muted opacity-100 transition-all duration-150 [@media(hover:hover)]:lg:opacity-0 [@media(hover:hover)]:lg:group-hover:opacity-100" />
+          </span>
         </div>
       </div>
     </li>

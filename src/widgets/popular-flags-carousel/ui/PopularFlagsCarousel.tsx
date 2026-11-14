@@ -1,16 +1,17 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ChevronLeft, ChevronRight, Crown } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PresetCardPack, PresetCardPackSkeleton } from "@/entities";
 import { useGetPresetPacks } from "@/shared/hooks";
 import "swiper/css";
 import "swiper/css/free-mode";
+import "swiper/css/pagination";
 import { Button } from "@/shared/ui";
 import { sliderNavigationButton } from "@/shared/lib";
 import { useRef, useState, useEffect } from "react";
 import type { Swiper as SwiperType } from "swiper";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import { useTranslations } from "next-intl";
 
 const SKELETON_ITEMS = Array.from({ length: 7 }, (_, index) => index);
@@ -70,14 +71,9 @@ export const PopularFlagsCarousel = () => {
 
   return (
     <section>
-      <div className="flex items-center gap-2.5 mb-5">
+      <div className="flex items-center gap-2.5">
         <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
         <h3 className="text-sm font-semibold text-foreground tracking-wide">{t("popular")}</h3>
-
-        <span className="ml-auto flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border border-gold/30 bg-gold/8 text-gold">
-          <Crown className="size-3" />
-          <span>PRO</span>
-        </span>
       </div>
 
       <div
@@ -85,7 +81,8 @@ export const PopularFlagsCarousel = () => {
         onMouseLeave={() => setIsNavigationVisible(false)}
       >
         <Swiper
-          modules={[Navigation]}
+          modules={[Navigation, Pagination]}
+          pagination={{ clickable: true }}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
             updateEdges(swiper);
@@ -93,14 +90,14 @@ export const PopularFlagsCarousel = () => {
           onSlideChange={updateEdges}
           spaceBetween={12}
           breakpoints={SWIPER_BREAKPOINTS}
-          className="relative"
+          className="relative pt-5! pb-9! [--swiper-pagination-bottom:0px] [--swiper-pagination-color:#9b56f0] [--swiper-pagination-bullet-inactive-color:#8a8a94] [--swiper-pagination-bullet-inactive-opacity:1]"
         >
           {isHideButtons && !isBeginning && (
             <Button
               onClick={handlePrev}
               disabled={isBeginning}
               size="icon"
-              className={sliderNavigationButton(isNavigationVisible, "left")}
+              className={`${sliderNavigationButton(isNavigationVisible, "left")} hidden lg:flex`}
             >
               <ChevronLeft className="size-5" />
             </Button>
@@ -123,7 +120,7 @@ export const PopularFlagsCarousel = () => {
             <Button
               onClick={handleNext}
               size="icon"
-              className={sliderNavigationButton(isNavigationVisible, "right")}
+              className={`${sliderNavigationButton(isNavigationVisible, "right")} hidden lg:flex`}
             >
               <ChevronRight className="size-5" />
             </Button>

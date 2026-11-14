@@ -20,7 +20,7 @@ export const PosterUploadSection = () => {
   const shouldShowText = mediaPreviewInfo && !isFlagEnabled;
 
   return (
-    <section className="h-165.25 relative rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-3 w-86">
+    <section className="sticky top-18 z-10 flex h-165.25 w-86 flex-col gap-3 rounded-xl border border-border/60 bg-surface-subtle p-4 max-lg:relative max-lg:top-auto max-lg:z-auto max-xs:mx-auto max-xs:h-auto max-xs:w-full max-xs:max-w-md">
       <DotGrid />
 
       <div className="flex items-center justify-between z-10">
@@ -40,11 +40,11 @@ export const PosterUploadSection = () => {
         </SettingsModal>
       </div>
 
-      <div className="flex-1 min-h-0 z-10">
+      <div className="z-10 min-h-0 flex-1 max-xs:h-auto max-xs:w-full max-xs:flex-none">
         <PosterUpload flagPreview={true} media={mediaPreviewInfo} />
       </div>
 
-      <div className="flex items-center gap-2 z-10 justify-center pt-2">
+      <div className="z-10 flex items-center justify-center gap-2 pt-2 max-xs:flex-wrap">
         <PosterPreviewActions
           onResetPreview={resetPosterPreview}
           onGetRandomPoster={handleGetRandomPoster}

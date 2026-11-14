@@ -114,6 +114,9 @@
 @theme {
   --font-unbounded: var(--font-unbounded), ui-sans-serif, system-ui, sans-serif;
   --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --breakpoint-xs: 650px;
+  --breakpoint-3xl: 1440px;
 }
 
 @layer base {

@@ -35,7 +35,8 @@ export const FlagScaleActions = ({
           data-editing={isEditing}
           variant="transparent"
           size="none"
-          className="data-[editing=true]:opacity-100 data-[editing=true]:bg-white/6 data-[editing=true]:text-foreground data-[state=open]:opacity-100 data-[state=open]:bg-white/6 data-[state=open]:text-foreground w-6 h-6 flex items-center justify-center shrink-0 rounded-md border border-transparent text-zinc-muted/70 opacity-0 group-hover/trigger:opacity-100 hover:border-border/70 hover:bg-white/6 hover:text-foreground transition-all"
+          onClick={(event) => event.stopPropagation()}
+          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-transparent text-zinc-muted/70 opacity-100 transition-all hover:border-border/70 hover:bg-white/6 hover:text-foreground data-[editing=true]:bg-white/6 data-[editing=true]:text-foreground data-[editing=true]:opacity-100 data-[state=open]:bg-white/6 data-[state=open]:text-foreground data-[state=open]:opacity-100 [@media(hover:hover)]:lg:opacity-0 [@media(hover:hover)]:lg:group-hover/trigger:opacity-100 [@media(hover:hover)]:lg:data-[editing=true]:opacity-100 [@media(hover:hover)]:lg:data-[state=open]:opacity-100"
         >
           <MoreHorizontal className="size-4" />
         </Button>

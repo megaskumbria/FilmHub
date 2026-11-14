@@ -18,7 +18,7 @@ export const PresetPackModalHeader = ({ presetPack }: Props) => {
 
   return (
     <DialogHeader
-      className="relative px-6 pt-6 pb-5 overflow-hidden"
+      className="relative overflow-hidden px-4 pt-4 pb-3 text-left md:px-6 md:pt-6 md:pb-5"
       style={{
         background: `linear-gradient(135deg, rgba(${accentRgb}, 0.12) 0%, rgba(${accentRgb}, 0.04) 60%, transparent 100%)`,
         borderBottom: `1px solid rgba(${accentRgb}, 0.15)`,
@@ -29,7 +29,7 @@ export const PresetPackModalHeader = ({ presetPack }: Props) => {
         style={{ backgroundColor: accentColor }}
       />
 
-      <div className="relative flex items-start justify-between gap-4">
+      <div className="relative flex items-start justify-between gap-3 md:gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1.5">
             <span
@@ -50,18 +50,18 @@ export const PresetPackModalHeader = ({ presetPack }: Props) => {
             </span>
           </div>
 
-          <DialogTitle className="text-xl font-bold text-foreground tracking-tight leading-tight">
+          <DialogTitle className="text-lg font-bold leading-tight tracking-tight text-foreground md:text-xl">
             {title}
           </DialogTitle>
 
-          <p className="text-sm text-zinc-muted mt-1 leading-relaxed">{description}</p>
+          <p className="mt-1 text-xs leading-relaxed text-zinc-muted md:text-sm">{description}</p>
         </div>
 
         <DialogClose
-          className="shrink-0 mt-0.5 size-7 flex items-center justify-center rounded-lg border border-border/40 bg-white/4 text-zinc-muted hover:text-foreground hover:bg-white/8 transition-colors cursor-pointer"
+          className="mt-0.5 flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-border/40 bg-white/4 text-zinc-muted transition-colors hover:bg-white/8 hover:text-foreground md:size-7"
           aria-label={t("close")}
         >
-          <X className="size-5" />
+          <X className="size-4 md:size-5" />
         </DialogClose>
       </div>
     </DialogHeader>

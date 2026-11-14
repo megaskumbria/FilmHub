@@ -37,15 +37,15 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent
-        className="w-full max-w-lg sm:max-w-lg p-0 gap-0 overflow-hidden bg-surface border-border/60"
+        className="w-full max-w-[calc(100%-1.5rem)] gap-0 overflow-hidden bg-surface p-0 border-border/60 max-md:max-h-[calc(100dvh-1.5rem)] max-md:overflow-y-auto md:max-w-lg"
         showCloseButton={false}
         aria-describedby={undefined}
       >
         <div className="flex flex-col">
           <PresetPackModalHeader presetPack={presetPack} />
 
-          <div className="px-6 py-4">
-            <div className="flex items-center gap-2 mb-3">
+          <div className="px-4 py-3 md:px-6 md:py-4">
+            <div className="mb-2 flex items-center gap-2 md:mb-3">
               <h3 className="text-xs font-semibold text-zinc-muted uppercase tracking-widest">
                 {t("flagsInPack")}
               </h3>
@@ -61,14 +61,14 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
               </span>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5 md:gap-2">
               {flags.map((flag, index) => (
                 <div
                   key={flag.id}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-border/30 bg-white/2 transition-all hover:bg-white/4 hover:border-border/50"
+                  className="flex items-center gap-2 rounded-xl border border-border/30 bg-white/2 px-2.5 py-1.5 transition-all hover:bg-white/4 hover:border-border/50 md:gap-3 md:px-3 md:py-2.5"
                 >
                   <span
-                    className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold"
+                    className="flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-bold md:size-6 md:text-sm"
                     style={{
                       backgroundColor: `rgba(${accentRgb}, 0.12)`,
                       color: accentColor,
@@ -84,18 +84,18 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
           </div>
 
           <DialogFooter
-            className="px-6 py-4 border-t border-border/40 flex-col"
+            className="flex-col border-t border-border/40 px-4 py-3 md:px-6 md:py-4"
             style={{
               background: `linear-gradient(to right, rgba(${accentRgb}, 0.04), transparent)`,
             }}
           >
-            <div className="flex items-center gap-2 mb-3">
+            <div className="mb-2 flex items-center gap-2 md:mb-3">
               <div
-                className="w-0.5 h-10 rounded-full shrink-0 shadow-sm"
+                className="h-8 w-0.5 shrink-0 rounded-full shadow-sm md:h-10"
                 style={{ backgroundColor: accentColor }}
               />
 
-              <p className="text-sm text-zinc-muted leading-relaxed">
+              <p className="text-xs leading-relaxed text-zinc-muted md:text-sm">
                 {t.rich("addHint", {
                   name: scaleName,
                   strong: (chunks) => (
@@ -109,7 +109,7 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
               variant="transparent"
               size="default"
               className={cn(
-                "w-full rounded-xl gap-2 hover:opacity-80 transition-all duration-200 active:scale-95",
+                "h-8 w-full gap-2 rounded-xl transition-all duration-200 hover:opacity-80 active:scale-95 md:h-9",
                 isActionDisabled && "opacity-50 pointer-events-none",
               )}
               style={{
@@ -118,11 +118,11 @@ export const PresetPackModal = ({ presetPack, children }: Props) => {
               onClick={() => void handleAddPresetPack()}
               disabled={isActionDisabled}
             >
-              <FolderPlus className="size-5 shrink-0" />
+              <FolderPlus className="size-4 shrink-0 md:size-5" />
 
               <span className="font-semibold">{buttonLabel}</span>
 
-              {isAdded && <Check className="ml-auto size-5 shrink-0" />}
+              {isAdded && <Check className="ml-auto size-4 shrink-0 md:size-5" />}
             </Button>
           </DialogFooter>
         </div>

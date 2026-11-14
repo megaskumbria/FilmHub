@@ -59,7 +59,7 @@ export const FlagColorPicker = memo(() => {
   const { r, g, b } = parseColor(frameColor);
 
   return (
-    <div className="relative max-w-120 h-full overflow-hidden rounded-xl border border-border/60 bg-surface-subtle p-4">
+    <div className="relative h-full max-w-none overflow-hidden rounded-xl border border-border/60 bg-surface-subtle p-4 3xl:max-w-120">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-6 -top-20 h-48 rounded-full opacity-25 blur-3xl transition-colors duration-300"
