@@ -1,13 +1,4 @@
-import {
-  BarChart3,
-  Clapperboard,
-  Flag,
-  Folder,
-  Info,
-  LucideIcon,
-  Settings,
-  Users,
-} from "lucide-react";
+import { Clapperboard, Flag, Info, LucideIcon, Settings, Users } from "lucide-react";
 import { ActionButton } from "../ui/ActionButton";
 import { SettingsModal, FollowersSheet } from "@/widgets";
 import { SheetTrigger } from "@/shared/ui";
@@ -40,24 +31,24 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
           </FollowersSheet>
         ),
       },
-      {
-        icon: BarChart3,
-        labelKey: "statistics",
-        render: (label) => (
-          <ActionButton icon={BarChart3} soon={true}>
-            {label}
-          </ActionButton>
-        ),
-      },
-      {
-        icon: Folder,
-        labelKey: "achievements",
-        render: (label) => (
-          <ActionButton icon={Folder} soon={true}>
-            {label}
-          </ActionButton>
-        ),
-      },
+      // {
+      //   icon: BarChart3,
+      //   labelKey: "statistics",
+      //   render: (label) => (
+      //     <ActionButton icon={BarChart3} soon={true}>
+      //       {label}
+      //     </ActionButton>
+      //   ),
+      // },
+      // {
+      //   icon: Folder,
+      //   labelKey: "achievements",
+      //   render: (label) => (
+      //     <ActionButton icon={Folder} soon={true}>
+      //       {label}
+      //     </ActionButton>
+      //   ),
+      // },
     ],
   },
   {

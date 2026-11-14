@@ -9,7 +9,7 @@ import {
   AvatarFallback,
 } from "@/shared/ui";
 import { UserActions } from "./UserActions";
-import { LangToggle, LogoutButton, SupportProject } from "@/features";
+import { LangToggle, LogoutButton } from "@/features";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useAuthStore, type User } from "@/features/auth";
@@ -64,7 +64,7 @@ export const UserMenu = ({ initialUser }: Props) => {
 
         <UserActions />
 
-        <SupportProject />
+        {/* <SupportProject /> */}
 
         <Separator decorative orientation="horizontal" />
 
