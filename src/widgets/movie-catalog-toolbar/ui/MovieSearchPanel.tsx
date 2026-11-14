@@ -38,8 +38,7 @@ export const MovieSearchPanel = () => {
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Escape" && e.currentTarget.blur()}
         placeholder={t("search")}
-        variant="neutral"
-        className="h-11 rounded-full pl-11 pr-12 text-sm shadow-none [&::-webkit-search-cancel-button]:hidden focus-visible:shadow-[0_0_0_4px_color-mix(in_srgb,var(--accent)_15%,transparent)]"
+        variant="search"
       />
 
       <AnimatePresence initial={false} mode="wait">

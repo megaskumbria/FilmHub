@@ -22,6 +22,8 @@ const inputVariants = cva(
           "rounded-lg bg-graphite border-border/40 placeholder:text-zinc-muted focus-visible:border-accent/50 focus-visible:ring-0 focus-visible:ring-accent/20 focus-visible:outline-none transition-all",
         underline:
           "rounded-none border-0 border-b border-border/60 shadow-none placeholder:text-zinc-muted/60 focus-visible:border-accent focus-visible:ring-0 transition-colors",
+        search:
+          "rounded-full border-border/40 bg-graphite shadow-none placeholder:text-zinc-muted transition-colors [&::-webkit-search-cancel-button]:hidden focus-visible:border-accent focus-visible:ring-0 focus-visible:shadow-none focus-visible:outline-none",
       },
       inputSize: {
         none: "h-auto p-0",
@@ -34,6 +36,12 @@ const inputVariants = cva(
       variant: "default",
       inputSize: "default",
     },
+    compoundVariants: [
+      {
+        variant: "search",
+        class: "h-11 py-0 pl-11 pr-12 text-sm",
+      },
+    ],
   },
 );
 

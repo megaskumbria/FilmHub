@@ -1,7 +1,5 @@
 import { useTranslations } from "next-intl";
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
-import { ArrowUpDown } from "lucide-react";
-import { motion } from "framer-motion";
 import { DATA_FEED_SORT_OPTIONS } from "../model/dataFeedSortOptions";
 import { useCollectionsFeedStore } from "../model/collectionsFeed.store";
 
@@ -10,34 +8,22 @@ export const FeedSortSelect = () => {
   const { sort, setFilter } = useCollectionsFeedStore();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.2 }}
-      className="space-y-2"
-    >
-      <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
-        <ArrowUpDown className="size-3.5" />
-        {t("sort")}
-      </Label>
+    <div className="flex flex-col gap-2">
+      <Label className="px-0.5 text-[13px] font-medium text-zinc-muted">{t("sort")}</Label>
 
       <Select value={sort} onValueChange={(value) => setFilter({ sort: value })}>
-        <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
+        <SelectTrigger variant="neutral">
           <SelectValue placeholder={t("sortPlaceholder")} />
         </SelectTrigger>
 
-        <SelectContent
-          position="popper"
-          sideOffset={8}
-          className="bg-graphite border-border/40 shadow-xl"
-        >
+        <SelectContent variant="neutral" position="popper" sideOffset={8}>
           {DATA_FEED_SORT_OPTIONS.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
+            <SelectItem hideCheckIcon variant="neutral" key={option.value} value={option.value}>
               {t(`sortOptions.${option.value}`)}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
-    </motion.div>
+    </div>
   );
 };

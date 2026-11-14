@@ -2,7 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { Popover, PopoverTrigger, PopoverContent, Button } from "@/shared/ui";
-import { Filter, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
+import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   FeedGenreSelect,
@@ -20,23 +21,23 @@ export const FilterFeed = () => {
   return (
     <Popover>
       <PopoverTrigger asChild className="group">
-        <Button className="flex justify-center gap-x-2 relative h-9 px-2.5 max-w-32 w-full rounded-lg bg-graphite border border-border/40 hover:bg-surface hover:border-accent/30 shadow-sm hover:shadow-accent/10 transition-all duration-300 text-sm font-medium">
-          <Filter className="size-4 group-data-[state=open]:rotate-90 transition-transform duration-300" />
+        <Button className="relative shrink-0 h-11 gap-x-2 rounded-full border border-border/40 bg-graphite px-4 hover:border-accent/40 hover:bg-surface data-[state=open]:border-accent/50 data-[state=open]:bg-surface transition-colors duration-300">
+          <IconAdjustmentsHorizontal className="size-4.5 text-zinc-muted group-hover:text-accent group-data-[state=open]:text-accent transition-colors" />
 
-          <span>{t("filters")}</span>
+          <span className="hidden text-sm font-medium sm:inline">{t("filters")}</span>
 
           <AnimatePresence>
             {hasActiveFilters && (
-              <motion.div
+              <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                className="absolute -top-1 -right-1 size-5 rounded-full bg-accent border-2 border-background flex items-center justify-center"
+                className="flex size-5 items-center justify-center rounded-full bg-accent"
               >
-                <span className="text-[10px] font-bold text-white">
+                <span className="text-sm font-semibold leading-none text-accent-foreground">
                   {[genreId, sort, quantity].filter(Boolean).length}
                 </span>
-              </motion.div>
+              </motion.span>
             )}
           </AnimatePresence>
         </Button>
@@ -44,48 +45,44 @@ export const FilterFeed = () => {
 
       <PopoverContent
         align="end"
-        className="w-80 p-0 rounded-2xl bg-surface border border-border/40 shadow-2xl shadow-accent/5 overflow-hidden"
+        sideOffset={8}
+        className="w-80 overflow-hidden rounded-2xl border border-border/50 bg-graphite p-0 shadow-2xl"
       >
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <header className="px-5 py-4 border-b border-border/50 bg-linear-to-br from-accent/5 to-transparent">
-            <div className="flex items-center gap-2">
-              <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
-                <Filter className="size-4 text-accent" />
-              </div>
-              <h3 className="font-semibold text-base">{t("filterTitle")}</h3>
-            </div>
-          </header>
+        <div className="px-4 pt-4">
+          <h3 className="font-unbounded text-sm font-semibold tracking-tight text-foreground">
+            {t("filterTitle")}
+          </h3>
+        </div>
 
-          <div className="p-4 space-y-4">
-            <FeedGenreSelect />
-            <MediaCountSelect />
-            <FeedSortSelect />
-          </div>
+        <div className="flex flex-col gap-4 px-4 py-4">
+          <FeedGenreSelect />
+          <MediaCountSelect />
+          <FeedSortSelect />
+        </div>
 
-          <AnimatePresence>
-            {hasActiveFilters && (
-              <motion.footer
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "65px" }}
-                exit={{ opacity: 0, height: "0px" }}
-                className="px-4 pb-4 pt-2 border-t border-border/50 overflow-hidden"
-              >
+        <AnimatePresence initial={false}>
+          {hasActiveFilters && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="overflow-hidden"
+            >
+              <div className="border-t border-border/50 px-4 pt-3 pb-4">
                 <Button
+                  type="button"
                   onClick={resetFilter}
-                  className="active:scale-95 w-full h-10 rounded-lg flex items-center justify-center gap-2"
                   variant="accent"
+                  className="h-10 w-full gap-2 rounded-lg active:scale-[0.98]"
                 >
                   <RotateCcw className="size-4" />
-                  <span>{t("reset")}</span>
+                  {t("reset")}
                 </Button>
-              </motion.footer>
-            )}
-          </AnimatePresence>
-        </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </PopoverContent>
     </Popover>
   );

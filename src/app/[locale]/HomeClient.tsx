@@ -6,13 +6,14 @@ import { FilterFeed } from "@/widgets";
 import { useQuery } from "@tanstack/react-query";
 import { CollectionDeck } from "@/entities";
 import { useCollectionsFeedStore } from "@/features/feed-filter";
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/shared/ui";
+import { Button, Input } from "@/shared/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, X } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const HomeClient = () => {
   const t = useTranslations("home");
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
@@ -33,23 +34,20 @@ export const HomeClient = () => {
 
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 w-full">
-            <p className="text-sm text-muted shrink-0">
-              {t("collections", { count: collectionsCount ?? 0 })}
-            </p>
+            <search className="group/search relative w-full max-w-80">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-muted transition-colors pointer-events-none group-focus-within/search:text-accent" />
 
-            <InputGroup className="max-w-82 w-full h-9 rounded-full bg-surface border border-border shadow-sm hover:border-zinc-muted/60 focus-within:bg-surface-elevated transition-all duration-200">
-              <InputGroupAddon>
-                <Search className="size-4 text-zinc-light" />
-              </InputGroupAddon>
-
-              <InputGroupInput
+              <Input
+                ref={inputRef}
+                type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Escape" && e.currentTarget.blur()}
                 placeholder={t("search")}
-                className="placeholder:text-muted text-foreground"
+                variant="search"
               />
 
-              <AnimatePresence>
+              <AnimatePresence initial={false} mode="wait">
                 {searchQuery && (
                   <motion.div
                     key="clear-search"
@@ -57,19 +55,32 @@ export const HomeClient = () => {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-2"
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
                   >
-                    <InputGroupButton
-                      size="icon-xs"
-                      className="size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center"
-                      onClick={() => setSearchQuery("")}
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        setSearchQuery("");
+                        inputRef.current?.focus();
+                      }}
+                      className="group size-6 rounded-full bg-muted/15 hover:bg-accent/20 transition-colors"
                     >
-                      <X className="size-3.5 text-muted " />
-                    </InputGroupButton>
+                      <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
+                    </Button>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </InputGroup>
+            </search>
+
+            <p className="flex items-end gap-2.5 shrink-0">
+              <span className="font-unbounded text-3xl font-semibold tabular-nums tracking-tight leading-none text-foreground">
+                {collectionsCount ?? 0}
+              </span>
+
+              <span className="text-lg text-zinc-light leading-6">
+                {t("collections", { count: collectionsCount ?? 0 })}
+              </span>
+            </p>
           </div>
 
           <FilterFeed />

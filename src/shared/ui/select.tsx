@@ -1,10 +1,49 @@
 "use client";
 
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui";
 
 import { cn } from "@/shared/lib/utils";
+
+const selectTriggerVariants = cva("", {
+  variants: {
+    variant: {
+      default: "hover:bg-success",
+      neutral:
+        "h-11 w-full rounded-xl border-border/60 bg-background px-3.5 shadow-none hover:border-accent/40 hover:bg-background focus-visible:border-accent/50 focus-visible:ring-0 data-[size=default]:h-11 data-[state=open]:border-accent/50 data-[state=open]:bg-background",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+const selectContentVariants = cva("", {
+  variants: {
+    variant: {
+      default: "",
+      neutral: "z-[70] max-h-72 rounded-xl border-border/60 bg-graphite p-1.5 shadow-2xl",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+const selectItemVariants = cva("", {
+  variants: {
+    variant: {
+      default: "focus:bg-success focus:text-accent-foreground hover:bg-success",
+      neutral:
+        "rounded-lg py-2 pr-3 pl-3 text-foreground hover:bg-white/6 hover:text-foreground focus:bg-white/6 focus:text-foreground data-[highlighted]:bg-white/6 data-[state=checked]:bg-accent/12 data-[state=checked]:text-accent data-[state=checked]:hover:bg-accent/16 data-[state=checked]:focus:bg-accent/16",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
 function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
   return <SelectPrimitive.Root data-slot="select" {...props} />;
@@ -20,18 +59,22 @@ function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.V
 
 function SelectTrigger({
   className,
+  variant = "default",
   size = "default",
   children,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
-  size?: "sm" | "default";
-}) {
+}: React.ComponentProps<typeof SelectPrimitive.Trigger>
+  & VariantProps<typeof selectTriggerVariants> & {
+    size?: "sm" | "default";
+  }) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       data-size={size}
+      data-variant={variant}
       className={cn(
-        "cursor-pointer hover:bg-success group border-border border data-placeholder:text-muted [&_svg:not([class*='text-'])]:text-muted focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "cursor-pointer group border-border border data-placeholder:text-muted [&_svg:not([class*='text-'])]:text-muted focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        selectTriggerVariants({ variant }),
         className,
       )}
       {...props}
@@ -47,18 +90,22 @@ function SelectTrigger({
 function SelectContent({
   className,
   children,
+  variant = "default",
   position = "item-aligned",
   align = "center",
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Content>) {
+}: React.ComponentProps<typeof SelectPrimitive.Content>
+  & VariantProps<typeof selectContentVariants>) {
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         data-slot="select-content"
+        data-variant={variant}
         className={cn(
           "bg-surface text-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-32 origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border border-border shadow-md",
           position === "popper"
             && "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+          selectContentVariants({ variant }),
           className,
         )}
         position={position}
@@ -94,16 +141,20 @@ function SelectLabel({ className, ...props }: React.ComponentProps<typeof Select
 function SelectItem({
   className,
   children,
+  variant = "default",
   hideCheckIcon,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item> & {
-  hideCheckIcon?: boolean;
-}) {
+}: React.ComponentProps<typeof SelectPrimitive.Item>
+  & VariantProps<typeof selectItemVariants> & {
+    hideCheckIcon?: boolean;
+  }) {
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
+      data-variant={variant}
       className={cn(
-        "focus:bg-success focus:text-accent-foreground hover:bg-success [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-pointer items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        "[&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-pointer items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        selectItemVariants({ variant }),
         className,
       )}
       {...props}
@@ -177,4 +228,7 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  selectContentVariants,
+  selectItemVariants,
+  selectTriggerVariants,
 };

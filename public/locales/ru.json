@@ -376,8 +376,8 @@
     }
   },
   "home": {
-    "title": "Листайте полки",
-    "collections": "{count, plural, one {# коллекция} few {# коллекции} many {# коллекций} other {# коллекций}}",
+    "title": "Что собирают другие",
+    "collections": "{count, plural, one {коллекция} few {коллекции} many {коллекций} other {коллекций}}",
     "search": "Поиск коллекций...",
     "filters": "Фильтры",
     "filterTitle": "Фильтр коллекций",

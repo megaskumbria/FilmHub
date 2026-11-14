@@ -19,7 +19,6 @@ import { motion } from "framer-motion";
 import { useFilterMedia } from "../model/filter-media-store";
 import { useCountries } from "@/shared/hooks";
 import type { Country } from "@/shared/hooks/useCountries";
-import { EarthIcon } from "@/shared/icons";
 import { LockKeyholeIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -30,23 +29,15 @@ export const CountrySelect = () => {
   const { data: dataCountries = [], isLoading } = useCountries();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.2 }}
-      className="space-y-2"
-    >
-      <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
-        <EarthIcon className="size-3.5" />
-        {t("country")}
-      </Label>
+    <div className="flex flex-col gap-2">
+      <Label className="px-0.5 text-[13px] font-medium text-zinc-muted">{t("country")}</Label>
 
       <div ref={countryAnchorRef} className="relative w-full">
         {isFrozenFilterCountry && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute inset-0 z-10 rounded-lg select-none"
+            className="absolute inset-0 z-10 rounded-xl select-none"
             style={{
               background:
                 "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--destructive) 8%, transparent) 40%, color-mix(in srgb, var(--destructive) 14%, transparent) 100%)",
@@ -78,13 +69,13 @@ export const CountrySelect = () => {
         >
           <ComboboxInput
             placeholder={t("countryPlaceholder")}
-            className="py-2 w-full rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors"
+            className="h-11 w-full rounded-xl border-border/60 bg-background shadow-none transition-colors hover:border-accent/40 has-[[data-slot=input-group-control]:focus-visible]:border-accent has-[[data-slot=input-group-control]:focus-visible]:ring-0"
             disabled={isFrozenFilterCountry}
           />
 
           <ComboboxContent
             anchor={countryAnchorRef}
-            className="bg-graphite border-border/40 shadow-xl"
+            className="z-70 max-h-72 rounded-xl border border-border/60 bg-graphite p-1.5 shadow-2xl ring-0"
           >
             <ComboboxEmpty>
               <div className="p-4 text-sm text-muted">{t("countryEmpty")}</div>
@@ -98,7 +89,11 @@ export const CountrySelect = () => {
                   ))}
                 </div>
               : (country: Country) => (
-                  <ComboboxItem key={country.iso31661} value={country}>
+                  <ComboboxItem
+                    key={country.iso31661}
+                    value={country}
+                    className="rounded-lg py-2 pr-3 pl-3 data-highlighted:bg-white/6 data-highlighted:text-foreground **:data-[slot=combobox-item-indicator]:hidden"
+                  >
                     {country.nativeName}
                   </ComboboxItem>
                 )
@@ -107,6 +102,6 @@ export const CountrySelect = () => {
           </ComboboxContent>
         </Combobox>
       </div>
-    </motion.div>
+    </div>
   );
 };

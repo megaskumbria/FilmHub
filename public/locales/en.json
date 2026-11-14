@@ -376,8 +376,8 @@
     }
   },
   "home": {
-    "title": "Browse the shelves",
-    "collections": "{count, plural, one {# collection} other {# collections}}",
+    "title": "What others are collecting",
+    "collections": "{count, plural, one {collection} other {collections}}",
     "search": "Search collections...",
     "filters": "Filters",
     "filterTitle": "Collection filter",

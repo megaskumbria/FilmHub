@@ -1,8 +1,6 @@
 "use client";
 
 import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui";
-import { Calendar } from "lucide-react";
-import { motion } from "framer-motion";
 import { DATA_YEARS } from "../model/dataYears";
 import { useFilterMedia } from "../model/filter-media-store";
 import { useTranslations } from "next-intl";
@@ -12,29 +10,17 @@ export const YearSelect = () => {
   const { selectedYear, setSelectedYear } = useFilterMedia();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.15 }}
-      className="space-y-2"
-    >
-      <Label className="text-xs font-medium text-muted flex items-center gap-1.5">
-        <Calendar className="size-3.5" />
-        {t("year")}
-      </Label>
+    <div className="flex flex-col gap-2">
+      <Label className="px-0.5 text-[13px] font-medium text-zinc-muted">{t("year")}</Label>
 
       <Select value={selectedYear} onValueChange={setSelectedYear}>
-        <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
+        <SelectTrigger variant="neutral">
           <SelectValue placeholder={t("yearPlaceholder")} />
         </SelectTrigger>
 
-        <SelectContent
-          position="popper"
-          sideOffset={8}
-          className="bg-graphite border-border/40 shadow-xl"
-        >
+        <SelectContent variant="neutral" position="popper" sideOffset={8}>
           {DATA_YEARS.map((year) => (
-            <SelectItem key={year.value} value={year.value}>
+            <SelectItem hideCheckIcon variant="neutral" key={year.value} value={year.value}>
               {year.value === "before-1990" || year.value === "2020-today" ?
                 t(`years.${year.value}`)
               : year.label}
@@ -42,6 +28,6 @@ export const YearSelect = () => {
           ))}
         </SelectContent>
       </Select>
-    </motion.div>
+    </div>
   );
 };

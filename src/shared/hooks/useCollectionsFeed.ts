@@ -1,6 +1,5 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
-import { type QuantitySortOption, type SortOption } from "@/features/feed-filter";
 import { apiClient } from "../api/api-client";
 
 interface OwnerCollection {
@@ -23,8 +22,8 @@ export interface CollectionFeedItem {
 
 interface CollectionsFeedArgs {
   genreId?: string;
-  sort?: SortOption;
-  quantity?: QuantitySortOption;
+  sort?: string;
+  quantity?: string;
   searchQuery?: string;
   token?: string;
 }
