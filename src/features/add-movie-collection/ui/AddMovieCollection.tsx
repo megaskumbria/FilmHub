@@ -1,8 +1,8 @@
 "use client";
 
 import { Button, Input } from "@/shared/ui";
-import Link from "next/link";
 import { IconLoader2, IconPlus, IconSearch } from "@tabler/icons-react";
+import { CreateCollectionModal } from "@/widgets";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
 import { useAddMediaToCollection, collectionQueryOptions } from "@/shared/hooks";
@@ -106,12 +106,13 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
         : !hasCollections ?
           <li className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-white/10 px-6 py-8 text-center">
             <p className="text-sm text-zinc-muted">{t("noCollections")}</p>
-            <Button asChild variant="accent" size="sm" className="rounded-lg text-white">
-              <Link href="/my-collections">
+
+            <CreateCollectionModal isEditing={false}>
+              <Button type="button" variant="accent" size="sm" className="rounded-lg text-white">
                 <IconPlus className="size-4" />
                 {t("new")}
-              </Link>
-            </Button>
+              </Button>
+            </CreateCollectionModal>
           </li>
         : filteredCollections?.length === 0 ?
           <li className="py-8 text-center text-sm text-zinc-muted">{t("empty")}</li>
@@ -129,16 +130,16 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
 
       {hasCollections && (
         <footer className="flex items-center justify-between gap-3 border-t border-border/40 px-3 py-3">
-          <Button
-            asChild
-            size="sm"
-            className="text-sm text-zinc-muted hover:text-foreground transition-colors"
-          >
-            <Link href="/my-collections">
+          <CreateCollectionModal isEditing={false}>
+            <Button
+              type="button"
+              size="sm"
+              className="text-sm text-zinc-muted hover:text-foreground transition-colors"
+            >
               <IconPlus className="size-4" />
               {t("new")}
-            </Link>
-          </Button>
+            </Button>
+          </CreateCollectionModal>
 
           <Button
             variant="accent"
