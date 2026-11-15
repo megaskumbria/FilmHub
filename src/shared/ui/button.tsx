@@ -26,6 +26,7 @@ const buttonVariants = cva(
           "border border-border bg-background/60 text-zinc-muted hover:border-zinc-muted hover:text-foreground transition-colors",
         glass:
           "border border-white/15 bg-black/45 text-white backdrop-blur-md hover:bg-black/65 transition-colors",
+        tile: "relative w-full justify-start text-left overflow-hidden rounded-xl border border-white/6 bg-white/2 hover:border-white/15 hover:bg-white/4 transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-45",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

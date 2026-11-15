@@ -2,7 +2,7 @@
 
 import { Button, Input } from "@/shared/ui";
 import Link from "next/link";
-import { Loader2, Plus, Search } from "lucide-react";
+import { IconLoader2, IconPlus, IconSearch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/features/auth/model/auth.store";
 import { useAddMediaToCollection, collectionQueryOptions } from "@/shared/hooks";
@@ -12,6 +12,8 @@ import { MediaType } from "@/shared/stores/movie-catalog";
 import { useTranslations } from "next-intl";
 
 const IS_MY_COLLECTION = true;
+const SEARCH_VISIBLE_FROM = 5;
+const MAX_SELECTED_DOTS = 4;
 
 interface Props {
   mediaId: number;
@@ -42,9 +44,19 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
   } = useQuery(collectionQueryOptions({ userId, isMyCollection: IS_MY_COLLECTION, mediaId }));
   const { mutate: addMediaToCollection, isPending } = useAddMediaToCollection();
 
-  const filteredCollections = collections?.filter((collection) =>
-    collection.collectionName.toLowerCase().includes(collectionSearch.toLowerCase()),
-  );
+  const filteredCollections = collections
+    ?.filter((collection) =>
+      collection.collectionName.toLowerCase().includes(collectionSearch.toLowerCase()),
+    )
+    .sort((a, b) => Number(a.hasMedia) - Number(b.hasMedia));
+
+  const selectedColors =
+    collections?.filter(({ id }) => selectedCollections.has(id)).map(({ colorHex }) => colorHex)
+    ?? [];
+
+  const hasCollections = (collections?.length ?? 0) > 0;
+  const isSearchVisible = (collections?.length ?? 0) >= SEARCH_VISIBLE_FROM;
+  const isAdding = isPending || isFetching;
 
   const handleAddMediaToCollection = () => {
     const collectionIds = Array.from(selectedCollections);
@@ -56,78 +68,108 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
     if (!isPending && !isFetching) setSelectedCollections(new Set());
   }, [isPending, isFetching]);
 
-  const selectedCount = selectedCollections.size > 0 ? ` (${selectedCollections.size})` : "";
-
   return (
-    <div className="flex flex-col w-80">
-      <header className="flex items-center justify-between px-3.5 py-3 border-b border-border/40 bg-linear-to-r from-accent/5 via-transparent to-transparent">
-        <div className="flex items-center gap-2.5">
-          <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-          <span className="text-sm font-semibold text-foreground tracking-wide">{t("title")}</span>
-        </div>
+    <section className="flex flex-col w-88">
+      <header className="flex items-baseline justify-between gap-3 px-4 pt-4 pb-3">
+        <h2 className="text-[15px] font-semibold text-foreground">{t("title")}</h2>
 
         {selectedCollections.size > 0 && (
-          <span className="text-xs text-zinc-muted">
+          <span className="text-xs text-zinc-muted tabular-nums">
             {t("selected", { count: selectedCollections.size })}
           </span>
         )}
       </header>
 
-      <nav className="p-2.5">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-muted pointer-events-none" />
-          <Input
-            variant="neutral"
-            placeholder={t("search")}
-            className="pl-7 pr-2 text-sm h-9"
-            value={collectionSearch}
-            onChange={(e) => setCollectionSearch(e.target.value)}
-          />
-        </div>
-      </nav>
-
-      <div className="overflow-y-auto max-h-80 px-2 pb-2 drawer-scroll flex flex-col gap-2">
-        {isLoading ?
-          Array.from({ length: 3 }).map((_, i) => <CollectionCompactCardSkeleton key={i} />)
-        : filteredCollections?.length === 0 ?
-          <div className="py-6 text-center text-xs text-zinc-muted">{t("empty")}</div>
-        : filteredCollections?.map((collection) => (
-            <CollectionCompactCard
-              key={collection.id}
-              collection={collection}
-              isSelected={selectedCollections.has(collection.id)}
-              toggleCollection={toggleCollection}
+      {isSearchVisible && (
+        <search className="px-3 pb-3">
+          <div className="relative">
+            <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
+            <Input
+              type="search"
+              variant="neutral"
+              placeholder={t("search")}
+              className="pl-9 pr-3 text-sm h-9"
+              value={collectionSearch}
+              onChange={(e) => setCollectionSearch(e.target.value)}
             />
+          </div>
+        </search>
+      )}
+
+      <ul className="overflow-y-auto max-h-84 px-3 pb-3 drawer-scroll flex flex-col gap-1.5">
+        {isLoading ?
+          Array.from({ length: 3 }).map((_, i) => (
+            <li key={i}>
+              <CollectionCompactCardSkeleton />
+            </li>
+          ))
+        : !hasCollections ?
+          <li className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-white/10 px-6 py-8 text-center">
+            <p className="text-sm text-zinc-muted">{t("noCollections")}</p>
+            <Button asChild variant="accent" size="sm" className="rounded-lg text-white">
+              <Link href="/my-collections">
+                <IconPlus className="size-4" />
+                {t("new")}
+              </Link>
+            </Button>
+          </li>
+        : filteredCollections?.length === 0 ?
+          <li className="py-8 text-center text-sm text-zinc-muted">{t("empty")}</li>
+        : filteredCollections?.map((collection) => (
+            <li key={collection.id}>
+              <CollectionCompactCard
+                collection={collection}
+                isSelected={selectedCollections.has(collection.id)}
+                toggleCollection={toggleCollection}
+              />
+            </li>
           ))
         }
-      </div>
+      </ul>
 
-      <footer className="px-3 py-2.5 border-t border-border/40 flex items-center justify-between">
-        <Link
-          href="/my-collections"
-          className="flex items-center gap-1.5 text-zinc-muted hover:text-foreground transition-colors"
-        >
-          <Plus className="size-3.5 shrink-0" />
-          <span className="text-sm">{t("new")}</span>
-        </Link>
+      {hasCollections && (
+        <footer className="flex items-center justify-between gap-3 border-t border-border/40 px-3 py-3">
+          <Button
+            asChild
+            size="sm"
+            className="text-sm text-zinc-muted hover:text-foreground transition-colors"
+          >
+            <Link href="/my-collections">
+              <IconPlus className="size-4" />
+              {t("new")}
+            </Link>
+          </Button>
 
-        <Button
-          disabled={selectedCollections.size === 0}
-          className="h-8 px-4 text-sm rounded-lg bg-accent hover:bg-accent/90 text-white transition-all disabled:opacity-30 disabled:pointer-events-none"
-          onClick={handleAddMediaToCollection}
-        >
-          {isPending || isFetching ?
-            <div className="flex items-center gap-1.5">
-              <Loader2 className="size-3.5 animate-spin" />
-              <span>{t("adding")}</span>
-            </div>
-          : <span>
-              {t("add")}
-              {selectedCount}
-            </span>
-          }
-        </Button>
-      </footer>
-    </div>
+          <Button
+            variant="accent"
+            size="sm"
+            disabled={selectedCollections.size === 0 || isAdding}
+            className="rounded-lg px-4 text-sm font-medium text-white disabled:opacity-35"
+            onClick={handleAddMediaToCollection}
+          >
+            {isAdding ?
+              <>
+                <IconLoader2 className="size-4 animate-spin" />
+                {t("adding")}
+              </>
+            : <>
+                {selectedColors.length > 0 && (
+                  <span className="flex -space-x-1">
+                    {selectedColors.slice(0, MAX_SELECTED_DOTS).map((color, i) => (
+                      <span
+                        key={i}
+                        className="size-2.5 rounded-full ring-2 ring-accent"
+                        style={{ backgroundColor: color }}
+                      />
+                    ))}
+                  </span>
+                )}
+                {t("add")}
+              </>
+            }
+          </Button>
+        </footer>
+      )}
+    </section>
   );
 };

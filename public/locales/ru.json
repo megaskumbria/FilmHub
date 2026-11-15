@@ -533,9 +533,12 @@
     "duration": "{hours} ч {minutes} мин",
     "minutes": "{minutes} мин",
     "collections": {
-      "title": "Коллекции",
+      "title": "Сохранить в коллекцию",
       "search": "Поиск коллекций...",
       "empty": "Коллекций не найдено",
+      "noCollections": "У вас пока нет коллекций. Создайте первую, чтобы собирать в неё фильмы.",
+      "films": "{count, plural, one {# фильм} few {# фильма} many {# фильмов} other {# фильма}}",
+      "added": "Уже здесь",
       "selected": "{count, plural, one {# выбрана} few {# выбраны} many {# выбрано} other {# выбрано}}",
       "new": "Новая коллекция",
       "add": "Добавить",

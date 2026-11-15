@@ -533,9 +533,12 @@
     "duration": "{hours}h {minutes}m",
     "minutes": "{minutes}m",
     "collections": {
-      "title": "Collections",
+      "title": "Save to collection",
       "search": "Search collections...",
       "empty": "No collections found",
+      "noCollections": "You don't have any collections yet. Create one to start saving movies.",
+      "films": "{count, plural, one {# film} other {# films}}",
+      "added": "Already here",
       "selected": "{count} selected",
       "new": "New collection",
       "add": "Add",
