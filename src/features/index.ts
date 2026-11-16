@@ -17,7 +17,7 @@ export { FeedGenreSelect, FeedSortSelect } from "./feed-filter";
 export { CreateCollection } from "./create-folder";
 export { FolderMetaBar } from "./folder-meta-bar";
 export { SetMediaFlags } from "./set-media-flags";
-export { AddMovieCollection } from "./add-movie-collection";
+export { AddMovieCollection, AddMovieCollectionMenu } from "./add-movie-collection";
 export { FloatingEditBar } from "./floating-edit-bar";
 export { FloatingCreationFlagBar } from "./floating-creation-flag-bar";
 export { FlagListItem } from "./flag-list-item";

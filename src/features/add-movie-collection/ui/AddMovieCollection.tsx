@@ -69,12 +69,12 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
   }, [isPending, isFetching]);
 
   return (
-    <section className="flex flex-col w-88">
+    <section className="flex w-full min-w-0 flex-col">
       <header className="flex items-baseline justify-between gap-3 px-4 pt-4 pb-3">
-        <h2 className="text-[15px] font-semibold text-foreground">{t("title")}</h2>
+        <h2 className="min-w-0 text-[15px] font-semibold text-foreground">{t("title")}</h2>
 
         {selectedCollections.size > 0 && (
-          <span className="text-xs text-zinc-muted tabular-nums">
+          <span className="shrink-0 text-xs text-zinc-muted tabular-nums">
             {t("selected", { count: selectedCollections.size })}
           </span>
         )}
@@ -96,7 +96,7 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
         </search>
       )}
 
-      <ul className="overflow-y-auto max-h-84 px-3 pb-3 drawer-scroll flex flex-col gap-1.5">
+      <ul className="drawer-scroll flex max-h-[min(21rem,calc(80dvh-11rem))] min-h-0 flex-col gap-1.5 overflow-y-auto overscroll-contain px-3 pb-3">
         {isLoading ?
           Array.from({ length: 3 }).map((_, i) => (
             <li key={i}>
@@ -129,15 +129,14 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
       </ul>
 
       {hasCollections && (
-        <footer className="flex items-center justify-between gap-3 border-t border-border/40 px-3 py-3">
+        <footer className="flex items-center justify-between gap-2 border-t border-border/40 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <CreateCollectionModal isEditing={false}>
             <Button
-              type="button"
               size="sm"
-              className="text-sm text-zinc-muted hover:text-foreground transition-colors"
+              className="min-w-0 overflow-hidden text-sm text-zinc-muted transition-colors hover:text-foreground"
             >
-              <IconPlus className="size-4" />
-              {t("new")}
+              <IconPlus className="size-4 shrink-0" />
+              <span className="truncate">{t("new")}</span>
             </Button>
           </CreateCollectionModal>
 
@@ -145,7 +144,7 @@ export const AddMovieCollection = ({ mediaId, mediaType }: Props) => {
             variant="accent"
             size="sm"
             disabled={selectedCollections.size === 0 || isAdding}
-            className="rounded-lg px-4 text-sm font-medium text-white disabled:opacity-35"
+            className="shrink-0 rounded-lg px-4 text-sm font-medium text-white disabled:opacity-35"
             onClick={handleAddMediaToCollection}
           >
             {isAdding ?

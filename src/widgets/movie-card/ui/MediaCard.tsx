@@ -3,9 +3,6 @@
 import Image from "next/image";
 import {
   Checkbox,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Sheet,
   SheetContent,
   SheetTrigger,
@@ -18,7 +15,7 @@ import { useRef, useState } from "react";
 import type { BlockOptions, Layout } from "@/shared/stores/movie-card-layout";
 import { type Media } from "@/shared/stores/movie-catalog";
 import { renderBlocks } from "../lib/render-blocks";
-import { AddMovieCollection, SetMediaFlags } from "@/features";
+import { AddMovieCollectionMenu, SetMediaFlags } from "@/features";
 import { cn } from "@/shared/lib/utils";
 import { useRequireAuth } from "@/features/auth";
 
@@ -215,21 +212,14 @@ export const MediaCard = ({
       )}
 
       {shouldShowCollectionPopover && (
-        <Popover open={isAddActionOpen} onOpenChange={handleOpenChange}>
-          <PopoverTrigger asChild>
-            <AddBookmarkButton />
-          </PopoverTrigger>
-
-          <PopoverContent className="bg-surface border-border/60 rounded-2xl shadow-popover p-0 w-full h-full">
-            {mode === POPOVER_MODE.ADD_COLLECTION && (
-              <AddMovieCollection
-                popoverOpen={isAddActionOpen}
-                mediaId={id}
-                mediaType={mediaType}
-              />
-            )}
-          </PopoverContent>
-        </Popover>
+        <AddMovieCollectionMenu
+          open={isAddActionOpen}
+          onOpenChange={handleOpenChange}
+          mediaId={id}
+          mediaType={mediaType}
+        >
+          <AddBookmarkButton />
+        </AddMovieCollectionMenu>
       )}
 
       {isEditMode && (
