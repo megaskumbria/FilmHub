@@ -40,7 +40,12 @@ export const UserMenu = ({ initialUser }: Props) => {
           className="cursor-pointer border-2 border-border bg-muted/30 transition-[border-color,opacity] duration-200 hover:border-muted-foreground/30 hover:opacity-90"
         >
           {avatarUrl ?
-            <img src={avatarUrl} alt="" className="size-full rounded-full object-cover" />
+            <img
+              src={avatarUrl}
+              alt=""
+              referrerPolicy="no-referrer"
+              className="size-full rounded-full object-cover"
+            />
           : <AvatarFallback
               style={{ backgroundColor: getAvatarColor(userId ?? "") }}
               className="bg-secondary text-primary font-medium text-sm"

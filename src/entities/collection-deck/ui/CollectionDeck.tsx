@@ -154,7 +154,14 @@ export const CollectionDeck = ({ collection }: Props) => {
             </div>
 
             <Avatar className="size-8">
-              {avatarUrl && <AvatarImage className="rounded-full" src={avatarUrl} alt={nickname} />}
+              {avatarUrl && (
+                <AvatarImage
+                  className="rounded-full"
+                  src={avatarUrl}
+                  alt={nickname}
+                  referrerPolicy="no-referrer"
+                />
+              )}
 
               <AvatarFallback
                 style={{ backgroundColor: getAvatarColor(userId) }}

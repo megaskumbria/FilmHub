@@ -27,6 +27,7 @@ export { FlagScalesFilter } from "./flag-scales-filter";
 export {
   AuthModalSignInForm,
   AuthModalSignUpForm,
+  ContinueWithGoogle,
   useAuthStore,
   useAuthModalStore,
   useRequireAuth,

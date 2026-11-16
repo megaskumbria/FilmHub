@@ -62,7 +62,12 @@ export const ProfileAvatar = ({
       <div className="relative w-fit shrink-0">
         <Avatar className="size-24 rounded-3xl bg-surface ring-4 ring-surface shadow-2xl shadow-black/50 sm:size-28">
           {avatarSrc ?
-            <img src={avatarSrc} alt="" className="size-full z-1 rounded-3xl object-cover" />
+            <img
+              src={avatarSrc}
+              alt=""
+              referrerPolicy="no-referrer"
+              className="size-full z-1 rounded-3xl object-cover"
+            />
           : <AvatarFallback
               className="z-1 rounded-3xl font-unbounded text-4xl font-bold text-white"
               style={{ backgroundColor: getAvatarColor(userId) }}
@@ -83,7 +88,6 @@ export const ProfileAvatar = ({
             />
 
             <Button
-              type="button"
               variant="accent"
               size="icon-sm"
               onClick={() => avatarInputRef.current?.click()}

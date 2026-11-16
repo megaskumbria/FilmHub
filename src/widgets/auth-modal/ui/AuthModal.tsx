@@ -15,7 +15,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/ui";
-import { AuthModalSignInForm, AuthModalSignUpForm, useAuthModalStore } from "@/features/auth";
+import {
+  AuthModalSignInForm,
+  AuthModalSignUpForm,
+  ContinueWithGoogle,
+  useAuthModalStore,
+} from "@/features/auth";
 import { FooterAuthModal } from "./FooterAuthModal";
 
 const TABS = ["signin", "signup"] as const;
@@ -70,14 +75,18 @@ export function AuthModal() {
             ))}
           </TabsList>
 
-          <TabsContent value="signin" className="mt-0 px-5 py-6">
+          <TabsContent value="signin" className="mt-0 px-5 pt-6">
             <AuthModalSignInForm onSuccess={() => close()} />
           </TabsContent>
 
-          <TabsContent value="signup" className="mt-0 px-5 py-6">
+          <TabsContent value="signup" className="mt-0 px-5 pt-6">
             <AuthModalSignUpForm onSuccess={() => close()} />
           </TabsContent>
         </Tabs>
+
+        <div className="px-5 pt-4 pb-6">
+          <ContinueWithGoogle />
+        </div>
 
         <FooterAuthModal tab={tab} setTab={setTab} />
       </DialogContent>

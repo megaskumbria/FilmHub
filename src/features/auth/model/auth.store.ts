@@ -23,9 +23,10 @@ export interface User {
   language: Language;
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   user: User;
   accessToken: string;
+  refreshToken: string;
 }
 
 const EMPTY_USER: User = { id: null, email: null, nickname: null, avatarUrl: null, language: "en" };

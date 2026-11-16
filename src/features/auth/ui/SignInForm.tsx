@@ -15,7 +15,6 @@ import {
   Input,
   Button,
 } from "@/shared/ui";
-import { GoogleIcon } from "@/shared/icons";
 import { useTranslations } from "next-intl";
 import { useSignInSchema, type SignInSchema } from "../model/validation";
 import { useAuthStore } from "../model/auth.store";
@@ -141,20 +140,6 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
           className="mt-1 h-10 w-full justify-center rounded-lg bg-accent font-semibold text-accent-foreground shadow-md shadow-accent/20 transition-all hover:bg-accent/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span>{isLoading ? t("signingIn") : t("signIn")}</span>
-        </Button>
-
-        <div className="relative flex items-center gap-3 py-1">
-          <div className="h-px flex-1 bg-border/60" />
-          <span className="text-xs font-medium text-zinc-muted">{t("continueWith")}</span>
-          <div className="h-px flex-1 bg-border/60" />
-        </div>
-
-        <Button
-          type="button"
-          className="active:scale-[0.98] h-10 w-full justify-center gap-2.5 rounded-lg border border-border/80 bg-transparent font-medium text-foreground/80 transition-all hover:bg-white/5 hover:border-border hover:text-foreground"
-        >
-          <GoogleIcon className="size-4.5 shrink-0" />
-          <span>Google</span>
         </Button>
       </form>
     </Form>
