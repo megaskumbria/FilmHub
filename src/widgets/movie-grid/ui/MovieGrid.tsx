@@ -11,6 +11,9 @@ import { extractUniqueMedia } from "@/shared/lib";
 import { useTranslations } from "next-intl";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+const mediaGridClassName =
+  "grid grid-cols-2 gap-3 xs:grid-cols-3 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5";
+
 export const MovieGrid = () => {
   const t = useTranslations("catalog");
 
@@ -49,7 +52,7 @@ export const MovieGrid = () => {
 
   if (isLoading) {
     return (
-      <ul className="grid grid-cols-5 gap-4">
+      <ul className={mediaGridClassName}>
         {Array.from({ length: 10 }).map((_, i) => (
           <CardShirt key={i} />
         ))}
@@ -59,7 +62,7 @@ export const MovieGrid = () => {
 
   return (
     <>
-      <ul className="grid grid-cols-5 gap-4">
+      <ul className={mediaGridClassName}>
         {allMedia.map((media) => (
           <li key={media.id}>
             <MediaCard

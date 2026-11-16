@@ -8,7 +8,7 @@ import { ActiveFilters } from "./ActiveFilters";
 
 export const MovieCatalogToolbar = () => {
   return (
-    <section aria-labelledby="catalog-title" className="relative mb-10">
+    <section className="relative mb-10">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-20 -left-10 h-48 w-136 max-w-full rounded-full bg-accent/10 blur-3xl"
