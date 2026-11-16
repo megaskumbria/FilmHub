@@ -108,7 +108,7 @@ export const UserCollections = ({
                     const { id } = collection;
 
                     return (
-                      <SwiperSlide key={id} className="w-[calc(20%-8px)]!">
+                      <SwiperSlide key={id} className="min-w-0! w-[calc(20%-8px)]!">
                         <CollectionFolder
                           isMyProfile={isMyProfile}
                           collection={collection}

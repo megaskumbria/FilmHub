@@ -70,7 +70,7 @@ export const CollectionsToolbar = ({
 
       {isLoading ?
         <CollectionsToolbarSkeleton />
-      : <div className="relative flex min-w-0 items-center gap-4">
+      : <div className="relative flex min-w-0 max-w-full items-center gap-4">
           <div
             className="flex size-14 shrink-0 items-center justify-center rounded-2xl border transition-colors duration-300"
             style={{
@@ -82,7 +82,10 @@ export const CollectionsToolbar = ({
           </div>
 
           <div className="min-w-0">
-            <h2 className="truncate font-unbounded text-2xl font-semibold tracking-tight text-foreground">
+            <h2
+              title={collectionName}
+              className="truncate font-unbounded text-2xl font-semibold tracking-tight text-foreground"
+            >
               {collectionName}
             </h2>
 
@@ -103,7 +106,7 @@ export const CollectionsToolbar = ({
         </div>
       }
 
-      <div className="relative flex flex-wrap items-center gap-2">
+      <div className="relative flex shrink-0 flex-wrap items-center gap-2">
         <search className="group/search relative w-full sm:w-64">
           <IconSearch className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-zinc-muted transition-colors group-focus-within/search:text-accent" />
 

@@ -4,9 +4,7 @@ import type { Icon as TablerIcon } from "@tabler/icons-react";
 import { UseFormReturn } from "react-hook-form";
 import { cn } from "@/shared/lib/utils";
 import { FormControl, FormField, FormItem, FormLabel, Input } from "@/shared/ui";
-import { CreateCollectionSchema } from "../model/useCreateCollectionSchema";
-
-export const COLLECTION_NAME_MAX = 50;
+import { COLLECTION_NAME_MAX, CreateCollectionSchema } from "../model/useCreateCollectionSchema";
 
 const posterSlots = [
   { x: -30, rotate: -8 },

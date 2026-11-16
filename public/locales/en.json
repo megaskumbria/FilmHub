@@ -227,7 +227,7 @@
       "edit": "Edit",
       "creating": "Creating...",
       "editing": "Editing...",
-      "nameMax": "Name must be less than 50 characters"
+      "nameMax": "Name must be 24 characters or less"
     },
     "emptyFilms": {
       "empty": {

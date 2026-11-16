@@ -38,10 +38,12 @@ export const FolderMetaBar = ({ collection, name, isHovered, isMyProfile }: Prop
   const isForceDelete = posters.length === 0 || skipDeleteConfirm;
 
   return (
-    <div className="px-3.5 py-2.5 bg-surface flex items-center justify-between">
-      <span className="font-semibold text-foreground text-sm">{name}</span>
+    <div className="flex min-w-0 items-center justify-between gap-3 bg-surface px-3.5 py-2.5">
+      <span title={name} className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">
+        {name}
+      </span>
 
-      <div className="relative flex items-center shrink-0">
+      <div className="relative flex h-6 w-10 shrink-0 items-center justify-end">
         <span
           className={cn(
             "text-sm text-zinc-muted tabular-nums transition-opacity duration-200",
@@ -54,15 +56,15 @@ export const FolderMetaBar = ({ collection, name, isHovered, isMyProfile }: Prop
         {isMyProfile && (
           <div
             className={cn(
-              "absolute right-0 flex items-center gap-1 transition-opacity duration-200",
-              isHovered ? "opacity-100" : "opacity-0",
+              "absolute inset-y-0 right-0 z-10 flex items-center gap-1 bg-surface transition-opacity duration-200",
+              isHovered ? "opacity-100" : "pointer-events-none opacity-0",
             )}
             onClick={(e) => e.stopPropagation()}
           >
             <CreateCollectionModal isEditing={true} initialData={collection}>
               <Button
                 onClick={(e) => e.stopPropagation()}
-                className="size-6 rounded-md flex items-center justify-center text-zinc-muted hover:text-foreground hover:bg-white/10 transition-colors"
+                className="size-6 rounded-md text-foreground hover:bg-white/10"
               >
                 <Settings className="size-4" />
               </Button>

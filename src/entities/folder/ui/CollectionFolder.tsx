@@ -49,7 +49,7 @@ export const CollectionFolder = ({
   return (
     <div
       key={id}
-      className="relative pt-3"
+      className="relative min-w-0 pt-3"
       onMouseEnter={() => setHoveredFolderId(id)}
       onMouseLeave={() => setHoveredFolderId(null)}
     >
@@ -62,7 +62,7 @@ export const CollectionFolder = ({
 
       <div
         onClick={() => setActiveCollectionId(id)}
-        className="cursor-pointer relative flex-col shadow-lg items-stretch gap-0 h-auto p-0 rounded-b-xl rounded-tr-xl border overflow-hidden transition-all duration-300 w-full"
+        className="relative flex h-auto w-full min-w-0 cursor-pointer flex-col items-stretch gap-0 overflow-hidden rounded-b-xl rounded-tr-xl border p-0 shadow-lg transition-all duration-300"
         style={{
           borderColor: isActive ? `${colorHex}99` : `${colorHex}4D`,
           boxShadow: isActive ? `0 4px 20px ${colorHex}66` : undefined,
