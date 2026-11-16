@@ -212,6 +212,12 @@
       "name": "Name",
       "namePlaceholder": "e.g. Favorite thrillers",
       "icon": "Icon",
+      "iconCategories": {
+        "media": "Cinema",
+        "awards": "Awards",
+        "genres": "Genres",
+        "mood": "Mood"
+      },
       "color": "Color",
       "premium": "Premium",
       "customCover": "Custom cover",

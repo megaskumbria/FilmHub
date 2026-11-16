@@ -212,6 +212,12 @@
       "name": "Название",
       "namePlaceholder": "Например, любимые триллеры",
       "icon": "Иконка",
+      "iconCategories": {
+        "media": "Кино",
+        "awards": "Награды",
+        "genres": "Жанры",
+        "mood": "Настроение"
+      },
       "color": "Цвет",
       "premium": "Премиум",
       "customCover": "Своя обложка",

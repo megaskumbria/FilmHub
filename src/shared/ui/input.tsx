@@ -22,6 +22,7 @@ const inputVariants = cva(
           "rounded-lg bg-graphite border-border/40 placeholder:text-zinc-muted focus-visible:border-accent/50 focus-visible:ring-0 focus-visible:ring-accent/20 focus-visible:outline-none transition-all",
         underline:
           "rounded-none border-0 border-b border-border/60 shadow-none placeholder:text-zinc-muted/60 focus-visible:border-accent focus-visible:ring-0 transition-colors",
+        bare: "rounded-none border-0 bg-transparent shadow-none font-semibold text-foreground placeholder:font-normal placeholder:text-zinc-muted/70 focus-visible:ring-0",
         search:
           "rounded-full border-border/40 bg-graphite shadow-none placeholder:text-zinc-muted transition-colors [&::-webkit-search-cancel-button]:hidden focus-visible:border-accent focus-visible:ring-0 focus-visible:shadow-none focus-visible:outline-none",
       },

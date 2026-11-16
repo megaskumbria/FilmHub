@@ -28,6 +28,10 @@ const buttonVariants = cva(
           "border border-white/15 bg-black/45 text-white backdrop-blur-md hover:bg-black/65 transition-colors",
         social:
           "h-10 w-full gap-2.5 rounded-lg border border-border/80 bg-transparent font-medium text-foreground/80 transition-all hover:bg-white/5 hover:border-border hover:text-foreground active:scale-[0.98]",
+        picker:
+          "rounded-lg border border-transparent text-zinc-muted hover:bg-white/5 hover:text-foreground transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent aria-pressed:text-white",
+        swatch:
+          "relative rounded-full transition-transform duration-150 hover:scale-110 aria-pressed:scale-110 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/80 motion-reduce:transition-none",
         tile: "relative w-full justify-start text-left overflow-hidden rounded-xl border border-white/6 bg-white/2 hover:border-white/15 hover:bg-white/4 transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-45",
       },
       size: {

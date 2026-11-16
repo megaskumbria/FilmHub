@@ -1,5 +1,4 @@
 import { useTranslations } from "next-intl";
-import { cn } from "@/shared/lib/utils";
 import { FormControl, FormField, FormItem, FormLabel } from "@/shared/ui";
 import { COLOR_PRESETS } from "@/widgets/create-folder-modal/model/color-presets";
 import { Button } from "@/shared/ui";
@@ -18,47 +17,57 @@ export const CollectionColorPicker = ({ form }: Props) => {
     <FormField
       control={form.control}
       name="colorHex"
-      render={({ field }) => (
-        <FormItem className="flex flex-col gap-2.5">
-          <FormLabel className="text-xs font-medium text-zinc-muted uppercase tracking-wider">
-            {t("color")}
-          </FormLabel>
+      render={({ field }) => {
+        const selectedLabel = COLOR_PRESETS.find(({ colorHex }) => colorHex === field.value)?.label;
 
-          <FormControl>
-            <div className="grid grid-cols-10 gap-1.5 justify-items-center">
-              {COLOR_PRESETS.map(({ colorHex }, i) => {
-                const isSelected = field.value === colorHex;
+        return (
+          <FormItem className="flex flex-col gap-3">
+            <header className="flex items-center justify-between gap-4">
+              <FormLabel className="text-sm font-medium text-foreground">{t("color")}</FormLabel>
 
-                return (
-                  <Button
-                    key={i}
-                    onClick={() => field.onChange(colorHex)}
-                    className={cn(
-                      "relative size-7 rounded-full transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                      field.value !== colorHex && "opacity-60 hover:opacity-90 hover:scale-105",
-                      isSelected && "z-10 scale-105",
-                    )}
-                    style={{
-                      backgroundColor: colorHex,
-                      boxShadow:
-                        isSelected ?
-                          `0 0 0 2px #121214, 0 0 0 3px ${colorHex}, 0 0 12px ${colorHex}66`
-                        : undefined,
-                    }}
-                  >
-                    {isSelected && (
-                      <IconCheck
-                        className="absolute size-3.5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
-                        strokeWidth={2.8}
-                      />
-                    )}
-                  </Button>
-                );
-              })}
-            </div>
-          </FormControl>
-        </FormItem>
-      )}
+              {selectedLabel && (
+                <span className="flex items-center gap-1.5 text-xs text-zinc-muted">
+                  <span className="size-2 rounded-full" style={{ backgroundColor: field.value }} />
+                  {selectedLabel}
+                </span>
+              )}
+            </header>
+
+            <FormControl>
+              <div className="grid grid-cols-10 justify-items-center gap-y-2.5">
+                {COLOR_PRESETS.map(({ colorHex, label }) => {
+                  const isSelected = field.value === colorHex;
+
+                  return (
+                    <Button
+                      type="button"
+                      variant="swatch"
+                      key={colorHex}
+                      title={label}
+                      onClick={() => field.onChange(colorHex)}
+                      className="size-7"
+                      style={{
+                        backgroundColor: colorHex,
+                        boxShadow:
+                          isSelected ?
+                            `0 0 0 2px var(--background), 0 0 0 4px ${colorHex}, 0 0 14px ${colorHex}80`
+                          : "inset 0 0 0 1px rgb(255 255 255 / 0.08)",
+                      }}
+                    >
+                      {isSelected && (
+                        <IconCheck
+                          className="size-3.5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
+                          strokeWidth={2.8}
+                        />
+                      )}
+                    </Button>
+                  );
+                })}
+              </div>
+            </FormControl>
+          </FormItem>
+        );
+      }}
     />
   );
 };
