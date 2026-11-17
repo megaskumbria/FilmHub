@@ -12,9 +12,7 @@ import {
   TabsTrigger,
   TabsContent,
   Button,
-  DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/shared/ui";
 import {
   SignInForm,
@@ -23,7 +21,7 @@ import {
   ContinueWithGoogle,
   useAuthModalStore,
 } from "@/features/auth";
-import { FooterAuthModal } from "./FooterAuthModal";
+import { AuthDeck, type DeckMode } from "./AuthDeck";
 
 const TABS = ["signin", "signup"] as const;
 export type Tab = (typeof TABS)[number];
@@ -32,11 +30,14 @@ type AuthView = "auth" | "reset";
 
 export function AuthModal() {
   const t = useTranslations("auth");
+  const tCommon = useTranslations("common");
 
   const [tab, setTab] = useState<Tab>("signin");
   const [view, setView] = useState<AuthView>("auth");
 
   const { isOpen, open, close } = useAuthModalStore();
+
+  const deckMode: DeckMode = view === "reset" ? "reset" : tab;
 
   const handleOpenChange = (next: boolean) => {
     if (next) {
@@ -55,84 +56,95 @@ export function AuthModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogTitle className="sr-only">
-        {view === "reset" ? t("reset.title") : t("title")}
-      </DialogTitle>
-
       <DialogContent
         aria-describedby={undefined}
         showCloseButton={false}
-        className="sm:max-w-105 gap-0 overflow-hidden rounded-2xl border border-border bg-surface p-0 shadow-[0_24px_64px_-12px_rgba(0,0,0,0.7),0_0_0_1px_rgba(155,86,240,0.06)]"
+        className="max-h-[calc(100dvh-2rem)] gap-0 overflow-y-auto rounded-2xl border border-border bg-surface p-0 shadow-[0_24px_64px_-12px_rgba(0,0,0,0.7),0_0_0_1px_rgba(155,86,240,0.06)] sm:max-w-190 sm:grid-cols-[300px_1fr]"
       >
-        <DialogHeader className="flex flex-row items-center justify-between px-5 py-4 border-b border-border/60">
-          <div className="flex items-center gap-2.5">
-            <div className="flex items-center justify-center size-8 rounded-lg bg-accent/10 ring-1 ring-accent/20">
-              <Clapperboard className="size-4.5 text-accent" strokeWidth={1.75} aria-hidden />
-            </div>
+        <DialogTitle className="sr-only">
+          {view === "reset" ? t("reset.title") : t("title")}
+        </DialogTitle>
 
-            <span className="text-foreground text-[15px] font-semibold tracking-tight">
-              FilmHub
-            </span>
+        <aside className="relative flex items-center gap-4 overflow-hidden border-b border-border/60 bg-surface-subtle px-5 py-4 sm:flex-col sm:items-stretch sm:justify-between sm:gap-6 sm:border-r sm:border-b-0 sm:px-7 sm:py-7">
+          <div
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_45%_at_50%_42%,rgba(155,86,240,0.2),transparent_70%)]"
+            aria-hidden
+          />
+
+          <div className="relative hidden items-center gap-2 sm:flex">
+            <Clapperboard className="size-4 text-accent" strokeWidth={1.75} aria-hidden />
+            <span className="text-sm font-semibold tracking-tight text-foreground/90">FilmHub</span>
           </div>
+
+          <div className="relative order-2 sm:order-none">
+            <AuthDeck mode={deckMode} />
+          </div>
+
+          <div className="relative order-1 flex-1 sm:order-none sm:flex-none">
+            <p className="font-unbounded text-base leading-snug font-semibold tracking-tight text-balance text-foreground sm:text-xl">
+              {t(`deck.${deckMode}.title`)}
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-pretty text-zinc-muted sm:text-sm">
+              {t(`deck.${deckMode}.text`)}
+            </p>
+          </div>
+        </aside>
+
+        <section className="relative flex min-w-0 flex-col px-5 pt-5 pb-6 sm:px-8 sm:pt-7 sm:pb-7">
           <DialogClose asChild>
             <Button
               type="button"
               size="none"
-              className="size-7 flex items-center justify-center rounded-md text-zinc-muted hover:text-foreground hover:bg-white/5 transition-colors"
+              aria-label={tCommon("close")}
+              className="absolute top-4 right-4 size-8 rounded-md text-zinc-muted transition-colors hover:bg-white/5 hover:text-foreground focus-visible:outline-2 focus-visible:outline-accent sm:top-5 sm:right-5"
             >
               <X className="size-4" />
             </Button>
           </DialogClose>
-        </DialogHeader>
 
-        {view === "auth" ?
-          <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)} className="w-full gap-0">
-            <TabsList className="flex w-full group-data-[orientation=horizontal]/tabs:h-auto h-auto rounded-none p-0 bg-transparent border-b border-border/60">
-              {TABS.map((value) => (
-                <TabsTrigger
-                  key={value}
-                  value={value}
-                  className="cursor-pointer flex-1 h-auto rounded-none border-0 border-b-2 border-transparent px-2 py-3 text-sm font-medium tracking-wide text-zinc-muted dark:text-zinc-muted transition-all hover:text-foreground data-[state=active]:border-accent data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:bg-transparent after:hidden"
-                >
-                  <span>{value === "signin" ? t("signIn") : t("signUp")}</span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
+          {view === "auth" ?
+            <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)} className="w-full gap-0">
+              <TabsList
+                variant="line"
+                className="h-auto justify-start gap-6 p-0 pr-10 group-data-[orientation=horizontal]/tabs:h-auto"
+              >
+                {TABS.map((value) => (
+                  <TabsTrigger
+                    key={value}
+                    value={value}
+                    className="h-auto flex-none cursor-pointer px-0 py-1 font-unbounded text-base font-semibold tracking-tight text-zinc-muted/70 after:bg-accent hover:text-foreground/90 data-[state=active]:text-foreground sm:text-lg dark:text-zinc-muted/70"
+                  >
+                    <span>{value === "signin" ? t("signIn") : t("signUp")}</span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
 
-            <TabsContent value="signin" className="mt-0 px-5 pt-6">
-              <SignInForm onSuccess={() => close()} onForgotPassword={() => setView("reset")} />
-            </TabsContent>
+              <TabsContent value="signin" className="mt-7">
+                <SignInForm onSuccess={() => close()} onForgotPassword={() => setView("reset")} />
+              </TabsContent>
 
-            <TabsContent value="signup" className="mt-0 px-5 pt-6">
-              <SignUpForm onSuccess={() => close()} />
-            </TabsContent>
-          </Tabs>
-        : <div className="px-5 pt-5">
-            <ResetPasswordForm onCancel={returnToSignIn} onComplete={close} />
-          </div>
-        }
+              <TabsContent value="signup" className="mt-7">
+                <SignUpForm onSuccess={() => close()} />
+              </TabsContent>
 
-        {view === "auth" && (
-          <div className="px-5 pt-4 pb-6">
-            <ContinueWithGoogle />
-          </div>
-        )}
+              <div className="mt-5">
+                <ContinueWithGoogle />
+              </div>
+            </Tabs>
+          : <div className="flex flex-1 flex-col">
+              <ResetPasswordForm onCancel={returnToSignIn} onComplete={close} />
 
-        {view === "auth" ?
-          <FooterAuthModal tab={tab} setTab={setTab} />
-        : <DialogFooter className="mt-6 border-t border-border/60 bg-background/40 px-5 py-4 w-full">
-            <p className="flex w-full items-center justify-center">
               <Button
                 type="button"
                 size="none"
-                className="p-0 text-sm font-semibold text-accent transition-colors hover:text-accent/80"
+                className="mt-6 w-fit text-sm font-semibold text-accent transition-colors hover:text-accent/80"
                 onClick={returnToSignIn}
               >
                 <span>{t("reset.backToSignIn")}</span>
               </Button>
-            </p>
-          </DialogFooter>
-        }
+            </div>
+          }
+        </section>
       </DialogContent>
     </Dialog>
   );

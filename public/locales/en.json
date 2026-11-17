@@ -545,6 +545,21 @@
     "createAccount": "Create account",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
+    "deck": {
+      "flag": "Rewatch",
+      "signin": {
+        "title": "Your collections are waiting",
+        "text": "Sign in to keep adding films and flagging them your way."
+      },
+      "signup": {
+        "title": "Build your first deck",
+        "text": "Collect films, tag them with your own flags, and compare tastes with friends."
+      },
+      "reset": {
+        "title": "Back in a minute",
+        "text": "We'll email you a code so you can set a new password."
+      }
+    },
     "validation": {
       "email": "Invalid email",
       "passwordMin": "Password must be at least 8 characters",
