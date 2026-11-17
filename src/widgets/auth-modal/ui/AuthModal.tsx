@@ -14,10 +14,12 @@ import {
   Button,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from "@/shared/ui";
 import {
-  AuthModalSignInForm,
-  AuthModalSignUpForm,
+  SignInForm,
+  SignUpForm,
+  ResetPasswordForm,
   ContinueWithGoogle,
   useAuthModalStore,
 } from "@/features/auth";
@@ -26,15 +28,36 @@ import { FooterAuthModal } from "./FooterAuthModal";
 const TABS = ["signin", "signup"] as const;
 export type Tab = (typeof TABS)[number];
 
+type AuthView = "auth" | "reset";
+
 export function AuthModal() {
   const t = useTranslations("auth");
+
   const [tab, setTab] = useState<Tab>("signin");
+  const [view, setView] = useState<AuthView>("auth");
 
   const { isOpen, open, close } = useAuthModalStore();
 
+  const handleOpenChange = (next: boolean) => {
+    if (next) {
+      open();
+      return;
+    }
+
+    close();
+    setView("auth");
+  };
+
+  const returnToSignIn = () => {
+    setTab("signin");
+    setView("auth");
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={(v) => (v ? open() : close())}>
-      <DialogTitle className="sr-only">{t("title")}</DialogTitle>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+      <DialogTitle className="sr-only">
+        {view === "reset" ? t("reset.title") : t("title")}
+      </DialogTitle>
 
       <DialogContent
         aria-describedby={undefined}
@@ -62,33 +85,54 @@ export function AuthModal() {
           </DialogClose>
         </DialogHeader>
 
-        <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)} className="w-full gap-0">
-          <TabsList className="flex w-full group-data-[orientation=horizontal]/tabs:h-auto h-auto rounded-none p-0 bg-transparent border-b border-border/60">
-            {TABS.map((value) => (
-              <TabsTrigger
-                key={value}
-                value={value}
-                className="cursor-pointer flex-1 h-auto rounded-none border-0 border-b-2 border-transparent px-2 py-3 text-sm font-medium tracking-wide text-zinc-muted dark:text-zinc-muted transition-all hover:text-foreground data-[state=active]:border-accent data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:bg-transparent after:hidden"
+        {view === "auth" ?
+          <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)} className="w-full gap-0">
+            <TabsList className="flex w-full group-data-[orientation=horizontal]/tabs:h-auto h-auto rounded-none p-0 bg-transparent border-b border-border/60">
+              {TABS.map((value) => (
+                <TabsTrigger
+                  key={value}
+                  value={value}
+                  className="cursor-pointer flex-1 h-auto rounded-none border-0 border-b-2 border-transparent px-2 py-3 text-sm font-medium tracking-wide text-zinc-muted dark:text-zinc-muted transition-all hover:text-foreground data-[state=active]:border-accent data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:bg-transparent after:hidden"
+                >
+                  <span>{value === "signin" ? t("signIn") : t("signUp")}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            <TabsContent value="signin" className="mt-0 px-5 pt-6">
+              <SignInForm onSuccess={() => close()} onForgotPassword={() => setView("reset")} />
+            </TabsContent>
+
+            <TabsContent value="signup" className="mt-0 px-5 pt-6">
+              <SignUpForm onSuccess={() => close()} />
+            </TabsContent>
+          </Tabs>
+        : <div className="px-5 pt-5">
+            <ResetPasswordForm onCancel={returnToSignIn} onComplete={close} />
+          </div>
+        }
+
+        {view === "auth" && (
+          <div className="px-5 pt-4 pb-6">
+            <ContinueWithGoogle />
+          </div>
+        )}
+
+        {view === "auth" ?
+          <FooterAuthModal tab={tab} setTab={setTab} />
+        : <DialogFooter className="mt-6 border-t border-border/60 bg-background/40 px-5 py-4 w-full">
+            <p className="flex w-full items-center justify-center">
+              <Button
+                type="button"
+                size="none"
+                className="p-0 text-sm font-semibold text-accent transition-colors hover:text-accent/80"
+                onClick={returnToSignIn}
               >
-                <span>{value === "signin" ? t("signIn") : t("signUp")}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          <TabsContent value="signin" className="mt-0 px-5 pt-6">
-            <AuthModalSignInForm onSuccess={() => close()} />
-          </TabsContent>
-
-          <TabsContent value="signup" className="mt-0 px-5 pt-6">
-            <AuthModalSignUpForm onSuccess={() => close()} />
-          </TabsContent>
-        </Tabs>
-
-        <div className="px-5 pt-4 pb-6">
-          <ContinueWithGoogle />
-        </div>
-
-        <FooterAuthModal tab={tab} setTab={setTab} />
+                <span>{t("reset.backToSignIn")}</span>
+              </Button>
+            </p>
+          </DialogFooter>
+        }
       </DialogContent>
     </Dialog>
   );

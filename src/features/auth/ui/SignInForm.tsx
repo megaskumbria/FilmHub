@@ -16,16 +16,17 @@ import {
   Button,
 } from "@/shared/ui";
 import { useTranslations } from "next-intl";
-import { useSignInSchema, type SignInSchema } from "../model/validation";
+import { useSignInSchema, type SignInSchema } from "../model/auth-schema";
 import { useAuthStore } from "../model/auth.store";
 import { ApiErrorMessage } from "@/shared/types/api-error-types";
 import { useSyncAuthSession, useSwitchLocale } from "@/shared/hooks";
 
 interface Props {
   onSuccess: () => void;
+  onForgotPassword: () => void;
 }
 
-export const AuthModalSignInForm = ({ onSuccess }: Props) => {
+export const SignInForm = ({ onSuccess, onForgotPassword }: Props) => {
   const t = useTranslations("auth");
   const signInSchema = useSignInSchema();
   const [showPassword, setShowPassword] = useState(false);
@@ -92,13 +93,14 @@ export const AuthModalSignInForm = ({ onSuccess }: Props) => {
                 <FormLabel className="block text-foreground/80 text-sm font-medium mb-0 tracking-tight">
                   {t("password")}
                 </FormLabel>
-
-                <a
-                  href="#"
+                <Button
+                  type="button"
+                  size="none"
                   className="text-accent/80 text-xs font-medium hover:text-accent transition-colors"
+                  onClick={onForgotPassword}
                 >
                   {t("forgot")}
-                </a>
+                </Button>
               </div>
 
               <FormControl>

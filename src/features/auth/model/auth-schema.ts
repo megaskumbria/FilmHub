@@ -19,14 +19,6 @@ export const signInFormSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-// const emailOrPhone = z
-//   .string()
-//   .min(1, "Enter email or phone")
-//   .refine(
-//     (val) => z.string().email().safeParse(val).success || /^\+?[\d\s()-]{10,}$/.test(val),
-//     "Invalid email or phone number",
-//   );
-
 export const useSignInSchema = () => {
   const t = useTranslations("auth.validation");
 
@@ -46,8 +38,45 @@ export const useSignUpSchema = () => {
   });
 };
 
+export const useResetEmailSchema = () => {
+  const t = useTranslations("auth.validation");
+
+  return z.object({
+    email: z.string().email(t("email")),
+  });
+};
+
+export const useResetCodeSchema = () => {
+  const t = useTranslations("auth.validation");
+
+  return z.object({
+    code: z
+      .string()
+      .trim()
+      .regex(/^\d{6}$/, t("code")),
+  });
+};
+
+export const useResetPasswordSchema = () => {
+  const t = useTranslations("auth.validation");
+
+  return z
+    .object({
+      password: z.string().min(8, t("passwordMin")),
+      confirmPassword: z.string().min(1, t("passwordMatch")),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t("passwordMatch"),
+      path: ["confirmPassword"],
+    });
+};
+
 export type SignInFormSchema = z.infer<typeof signInFormSchema>;
 export type SignInSchema = z.infer<ReturnType<typeof useSignInSchema>>;
 
 export type SignUpFormSchema = z.infer<typeof signUpFormSchema>;
 export type SignUpSchema = z.infer<ReturnType<typeof useSignUpSchema>>;
+
+export type ResetEmailSchema = z.infer<ReturnType<typeof useResetEmailSchema>>;
+export type ResetCodeSchema = z.infer<ReturnType<typeof useResetCodeSchema>>;
+export type ResetPasswordSchema = z.infer<ReturnType<typeof useResetPasswordSchema>>;

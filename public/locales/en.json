@@ -514,6 +514,29 @@
     "emailPlaceholder": "you@example.com",
     "password": "Password",
     "forgot": "Forgot password?",
+    "reset": {
+      "back": "Back",
+      "backToSignIn": "Back to sign in",
+      "title": "Reset password",
+      "emailHint": "Enter the email linked to your account.",
+      "sendCode": "Send code",
+      "sendingCode": "Sending...",
+      "codeTitle": "Enter the code",
+      "codeHint": "Enter the code sent to {email}.",
+      "code": "Code",
+      "codePlaceholder": "123456",
+      "continue": "Continue",
+      "checkingCode": "Checking...",
+      "passwordTitle": "New password",
+      "passwordHint": "Both fields need to match.",
+      "newPassword": "Enter a new password",
+      "repeatPassword": "Repeat password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "saveAndSignIn": "Save and sign in",
+      "saving": "Saving...",
+      "step": "Step {current} of {total}"
+    },
     "signingIn": "Signing in...",
     "continueWith": "or continue with",
     "nickname": "Nickname",
@@ -525,7 +548,9 @@
     "validation": {
       "email": "Invalid email",
       "passwordMin": "Password must be at least 8 characters",
-      "nicknameMin": "Nickname must be at least 5 characters"
+      "nicknameMin": "Nickname must be at least 5 characters",
+      "code": "Code must be 6 digits",
+      "passwordMatch": "Passwords do not match"
     }
   },
   "movie": {

@@ -15,7 +15,7 @@ import {
   Button,
 } from "@/shared/ui";
 import { useTranslations } from "next-intl";
-import { useSignUpSchema, type SignUpSchema } from "../model/validation";
+import { useSignUpSchema, type SignUpSchema } from "../model/auth-schema";
 import { useAuthStore } from "../model/auth.store";
 import axios from "axios";
 import { ApiErrorMessage } from "@/shared/types/api-error-types";
@@ -25,7 +25,7 @@ interface Props {
   onSuccess: () => void;
 }
 
-export const AuthModalSignUpForm = ({ onSuccess }: Props) => {
+export const SignUpForm = ({ onSuccess }: Props) => {
   const t = useTranslations("auth");
   const signUpSchema = useSignUpSchema();
   const [showPassword, setShowPassword] = useState(false);
