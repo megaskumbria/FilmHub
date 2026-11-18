@@ -82,6 +82,7 @@ export const CollectionIconPicker = ({ form, colorHex }: Props) => {
 
                             return (
                               <Button
+                                type="button"
                                 variant="picker"
                                 size="icon-lg"
                                 key={iconName}
