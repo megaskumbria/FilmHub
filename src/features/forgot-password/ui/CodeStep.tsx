@@ -18,6 +18,7 @@ import { ApiFieldError } from "@/shared/types/api-error-types";
 import { useCodeSchema, type CodeSchema } from "../model/forgot-password-schema";
 import { useForgotPassword } from "../lib/useForgotPassword";
 import { fieldClassName, labelClassName, submitClassName } from "./field-classes";
+import { ChangeEvent } from "react";
 
 interface Props {
   active: boolean;
@@ -59,6 +60,11 @@ export const CodeStep = ({ active, email, onSubmit }: Props) => {
     );
   };
 
+  const handleChangeCode = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+    form.setValue("code", value);
+  };
+
   return (
     <div data-step="code" hidden={!active}>
       <Form {...form}>
@@ -79,8 +85,10 @@ export const CodeStep = ({ active, email, onSubmit }: Props) => {
                     inputMode="numeric"
                     autoComplete="one-time-code"
                     placeholder={t("reset.codePlaceholder")}
+                    maxLength={6}
                     className={fieldClassName}
                     {...field}
+                    onChange={handleChangeCode}
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />
