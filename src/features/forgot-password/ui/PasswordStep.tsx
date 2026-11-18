@@ -7,8 +7,11 @@ import axios from "axios";
 import { useTranslations } from "next-intl";
 import { Button, Form, FormMessage } from "@/shared/ui";
 import { ApiFieldError } from "@/shared/types/api-error-types";
-import { useResetPasswordSchema, type ResetPasswordSchema } from "../../model/auth-schema";
-import { useResetPassword } from "../../lib/useAuth";
+import {
+  useForgotPasswordSchema,
+  type ForgotPasswordSchema,
+} from "../model/forgot-password-schema";
+import { useForgotPassword } from "../lib/useForgotPassword";
 import { PasswordField } from "./PasswordField";
 import { submitClassName } from "./field-classes";
 
@@ -20,17 +23,22 @@ interface Props {
 
 export const PasswordStep = ({ active, resetToken, onSubmit }: Props) => {
   const t = useTranslations("auth");
-  const schema = useResetPasswordSchema();
-  const { mutate: resetPassword, isPending } = useResetPassword();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const form = useForm<ResetPasswordSchema>({
+
+  const schema = useForgotPasswordSchema();
+
+  const { resetPassword } = useForgotPassword();
+  const { mutate: savePassword, isPending } = resetPassword;
+
+  const form = useForm<ForgotPasswordSchema>({
     resolver: zodResolver(schema),
     defaultValues: { password: "", confirmPassword: "" },
   });
 
-  const handleSubmitForm = (data: ResetPasswordSchema) => {
-    resetPassword(
+  const handleSubmitForm = (data: ForgotPasswordSchema) => {
+    savePassword(
       { resetToken, newPassword: data.password },
       {
         onSuccess: () => onSubmit(),
@@ -64,6 +72,7 @@ export const PasswordStep = ({ active, resetToken, onSubmit }: Props) => {
             visible={showPassword}
             onToggle={() => setShowPassword((current) => !current)}
           />
+
           <PasswordField
             form={form}
             name="confirmPassword"

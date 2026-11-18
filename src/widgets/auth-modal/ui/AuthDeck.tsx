@@ -14,9 +14,9 @@ interface CardPose {
 }
 
 const POSTERS = [
-  "/images/breaking-bad-poster.jpg",
   "/images/avengers-poster.webp",
   "/images/dune-poster.webp",
+  "/images/breaking-bad-poster.jpg",
 ] as const;
 
 const POSES: Record<DeckMode, CardPose[]> = {
@@ -67,7 +67,7 @@ export const AuthDeck = ({ mode }: Props) => {
                 <Image src={src} alt="" fill sizes="128px" className="object-cover" />
               </div>
 
-              <div className="absolute inset-0 overflow-hidden rounded-lg shadow-[0_18px_40px_-12px_rgba(0,0,0,0.85)] ring-1 ring-accent/25 backface-hidden [transform:rotateY(180deg)]">
+              <div className="absolute inset-0 overflow-hidden rounded-lg shadow-[0_18px_40px_-12px_rgba(0,0,0,0.85)] ring-1 ring-accent/25 backface-hidden transform-[rotateY(180deg)]">
                 <Image
                   src="/images/card-shirt.png"
                   alt=""

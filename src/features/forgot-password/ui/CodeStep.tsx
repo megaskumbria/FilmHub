@@ -15,8 +15,8 @@ import {
   Button,
 } from "@/shared/ui";
 import { ApiFieldError } from "@/shared/types/api-error-types";
-import { useResetCodeSchema, type ResetCodeSchema } from "../../model/auth-schema";
-import { useVerifyRecoveryPassword } from "../../lib/useAuth";
+import { useCodeSchema, type CodeSchema } from "../model/forgot-password-schema";
+import { useForgotPassword } from "../lib/useForgotPassword";
 import { fieldClassName, labelClassName, submitClassName } from "./field-classes";
 
 interface Props {
@@ -27,14 +27,18 @@ interface Props {
 
 export const CodeStep = ({ active, email, onSubmit }: Props) => {
   const t = useTranslations("auth");
-  const schema = useResetCodeSchema();
-  const { mutate: verifyRecoveryPassword, isPending } = useVerifyRecoveryPassword();
-  const form = useForm<ResetCodeSchema>({
+
+  const schema = useCodeSchema();
+
+  const { verifyCode } = useForgotPassword();
+  const { mutate: verifyRecoveryPassword, isPending } = verifyCode;
+
+  const form = useForm<CodeSchema>({
     resolver: zodResolver(schema),
     defaultValues: { code: "" },
   });
 
-  const handleSubmitForm = (data: ResetCodeSchema) => {
+  const handleSubmitForm = (data: CodeSchema) => {
     verifyRecoveryPassword(
       { email, code: data.code.trim() },
       {

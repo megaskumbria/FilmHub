@@ -15,8 +15,8 @@ import {
   Button,
 } from "@/shared/ui";
 import { ApiErrorMessage } from "@/shared/types/api-error-types";
-import { useResetEmailSchema, type ResetEmailSchema } from "../../model/auth-schema";
-import { useForgotPassword } from "../../lib/useAuth";
+import { useEmailSchema, type EmailSchema } from "../model/forgot-password-schema";
+import { useForgotPassword } from "../lib/useForgotPassword";
 import { fieldClassName, labelClassName, submitClassName } from "./field-classes";
 
 interface Props {
@@ -26,17 +26,21 @@ interface Props {
 
 export const EmailStep = ({ active, onSubmit }: Props) => {
   const t = useTranslations("auth");
-  const schema = useResetEmailSchema();
-  const { mutate: forgotPassword, isPending } = useForgotPassword();
-  const form = useForm<ResetEmailSchema>({
+
+  const schema = useEmailSchema();
+
+  const { sendCode } = useForgotPassword();
+  const { mutate: sendRecoveryCode, isPending } = sendCode;
+
+  const form = useForm<EmailSchema>({
     resolver: zodResolver(schema),
     defaultValues: { email: "" },
   });
 
-  const handleSubmitForm = (data: ResetEmailSchema) => {
+  const handleSubmitForm = (data: EmailSchema) => {
     const email = data.email.trim();
 
-    forgotPassword(email, {
+    sendRecoveryCode(email, {
       onSuccess: () => onSubmit(email),
       onError: (error) => {
         if (!axios.isAxiosError<ApiErrorMessage>(error)) return;
@@ -58,6 +62,7 @@ export const EmailStep = ({ active, onSubmit }: Props) => {
             render={({ field }) => (
               <FormItem className="gap-1.5">
                 <FormLabel className={labelClassName}>{t("email")}</FormLabel>
+
                 <FormControl>
                   <Input
                     variant="neutral"

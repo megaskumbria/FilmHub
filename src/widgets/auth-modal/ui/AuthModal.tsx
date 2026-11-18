@@ -14,13 +14,8 @@ import {
   Button,
   DialogTitle,
 } from "@/shared/ui";
-import {
-  SignInForm,
-  SignUpForm,
-  ResetPasswordForm,
-  ContinueWithGoogle,
-  useAuthModalStore,
-} from "@/features/auth";
+import { SignInForm, SignUpForm, ContinueWithGoogle, useAuthModalStore } from "@/features/auth";
+import { ForgotPasswordForm } from "@/features/forgot-password";
 import { AuthDeck, type DeckMode } from "./AuthDeck";
 
 const TABS = ["signin", "signup"] as const;
@@ -76,11 +71,11 @@ export function AuthModal() {
             <span className="text-sm font-semibold tracking-tight text-foreground/90">FilmHub</span>
           </div>
 
-          <div className="relative order-2 sm:order-none">
+          <div className="relative order-2 sm:order-0">
             <AuthDeck mode={deckMode} />
           </div>
 
-          <div className="relative order-1 flex-1 sm:order-none sm:flex-none">
+          <div className="relative order-1 flex-1 sm:order-0 sm:flex-none">
             <p className="font-unbounded text-base leading-snug font-semibold tracking-tight text-balance text-foreground sm:text-xl">
               {t(`deck.${deckMode}.title`)}
             </p>
@@ -132,10 +127,9 @@ export function AuthModal() {
               </div>
             </Tabs>
           : <div className="flex flex-1 flex-col">
-              <ResetPasswordForm onCancel={returnToSignIn} onComplete={close} />
+              <ForgotPasswordForm onCancel={returnToSignIn} onComplete={close} />
 
               <Button
-                type="button"
                 size="none"
                 className="mt-6 w-fit text-sm font-semibold text-accent transition-colors hover:text-accent/80"
                 onClick={returnToSignIn}

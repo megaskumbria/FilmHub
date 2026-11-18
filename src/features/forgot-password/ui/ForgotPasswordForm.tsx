@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui";
@@ -9,20 +9,68 @@ import { EmailStep } from "./EmailStep";
 import { CodeStep } from "./CodeStep";
 import { PasswordStep } from "./PasswordStep";
 
-const STEPS = ["email", "code", "password"] as const;
-type ResetStep = (typeof STEPS)[number];
+type ResetStep = "email" | "code" | "password";
+
+interface Step {
+  id: ResetStep;
+  title: string;
+  hint: string;
+  render: () => ReactNode;
+}
 
 interface Props {
   onCancel: () => void;
   onComplete: () => void;
 }
 
-export const ResetPasswordForm = ({ onCancel, onComplete }: Props) => {
+export const ForgotPasswordForm = ({ onCancel, onComplete }: Props) => {
   const t = useTranslations("auth");
+
   const rootRef = useRef<HTMLDivElement>(null);
+
   const [step, setStep] = useState<ResetStep>("email");
   const [email, setEmail] = useState("");
   const [resetToken, setResetToken] = useState("");
+
+  const STEPS: Step[] = [
+    {
+      id: "email",
+      title: t("reset.title"),
+      hint: t("reset.emailHint"),
+      render: () => (
+        <EmailStep
+          active={step === "email"}
+          onSubmit={(value) => {
+            setEmail(value);
+            setStep("code");
+          }}
+        />
+      ),
+    },
+    {
+      id: "code",
+      title: t("reset.codeTitle"),
+      hint: t("reset.codeHint", { email }),
+      render: () => (
+        <CodeStep
+          active={step === "code"}
+          email={email}
+          onSubmit={(token) => {
+            setResetToken(token);
+            setStep("password");
+          }}
+        />
+      ),
+    },
+    {
+      id: "password",
+      title: t("reset.passwordTitle"),
+      hint: t("reset.passwordHint"),
+      render: () => (
+        <PasswordStep active={step === "password"} resetToken={resetToken} onSubmit={onComplete} />
+      ),
+    },
+  ];
 
   useEffect(() => {
     const input = rootRef.current?.querySelector<HTMLInputElement>(`[data-step="${step}"] input`);
@@ -43,15 +91,8 @@ export const ResetPasswordForm = ({ onCancel, onComplete }: Props) => {
     onCancel();
   };
 
-  const stepIndex = STEPS.indexOf(step);
-  const title =
-    step === "email" ? t("reset.title")
-    : step === "code" ? t("reset.codeTitle")
-    : t("reset.passwordTitle");
-  const hint =
-    step === "email" ? t("reset.emailHint")
-    : step === "code" ? t("reset.codeHint", { email })
-    : t("reset.passwordHint");
+  const stepIndex = STEPS.findIndex((item) => item.id === step);
+  const currentStep = STEPS[stepIndex];
 
   return (
     <div ref={rootRef}>
@@ -65,14 +106,18 @@ export const ResetPasswordForm = ({ onCancel, onComplete }: Props) => {
         <span>{t("reset.back")}</span>
       </Button>
 
-      <h2 className="text-[15px] font-semibold tracking-tight text-foreground">{title}</h2>
-      <p className="mt-1 text-sm text-zinc-muted">{hint}</p>
+      <h2 className="text-[15px] font-semibold tracking-tight text-foreground">
+        {currentStep.title}
+      </h2>
+
+      <p className="mt-1 text-sm text-zinc-muted">{currentStep.hint}</p>
+
       <p className="sr-only">{t("reset.step", { current: stepIndex + 1, total: STEPS.length })}</p>
 
       <div className="mt-4 flex gap-1.5" aria-hidden>
         {STEPS.map((item, index) => (
           <span
-            key={item}
+            key={item.id}
             className={cn(
               "h-0.5 flex-1 rounded-full",
               index <= stepIndex ? "bg-accent" : "bg-border",
@@ -82,22 +127,9 @@ export const ResetPasswordForm = ({ onCancel, onComplete }: Props) => {
       </div>
 
       <div className="mt-5">
-        <EmailStep
-          active={step === "email"}
-          onSubmit={(value) => {
-            setEmail(value);
-            setStep("code");
-          }}
-        />
-        <CodeStep
-          active={step === "code"}
-          email={email}
-          onSubmit={(token) => {
-            setResetToken(token);
-            setStep("password");
-          }}
-        />
-        <PasswordStep active={step === "password"} resetToken={resetToken} onSubmit={onComplete} />
+        {STEPS.map((item) => (
+          <Fragment key={item.id}>{item.render()}</Fragment>
+        ))}
       </div>
     </div>
   );

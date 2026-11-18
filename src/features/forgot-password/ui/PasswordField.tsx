@@ -2,7 +2,6 @@
 
 import type { UseFormReturn } from "react-hook-form";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import {
   FormField,
   FormItem,
@@ -13,11 +12,11 @@ import {
   Button,
 } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
-import type { ResetPasswordSchema } from "../../model/auth-schema";
+import type { ForgotPasswordSchema } from "../model/forgot-password-schema";
 import { fieldClassName, labelClassName } from "./field-classes";
 
 interface Props {
-  form: UseFormReturn<ResetPasswordSchema>;
+  form: UseFormReturn<ForgotPasswordSchema>;
   name: "password" | "confirmPassword";
   label: string;
   visible: boolean;
@@ -25,8 +24,6 @@ interface Props {
 }
 
 export const PasswordField = ({ form, name, label, visible, onToggle }: Props) => {
-  const t = useTranslations("auth");
-
   return (
     <FormField
       control={form.control}
@@ -34,6 +31,7 @@ export const PasswordField = ({ form, name, label, visible, onToggle }: Props) =
       render={({ field }) => (
         <FormItem className="gap-1.5">
           <FormLabel className={labelClassName}>{label}</FormLabel>
+
           <div className="relative">
             <FormControl>
               <Input
@@ -46,10 +44,9 @@ export const PasswordField = ({ form, name, label, visible, onToggle }: Props) =
                 {...field}
               />
             </FormControl>
+
             <Button
-              type="button"
               size="none"
-              aria-label={visible ? t("reset.hidePassword") : t("reset.showPassword")}
               className="absolute right-3 top-1/2 -translate-y-1/2 p-0 text-zinc-muted transition-colors hover:text-accent"
               onClick={onToggle}
             >
