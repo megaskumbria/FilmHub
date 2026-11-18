@@ -41,7 +41,12 @@ export { useCreateFlagScale, useDeleteFlagScale, useRenameFlagScale } from "./us
 export { type PresetPack, useGetPresetPacks, useAddPresetPack } from "./usePresetPacks";
 export { useRenameScale } from "./useRenameScale";
 export { useSetMediaFlags } from "./useMediaFlags";
-export { collectionsFeedQuery, useFeedGenres, type CollectionFeedItem } from "./useCollectionsFeed";
+export {
+  collectionsFeedQuery,
+  infiniteCollectionsFeedQuery,
+  useFeedGenres,
+  type CollectionFeedItem,
+} from "./useCollectionsFeed";
 export {
   profileQueryOptions,
   type UserProfile,

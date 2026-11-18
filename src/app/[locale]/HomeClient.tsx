@@ -1,12 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { collectionsFeedQuery, useDebounce } from "@/shared/hooks";
+import { infiniteCollectionsFeedQuery, useDebounce, useIntersectionObserver } from "@/shared/hooks";
 import { FilterFeed } from "@/widgets";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { CollectionDeck } from "@/entities";
 import { useCollectionsFeedStore } from "@/features/feed-filter";
-import { Button, Input } from "@/shared/ui";
+import { Button, CardShirt, Input } from "@/shared/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { useRef, useState } from "react";
@@ -19,11 +19,26 @@ export const HomeClient = () => {
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const { genreId, sort, quantity } = useCollectionsFeedStore();
-  const { data: collectionsFeed } = useQuery(
-    collectionsFeedQuery({ genreId, sort, quantity, searchQuery: debouncedSearchQuery }),
+
+  const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    infiniteCollectionsFeedQuery({
+      genreId,
+      sort,
+      quantity,
+      searchQuery: debouncedSearchQuery,
+      limit: 20,
+    }),
   );
 
-  const collectionsCount = collectionsFeed?.length;
+  const ref = useIntersectionObserver(
+    () => {
+      if (hasNextPage && !isFetchingNextPage) void fetchNextPage();
+    },
+    { rootMargin: "500px" },
+  );
+
+  const collections = data?.pages.flatMap((page) => page.items) ?? [];
+  const collectionsCount = data?.pages[0]?.total ?? 0;
 
   return (
     <main className="max-w-410 w-full mx-auto px-6 pt-20 pb-16">
@@ -74,11 +89,11 @@ export const HomeClient = () => {
 
             <p className="flex items-end gap-2.5 shrink-0">
               <span className="font-unbounded text-3xl font-semibold tabular-nums tracking-tight leading-none text-foreground">
-                {collectionsCount ?? 0}
+                {collectionsCount}
               </span>
 
               <span className="text-lg text-zinc-light leading-6">
-                {t("collections", { count: collectionsCount ?? 0 })}
+                {t("collections", { count: collectionsCount })}
               </span>
             </p>
           </div>
@@ -88,10 +103,20 @@ export const HomeClient = () => {
       </section>
 
       <div className="grid grid-cols-5 gap-x-4 gap-y-12 justify-items-center">
-        {collectionsFeed?.map((collection) => (
-          <CollectionDeck key={collection.id} collection={collection} />
-        ))}
+        {isLoading ?
+          Array.from({ length: 10 }).map((_, i) => <CardShirt key={i} className="w-55" />)
+        : collections.map((collection) => (
+            <CollectionDeck key={collection.id} collection={collection} />
+          ))
+        }
+
+        {isFetchingNextPage
+          && Array.from({ length: 10 }).map((_, i) => (
+            <CardShirt key={`card-shirt-${i}`} className="w-55" />
+          ))}
       </div>
+
+      <div ref={ref} style={{ height: 1 }} />
     </main>
   );
 };

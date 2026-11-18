@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { infiniteQueryOptions, queryOptions, useQuery } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
 import { apiClient } from "../api/api-client";
 
@@ -20,12 +20,22 @@ export interface CollectionFeedItem {
   owner: OwnerCollection;
 }
 
+export interface CollectionsFeedData {
+  items: CollectionFeedItem[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 interface CollectionsFeedArgs {
   genreId?: string;
   sort?: string;
   quantity?: string;
   searchQuery?: string;
   token?: string;
+  page?: number;
+  limit?: number;
 }
 
 export const collectionsFeedQuery = ({
@@ -33,15 +43,17 @@ export const collectionsFeedQuery = ({
   sort = "",
   quantity = "",
   searchQuery = "",
+  page = 1,
+  limit = 20,
   token,
 }: CollectionsFeedArgs = {}) =>
   queryOptions({
-    queryKey: ["collections-feed", genreId, sort, quantity, searchQuery],
+    queryKey: ["collections-feed", genreId, sort, quantity, searchQuery, page, limit],
     queryFn: async ({ queryKey, signal }) => {
-      const [, genreId, sort, quantity, searchQuery] = queryKey;
+      const [, genreId, sort, quantity, searchQuery, page, limit] = queryKey;
 
-      const { data } = await apiClient.get<CollectionFeedItem[]>(
-        `${API_URL}/collections-feed?genreId=${genreId}&sort=${sort}&quantity=${quantity}&searchQuery=${searchQuery}`,
+      const { data } = await apiClient.get<CollectionsFeedData>(
+        `${API_URL}/collections-feed?genreId=${genreId}&sort=${sort}&quantity=${quantity}&searchQuery=${searchQuery}&page=${page}&limit=${limit}`,
         {
           signal,
           ...(token ? { headers: { Cookie: `accessToken=${token}` } } : {}),
@@ -50,6 +62,37 @@ export const collectionsFeedQuery = ({
 
       return data;
     },
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60,
+  });
+
+export const infiniteCollectionsFeedQuery = ({
+  genreId = "",
+  sort = "",
+  quantity = "",
+  searchQuery = "",
+  limit = 20,
+  token,
+}: CollectionsFeedArgs = {}) =>
+  infiniteQueryOptions({
+    queryKey: ["collections-feed", { genreId, sort, quantity, searchQuery, limit }],
+    queryFn: async ({ pageParam, signal }) => {
+      const { data } = await apiClient.get<CollectionsFeedData>(
+        `${API_URL}/collections-feed?genreId=${genreId}&sort=${sort}&quantity=${quantity}&searchQuery=${searchQuery}&page=${pageParam}&limit=${limit}`,
+        {
+          signal,
+          ...(token ? { headers: { Cookie: `accessToken=${token}` } } : {}),
+        },
+      );
+
+      return data;
+    },
+    getNextPageParam: (lastPage) => {
+      const { page, totalPages } = lastPage;
+      if (page >= totalPages) return undefined;
+      return page + 1;
+    },
+    initialPageParam: 1,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 60,
   });

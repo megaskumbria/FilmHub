@@ -1,4 +1,4 @@
-import { collectionsFeedQuery } from "@/shared/hooks";
+import { infiniteCollectionsFeedQuery } from "@/shared/hooks";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { HomeClient } from "./HomeClient";
 import { getAccessToken } from "@/shared/lib/getAccessToken";
@@ -8,7 +8,7 @@ export default async function Home() {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(collectionsFeedQuery({ token }));
+  await queryClient.prefetchInfiniteQuery(infiniteCollectionsFeedQuery({ token }));
 
   const dehydratedState = dehydrate(queryClient);
 
