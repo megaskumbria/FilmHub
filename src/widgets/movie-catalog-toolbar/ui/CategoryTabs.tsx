@@ -9,6 +9,7 @@ const TABS = ["all", "movie", "tv"] as const;
 
 export const CategoryTabs = () => {
   const t = useTranslations("catalog");
+
   const { category, setCategory } = useMediaCatalog();
 
   return (
@@ -18,15 +19,12 @@ export const CategoryTabs = () => {
         setCategory(value as MediaCategory);
       }}
     >
-      <TabsList
-        aria-label={t("categories")}
-        className="h-auto items-end gap-x-5 gap-y-2 flex-wrap justify-start rounded-none bg-transparent p-0 sm:gap-x-8"
-      >
+      <TabsList className="h-auto items-end gap-x-5 gap-y-2 flex-wrap justify-start rounded-none bg-transparent p-0 sm:gap-x-8">
         {TABS.map((value) => (
           <TabsTrigger
             key={value}
             value={value}
-            className="group cursor-pointer relative h-auto flex-none rounded-none border-0 px-0 pb-3 pt-0 font-unbounded text-xl font-semibold tracking-tight transition-colors duration-300 sm:text-4xl data-[state=active]:text-foreground data-[state=inactive]:text-zinc-muted/50 hover:text-zinc-light focus-visible:ring-0 focus-visible:outline-none focus-visible:text-foreground"
+            className="group cursor-pointer relative h-auto flex-none rounded-none border-0 px-0 pb-3 pt-0 font-unbounded text-xl font-semibold tracking-tight transition-colors duration-300 sm:text-3xl data-[state=active]:text-foreground data-[state=inactive]:text-zinc-muted/50 hover:text-zinc-light focus-visible:ring-0 focus-visible:outline-none focus-visible:text-foreground"
           >
             <span className="relative z-10">{t(value)}</span>
 

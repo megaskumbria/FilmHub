@@ -1,6 +1,10 @@
-import { cn } from "@/shared/lib/utils";
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { IconStarFilled, IconStack2 } from "@tabler/icons-react";
+import { CardShirt } from "@/shared/ui";
+import { cn } from "@/shared/lib/utils";
 
 const CARD_W = 220;
 const CARD_H = Math.round(CARD_W * (3 / 2));
@@ -14,6 +18,9 @@ interface Props {
 }
 
 export const StackPoster = ({ poster, isTop, filmsCount, rating, hovered }: Props) => {
+  const [loadedPoster, setLoadedPoster] = useState<string | null>(null);
+  const isPosterLoaded = loadedPoster === poster;
+
   return (
     <div
       className={cn(
@@ -24,16 +31,30 @@ export const StackPoster = ({ poster, isTop, filmsCount, rating, hovered }: Prop
       )}
       style={{ height: CARD_H }}
     >
-      <Image
-        src={poster}
-        alt={poster}
-        width={CARD_W}
-        height={CARD_H}
-        className={cn(
-          "w-full h-full object-cover transition-[transform,filter] duration-500",
-          !isTop && "brightness-[0.6] saturate-[0.9]",
-        )}
-      />
+      {poster && !isPosterLoaded && (
+        <CardShirt className="absolute inset-0 h-full rounded-none border-0" />
+      )}
+
+      {poster && (
+        <Image
+          src={poster}
+          alt={poster}
+          width={CARD_W}
+          height={CARD_H}
+          onLoad={(event) => {
+            event.currentTarget
+              .decode()
+              .catch(() => {})
+              .finally(() => setLoadedPoster(poster));
+          }}
+          onError={() => setLoadedPoster(poster)}
+          className={cn(
+            "w-full h-full object-cover transition-[transform,filter,opacity] duration-500",
+            !isTop && "brightness-[0.6] saturate-[0.9]",
+            isPosterLoaded ? "opacity-100" : "opacity-0",
+          )}
+        />
+      )}
 
       <div
         aria-hidden

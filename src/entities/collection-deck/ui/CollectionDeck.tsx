@@ -2,13 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { cn } from "@/shared/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui";
-import { IconStarFilled, IconEye, IconHeartFilled } from "@tabler/icons-react";
+
 import { motion } from "framer-motion";
 import { StackPoster } from "@/widgets";
 import { CollectionFeedItem } from "@/shared/hooks/useCollectionsFeed";
-import { getAvatarColor } from "@/shared/lib";
+import { CollectionDeckFooter } from "./CollectionDeckFooter";
 
 const CARD_W = 220;
 const CARD_H = Math.round(CARD_W * (3 / 2));
@@ -37,25 +35,14 @@ interface Props {
 export const CollectionDeck = ({ collection }: Props) => {
   const [hovered, setHovered] = useState(false);
 
-  const {
-    collectionName,
-    genres,
-    rating,
-    viewsCount,
-    likesCount,
-    previewPosters,
-    moviesCount,
-    id,
-  } = collection;
-  const { nickname, avatarUrl, userId } = collection.owner;
+  const { rating, previewPosters, moviesCount, id } = collection;
+
+  const { userId } = collection.owner;
 
   const positions = hovered ? hoveredPositions : restingPositions;
 
   const stageWidth = CARD_W + STACK_RESERVE_X * 2;
   const stageHeight = CARD_H + STACK_RESERVE_Y;
-
-  const normalizedGenres = genres.slice(0, 3).join(" · ");
-  const firstAvatarLetter = nickname?.charAt(0).toUpperCase();
 
   return (
     <Link href={`/collections/${userId}?collectionId=${id}`} className="block">
@@ -138,57 +125,7 @@ export const CollectionDeck = ({ collection }: Props) => {
           />
         </div>
 
-        <footer className="mt-3 mx-auto" style={{ width: CARD_W }}>
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex-col gap-2">
-              <p
-                className={cn(
-                  "min-w-0 flex-1 truncate text-base font-semibold leading-tight transition-colors duration-300",
-                  hovered ? "text-accent" : "text-foreground",
-                )}
-              >
-                {collectionName}
-              </p>
-
-              <p className="mt-1 truncate text-sm text-zinc-muted">{normalizedGenres}</p>
-            </div>
-
-            <Avatar className="size-8">
-              {avatarUrl && (
-                <AvatarImage
-                  className="rounded-full"
-                  src={avatarUrl}
-                  alt={nickname}
-                  referrerPolicy="no-referrer"
-                />
-              )}
-
-              <AvatarFallback
-                style={{ backgroundColor: getAvatarColor(userId) }}
-                className="text-primary font-medium text-sm"
-              >
-                {firstAvatarLetter}
-              </AvatarFallback>
-            </Avatar>
-          </div>
-
-          <div className="mt-2.5 flex items-center gap-3.5">
-            <span className="flex items-center gap-1 text-sm font-semibold text-gold">
-              <IconStarFilled className="size-3.5 text-gold" />
-              {rating.toFixed(1)}
-            </span>
-
-            <span className="flex items-center gap-1 text-sm text-zinc-muted">
-              <IconEye className="size-3.5" />
-              {viewsCount}
-            </span>
-
-            <span className="flex items-center gap-1 text-sm text-zinc-muted">
-              <IconHeartFilled className="size-3.5" />
-              {likesCount}
-            </span>
-          </div>
-        </footer>
+        <CollectionDeckFooter collection={collection} hovered={hovered} />
       </article>
     </Link>
   );
