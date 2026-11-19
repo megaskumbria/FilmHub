@@ -41,15 +41,17 @@ export const HomeClient = () => {
   const collectionsCount = data?.pages[0]?.total ?? 0;
 
   return (
-    <main className="max-w-410 w-full mx-auto px-6 pt-20 pb-16">
-      {/* <BestCollectionsSlider /> */}
+    <div className="w-full min-w-0 overflow-clip">
+      <main className="mx-auto w-full min-w-0 max-w-410 px-2 pt-20 pb-16 min-[907px]:px-4 min-[1278px]:px-6">
+        {/* <BestCollectionsSlider /> */}
 
-      <section className="flex flex-col gap-5 mb-10">
-        <h1 className="font-serif text-5xl font-bold text-primary tracking-tight">{t("title")}</h1>
+        <section className="mb-8 flex min-w-0 flex-col gap-4 sm:mb-10 sm:gap-5">
+          <h1 className="font-serif text-3xl font-bold tracking-tight text-primary sm:text-5xl">
+            {t("title")}
+          </h1>
 
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4 w-full">
-            <search className="group/search relative w-full max-w-80">
+          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <search className="group/search relative w-full min-w-0 sm:w-80 sm:max-w-80 sm:shrink">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-muted transition-colors pointer-events-none group-focus-within/search:text-accent" />
 
               <Input
@@ -87,36 +89,43 @@ export const HomeClient = () => {
               </AnimatePresence>
             </search>
 
-            <p className="flex items-end gap-2.5 shrink-0">
-              <span className="font-unbounded text-3xl font-semibold tabular-nums tracking-tight leading-none text-foreground">
-                {collectionsCount}
-              </span>
+            <div className="flex items-center justify-between gap-3 sm:contents">
+              <p className="flex shrink-0 items-end gap-2 sm:gap-2.5">
+                <span className="font-unbounded text-2xl font-semibold tabular-nums leading-none tracking-tight text-foreground sm:text-3xl">
+                  {collectionsCount}
+                </span>
 
-              <span className="text-lg text-zinc-light leading-6">
-                {t("collections", { count: collectionsCount })}
-              </span>
-            </p>
+                <span className="text-base leading-5 text-zinc-light sm:text-lg sm:leading-6">
+                  {t("collections", { count: collectionsCount })}
+                </span>
+              </p>
+
+              <div className="shrink-0 sm:ml-auto">
+                <FilterFeed />
+              </div>
+            </div>
           </div>
+        </section>
 
-          <FilterFeed />
+        <div
+          className="grid w-full min-w-0 items-start justify-items-center gap-x-2 gap-y-12 lg:gap-x-4"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 276px), 1fr))" }}
+        >
+          {isLoading ?
+            Array.from({ length: 10 }).map((_, i) => <CardShirt key={i} className="w-55" />)
+          : collections.map((collection) => (
+              <CollectionDeck key={collection.id} collection={collection} />
+            ))
+          }
+
+          {isFetchingNextPage
+            && Array.from({ length: 10 }).map((_, i) => (
+              <CardShirt key={`card-shirt-${i}`} className="w-55" />
+            ))}
         </div>
-      </section>
 
-      <div className="grid grid-cols-5 gap-x-4 gap-y-12 justify-items-center">
-        {isLoading ?
-          Array.from({ length: 10 }).map((_, i) => <CardShirt key={i} className="w-55" />)
-        : collections.map((collection) => (
-            <CollectionDeck key={collection.id} collection={collection} />
-          ))
-        }
-
-        {isFetchingNextPage
-          && Array.from({ length: 10 }).map((_, i) => (
-            <CardShirt key={`card-shirt-${i}`} className="w-55" />
-          ))}
-      </div>
-
-      <div ref={ref} style={{ height: 1 }} />
-    </main>
+        <div ref={ref} style={{ height: 1 }} />
+      </main>
+    </div>
   );
 };

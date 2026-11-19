@@ -24,7 +24,7 @@ export const FilterFeed = () => {
         <Button className="relative shrink-0 h-11 gap-x-2 rounded-full border border-border/40 bg-graphite px-4 hover:border-accent/40 hover:bg-surface data-[state=open]:border-accent/50 data-[state=open]:bg-surface transition-colors duration-300">
           <IconAdjustmentsHorizontal className="size-4.5 text-zinc-muted group-hover:text-accent group-data-[state=open]:text-accent transition-colors" />
 
-          <span className="hidden text-sm font-medium sm:inline">{t("filters")}</span>
+          <span className="hidden text-sm font-medium xxs:inline">{t("filters")}</span>
 
           <AnimatePresence>
             {hasActiveFilters && (
