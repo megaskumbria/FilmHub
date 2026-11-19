@@ -28,7 +28,7 @@ export const Header = ({ initialUser }: Props) => {
 
   const navLinks = [
     { href: "/", label: t("collections") },
-    { href: "/movie-search", label: t("movies") },
+    { href: "/catalog", label: t("catalog") },
   ];
 
   useEffect(() => {

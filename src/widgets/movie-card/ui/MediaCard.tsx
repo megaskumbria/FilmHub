@@ -124,7 +124,7 @@ export const MediaCard = ({
 
       <Link
         className={cn(fillHeight && "flex-1 min-h-0")}
-        href={hasRoute ? "" : `/${locale}/movies/${id}?mediaType=${mediaType}`}
+        href={hasRoute ? "" : `/${locale}/catalog/${id}?mediaType=${mediaType}`}
       >
         <div
           className={cn(

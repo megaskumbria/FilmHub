@@ -3,7 +3,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { infiniteMediaQueryOptions } from "@/shared/hooks";
 import { getAccessToken } from "@/shared/lib/getAccessToken";
 
-export default async function MovieSearchPage() {
+export default async function MovieCatalogPage() {
   const token = await getAccessToken();
 
   const queryClient = new QueryClient();

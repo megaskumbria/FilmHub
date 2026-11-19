@@ -50,7 +50,7 @@ export const EmptyStateCollectionFilms = ({ isMyProfile, searchQuery = "" }: Pro
 
       {text && (
         <Link
-          href={`/${locale}/movie-search`}
+          href={`/${locale}/catalog`}
           className="group flex items-center gap-2 text-sm text-muted/50 hover:text-muted transition-colors duration-200"
         >
           <span className="underline underline-offset-4 decoration-muted/20 group-hover:decoration-muted/50 transition-colors duration-200">

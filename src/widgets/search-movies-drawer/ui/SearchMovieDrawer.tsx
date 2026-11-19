@@ -77,7 +77,7 @@ export const SearchMovieDrawer = () => {
 
         <DrawerHeader className="px-6 pb-4 pt-2 items-center">
           <div className="relative max-w-250 w-full flex items-center">
-            <Link href="/movie-search" onClick={() => setOpen(false)}>
+            <Link href="/catalog" onClick={() => setOpen(false)}>
               <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted cursor-pointer" />
             </Link>
 
@@ -147,7 +147,7 @@ export const SearchMovieDrawer = () => {
 
         <DrawerFooter className="border-t border-border/40 py-3">
           <Link
-            href="/movie-search"
+            href="/catalog"
             onClick={() => setOpen(false)}
             className="group flex items-center justify-center gap-0.5"
           >
