@@ -5,7 +5,7 @@
     "delete": "Удалить"
   },
   "header": {
-    "home": "Главная",
+    "collections": "Коллекции",
     "movies": "Фильмы",
     "about": "О проекте",
     "myCollections": "Мои коллекции",
@@ -16,6 +16,7 @@
       "more": "Больше результатов"
     },
     "menu": {
+      "open": "Меню",
       "account": "Аккаунт",
       "subscriptions": "Подписки",
       "statistics": "Статистика",

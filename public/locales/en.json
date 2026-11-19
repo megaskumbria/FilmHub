@@ -5,7 +5,7 @@
     "delete": "Delete"
   },
   "header": {
-    "home": "Home",
+    "collections": "Collections",
     "movies": "Movies",
     "about": "About",
     "myCollections": "My collections",
@@ -16,6 +16,7 @@
       "more": "More results"
     },
     "menu": {
+      "open": "Menu",
       "account": "Account",
       "subscriptions": "Subscriptions",
       "statistics": "Statistics",

@@ -11,6 +11,7 @@ import {
 import { UserActions } from "./UserActions";
 import { LangToggle, LogoutButton } from "@/features";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useAuthStore, type User } from "@/features/auth";
 import { getAvatarColor } from "@/shared/lib";
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const UserMenu = ({ initialUser }: Props) => {
+  const t = useTranslations("header.menu");
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -37,6 +39,7 @@ export const UserMenu = ({ initialUser }: Props) => {
       <PopoverTrigger asChild>
         <Avatar
           size="lg"
+          aria-label={t("open")}
           className="cursor-pointer border-2 border-border bg-muted/30 transition-[border-color,opacity] duration-200 hover:border-muted-foreground/30 hover:opacity-90"
         >
           {avatarUrl ?
@@ -68,8 +71,6 @@ export const UserMenu = ({ initialUser }: Props) => {
         <LangToggle />
 
         <UserActions />
-
-        {/* <SupportProject /> */}
 
         <Separator decorative orientation="horizontal" />
 
