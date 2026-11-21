@@ -50,7 +50,7 @@ export const FlagGroup = ({
 
   return (
     <div
-      className="flex flex-wrap gap-1.5 translate-y-0 transition-transform duration-300 ease-out"
+      className="flex w-full min-w-0 flex-wrap gap-1.5 translate-y-0 transition-transform duration-300 ease-out"
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {isPreview ?

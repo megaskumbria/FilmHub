@@ -75,7 +75,7 @@ export const FlagScaleHoverCard = ({ scaleId, scaleName, currentFlagId, children
     >
       <HoverCardTrigger asChild>
         <span
-          className="inline-flex"
+          className="inline-flex w-max max-w-full min-w-0"
           onPointerEnter={handlePointerEnter}
           onPointerLeave={handlePointerLeave}
         >

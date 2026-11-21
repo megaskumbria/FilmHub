@@ -12,8 +12,8 @@ export const FlagWithScale = ({ scaleName, showScale, children }: Props) => {
   if (!showScale || !scaleName) return children;
 
   return (
-    <div className="flex flex-col gap-1">
-      <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-white text-shadow-flag">
+    <div className="flex w-max max-w-full min-w-0 flex-col gap-1">
+      <h4 className="max-w-full truncate text-[10px] font-extrabold tracking-widest text-white uppercase text-shadow-flag">
         {scaleName}
       </h4>
 

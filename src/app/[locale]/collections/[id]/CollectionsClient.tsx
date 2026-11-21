@@ -86,7 +86,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
 
       {isMediaEmpty ?
         <EmptyStateCollectionFilms isMyProfile={isMyProfile} searchQuery={debouncedSearchTerm} />
-      : <ul className="grid grid-cols-2 gap-3 xs:grid-cols-3 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5">
+      : <ul className="grid grid-cols-1 gap-3 min-[540px]:grid-cols-2 min-[800px]:grid-cols-3 min-[1024px]:grid-cols-4 min-[1024px]:gap-4 min-[1290px]:grid-cols-5">
           {isLoadingMedia ?
             Array.from({ length: 5 }).map((_, i) => <MediaCardSkeleton key={`skeleton-${i}`} />)
           : mediaItems.map((media) => (

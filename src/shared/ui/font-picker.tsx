@@ -69,11 +69,13 @@ function FontListItem({
         </span>
         <span
           className={cn(
-            "text-zinc-muted text-xs transition-opacity duration-300",
+            "text-zinc-muted block truncate text-xs leading-none transition-opacity duration-300",
             isFontLoaded ? "opacity-100" : "opacity-0",
           )}
           style={{
             fontFamily: isFontLoaded ? font.family : "system-ui",
+            fontOpticalSizing: "none",
+            fontFeatureSettings: '"liga" 0, "clig" 0, "calt" 0, "dlig" 0',
           }}
         >
           The quick brown fox
@@ -102,7 +104,7 @@ function FontListRow({
     return null;
   }
   return (
-    <div style={style} {...ariaAttributes}>
+    <div className="overflow-hidden" style={style} {...ariaAttributes}>
       <FontListItem
         font={font}
         isSelected={selectedFamily === font.family}

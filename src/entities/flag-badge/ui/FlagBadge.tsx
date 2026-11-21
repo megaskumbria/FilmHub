@@ -34,29 +34,31 @@ export const FlagBadge = ({ flagItem, level, total, showLevelDots }: Props) => {
 
   return (
     <span
-      className="relative inline-flex items-stretch w-fit overflow-visible backdrop-blur-md"
+      className="relative inline-flex w-max max-w-full min-w-0 items-stretch overflow-visible backdrop-blur-md"
       style={{ isolation: "isolate", transform: "translateZ(0)" }}
       // style={{ transform: "translateZ(0)", willChange: "transform" }}
     >
       <span
-        className="pl-1.5 gap-1.5 pr-2 py-1 text-sm font-semibold rounded-l-sm border-y border-l flex items-center"
+        className="flex min-w-0 items-center gap-1.5 overflow-hidden rounded-l-sm border-y border-l py-1 pr-2 pl-1.5 text-sm leading-none font-semibold"
         style={{
           color,
           backgroundColor: computedBg,
           borderColor: color,
           textShadow: "0 1px 2px rgba(0, 0, 0, 0.8)",
           fontFamily: fontFamily || "Manrope",
+          fontOpticalSizing: "none",
+          fontFeatureSettings: '"liga" 0, "clig" 0, "calt" 0, "dlig" 0',
         }}
       >
         {svgContent && <InlineSvg svg={svgContent} className="size-5 shrink-0" />}
 
         <span
           className={cn(
-            "flex flex-col items-start gap-1",
+            "flex min-w-0 flex-col gap-1",
             shouldShowLevel && "min-h-7.5 justify-center",
           )}
         >
-          <span className="leading-tight">{flagName}</span>
+          <span className="min-w-0 truncate leading-none">{flagName}</span>
 
           {shouldShowLevel && <LevelDots level={level} total={total} />}
         </span>

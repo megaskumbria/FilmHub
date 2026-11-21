@@ -23,6 +23,13 @@ let fontsCache: GoogleFont[] | null = null;
 let fontsCacheTimestamp: number | null = null;
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
+const NON_TEXT_FONT_FAMILY =
+  /^(Material Icons|Material Symbols|Noto Emoji|Noto Color Emoji|Noto Sans Symbols)\b/;
+
+function isUsableTextFont(font: GoogleFont): boolean {
+  return font.subsets.includes("latin") && !NON_TEXT_FONT_FAMILY.test(font.family);
+}
+
 export async function fetchGoogleFonts(): Promise<GoogleFont[]> {
   // Check if we have a valid cache
   if (fontsCache && fontsCacheTimestamp && Date.now() - fontsCacheTimestamp < CACHE_DURATION) {
@@ -39,9 +46,10 @@ export async function fetchGoogleFonts(): Promise<GoogleFont[]> {
       throw new Error("Failed to fetch Google Fonts");
     }
     const data = (await response.json()) as { items: GoogleFont[] };
-    fontsCache = data.items;
+    const textFonts = data.items.filter(isUsableTextFont);
+    fontsCache = textFonts;
     fontsCacheTimestamp = Date.now();
-    return data.items;
+    return textFonts;
   } catch (error) {
     // If fetch fails and we have a cache, return it even if expired
     if (fontsCache) {

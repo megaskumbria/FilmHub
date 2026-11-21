@@ -12,6 +12,7 @@ import { PreviewFit } from "./PreviewFit";
 
 export const FlagPreview = memo(() => {
   const t = useTranslations("flags");
+
   const { flag } = useCreationFlagStore(
     useShallow((state) => ({
       flag: state.flag,
@@ -54,19 +55,21 @@ export const FlagPreview = memo(() => {
         <div ref={chipFit.containerRef} className="flex w-full min-w-0 justify-center">
           <PreviewFit fit={chipFit}>
             <div
-              className="inline-flex max-h-11.5 items-center gap-1.5 rounded-lg border p-2"
+              className="inline-flex max-h-11.5 items-center gap-1.5 overflow-hidden rounded-lg border p-2"
               style={{
                 color: selectedColor,
                 backgroundColor: selectedColorBg,
                 borderColor: selectedColor,
                 textShadow: "0 1px 2px rgba(0, 0, 0, 0.8)",
                 fontFamily: selectedFont,
+                fontOpticalSizing: "none",
+                fontFeatureSettings: '"liga" 0, "clig" 0, "calt" 0, "dlig" 0',
               }}
             >
               {svgContent && <InlineSvg svg={svgContent} className="size-8 shrink-0" />}
 
               <span
-                className="text-lg font-bold whitespace-nowrap"
+                className="text-lg leading-none font-bold whitespace-nowrap"
                 style={{ color: selectedColor, textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
               >
                 {displayName}
