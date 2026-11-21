@@ -3,7 +3,6 @@
 import {
   DrawerContent,
   DrawerFooter,
-  DrawerHeader,
   DrawerTrigger,
   DrawerTitle,
   Drawer,
@@ -30,6 +29,7 @@ export const SearchMovieDrawer = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { layout } = useMovieCardLayout();
 
@@ -52,6 +52,7 @@ export const SearchMovieDrawer = () => {
   );
 
   const allMedia = extractUniqueMedia(data);
+  const showEmpty = !isLoading && allMedia.length === 0;
 
   const pathname = usePathname();
 
@@ -71,90 +72,102 @@ export const SearchMovieDrawer = () => {
 
       <DrawerContent
         aria-describedby={undefined}
-        className="top-12 h-[90vh] border-border/40 bg-background/85 backdrop-blur-xl shadow-2xl rounded-b-xl"
+        className="top-0 flex h-[90dvh] max-h-[90dvh] flex-col overflow-hidden rounded-b-xl border-border/40 bg-background/85 shadow-2xl backdrop-blur-xl data-[vaul-drawer-direction=top]:mb-0! data-[vaul-drawer-direction=top]:h-[90dvh]! data-[vaul-drawer-direction=top]:max-h-[90dvh]! data-[vaul-drawer-direction=top]:rounded-b-xl!"
       >
-        <DrawerTitle></DrawerTitle>
+        <DrawerTitle className="sr-only">{t("placeholder")}</DrawerTitle>
 
-        <DrawerHeader className="px-6 pb-4 pt-2 items-center">
-          <div className="relative max-w-250 w-full flex items-center">
-            <Link href="/catalog" onClick={() => setOpen(false)}>
-              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted cursor-pointer" />
-            </Link>
+        <div className="mx-auto flex min-h-0 w-full max-w-250 flex-1 flex-col px-3 sm:px-6">
+          <header className="shrink-0 pe-2.5 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 sm:pt-4 sm:pb-4">
+            <search className="group/search relative w-full">
+              <Search className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-zinc-muted transition-colors group-focus-within/search:text-accent" />
 
-            <Input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t("placeholder")}
-              className="w-full h-11 pl-10 placeholder:text-zinc-muted"
-            />
+              <Input
+                ref={inputRef}
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Escape" && e.currentTarget.blur()}
+                placeholder={t("placeholder")}
+                variant="neutral"
+                inputSize="lg"
+                className="pr-12 pl-11 text-sm shadow-none focus-visible:border-accent focus-visible:shadow-none [&::-webkit-search-cancel-button]:hidden"
+              />
 
-            <AnimatePresence>
-              {searchQuery && (
-                <motion.button
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  onClick={() => setSearchQuery("")}
-                  className="cursor-pointer absolute right-3 size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center transition-colors group"
-                >
-                  <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
-                </motion.button>
-              )}
-            </AnimatePresence>
-          </div>
-        </DrawerHeader>
+              <AnimatePresence initial={false}>
+                {searchQuery && (
+                  <motion.div
+                    key="clear"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-1/2 right-3 -translate-y-1/2"
+                  >
+                    <Button
+                      type="button"
+                      className="group size-6 rounded-full bg-muted/15 transition-colors hover:bg-accent/20"
+                      onClick={() => setSearchQuery("")}
+                    >
+                      <X className="size-3.5 text-muted transition-colors group-hover:text-accent" />
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </search>
+          </header>
 
-        {!isLoading && allMedia.length === 0 && (
-          <p className="text-center text-sm text-muted">{t("empty")}</p>
-        )}
+          <div ref={scrollRef} className="drawer-scroll min-h-0 flex-1 overflow-y-auto pb-4">
+            {showEmpty ?
+              <p className="m-auto text-center text-sm text-muted">{t("empty")}</p>
+            : <div className="flex h-fit w-full flex-col">
+                <ul className="grid w-full grid-cols-2 content-start gap-3 xs:grid-cols-3 sm:gap-4 min-[800px]:grid-cols-4 lg:grid-cols-5">
+                  {isLoading
+                    && Array.from({ length: 15 }).map((_, i) => (
+                      <li key={`card-shirt-${i}`}>
+                        <CardShirt />
+                      </li>
+                    ))}
 
-        <div
-          ref={scrollRef}
-          className="drawer-scroll overflow-y-auto px-6 pb-4 flex justify-center"
-        >
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,220px))] justify-center gap-4 max-w-250 w-full">
-            {isLoading && (
-              <>
-                {Array.from({ length: 10 }).map((_, i) => (
-                  <CardShirt key={`card-shirt-${i}`} />
-                ))}
-              </>
-            )}
+                  {!isLoading
+                    && allMedia.map((media) => (
+                      <li key={media.id}>
+                        <MediaCard
+                          media={media}
+                          layout={layout}
+                          blockOptions={{
+                            poster: { flags: { showFlags: false } },
+                            hover: { flags: { showFlags: false } },
+                            body: { flags: { showFlags: false } },
+                          }}
+                          mode="add-collection"
+                        />
+                      </li>
+                    ))}
 
-            {!isLoading
-              && allMedia.length > 0
-              && allMedia.map((media) => (
-                <MediaCard
-                  key={media.id}
-                  media={media}
-                  layout={layout}
-                  blockOptions={{
-                    poster: { flags: { showFlags: false } },
-                    hover: { flags: { showFlags: false } },
-                    body: { flags: { showFlags: false } },
-                  }}
-                  mode="add-collection"
-                />
-              ))}
+                  {isFetchingNextPage
+                    && Array.from({ length: 10 }).map((_, i) => (
+                      <li key={`card-shirt-next-${i}`}>
+                        <CardShirt />
+                      </li>
+                    ))}
+                </ul>
 
-            {isFetchingNextPage
-              && Array.from({ length: 10 }).map((_, i) => <CardShirt key={`card-shirt-${i}`} />)}
-
-            <div ref={ref} style={{ height: 1 }} />
+                <div ref={ref} className="h-px w-full" />
+              </div>
+            }
           </div>
         </div>
 
-        <DrawerFooter className="border-t border-border/40 py-3">
+        <DrawerFooter className="shrink-0 border-t border-border/40 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6">
           <Link
             href="/catalog"
             onClick={() => setOpen(false)}
             className="group flex items-center justify-center gap-0.5"
           >
-            <p className="text-center text-sm text-muted group-hover:text-muted/70  transition-all">
+            <p className="text-center text-sm text-muted transition-all group-hover:text-muted/70">
               {t("more")}
             </p>
-            <ChevronRight className="size-5 text-muted translate-y-1px group-hover:text-muted/70  transition-all" />
+            <ChevronRight className="size-5 translate-y-px text-muted transition-all group-hover:text-muted/70" />
           </Link>
         </DrawerFooter>
       </DrawerContent>
