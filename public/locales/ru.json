@@ -144,6 +144,12 @@
     "profile": {
       "cover": "Обложка",
       "changeCover": "Сменить обложку",
+      "deleteCover": "Удалить обложку",
+      "deleteCoverTitle": "Удалить обложку?",
+      "deleteCoverHint": "Вернётся стандартный фон.",
+      "deleteCoverBody": "Загруженное фото будет удалено из профиля.",
+      "deleteCoverAction": "Удалить",
+      "deletingCover": "Удаление...",
       "bioPlaceholder": "Коротко о себе...",
       "cancel": "Отмена",
       "saving": "Сохранение...",

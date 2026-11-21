@@ -144,6 +144,12 @@
     "profile": {
       "cover": "Cover",
       "changeCover": "Change cover",
+      "deleteCover": "Remove cover",
+      "deleteCoverTitle": "Remove cover?",
+      "deleteCoverHint": "The default background will return.",
+      "deleteCoverBody": "The uploaded photo will be removed from your profile.",
+      "deleteCoverAction": "Remove",
+      "deletingCover": "Removing...",
       "bioPlaceholder": "Add a short bio...",
       "cancel": "Cancel",
       "saving": "Saving...",

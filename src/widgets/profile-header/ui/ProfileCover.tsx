@@ -1,9 +1,10 @@
 import { useTranslations } from "next-intl";
 import { cn } from "@/shared/lib/utils";
-import { Check, ImagePlus, Loader2, X } from "lucide-react";
+import { Check, ImagePlus, Loader2, X, Trash2 } from "lucide-react";
 import { Button } from "@/shared/ui";
 import Image from "next/image";
 import { useFileSelect } from "@/shared/hooks";
+import { DeleteCover } from "@/features";
 import { ProfileCoverAtmosphere } from "./ProfileCoverAtmosphere";
 
 interface Props {
@@ -22,6 +23,7 @@ export const ProfileCover = ({
   onUpdateCover,
 }: Props) => {
   const t = useTranslations("collections.profile");
+
   const { fileInputRef, handleFileSelect, previewUrl, clearFile, file } = useFileSelect();
 
   const handleSaveCover = async (): Promise<void> => {
@@ -74,7 +76,6 @@ export const ProfileCover = ({
                 size="icon"
                 onClick={handleCancelCover}
                 disabled={isUpdatingCover}
-                aria-label={t("cancel")}
                 className="size-11 rounded-full text-red-300 hover:text-red-200 lg:size-9"
               >
                 <X className="size-4.5" />
@@ -86,7 +87,6 @@ export const ProfileCover = ({
                 size="icon"
                 onClick={() => void handleSaveCover()}
                 disabled={isUpdatingCover}
-                aria-label={t("save")}
                 className="size-11 rounded-full text-emerald-300 hover:text-emerald-200 lg:size-9"
               >
                 {isUpdatingCover ?
@@ -94,16 +94,31 @@ export const ProfileCover = ({
                 : <Check className="size-4.5" />}
               </Button>
             </>
-          : <Button
-              type="button"
-              variant="glass"
-              size="sm"
-              className="h-11 rounded-full gap-2 px-4 lg:h-9"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <ImagePlus className="size-4" />
-              <span className="text-sm">{t("changeCover")}</span>
-            </Button>
+          : <>
+              {coverUrl && (
+                <DeleteCover>
+                  <Button
+                    type="button"
+                    variant="glass"
+                    disabled={isUpdatingCover}
+                    className="size-9 rounded-full gap-2 text-red-300 hover:text-red-200 "
+                  >
+                    <Trash2 className="size-4" />
+                  </Button>
+                </DeleteCover>
+              )}
+
+              <Button
+                type="button"
+                variant="glass"
+                className="h-9 rounded-full gap-2 px-4"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUpdatingCover}
+              >
+                <ImagePlus className="size-4" />
+                <span className="text-sm">{t("changeCover")}</span>
+              </Button>
+            </>
           }
         </div>
       )}

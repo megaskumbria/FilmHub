@@ -49,7 +49,7 @@ export const SocialLinkIcon = ({ url, className }: Props) => {
     return (
       <span
         className={cn(
-          "flex size-8 items-center justify-center overflow-hidden rounded-lg",
+          "flex size-8 items-center justify-center overflow-hidden rounded-full",
           className,
         )}
       >
@@ -59,10 +59,10 @@ export const SocialLinkIcon = ({ url, className }: Props) => {
   }
 
   return (
-    <Avatar className={cn("size-8 rounded-lg", className)}>
+    <Avatar className={cn("size-8 rounded-full", className)}>
       {isReady && faviconUrl && <AvatarImage src={faviconUrl} alt="" />}
 
-      <AvatarFallback className="rounded-lg bg-background text-sm font-medium text-zinc-muted">
+      <AvatarFallback className="rounded-full bg-background text-sm font-medium text-zinc-muted">
         {initials}
       </AvatarFallback>
     </Avatar>

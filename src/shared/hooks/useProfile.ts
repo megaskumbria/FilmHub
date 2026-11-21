@@ -100,6 +100,20 @@ export const useUpdateProfileCover = () => {
   });
 };
 
+export const useDeleteProfileCover = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      const { data } = await apiClient.delete<UserProfile>(`${API_URL}/profile/delete-cover`);
+      return data;
+    },
+    onSuccess: (updatedProfile) => {
+      queryClient.setQueryData(["profile", updatedProfile.userId], updatedProfile);
+    },
+  });
+};
+
 export const useUpdateProfileAvatar = () => {
   const queryClient = useQueryClient();
 

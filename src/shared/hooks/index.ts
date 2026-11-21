@@ -53,6 +53,7 @@ export {
   useUpdateProfile,
   isTagTakenError,
   useUpdateProfileCover,
+  useDeleteProfileCover,
   useUpdateProfileAvatar,
   useInfiniteFollows,
   type FollowUser,

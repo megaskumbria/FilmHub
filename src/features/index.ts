@@ -24,14 +24,7 @@ export { FlagListItem } from "./flag-list-item";
 export { CreateFlagScale } from "./create-flag-scale";
 export { FlagScaleActions } from "./flag-scale-actions";
 export { FlagScalesFilter } from "./flag-scales-filter";
-export {
-  AuthModalSignInForm,
-  AuthModalSignUpForm,
-  ContinueWithGoogle,
-  useAuthStore,
-  useAuthModalStore,
-  useRequireAuth,
-} from "./auth";
+export { ContinueWithGoogle, useAuthStore, useAuthModalStore, useRequireAuth } from "./auth";
 export { AvatarCrop, canvasToFile } from "./avatar-crop";
 export { ShareCollectionButton } from "./share-collection";
 export { CollectionToolbarActions } from "./collection-toolbar-actions";
@@ -39,6 +32,7 @@ export { LikeCollectionButton } from "./like-collection";
 export { ChangePasswordForm } from "./change-password";
 export { ChangeEmailForm } from "./change-email";
 export { DeleteAccount } from "./delete-account";
+export { DeleteCover } from "./delete-cover";
 export { PrivacySettings } from "./privacy-settings";
 export { FlagScaleHoverCard } from "./show-flag-scale";
 export { LogoutButton } from "./logout";
