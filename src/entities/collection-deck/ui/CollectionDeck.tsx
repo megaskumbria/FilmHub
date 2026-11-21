@@ -30,9 +30,11 @@ const hoveredPositions = [
 
 interface Props {
   collection: CollectionFeedItem;
+  priority?: boolean;
+  eager?: boolean;
 }
 
-export const CollectionDeck = ({ collection }: Props) => {
+export const CollectionDeck = ({ collection, priority = false, eager = false }: Props) => {
   const [hovered, setHovered] = useState(false);
 
   const { rating, previewPosters, moviesCount, id } = collection;
@@ -98,6 +100,8 @@ export const CollectionDeck = ({ collection }: Props) => {
                     filmsCount={moviesCount}
                     rating={rating}
                     hovered={hovered}
+                    priority={priority && isTop}
+                    eager={eager}
                   />
                 </motion.div>
               );

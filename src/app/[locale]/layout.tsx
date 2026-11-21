@@ -1,5 +1,6 @@
 import "@/app/styles/globals.css";
 import { ReactNode } from "react";
+import { preload } from "react-dom";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Inter, Manrope, Unbounded } from "next/font/google";
@@ -35,6 +36,8 @@ interface Props {
 }
 
 export default async function RootLayout({ children, params }: Props) {
+  preload("/images/card-shirt.webp", { as: "image", fetchPriority: "high" });
+
   const messages = await getMessages();
   const locale = (await params).locale;
 

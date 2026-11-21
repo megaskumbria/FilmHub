@@ -15,9 +15,19 @@ interface Props {
   filmsCount: number;
   rating: number;
   hovered: boolean;
+  priority?: boolean;
+  eager?: boolean;
 }
 
-export const StackPoster = ({ poster, isTop, filmsCount, rating, hovered }: Props) => {
+export const StackPoster = ({
+  poster,
+  isTop,
+  filmsCount,
+  rating,
+  hovered,
+  priority = false,
+  eager = false,
+}: Props) => {
   const [loadedPoster, setLoadedPoster] = useState<string | null>(null);
   const isPosterLoaded = loadedPoster === poster;
 
@@ -38,15 +48,12 @@ export const StackPoster = ({ poster, isTop, filmsCount, rating, hovered }: Prop
       {poster && (
         <Image
           src={poster}
-          alt={poster}
+          alt=""
           width={CARD_W}
           height={CARD_H}
-          onLoad={(event) => {
-            event.currentTarget
-              .decode()
-              .catch(() => {})
-              .finally(() => setLoadedPoster(poster));
-          }}
+          priority={priority}
+          loading={priority || eager ? "eager" : "lazy"}
+          onLoad={() => setLoadedPoster(poster)}
           onError={() => setLoadedPoster(poster)}
           className={cn(
             "w-full h-full object-cover transition-[transform,filter,opacity] duration-500",

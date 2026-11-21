@@ -10,6 +10,8 @@ import { CardShirt, Input, SearchClearButton } from "@/shared/ui";
 import { Search } from "lucide-react";
 import { useRef, useState } from "react";
 
+const ABOVE_FOLD_DECKS = 12;
+
 export const HomeClient = () => {
   const t = useTranslations("home");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -107,8 +109,13 @@ export const HomeClient = () => {
                 inputRef.current?.focus();
               }}
             />
-          : collections.map((collection) => (
-              <CollectionDeck key={collection.id} collection={collection} />
+          : collections.map((collection, index) => (
+              <CollectionDeck
+                key={collection.id}
+                collection={collection}
+                priority={index === 0}
+                eager={index < ABOVE_FOLD_DECKS}
+              />
             ))
           }
 
