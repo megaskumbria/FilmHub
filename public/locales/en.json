@@ -386,6 +386,7 @@
       "genres": "Genres",
       "flags": "Flags",
       "scales": "Scales",
+      "levels": "Levels",
       "rating": "Rating"
     }
   },
@@ -427,6 +428,7 @@
     "title": "Create flag",
     "subtitle": "A scale measures one thing; its flags are the levels, from weakest to strongest",
     "newFlag": "New flag",
+    "scaleName": "Scale name",
     "opacity": "Background opacity",
     "weakest": "Weakest",
     "strongest": "Strongest",

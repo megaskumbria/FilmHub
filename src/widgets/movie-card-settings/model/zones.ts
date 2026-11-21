@@ -1,4 +1,9 @@
-import { ZoneBlock, Zones } from "../lib/types";
+import { ZoneBlock, ZoneBlockSubOption, Zones } from "../lib/types";
+
+const FLAG_SUB_OPTIONS: ZoneBlockSubOption[] = [
+  { id: "scales", label: "Scales", storeKey: "showScales" },
+  { id: "levels", label: "Levels", storeKey: "showLevelDots" },
+];
 
 const BLOCKS: ZoneBlock[] = [
   { id: "title", label: "Title" },
@@ -7,7 +12,7 @@ const BLOCKS: ZoneBlock[] = [
   {
     id: "flags",
     label: "Flags",
-    subOptions: [{ id: "showScales", label: "Scales", storeKey: "showScales" }],
+    subOptions: FLAG_SUB_OPTIONS,
   },
   { id: "rating", label: "Rating" },
 ];
@@ -30,7 +35,7 @@ export const ZONES: Zones[] = [
       {
         id: "flags",
         label: "Flags",
-        subOptions: [{ id: "showScales", label: "Scales", storeKey: "showScales" }],
+        subOptions: FLAG_SUB_OPTIONS,
       },
     ],
   },
@@ -45,7 +50,7 @@ export const ZONES: Zones[] = [
       {
         id: "flags",
         label: "Flags",
-        subOptions: [{ id: "showScales", label: "Scales", storeKey: "showScales" }],
+        subOptions: FLAG_SUB_OPTIONS,
       },
     ],
   },

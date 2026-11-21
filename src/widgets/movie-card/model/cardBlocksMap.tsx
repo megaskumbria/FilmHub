@@ -21,14 +21,20 @@ export const cardBlocksMap = {
   flags: ({ media, hoverHeight, hasHover, placement, options }: CardBlocksMapProps) => {
     if (options?.showFlags === false) return null;
 
+    const flagsData = media.mediaFlags ?? [];
+    const hasFlags = flagsData.some((scale) => scale.flags.length > 0);
+
+    if (!options?.isPreview && !hasFlags) return null;
+
     return (
       <FlagGroup
         hoverHeight={hoverHeight}
         hasHover={hasHover}
         placement={placement}
         showScales={options?.showScales}
+        showLevelDots={options?.showLevelDots}
         isPreview={options?.isPreview}
-        flagsData={media.mediaFlags ?? []}
+        flagsData={flagsData}
       />
     );
   },

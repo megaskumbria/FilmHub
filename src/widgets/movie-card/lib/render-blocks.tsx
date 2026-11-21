@@ -22,21 +22,24 @@ export const renderBlocks = ({
   placement,
   blockOptions,
 }: Props) => {
-  return keys.map((key) => {
+  const blocks = keys.flatMap((key) => {
     const block = cardBlocksMap[key];
-
     const options = placement ? blockOptions?.[placement]?.[key] : undefined;
 
-    return (
-      <Fragment key={key}>
-        {block({
-          media,
-          hoverHeight,
-          hasHover,
-          placement,
-          options,
-        })}
-      </Fragment>
-    );
+    const content = block({
+      media,
+      hoverHeight,
+      hasHover,
+      placement,
+      options,
+    });
+
+    if (!content) return [];
+
+    return [<Fragment key={key}>{content}</Fragment>];
   });
+
+  if (blocks.length === 0) return null;
+
+  return blocks;
 };

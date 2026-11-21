@@ -7,6 +7,7 @@ import { useState } from "react";
 import { FolderMetaBar } from "@/features";
 import { Collection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal/model/icons";
+import { Skeleton } from "@/shared/ui";
 
 interface Props {
   isMyProfile: boolean;
@@ -22,6 +23,11 @@ export const CollectionFolder = ({
   setActiveCollectionId,
 }: Props) => {
   const [hoveredFolderId, setHoveredFolderId] = useState<string | null>(null);
+  const [loadedPosters, setLoadedPosters] = useState<Record<string, true>>({});
+
+  const markPosterLoaded = (src: string) => {
+    setLoadedPosters((current) => (current[src] ? current : { ...current, [src]: true }));
+  };
 
   const { id, iconName, collectionName, posters, isVisible, colorHex } = collection;
 
@@ -87,7 +93,32 @@ export const CollectionFolder = ({
                       : `scale(0.92)`,
                   }}
                 >
-                  <Image src={src} alt="" fill className="object-cover" sizes="80px" />
+                  {!loadedPosters[src] && (
+                    <Skeleton
+                      aria-hidden
+                      className="absolute inset-0 size-auto rounded-none"
+                      style={{
+                        background: `linear-gradient(165deg, color-mix(in srgb, ${colorHex} 36%, #1a1522), #121016)`,
+                      }}
+                    />
+                  )}
+
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    sizes="80px"
+                    onLoad={(event) => {
+                      event.currentTarget
+                        .decode()
+                        .catch(() => {})
+                        .finally(() => markPosterLoaded(src));
+                    }}
+                    onError={() => markPosterLoaded(src)}
+                    className={`object-cover transition-opacity duration-300 ${
+                      loadedPosters[src] ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
                 </div>
               </div>
             );

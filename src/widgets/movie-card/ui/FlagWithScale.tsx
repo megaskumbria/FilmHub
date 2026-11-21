@@ -9,13 +9,15 @@ interface Props {
 }
 
 export const FlagWithScale = ({ scaleName, showScale, children }: Props) => {
-  return showScale ?
-      <div className="flex flex-col gap-1">
-        <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-white text-shadow-flag">
-          {scaleName}
-        </h4>
+  if (!showScale || !scaleName) return children;
 
-        {children}
-      </div>
-    : <>{children}</>;
+  return (
+    <div className="flex flex-col gap-1">
+      <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-white text-shadow-flag">
+        {scaleName}
+      </h4>
+
+      {children}
+    </div>
+  );
 };

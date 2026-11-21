@@ -15,7 +15,7 @@ import Link from "next/link";
 import {
   IconFlag3,
   IconHelpCircle,
-  IconPlus,
+  IconArrowUpRight,
   IconSearch,
   IconFlagOff,
   IconX,
@@ -201,8 +201,8 @@ export const SetMediaFlags = ({ mediaId, isOpen }: Props) => {
           className="w-full h-10 gap-2 rounded-xl border border-dashed border-border/70 text-zinc-muted hover:text-accent hover:border-accent/50 hover:bg-accent/8 transition-all"
         >
           <Link href="/creation-flag">
-            <IconPlus className="size-4 shrink-0" />
             <span className="text-sm font-medium">{t("create")}</span>
+            <IconArrowUpRight className="size-4 shrink-0" />
           </Link>
         </Button>
       </footer>

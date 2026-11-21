@@ -133,7 +133,7 @@ export const ZonesPanel = ({ className }: Props) => {
                                 className="flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-surface-subtle transition-colors group/sub cursor-pointer"
                               >
                                 <span className="text-xs text-zinc-muted/60 group-hover/sub:text-zinc-muted transition-colors">
-                                  {t("scales")}
+                                  {t(opt.id)}
                                 </span>
 
                                 <Switch

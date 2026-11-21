@@ -16,6 +16,7 @@ interface Props {
   hasHover?: boolean;
   placement?: BlockPlacement;
   showScales?: boolean;
+  showLevelDots?: boolean;
   isPreview?: boolean;
 }
 
@@ -24,6 +25,7 @@ export const FlagGroup = ({
   hasHover,
   placement,
   showScales = true,
+  showLevelDots = true,
   isPreview = false,
   flagsData,
 }: Props) => {
@@ -52,8 +54,8 @@ export const FlagGroup = ({
       style={{ transform: shouldLift ? `translateY(-${hoverHeight}px)` : undefined }}
     >
       {isPreview ?
-        <FlagWithScale scaleName={scale.name} showScale={showScales}>
-          <FlagBadge flagItem={flagItem} />
+        <FlagWithScale scaleName={scale.name.trim() || t("scaleName")} showScale={showScales}>
+          <FlagBadge flagItem={flagItem} level={3} total={5} showLevelDots={showLevelDots} />
         </FlagWithScale>
       : <>
           {flagsData.map(({ id: scaleId, flags, scaleName, flagsCount }) => {
@@ -61,9 +63,18 @@ export const FlagGroup = ({
               const { id, position } = flag;
 
               return (
-                <FlagWithScale key={index + id} scaleName={scaleName} showScale={showScales}>
+                <FlagWithScale
+                  key={index + id}
+                  scaleName={scaleName || t("scaleName")}
+                  showScale={showScales}
+                >
                   <FlagScaleHoverCard scaleId={scaleId} scaleName={scaleName} currentFlagId={id}>
-                    <FlagBadge flagItem={flag} level={position + 1} total={flagsCount} />
+                    <FlagBadge
+                      flagItem={flag}
+                      level={position + 1}
+                      total={flagsCount}
+                      showLevelDots={showLevelDots}
+                    />
                   </FlagScaleHoverCard>
                 </FlagWithScale>
               );

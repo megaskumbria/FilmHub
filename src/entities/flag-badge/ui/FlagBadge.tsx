@@ -13,15 +13,16 @@ interface Props {
   flagItem: FlagItemData;
   level?: number;
   total?: number;
+  showLevelDots?: boolean;
 }
 
-export const FlagBadge = ({ flagItem, level, total }: Props) => {
+export const FlagBadge = ({ flagItem, level, total, showLevelDots }: Props) => {
   const { flagName, color, bgOpacity, fontFamily, icon } = flagItem;
 
   const { svgContent } = icon ?? {};
 
   const hasLevelProps = level !== undefined && total !== undefined;
-  const shouldShowLevel = hasLevelProps && total > 1;
+  const shouldShowLevel = showLevelDots && hasLevelProps && total > 1;
 
   const computedBg = flagSoftBackground(color, bgOpacity);
 
@@ -52,7 +53,7 @@ export const FlagBadge = ({ flagItem, level, total }: Props) => {
         <span
           className={cn(
             "flex flex-col items-start gap-1",
-            hasLevelProps && "min-h-7.5 justify-center",
+            shouldShowLevel && "min-h-7.5 justify-center",
           )}
         >
           <span className="leading-tight">{flagName}</span>

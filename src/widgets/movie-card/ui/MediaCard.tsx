@@ -56,6 +56,7 @@ export const MediaCard = ({
   const [isAddActionOpen, setIsAddActionOpen] = useState(false);
   const [hoverHeight, setHoverHeight] = useState(0);
   const [loadedPosterUrl, setLoadedPosterUrl] = useState<string | null>(null);
+
   const hoverContentRef = useRef<HTMLDivElement | null>(null);
 
   const locale = useLocale();
@@ -100,6 +101,13 @@ export const MediaCard = ({
 
   const hasRoute = disableNavigation || isEditMode;
 
+  const bodyBlocks = renderBlocks({
+    keys: body,
+    media: mediaForBlocks,
+    blockOptions,
+    placement: "body",
+  });
+
   const ensureAuth = useRequireAuth();
 
   const handleOpenChange = (open: boolean) => {
@@ -110,7 +118,8 @@ export const MediaCard = ({
   return (
     <article
       className={cn(
-        "h-full w-full border rounded-xl relative transition-all duration-200 flex flex-col",
+        "w-full border rounded-xl relative transition-all duration-200 flex flex-col",
+        fillHeight && "h-full",
         shouldAccessBorder ? "border-accent/50 ring-2 ring-accent/30" : "border-border",
       )}
     >
@@ -128,7 +137,8 @@ export const MediaCard = ({
       >
         <div
           className={cn(
-            "group relative cursor-pointer overflow-hidden rounded-xl",
+            "group relative cursor-pointer overflow-hidden",
+            bodyBlocks ? "rounded-t-xl" : "rounded-xl",
             fillHeight ? "h-full" : "aspect-2/3",
           )}
           onMouseEnter={() => {
@@ -229,16 +239,7 @@ export const MediaCard = ({
         />
       )}
 
-      {body.length > 0 && (
-        <div className="p-3 flex flex-col gap-1.5">
-          {renderBlocks({
-            keys: body,
-            media: mediaForBlocks,
-            blockOptions,
-            placement: "body",
-          })}
-        </div>
-      )}
+      {bodyBlocks && <div className="flex flex-col gap-1.5 px-3 py-2">{bodyBlocks}</div>}
     </article>
   );
 };
