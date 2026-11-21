@@ -1,8 +1,7 @@
 "use client";
 
-import { Search, ArrowDownAZ, ArrowUpAZ, X } from "lucide-react";
-import { Input, Button, Separator } from "@/shared/ui";
-import { AnimatePresence, motion } from "framer-motion";
+import { Search, ArrowDownAZ, ArrowUpAZ } from "lucide-react";
+import { Input, Button, Separator, SearchClearButton } from "@/shared/ui";
 import { useTranslations } from "next-intl";
 import { SortBy } from "@/widgets/flag-scales-sidebar";
 
@@ -29,20 +28,7 @@ export const FlagScalesFilter = ({ onSearchChange, searchQuery, onSortChange, so
           value={searchQuery}
         />
 
-        <AnimatePresence>
-          {searchQuery && (
-            <motion.button
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              onClick={() => onSearchChange("")}
-              className="cursor-pointer top-1/2 -translate-y-1/2 absolute right-3 size-5 rounded-full bg-muted/20 hover:bg-accent/20 flex items-center justify-center transition-colors group"
-            >
-              <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
-            </motion.button>
-          )}
-        </AnimatePresence>
+        <SearchClearButton show={!!searchQuery} onClear={() => onSearchChange("")} size={5} />
       </div>
 
       <div className="flex items-center gap-1.5">

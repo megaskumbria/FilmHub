@@ -1,10 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { motion, AnimatePresence } from "framer-motion";
-import { Input, Button } from "@/shared/ui";
+import { Input, SearchClearButton } from "@/shared/ui";
 import { useRef } from "react";
-import { IconEye, IconSearch, IconShare3, IconX } from "@tabler/icons-react";
+import { IconEye, IconSearch, IconShare3 } from "@tabler/icons-react";
 import { type Collection } from "@/shared/hooks";
 import { ICONS } from "@/widgets/create-folder-modal";
 import { CollectionsToolbarSkeleton } from "./CollectionsToolbarSkeleton";
@@ -121,26 +120,7 @@ export const CollectionsToolbar = ({
             className="h-11 rounded-full pl-11 pr-12 text-sm shadow-none placeholder:text-zinc-muted [&::-webkit-search-cancel-button]:hidden focus-visible:shadow-[0_0_0_4px_color-mix(in_srgb,var(--accent)_15%,transparent)]"
           />
 
-          <AnimatePresence initial={false}>
-            {searchTerm && (
-              <motion.div
-                key="clear"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="absolute right-3 top-1/2 -translate-y-1/2"
-              >
-                <Button
-                  type="button"
-                  onClick={handleClearSearch}
-                  className="group size-6 rounded-full bg-muted/15 transition-colors hover:bg-accent/20"
-                >
-                  <IconX className="size-3.5 text-muted transition-colors group-hover:text-accent" />
-                </Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <SearchClearButton show={!!searchTerm} onClear={handleClearSearch} size={6} />
         </search>
 
         {collection && <LikeCollectionButton collection={collection} />}

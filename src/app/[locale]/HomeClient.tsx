@@ -6,9 +6,8 @@ import { FilterFeed } from "@/widgets";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { CollectionDeck } from "@/entities";
 import { useCollectionsFeedStore } from "@/features/feed-filter";
-import { Button, CardShirt, Input } from "@/shared/ui";
-import { AnimatePresence, motion } from "framer-motion";
-import { Search, X } from "lucide-react";
+import { CardShirt, Input, SearchClearButton } from "@/shared/ui";
+import { Search } from "lucide-react";
 import { useRef, useState } from "react";
 
 export const HomeClient = () => {
@@ -64,29 +63,14 @@ export const HomeClient = () => {
                 variant="search"
               />
 
-              <AnimatePresence initial={false} mode="wait">
-                {searchQuery && (
-                  <motion.div
-                    key="clear-search"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
-                  >
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setSearchQuery("");
-                        inputRef.current?.focus();
-                      }}
-                      className="group size-6 rounded-full bg-muted/15 hover:bg-accent/20 transition-colors"
-                    >
-                      <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
-                    </Button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <SearchClearButton
+                show={!!searchQuery}
+                onClear={() => {
+                  setSearchQuery("");
+                  inputRef.current?.focus();
+                }}
+                size={6}
+              />
             </search>
 
             <div className="flex items-center justify-between gap-3 sm:contents">

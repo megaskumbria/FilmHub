@@ -1,9 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Search, X } from "lucide-react";
-import { Button, Input } from "@/shared/ui";
+import { Search } from "lucide-react";
+import { Input, SearchClearButton } from "@/shared/ui";
 import { useFilterMedia } from "@/features";
 import { useDebounce } from "@/shared/hooks";
 import { useTranslations } from "next-intl";
@@ -41,26 +40,7 @@ export const MovieSearchPanel = () => {
         variant="search"
       />
 
-      <AnimatePresence initial={false} mode="wait">
-        {input && (
-          <motion.div
-            key="clear"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="absolute right-3 top-1/2 -translate-y-1/2"
-          >
-            <Button
-              type="button"
-              onClick={handleClear}
-              className="group size-6 rounded-full bg-muted/15 hover:bg-accent/20 transition-colors"
-            >
-              <X className="size-3.5 text-muted group-hover:text-accent transition-colors" />
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <SearchClearButton show={!!input} onClear={handleClear} size={6} />
     </search>
   );
 };

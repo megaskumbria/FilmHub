@@ -9,16 +9,16 @@ import {
   Button,
   Input,
   CardShirt,
+  SearchClearButton,
 } from "@/shared/ui";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ChevronRight, Search, X } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { MediaCard } from "@/widgets/movie-card";
 import { useMovieCardLayout } from "@/shared/stores/movie-card-layout";
 import { useDebounce, useIntersectionObserver, infiniteMediaQueryOptions } from "@/shared/hooks";
 import { extractUniqueMedia } from "@/shared/lib";
-import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -93,26 +93,7 @@ export const SearchMovieDrawer = () => {
                 className="pr-12 pl-11 text-sm shadow-none focus-visible:border-accent focus-visible:shadow-none [&::-webkit-search-cancel-button]:hidden"
               />
 
-              <AnimatePresence initial={false}>
-                {searchQuery && (
-                  <motion.div
-                    key="clear"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute top-1/2 right-3 -translate-y-1/2"
-                  >
-                    <Button
-                      type="button"
-                      className="group size-6 rounded-full bg-muted/15 transition-colors hover:bg-accent/20"
-                      onClick={() => setSearchQuery("")}
-                    >
-                      <X className="size-3.5 text-muted transition-colors group-hover:text-accent" />
-                    </Button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <SearchClearButton show={!!searchQuery} onClear={() => setSearchQuery("")} size={6} />
             </search>
           </header>
 
