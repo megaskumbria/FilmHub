@@ -100,7 +100,7 @@ export const CollectionFolder = ({
             }}
           />
 
-          <div className="flex items-center absolute top-2.5 left-2.5 gap-2">
+          <div className="flex gap-2 items-center absolute top-2.5 left-2.5">
             <div className="size-7 rounded-lg bg-black/40 flex items-center justify-center ring-1 ring-white/10">
               {Icon && <Icon className="size-4" style={{ color: colorHex }} />}
             </div>

@@ -49,11 +49,11 @@ export const ProfileActions = ({
             variant="subtle"
             size="sm"
             onClick={handleCancelEdit}
-            className="h-11 gap-1.5 rounded-full px-4 lg:h-9"
+            className="h-9 gap-1.5 rounded-full px-2.5 w420:px-4"
             disabled={isSaving}
           >
             <X className="size-3.5" />
-            <span className="text-sm">{t("cancel")}</span>
+            <span className="hidden text-sm w420:inline">{t("cancel")}</span>
           </Button>
 
           <Button
@@ -61,20 +61,14 @@ export const ProfileActions = ({
             type="button"
             variant="accent"
             size="sm"
-            className="h-11 gap-1.5 rounded-full px-4 lg:h-9"
+            className="h-9 gap-1.5 rounded-full px-2.5 w420:px-4"
             onClick={() => void form.handleSubmit(handleSubmitUpdate)()}
             disabled={isSaving}
           >
             {isSaving ?
-              <>
-                <Loader2 className="size-3.5 animate-spin" />
-                <span className="text-sm">{t("saving")}</span>
-              </>
-            : <>
-                <Check className="size-3.5" />
-                <span className="text-sm">{t("save")}</span>
-              </>
-            }
+              <Loader2 className="size-3.5 animate-spin" />
+            : <Check className="size-3.5" />}
+            <span className="hidden text-sm w420:inline">{isSaving ? t("saving") : t("save")}</span>
           </Button>
         </>
       : <>
@@ -83,7 +77,7 @@ export const ProfileActions = ({
               key="profile-edit"
               type="button"
               variant="subtle"
-              className="h-11 gap-2 rounded-full px-4 lg:h-9"
+              className="gap-2 rounded-full px-4 h-9"
               onClick={handleStartEdit}
               disabled={isSaving}
             >
@@ -93,7 +87,7 @@ export const ProfileActions = ({
           : <Button
               type="button"
               variant={isFollowing ? "subtle" : "accent"}
-              className="group h-11 gap-2 rounded-full px-4 lg:h-9"
+              className="group gap-2 rounded-full px-4 h-9"
               onClick={handleFollowProfile}
             >
               {isFollowing ?

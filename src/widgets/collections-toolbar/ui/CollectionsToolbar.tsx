@@ -83,7 +83,7 @@ export const CollectionsToolbar = ({
           <div className="min-w-0">
             <h2
               title={collectionName}
-              className="truncate font-unbounded text-2xl font-semibold tracking-tight text-foreground"
+              className="truncate font-unbounded text-lg sm:text-2xl font-semibold tracking-tight text-foreground"
             >
               {collectionName}
             </h2>
@@ -105,7 +105,7 @@ export const CollectionsToolbar = ({
         </div>
       }
 
-      <div className="relative flex shrink-0 flex-wrap items-center gap-2">
+      <div className="relative flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
         <search className="group/search relative w-full sm:w-64">
           <IconSearch className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-zinc-muted transition-colors group-focus-within/search:text-accent" />
 
@@ -123,23 +123,27 @@ export const CollectionsToolbar = ({
           <SearchClearButton show={!!searchTerm} onClear={handleClearSearch} size={6} />
         </search>
 
-        {collection && <LikeCollectionButton collection={collection} />}
+        <div className="flex w-full flex-nowrap items-center gap-2 sm:contents">
+          {collection && <LikeCollectionButton collection={collection} />}
 
-        {isMyProfile && (
-          <CollectionToolbarActions
-            collectionId={activeCollectionId}
-            isVisible={isVisible}
-            isEditMode={isEditMode}
-            isMediaEmpty={isMediaEmpty}
-            onToggleEditMode={onToggleEditMode}
+          <ShareCollectionButton
+            collectionId={id ?? ""}
+            userId={userId}
+            className="size-11 rounded-full border-border/40 bg-graphite hover:border-accent/40 hover:text-accent data-[state=open]:border-accent/50 data-[state=open]:text-accent sm:order-1"
           />
-        )}
 
-        <ShareCollectionButton
-          collectionId={id ?? ""}
-          userId={userId}
-          className="size-11 rounded-full border-border/40 bg-graphite hover:border-accent/40 hover:text-accent data-[state=open]:border-accent/50 data-[state=open]:text-accent"
-        />
+          {isMyProfile && (
+            <div className="ml-auto shrink-0 sm:ml-0">
+              <CollectionToolbarActions
+                collectionId={activeCollectionId}
+                isVisible={isVisible}
+                isEditMode={isEditMode}
+                isMediaEmpty={isMediaEmpty}
+                onToggleEditMode={onToggleEditMode}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

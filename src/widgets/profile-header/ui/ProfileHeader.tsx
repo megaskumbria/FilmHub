@@ -118,58 +118,55 @@ export const ProfileHeader = ({ isMyProfile, userId }: Props) => {
               handleSubmitUpdate={handleSubmitUpdate}
             />
 
-            <div className="flex min-w-0 flex-col gap-3 lg:shrink-0 lg:flex-row lg:items-center lg:gap-2">
-              {(urls.length > 0 || isEditing) && (
-                <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
-                  {urls.length > 0 && (
-                    <ul className="flex min-w-0 max-w-full flex-wrap items-center gap-1">
-                      {urls.map((url, index) => (
-                        <li key={index}>
-                          <Button
-                            asChild
-                            variant="transparent"
-                            size="icon"
-                            className="size-11 rounded-full lg:size-9"
-                          >
-                            <a href={url} target="_blank" rel="noopener noreferrer">
-                              <SocialLinkIcon url={url} className="size-8 rounded-md" />
-                            </a>
-                          </Button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  <AnimatePresence>
-                    {isEditing && (
-                      <motion.div
-                        initial={{ width: 0, opacity: 0 }}
-                        animate={{ width: "auto", opacity: 1 }}
-                        exit={{ width: 0, opacity: 0 }}
-                        transition={{ duration: 0.2, ease: "easeInOut" }}
-                        className="max-w-full overflow-hidden"
-                      >
-                        <SocialLinksPopover links={socialLinks} onChange={setSocialLinks} />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )}
-
+            <div className="flex min-w-0 flex-col items-start gap-3 lg:shrink-0 lg:items-end">
               {urls.length > 0 && (
-                <span className="mx-1.5 hidden h-6 w-px bg-border lg:block" aria-hidden />
+                <ul className="flex min-w-0 max-w-full flex-wrap items-center gap-1">
+                  {urls.map((url, index) => (
+                    <li key={index}>
+                      <Button
+                        asChild
+                        variant="transparent"
+                        size="icon"
+                        className="h-9 rounded-full"
+                      >
+                        <a href={url} target="_blank" rel="noopener noreferrer">
+                          <SocialLinkIcon url={url} className="size-8 rounded-md" />
+                        </a>
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
               )}
 
-              <ProfileActions
-                user={profile}
-                isEditing={isEditing}
-                isSaving={isSaving}
-                form={form}
-                isMyProfile={isMyProfile}
-                handleCancelEdit={handleCancelEdit}
-                handleStartEdit={handleStartEdit}
-                handleSubmitUpdate={handleSubmitUpdate}
-              />
+              <div className="flex items-center gap-2">
+                <AnimatePresence>
+                  {isEditing && (
+                    <motion.div
+                      initial={{ width: 0, opacity: 0 }}
+                      animate={{ width: "auto", opacity: 1 }}
+                      exit={{ width: 0, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="flex items-center gap-2">
+                        <SocialLinksPopover links={socialLinks} onChange={setSocialLinks} />
+                        <span className="h-6 w-px shrink-0 bg-border" aria-hidden />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <ProfileActions
+                  user={profile}
+                  isEditing={isEditing}
+                  isSaving={isSaving}
+                  form={form}
+                  isMyProfile={isMyProfile}
+                  handleCancelEdit={handleCancelEdit}
+                  handleStartEdit={handleStartEdit}
+                  handleSubmitUpdate={handleSubmitUpdate}
+                />
+              </div>
             </div>
           </div>
         </div>

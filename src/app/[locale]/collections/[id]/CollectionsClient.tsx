@@ -57,7 +57,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
   });
 
   return (
-    <div className="max-w-410 min-h-screen w-full mx-auto px-6 pt-20 pb-16">
+    <div className="max-w-410 min-h-screen w-full mx-auto px-4 md:px-6 pt-20 pb-16">
       <ProfileHeader isMyProfile={isMyProfile} userId={userId} />
 
       <UserCollections
@@ -86,7 +86,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
 
       {isMediaEmpty ?
         <EmptyStateCollectionFilms isMyProfile={isMyProfile} searchQuery={debouncedSearchTerm} />
-      : <ul className="grid grid-cols-5 gap-2 justify-items-center">
+      : <ul className="grid grid-cols-2 gap-3 xs:grid-cols-3 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5">
           {isLoadingMedia ?
             Array.from({ length: 5 }).map((_, i) => <MediaCardSkeleton key={`skeleton-${i}`} />)
           : mediaItems.map((media) => (
@@ -113,6 +113,7 @@ export const CollectionsClient = ({ userId, isMyCollection, collectionId }: Prop
         isAllSelected={isAllSelected}
         onSelectAll={handleSelectAllMedia}
         onDelete={handleDeleteMedia}
+        onClose={toggleEditMode}
         isDeleting={isDeleting}
       />
     </div>

@@ -11,7 +11,7 @@ export const useProfileEditSchema = () => {
   const t = useTranslations("collections.profile.validation");
 
   return z.object({
-    nickname: z.string().trim().min(2, t("nicknameMin")).max(24, t("nicknameMax")),
+    nickname: z.string().trim().min(2, t("nicknameMin")).max(16, t("nicknameMax")),
     tag: z
       .string()
       .trim()

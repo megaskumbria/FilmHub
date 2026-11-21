@@ -116,6 +116,8 @@
   --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   --breakpoint-xxs: 400px;
+  --breakpoint-w420: 420px;
+  --breakpoint-w450: 450px;
   --breakpoint-xs: 650px;
   --breakpoint-3xl: 1440px;
 }

@@ -45,7 +45,7 @@ export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }
                     <Input
                       variant="underline"
                       inputSize="none"
-                      maxLength={24}
+                      maxLength={16}
                       {...field}
                       className="pb-1 font-unbounded text-3xl font-bold tracking-tight text-foreground md:text-4xl"
                     />
@@ -106,7 +106,7 @@ export const ProfileIdentity = ({ isEditing, form, handleSubmitUpdate, profile }
           </form>
         </Form>
       : <>
-          <h1 className="truncate font-unbounded text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
+          <h1 className="truncate font-unbounded text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-foreground">
             {nickname}
           </h1>
 

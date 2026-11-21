@@ -6,11 +6,21 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { CreateCollectionModal, EmptyStateCollection } from "@/widgets";
 import { CollectionFolder, FolderSkeleton } from "@/entities";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 import { sliderNavigationButton } from "@/shared/lib";
 import { type Collection } from "@/shared/hooks";
+import "swiper/css";
+
+const SWIPER_BREAKPOINTS = {
+  1024: {
+    slidesPerGroup: 2,
+  },
+  1280: {
+    slidesPerGroup: 2,
+  },
+};
 
 interface Props {
   setActiveCollectionId: (collectionId: string) => void;
@@ -32,7 +42,11 @@ export const UserCollections = ({
   hasCollectionItems,
 }: Props) => {
   const t = useTranslations("collections.list");
+
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(true);
+
   const swiperRef = useRef<SwiperType | null>(null);
 
   const handleNext = () => {
@@ -45,10 +59,21 @@ export const UserCollections = ({
     swiper?.slidePrev();
   };
 
-  const collectionsCount = collections?.length ?? 0;
+  const updateEdges = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  };
 
+  const collectionsCount = collections?.length ?? 0;
   const isLoop = collectionsCount > 10;
-  const isHideButtons = collectionsCount > 5;
+
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
+
+    swiper.update();
+    updateEdges(swiper);
+  }, [collections]);
 
   return (
     <>
@@ -76,62 +101,67 @@ export const UserCollections = ({
                 <FolderSkeleton isMyProfile={isMyProfile} key={index} />
               ))}
             </div>
-          : <>
-              <div
-                onMouseEnter={() => setIsNavigationVisible(true)}
-                onMouseLeave={() => setIsNavigationVisible(false)}
+          : <div
+              onMouseEnter={() => setIsNavigationVisible(true)}
+              onMouseLeave={() => setIsNavigationVisible(false)}
+            >
+              <Swiper
+                key={isLoop ? "loop" : "no-loop"}
+                modules={[Navigation]}
+                loop={isLoop}
+                watchOverflow
+                slidesPerView="auto"
+                spaceBetween={10}
+                breakpoints={SWIPER_BREAKPOINTS}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper;
+                  updateEdges(swiper);
+                }}
+                onSlideChange={updateEdges}
+                onResize={updateEdges}
+                className="relative min-h-55 h-full"
               >
-                <Swiper
-                  key={isLoop ? "loop" : "no-loop"}
-                  spaceBetween={0}
-                  modules={[Navigation]}
-                  loop={isLoop}
-                  slidesPerView={5}
-                  slidesPerGroup={2}
-                  onSwiper={(swiper) => {
-                    swiperRef.current = swiper;
-                  }}
-                  className="relative min-h-55 h-full [&_.swiper-wrapper]:gap-2.5"
-                >
-                  {isHideButtons && (
-                    <Button
-                      onClick={handlePrev}
-                      variant="ghost"
-                      size="icon"
-                      className={sliderNavigationButton(isNavigationVisible, "left")}
+                {!isBeginning && (
+                  <Button
+                    onClick={handlePrev}
+                    variant="ghost"
+                    size="icon"
+                    className={`${sliderNavigationButton(isNavigationVisible, "left")} hidden lg:flex`}
+                  >
+                    <ChevronLeft className="size-5" />
+                  </Button>
+                )}
+
+                {collections?.map((collection) => {
+                  const { id } = collection;
+
+                  return (
+                    <SwiperSlide
+                      key={id}
+                      className="w-[calc((100%-3px)/1.3)]! min-[420px]:w-[calc((100%-10px)/2)]! min-[700px]:w-[calc((100%-20px)/3)]! min-[1024px]:w-[calc((100%-30px)/4)]! min-[1280px]:w-[calc((100%-40px)/5)]!"
                     >
-                      <ChevronLeft className="size-5" />
-                    </Button>
-                  )}
+                      <CollectionFolder
+                        isMyProfile={isMyProfile}
+                        collection={collection}
+                        activeCollectionId={activeCollectionId}
+                        setActiveCollectionId={setActiveCollectionId}
+                      />
+                    </SwiperSlide>
+                  );
+                })}
 
-                  {collections?.map((collection) => {
-                    const { id } = collection;
-
-                    return (
-                      <SwiperSlide key={id} className="min-w-0! w-[calc(20%-8px)]!">
-                        <CollectionFolder
-                          isMyProfile={isMyProfile}
-                          collection={collection}
-                          activeCollectionId={activeCollectionId}
-                          setActiveCollectionId={setActiveCollectionId}
-                        />
-                      </SwiperSlide>
-                    );
-                  })}
-
-                  {isHideButtons && (
-                    <Button
-                      onClick={handleNext}
-                      variant="ghost"
-                      size="icon"
-                      className={sliderNavigationButton(isNavigationVisible, "right")}
-                    >
-                      <ChevronRight className="size-5" />
-                    </Button>
-                  )}
-                </Swiper>
-              </div>
-            </>
+                {!isEnd && (
+                  <Button
+                    onClick={handleNext}
+                    variant="ghost"
+                    size="icon"
+                    className={`${sliderNavigationButton(isNavigationVisible, "right")} hidden lg:flex`}
+                  >
+                    <ChevronRight className="size-5" />
+                  </Button>
+                )}
+              </Swiper>
+            </div>
           }
         </section>
       }

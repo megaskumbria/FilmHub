@@ -175,7 +175,7 @@
       },
       "validation": {
         "nicknameMin": "Nickname must be at least 2 characters",
-        "nicknameMax": "Nickname must be less than 24 characters",
+        "nicknameMax": "Nickname can't be longer than 16 characters",
         "tagMin": "Tag must be at least 3 characters",
         "tagMax": "Tag must be less than 16 characters",
         "tagCharset": "Allowed characters: a-z, 0-9, _",
@@ -205,7 +205,8 @@
       "selectAll": "Select all",
       "deselectAll": "Deselect all",
       "remove": "Remove",
-      "removing": "Removing..."
+      "removing": "Removing...",
+      "close": "Close"
     },
     "create": {
       "new": "New collection",

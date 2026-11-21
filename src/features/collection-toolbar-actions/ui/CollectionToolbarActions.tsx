@@ -23,14 +23,16 @@ export const CollectionToolbarActions = ({
 }: Props) => {
   const t = useTranslations("collections.toolbar");
   const { mutate: toggleVisibilityCollection } = useToggleVisibilityCollection();
+  const visibilityLabel = isVisible ? t("public") : t("private");
+  const editLabel = isEditMode ? t("done") : t("edit");
 
   return (
-    <div className="flex h-11 items-center gap-1 rounded-full border border-border/40 bg-graphite p-1">
+    <div className="flex h-11 shrink-0 items-center gap-1 rounded-full border border-border/40 bg-graphite p-1">
       <Button
         type="button"
         onClick={() => toggleVisibilityCollection({ id: collectionId, isVisible: !isVisible })}
         className={cn(
-          "h-full gap-1.5 rounded-full px-3.5 transition-colors duration-200",
+          "h-full gap-1.5 rounded-full px-3.5 transition-colors duration-200 max-[450px]:px-2.5",
           isVisible ?
             "bg-success/10 text-success"
           : "text-zinc-muted hover:bg-surface hover:text-foreground",
@@ -39,7 +41,9 @@ export const CollectionToolbarActions = ({
         {isVisible ?
           <IconWorld className="size-4 shrink-0" />
         : <IconLock className="size-4 shrink-0" />}
-        <span className="text-sm font-medium">{isVisible ? t("public") : t("private")}</span>
+        <span className="text-sm font-medium whitespace-nowrap max-[450px]:hidden">
+          {visibilityLabel}
+        </span>
       </Button>
 
       <Button
@@ -47,7 +51,7 @@ export const CollectionToolbarActions = ({
         onClick={onToggleEditMode}
         disabled={isMediaEmpty}
         className={cn(
-          "h-full gap-1.5 rounded-full px-3.5 select-none transition-colors duration-200",
+          "h-full gap-1.5 rounded-full px-3.5 whitespace-nowrap select-none transition-colors duration-200 max-[450px]:px-2.5",
           isEditMode && !isMediaEmpty ?
             "bg-accent text-accent-foreground shadow-md shadow-accent/25"
           : "text-zinc-muted hover:bg-surface hover:text-foreground",
@@ -56,7 +60,7 @@ export const CollectionToolbarActions = ({
         {isEditMode ?
           <IconCheck className="size-4 shrink-0" />
         : <IconPencil className="size-4 shrink-0" />}
-        <span className="text-sm font-medium">{isEditMode ? t("done") : t("edit")}</span>
+        <span className="text-sm font-medium max-[450px]:hidden">{editLabel}</span>
       </Button>
     </div>
   );

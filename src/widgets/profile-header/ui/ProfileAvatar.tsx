@@ -92,11 +92,11 @@ export const ProfileAvatar = ({
               size="icon-sm"
               onClick={() => avatarInputRef.current?.click()}
               disabled={isUpdatingAvatar}
-              className="absolute z-10 -bottom-2 -right-2 size-11 rounded-full ring-4 ring-surface lg:size-8"
+              className="absolute z-10 -bottom-2 -right-2 size-10 rounded-full ring-4 ring-surface"
             >
               {isUpdatingAvatar ?
-                <Loader2 className="size-4 animate-spin" strokeWidth={3} />
-              : <Camera className="size-4" strokeWidth={3} />}
+                <Loader2 className="size-5 animate-spin" strokeWidth={2.5} />
+              : <Camera className="size-5" strokeWidth={2.5} />}
             </Button>
           </>
         )}

@@ -156,7 +156,7 @@
       "films": "{count, plural, one {Фильм} few {Фильма} many {Фильмов} other {Фильмов}}",
       "collections": "{count, plural, one {Коллекция} few {Коллекции} many {Коллекций} other {Коллекций}}",
       "followers": "{count, plural, one {Подписчик} few {Подписчика} many {Подписчиков} other {Подписчиков}}",
-      "editLinks": "Изменить ссылки",
+      "editLinks": "Ссылки",
       "socialLinks": "Соцсети",
       "noLinks": "Ссылок пока нет",
       "maxLinks": "Не больше 4 ссылок",
@@ -175,7 +175,7 @@
       },
       "validation": {
         "nicknameMin": "Ник должен содержать минимум 2 символа",
-        "nicknameMax": "Ник не длиннее 24 символов",
+        "nicknameMax": "Ник не длиннее 16 символов",
         "tagMin": "Тег должен содержать минимум 3 символа",
         "tagMax": "Тег не длиннее 16 символов",
         "tagCharset": "Допустимые символы: a-z, 0-9, _",
@@ -205,7 +205,8 @@
       "selectAll": "Выбрать все",
       "deselectAll": "Снять выбор",
       "remove": "Убрать",
-      "removing": "Убираем..."
+      "removing": "Убираем...",
+      "close": "Закрыть"
     },
     "create": {
       "new": "Новая коллекция",
