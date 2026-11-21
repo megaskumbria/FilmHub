@@ -25,6 +25,7 @@ export { PopularFlagsCarousel } from "./popular-flags-carousel";
 export { FollowersSheet } from "./followers-sheet";
 export { MovieGrid } from "./movie-grid";
 export { EmptyStateCollectionFilms } from "./empty-state-collection-films";
+export { EmptyStateCollectionsFeed } from "./empty-state-collections-feed";
 export { PresetPackModal } from "./preset-pack-modal";
 export { BestCollectionsSlider } from "./best-collections-slider";
 export { EmptyStateCollection } from "./user-collections";

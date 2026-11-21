@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { infiniteCollectionsFeedQuery, useDebounce, useIntersectionObserver } from "@/shared/hooks";
-import { FilterFeed } from "@/widgets";
+import { EmptyStateCollectionsFeed, FilterFeed } from "@/widgets";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { CollectionDeck } from "@/entities";
 import { useCollectionsFeedStore } from "@/features/feed-filter";
@@ -38,6 +38,8 @@ export const HomeClient = () => {
 
   const collections = data?.pages.flatMap((page) => page.items) ?? [];
   const collectionsCount = data?.pages[0]?.total ?? 0;
+
+  const showEmptySearch = !isLoading && debouncedSearchQuery.length > 0 && collections.length === 0;
 
   return (
     <div className="w-full min-w-0 overflow-clip">
@@ -97,6 +99,14 @@ export const HomeClient = () => {
         >
           {isLoading ?
             Array.from({ length: 10 }).map((_, i) => <CardShirt key={i} className="w-55" />)
+          : showEmptySearch ?
+            <EmptyStateCollectionsFeed
+              query={debouncedSearchQuery}
+              onClear={() => {
+                setSearchQuery("");
+                inputRef.current?.focus();
+              }}
+            />
           : collections.map((collection) => (
               <CollectionDeck key={collection.id} collection={collection} />
             ))

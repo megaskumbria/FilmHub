@@ -409,6 +409,11 @@
       "50": "50+ movies",
       "100": "100+ movies",
       "500": "500+ movies"
+    },
+    "emptySearch": {
+      "title": "Nothing found",
+      "text": "No collections match “{query}”",
+      "clear": "Clear search"
     }
   },
   "flags": {
