@@ -48,6 +48,7 @@ export default async function RootLayout({ children, params }: Props) {
       lang={locale}
       className={`${manrope.variable} ${unbounded.variable} ${inter.variable}`}
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
     >
       <body>
         <ReactQueryProvider>
