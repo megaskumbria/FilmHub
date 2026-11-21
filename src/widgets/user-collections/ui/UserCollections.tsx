@@ -132,23 +132,19 @@ export const UserCollections = ({
                   </Button>
                 )}
 
-                {collections?.map((collection) => {
-                  const { id } = collection;
-
-                  return (
-                    <SwiperSlide
-                      key={id}
-                      className="w-[calc((100%-3px)/1.3)]! min-[420px]:w-[calc((100%-10px)/2)]! min-[700px]:w-[calc((100%-20px)/3)]! min-[1024px]:w-[calc((100%-30px)/4)]! min-[1280px]:w-[calc((100%-40px)/5)]!"
-                    >
-                      <CollectionFolder
-                        isMyProfile={isMyProfile}
-                        collection={collection}
-                        activeCollectionId={activeCollectionId}
-                        setActiveCollectionId={setActiveCollectionId}
-                      />
-                    </SwiperSlide>
-                  );
-                })}
+                {collections?.map((collection) => (
+                  <SwiperSlide
+                    key={collection.id}
+                    className="[.swiper:not(.swiper-initialized)_&]:mr-2.5 w-[calc((100%-3px)/1.3)]! w420:w-[calc((100%-10px)/2)]! min-[700px]:w-[calc((100%-20px)/3)]! min-[1024px]:w-[calc((100%-30px)/4)]! min-[1280px]:w-[calc((100%-40px)/5)]!"
+                  >
+                    <CollectionFolder
+                      isMyProfile={isMyProfile}
+                      collection={collection}
+                      activeCollectionId={activeCollectionId}
+                      setActiveCollectionId={setActiveCollectionId}
+                    />
+                  </SwiperSlide>
+                ))}
 
                 {!isEnd && (
                   <Button
