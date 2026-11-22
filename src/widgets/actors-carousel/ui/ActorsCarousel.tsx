@@ -1,82 +1,125 @@
 "use client";
 
-import { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { CastMember } from "@/shared/hooks/useMedia";
 import { useTranslations } from "next-intl";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { Button } from "@/shared/ui";
+import { CastMember } from "@/shared/hooks/useMedia";
 
 interface Props {
   actors: CastMember[];
 }
 
+const getInitials = (name: string) =>
+  name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part.charAt(0))
+    .join("");
+
 export const ActorsCarousel = ({ actors }: Props) => {
   const t = useTranslations("movie");
-  const swiperRef = useRef<SwiperType | null>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const [edges, setEdges] = useState({ start: true, end: true });
 
-  const handleNext = () => {
-    const swiper = swiperRef.current;
-    if (!swiper) return;
-    swiper.isEnd ? swiper.slideTo(0) : swiper.slideNext();
+  const updateEdges = () => {
+    const list = listRef.current;
+    if (!list) return;
+
+    setEdges({
+      start: list.scrollLeft <= 1,
+      end: list.scrollLeft + list.clientWidth >= list.scrollWidth - 1,
+    });
   };
 
-  return (
-    <div className="w-full">
-      <div className="flex items-center justify-between mb-3">
-        <p className="text-sm font-semibold text-white/50 uppercase tracking-widest">{t("cast")}</p>
+  useEffect(() => {
+    updateEdges();
+    window.addEventListener("resize", updateEdges);
+    return () => window.removeEventListener("resize", updateEdges);
+  }, [actors]);
 
-        <div className="flex items-center gap-1 pr-4">
+  const scroll = (direction: 1 | -1) => {
+    const list = listRef.current;
+    if (!list) return;
+
+    list.scrollBy({ left: direction * list.clientWidth * 0.8, behavior: "smooth" });
+  };
+
+  if (actors.length === 0) return null;
+
+  return (
+    <section aria-labelledby="movie-cast" className="min-w-0">
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <h2 id="movie-cast" className="font-unbounded text-lg font-medium text-white">
+          {t("cast")}
+        </h2>
+
+        <div className="flex items-center gap-1.5">
           <Button
-            onClick={() => swiperRef.current?.slidePrev()}
-            className="flex items-center justify-center size-7 rounded-full border border-white/20 text-white/60 transition-all duration-200 hover:border-accent hover:text-accent hover:bg-accent/10"
+            variant="glass"
+            size="icon-sm"
+            className="rounded-full"
+            aria-label={t("scrollBack")}
+            disabled={edges.start}
+            onClick={() => scroll(-1)}
           >
-            <ChevronLeft size={14} />
+            <IconChevronLeft className="size-4" />
           </Button>
 
           <Button
-            onClick={handleNext}
-            className="flex items-center justify-center size-7 rounded-full border border-white/20 text-white/60 transition-all duration-200 hover:border-accent hover:text-accent hover:bg-accent/10"
+            variant="glass"
+            size="icon-sm"
+            className="rounded-full"
+            aria-label={t("scrollForward")}
+            disabled={edges.end}
+            onClick={() => scroll(1)}
           >
-            <ChevronRight size={14} />
+            <IconChevronRight className="size-4" />
           </Button>
         </div>
       </div>
 
-      <Swiper
-        spaceBetween={10}
-        slidesPerView="auto"
-        // slidesPerGroup={4}
-        slidesPerGroupAuto={true}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
+      <ul
+        ref={listRef}
+        onScroll={updateEdges}
+        className="flex snap-x gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {actors.map((actor) => (
-          <SwiperSlide key={actor.id} className="w-auto!">
-            <div className="flex flex-col items-center gap-2 w-18">
-              <div className="relative size-15 rounded-full overflow-hidden border border-white/60 shrink-0">
-                <Image
-                  src={actor.profileUrl ?? ""}
-                  alt={actor.name}
-                  fill
-                  className="object-cover"
-                />
+          <li key={actor.id} className="w-28 shrink-0 snap-start sm:w-32">
+            <figure>
+              <div className="relative aspect-3/4 overflow-hidden rounded-md bg-surface-elevated">
+                {actor.profileUrl ?
+                  <Image
+                    src={actor.profileUrl}
+                    alt={actor.name}
+                    fill
+                    sizes="128px"
+                    className="object-cover"
+                  />
+                : <span
+                    aria-hidden
+                    className="absolute inset-0 grid place-items-center font-unbounded text-2xl text-white/25"
+                  >
+                    {getInitials(actor.name)}
+                  </span>
+                }
               </div>
 
-              <div className="text-center w-full">
-                <p className="text-white text-xs font-medium leading-tight line-clamp-2">
+              <figcaption className="mt-2.5 font-manrope">
+                <p className="text-sm font-semibold leading-snug text-white line-clamp-2">
                   {actor.name}
                 </p>
-
-                <p className="text-zinc-muted text-xs mt-0.5">{actor.character}</p>
-              </div>
-            </div>
-          </SwiperSlide>
+                {actor.character && (
+                  <p className="mt-0.5 text-xs leading-snug text-zinc-muted line-clamp-2">
+                    {actor.character}
+                  </p>
+                )}
+              </figcaption>
+            </figure>
+          </li>
         ))}
-      </Swiper>
-    </div>
+      </ul>
+    </section>
   );
 };

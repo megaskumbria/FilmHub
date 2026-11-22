@@ -1,101 +1,39 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import Image from "next/image";
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { MovieInfoPanel, PosterCarousel } from "@/widgets";
-import { useMovie } from "@/shared/hooks";
-import { Button } from "@/shared/ui";
-import { Eye, EyeOff } from "lucide-react";
+import { MotionConfig } from "framer-motion";
+import { MovieDetails } from "@/widgets";
+import { MoviePageClient } from "./MoviePageClient";
 import { MediaType } from "@/shared/stores/movie-catalog";
-import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { movieQueryOptions } from "@/shared/hooks/useMedia";
+import { QueryClient } from "@tanstack/react-query";
 
-export default function MoviePage() {
-  const t = useTranslations("movie");
-  const [selectedPoster, setSelectedPoster] = useState<string | null>(null);
-  const [isUiHidden, setIsUiHidden] = useState(false);
-  const searchParams = useSearchParams();
+interface Params {
+  locale: string;
+  id: string;
+}
 
-  const params = useParams();
-  const id = params?.id != null ? Number(params.id) : NaN;
-  const mediaType = searchParams.get("mediaType") as MediaType;
+interface SearchParams {
+  mediaType: MediaType;
+}
 
-  const { data: movie } = useMovie(id, mediaType);
+interface Props {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}
+
+export default async function MoviePage({ params, searchParams }: Props) {
+  const { id, locale } = await params;
+  const { mediaType } = await searchParams;
+
+  const queryClient = new QueryClient();
+  const movie = await queryClient.fetchQuery(movieQueryOptions(Number(id), mediaType, locale));
 
   if (!movie) return null;
 
-  const { title, backdropUrl, credits, originalName, stills, stillsReady } = movie;
-  const { cast } = credits;
-
-  const titleToDisplay = originalName || title;
-  const poster = selectedPoster ?? backdropUrl;
-  const shouldShowCarousel = stillsReady && backdropUrl;
-
   return (
-    <div className="relative w-full overflow-hidden h-screen">
-      <div className="absolute inset-0 w-full">
-        <AnimatePresence mode="sync">
-          <motion.div
-            key={poster}
-            className="absolute inset-0"
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-          >
-            <Image
-              src={poster ?? ""}
-              alt={titleToDisplay}
-              fill
-              sizes="100vw"
-              className="object-cover"
-              priority
-            />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      <motion.div
-        animate={{ opacity: isUiHidden ? 0 : 1 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-        className="absolute inset-0 bg-linear-to-t from-black via-black/55 to-transparent pointer-events-none"
-      />
-
-      <motion.div
-        animate={{ opacity: isUiHidden ? 0 : 1 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-        className="absolute inset-0 bg-linear-to-r from-black/75 via-black/20 to-transparent pointer-events-none"
-      />
-
-      <div className="relative h-full flex flex-col justify-end">
-        <div className="flex items-end justify-between gap-10 px-14 mb-10">
-          <MovieInfoPanel movie={movie} isUiHidden={isUiHidden} actors={cast} />
-
-          <div className="shrink-0 flex flex-col gap-3">
-            <Button
-              onClick={() => setIsUiHidden((v) => !v)}
-              className="self-end flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/60 hover:bg-white/18 hover:text-white transition-all duration-200 text-xs font-medium"
-            >
-              {isUiHidden ?
-                <Eye className="size-3.5" />
-              : <EyeOff className="size-3.5" />}
-              <span>{isUiHidden ? t("showUi") : t("posterOnly")}</span>
-            </Button>
-
-            {shouldShowCarousel && (
-              <PosterCarousel
-                stills={stills}
-                backdropUrl={backdropUrl}
-                selectedPoster={selectedPoster}
-                setSelectedPoster={setSelectedPoster}
-                titleToDisplay={titleToDisplay}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <MotionConfig reducedMotion="user">
+      <main>
+        <MoviePageClient movie={movie} />
+        <MovieDetails movie={movie} />
+      </main>
+    </MotionConfig>
   );
 }

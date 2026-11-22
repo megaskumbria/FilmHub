@@ -1,24 +1,44 @@
 "use client";
 
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
-import { ActorsCarousel } from "@/widgets";
-import { motion } from "framer-motion";
-import { CalendarDays, Clock, Info, Link2, Plus, Tv } from "lucide-react";
-import { CastMember, TmdbMovie } from "@/shared/hooks/useMedia";
-import { AddMovieCollectionMenu } from "@/features";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { useFormatter, useTranslations } from "next-intl";
+import { IconInfoCircle, IconLink, IconPlus, IconStarFilled } from "@tabler/icons-react";
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
+import { TmdbMovie } from "@/shared/hooks/useMedia";
+import { AddMovieCollectionMenu } from "@/features";
 import { useRequireAuth } from "@/features/auth";
-import { useTranslations } from "next-intl";
+import { cn } from "@/shared/lib/utils";
+import { getMediaTitles, getReleaseYears } from "@/shared/lib";
 
 interface Props {
   movie: TmdbMovie;
   isUiHidden: boolean;
-  actors: CastMember[];
 }
 
-export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
+const getTitleSize = (length: number) => {
+  if (length <= 10) return "text-6xl sm:text-8xl xl:text-9xl";
+  if (length <= 22) return "text-5xl sm:text-7xl xl:text-8xl";
+  return "text-4xl sm:text-5xl xl:text-6xl";
+};
+
+const rise = (index: number) => ({
+  initial: { opacity: 0, y: 28 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, delay: 0.15 + index * 0.08, ease: [0.22, 1, 0.36, 1] as const },
+});
+
+export const MovieInfoPanel = ({ movie, isUiHidden }: Props) => {
   const t = useTranslations("movie");
+  const format = useFormatter();
+  const ensureAuth = useRequireAuth();
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const { genres, runtime, numberOfSeasons, mediaType, voteAverage, voteCount } = movie;
+
+  const { localized, original } = getMediaTitles(movie);
+  const isMovie = mediaType !== "tv";
+  const subtitle = [original, getReleaseYears(movie)].filter(Boolean).join(", ");
 
   const formatDuration = (min: number) => {
     const hours = Math.floor(min / 60);
@@ -26,24 +46,10 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
     return hours > 0 ? t("duration", { hours, minutes }) : t("minutes", { minutes });
   };
 
-  const ensureAuth = useRequireAuth();
-
-  const {
-    genres,
-    overview,
-    releaseDate,
-    runtime,
-    title,
-    originalName,
-    lastAirDate,
-    numberOfSeasons,
-    mediaType,
-    firstAirDate,
-  } = movie;
-
-  const titleToDisplay = originalName || title;
-  const yearOfRelease = new Date(releaseDate || firstAirDate || lastAirDate).getFullYear();
-  const isMovie = mediaType === "movie";
+  const length =
+    isMovie ?
+      runtime > 0 && formatDuration(runtime)
+    : numberOfSeasons && t("seasons", { count: numberOfSeasons });
 
   const handleOpenChange = (open: boolean) => {
     if (open && !ensureAuth()) return;
@@ -52,77 +58,86 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
 
   return (
     <motion.div
-      animate={{ opacity: isUiHidden ? 0 : 1, x: isUiHidden ? -24 : 0 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className="max-w-xl shrink-0 flex flex-col gap-4"
-      style={{ pointerEvents: isUiHidden ? "none" : "auto" }}
+      animate={{ opacity: isUiHidden ? 0 : 1, y: isUiHidden ? 16 : 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="flex max-w-4xl flex-col gap-7"
+      inert={isUiHidden}
     >
-      <div className="space-y-1">
-        <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-base font-medium">
-          <span className="flex items-center gap-1.5 text-white/70">
-            <CalendarDays className="size-3.5" />
-            {yearOfRelease}
-          </span>
+      <motion.hgroup {...rise(0)}>
+        <h1
+          className={cn(
+            "font-unbounded font-semibold text-white leading-[0.95] tracking-[-0.035em] text-balance drop-shadow-[0_2px_24px_rgba(0,0,0,0.45)]",
+            getTitleSize(localized.length),
+          )}
+        >
+          {localized}
+        </h1>
 
-          <span className="text-white/25">•</span>
+        {subtitle && (
+          <p className="mt-4 font-manrope text-lg font-medium text-white/60 sm:text-xl">
+            {subtitle}
+          </p>
+        )}
+      </motion.hgroup>
 
-          {isMovie ?
-            <span className="flex items-center gap-1.5 text-white/70">
-              <Clock className="size-3.5" />
-              {formatDuration(runtime)}
+      <motion.div
+        {...rise(1)}
+        className="flex flex-wrap items-center gap-x-6 gap-y-3 font-manrope text-white/80"
+      >
+        {voteCount > 0 && (
+          <p className="flex items-baseline gap-2">
+            <IconStarFilled className="size-5 self-center text-gold" aria-hidden />
+            <span className="font-unbounded text-2xl font-semibold text-white tabular-nums">
+              {format.number(voteAverage, { maximumFractionDigits: 1, minimumFractionDigits: 1 })}
             </span>
-          : <span className="flex items-center gap-1.5 text-white/70">
-              <Tv className="size-3.5" />
-              {numberOfSeasons && t("seasons", { count: numberOfSeasons })}
-            </span>
-          }
-        </div>
+            <span className="text-sm text-white/50">{t("votes", { count: voteCount })}</span>
+          </p>
+        )}
 
-        <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-base font-medium">
-          {genres.map((genre, i) => (
-            <span key={genre.id} className="flex items-center gap-x-2.5">
-              <span className="text-white/50">{genre.name}</span>
-              {i < genres.length - 1 && <span className="text-white/25">•</span>}
-            </span>
-          ))}
-        </div>
-      </div>
+        {length && <p className="text-base font-semibold">{length}</p>}
 
-      <h1 className="text-5xl font-medium text-white leading-none font-unbounded">
-        {titleToDisplay}
-      </h1>
+        {genres.length > 0 && (
+          <ul className="flex flex-wrap gap-2" aria-label={t("genres")}>
+            {genres.map((genre) => (
+              <li
+                key={genre.id}
+                className="rounded-full border border-white/20 px-3 py-1 text-sm font-medium text-white/80 first-letter:uppercase"
+              >
+                {genre.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </motion.div>
 
-      <p className="text-white/70 font-medium text-base leading-relaxed line-clamp-6">{overview}</p>
-
-      <div className="flex gap-3">
+      <motion.div {...rise(2)} className="flex flex-wrap gap-3">
         <AddMovieCollectionMenu
           open={popoverOpen}
           onOpenChange={handleOpenChange}
           mediaId={movie.id}
           mediaType="movie"
         >
-          <Button
-            variant="accent"
-            size="lg"
-            className="transition-all duration-200 gap-1 rounded-lg font-semibold text-sm shadow-lg shadow-accent/30"
-          >
-            <Plus className="size-4" />
+          <Button variant="accent" size="lg" className="gap-2 rounded-full font-semibold text-sm">
+            <IconPlus className="size-4" stroke={2.5} />
             <span>{t("addToCollection")}</span>
           </Button>
         </AddMovieCollectionMenu>
 
-        <div className="flex items-stretch h-10 rounded-lg border border-white/20 bg-white/10 overflow-hidden">
-          <Button className="transition-all duration-200 gap-1 h-full rounded-none bg-transparent hover:bg-white/10 font-semibold text-sm text-white border-none shadow-none px-4">
-            <Link2 className="size-4" />
+        <div className="flex h-10 items-stretch overflow-hidden rounded-full border border-white/15 bg-black/45 backdrop-blur-md">
+          <Button className="h-full gap-2 pl-5 pr-4 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+            <IconLink className="size-4" />
             <span>{t("generateLink")}</span>
           </Button>
 
-          <div className="w-px self-center h-5 bg-white/15 shrink-0" />
+          <span aria-hidden className="h-5 w-px shrink-0 self-center bg-white/15" />
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button className="transition-all duration-200 cursor-default w-11 h-full shrink-0 rounded-none bg-transparent hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white/90 border-none shadow-none">
-                <Info className="size-4" />
+              <Button
+                aria-label={t("linkHint")}
+                className="h-full w-11 shrink-0 cursor-default text-white/50 transition-colors hover:bg-white/10 hover:text-white/90"
+              >
+                <IconInfoCircle className="size-4" />
               </Button>
             </TooltipTrigger>
 
@@ -131,9 +146,7 @@ export const MovieInfoPanel = ({ movie, isUiHidden, actors }: Props) => {
             </TooltipContent>
           </Tooltip>
         </div>
-      </div>
-
-      <ActorsCarousel actors={actors} />
+      </motion.div>
     </motion.div>
   );
 };

@@ -10,6 +10,7 @@ export { MovieCatalogToolbar } from "./movie-catalog-toolbar";
 export { PosterCarousel } from "./poster-carousel";
 export { ActorsCarousel } from "./actors-carousel";
 export { MovieInfoPanel } from "./movie-info-panel";
+export { MovieDetails } from "./movie-details";
 export { CollectionComments } from "./collection-comments";
 export { CollectionsToolbar } from "./collections-toolbar";
 export { FilterPopover } from "./movie-catalog-toolbar/ui/FilterPopover";

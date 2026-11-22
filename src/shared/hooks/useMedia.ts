@@ -1,8 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { useLocale } from "next-intl";
+import { queryOptions } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
 import { MediaType } from "../stores/movie-catalog";
-import { apiClient } from "../api/api-client";
 
 export interface Genre {
   id: number;
@@ -163,20 +161,16 @@ export interface TmdbMovie {
   mediaType?: MediaType;
 }
 
-export const useMovie = (id: number, mediaType: MediaType) => {
-  const locale = useLocale();
-  const hasMediaType = mediaType === "movie" || mediaType === "tv";
-
-  return useQuery({
+export const movieQueryOptions = (id: number, mediaType: MediaType, locale: string) =>
+  queryOptions({
     queryKey: ["movie", id, mediaType, locale],
     queryFn: async () => {
-      const { data } = await apiClient.get<TmdbMovie>(
+      const response = await fetch(
         `${API_URL}/movies/movie/${id}?media_type=${mediaType}&language=${locale}`,
+        { next: { revalidate: 60 * 60 } },
       );
-      return data;
+      if (!response.ok) throw new Error("Failed to load movie");
+      return response.json() as Promise<TmdbMovie>;
     },
-    enabled: hasMediaType,
     staleTime: 1000 * 60 * 60,
-    refetchOnWindowFocus: false,
   });
-};

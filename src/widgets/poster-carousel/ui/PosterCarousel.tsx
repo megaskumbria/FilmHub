@@ -1,104 +1,146 @@
 "use client";
 
-import { Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useMemo, useRef, useEffect } from "react";
-import type { Swiper as SwiperType } from "swiper";
-import { useIdle } from "react-use";
+import { KeyboardEvent, useEffect, useRef } from "react";
 import Image from "next/image";
+import { useIdle } from "react-use";
+import { useTranslations } from "next-intl";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { Button, FilmPerforation } from "@/shared/ui";
 
 interface Props {
-  stills: string[];
-  backdropUrl: string;
-  selectedPoster: string | null;
-  setSelectedPoster: (poster: string | null) => void;
+  frames: string[];
+  activeIndex: number;
+  onSelect: (index: number) => void;
   titleToDisplay: string;
 }
 
-const IDLE_TIMEOUT = 5000;
+const IDLE_TIMEOUT = 6000;
+const SLIDESHOW_DELAY = 4000;
 const IDLE_EVENTS = ["mousemove", "mousedown", "keydown", "touchstart", "scroll", "click"];
 
-export const PosterCarousel = ({
-  stills,
-  backdropUrl,
-  selectedPoster,
-  setSelectedPoster,
-  titleToDisplay,
-}: Props) => {
-  const swiperRef = useRef<SwiperType | null>(null);
-  const userClickedRef = useRef(false);
+const NAVIGATION_KEYS: Record<string, number> = {
+  ArrowDown: 1,
+  ArrowRight: 1,
+  ArrowUp: -1,
+  ArrowLeft: -1,
+};
 
+const pad = (value: number) => String(value).padStart(2, "0");
+
+export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }: Props) => {
+  const t = useTranslations("movie");
+  const listRef = useRef<HTMLOListElement>(null);
   const isIdle = useIdle(IDLE_TIMEOUT, false, IDLE_EVENTS);
+  const total = frames.length;
+
+  const wrap = (index: number) => (index + total) % total;
 
   useEffect(() => {
-    if (!swiperRef.current) return;
+    if (!isIdle) return;
 
-    if (!isIdle && selectedPoster !== null) handlePosterSelect(updatePosters[0]);
+    const timer = setTimeout(() => onSelect(wrap(activeIndex + 1)), SLIDESHOW_DELAY);
+    return () => clearTimeout(timer);
+  }, [isIdle, activeIndex, total]);
 
-    if (isIdle) {
-      swiperRef.current.autoplay.start();
-      userClickedRef.current = false;
-    } else {
-      swiperRef.current.autoplay.stop();
-      setSelectedPoster(null);
-    }
-  }, [isIdle]);
+  // Scrolls only the strip itself: scrollIntoView would also drag the page back to the hero.
+  useEffect(() => {
+    const list = listRef.current;
+    const item = list?.children[activeIndex] as HTMLElement | undefined;
+    if (!list || !item) return;
 
-  const handlePosterSelect = (poster: string) => {
-    setSelectedPoster(poster);
-    swiperRef.current?.autoplay.stop();
-    userClickedRef.current = true;
+    const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const index = updatePosters.findIndex((p) => p === poster);
+    list.scrollTo({
+      top: item.offsetTop - (list.clientHeight - item.offsetHeight) / 2,
+      left: item.offsetLeft - (list.clientWidth - item.offsetWidth) / 2,
+      behavior: smooth ? "smooth" : "auto",
+    });
+  }, [activeIndex]);
 
-    if (index >= 0) swiperRef.current?.slideToLoop(index);
+  const select = (index: number, moveFocus = false) => {
+    const next = wrap(index);
+    onSelect(next);
+
+    if (moveFocus) listRef.current?.children[next]?.querySelector("button")?.focus();
   };
 
-  const updatePosters = useMemo(() => [backdropUrl, ...stills], [backdropUrl, stills]);
+  const handleKeyDown = (event: KeyboardEvent<HTMLOListElement>) => {
+    const delta = NAVIGATION_KEYS[event.key];
+    if (!delta) return;
+
+    event.preventDefault();
+    select(activeIndex + delta, true);
+  };
 
   return (
-    <div className="w-145">
-      <Swiper
-        className="h-35"
-        // slideToClickedSlide={true}
-        loop={true}
-        spaceBetween={10}
-        slidesPerView={4}
-        speed={800}
-        modules={[Autoplay]}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-          swiper.autoplay.stop();
-        }}
-        onSlideChange={(swiper) => {
-          if (!isIdle) return;
-          if (userClickedRef.current) return;
-          setSelectedPoster(updatePosters[swiper.realIndex]);
-        }}
-      >
-        {updatePosters.map((backdrop, i) => (
-          <SwiperSlide
-            key={i}
-            onClick={() => {
-              if (swiperRef.current?.animating) return;
-              handlePosterSelect(backdrop);
-            }}
-            className="relative rounded-xl overflow-hidden border border-white/30 cursor-pointer transition-all duration-200"
+    <nav aria-label={t("frames")} className="flex min-h-0 flex-col gap-3 lg:flex-1">
+      <div className="flex items-center justify-between gap-3">
+        <p className="font-unbounded text-xs tabular-nums text-shadow-flag">
+          <span className="text-white">{pad(activeIndex + 1)}</span>
+          <span className="text-white/60"> / {pad(total)}</span>
+        </p>
+
+        <div className="flex items-center gap-1">
+          <Button
+            variant="glass"
+            size="icon-xs"
+            className="rounded-full"
+            aria-label={t("prevFrame")}
+            onClick={() => select(activeIndex - 1)}
           >
-            <Image
-              src={backdrop}
-              fill
-              alt={titleToDisplay}
-              sizes="(max-width: 768px) 50vw, 145px"
-              className="object-cover"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+            <IconChevronUp className="-rotate-90 lg:rotate-0" />
+          </Button>
+
+          <Button
+            variant="glass"
+            size="icon-xs"
+            className="rounded-full"
+            aria-label={t("nextFrame")}
+            onClick={() => select(activeIndex + 1)}
+          >
+            <IconChevronDown className="-rotate-90 lg:rotate-0" />
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex min-h-0 flex-col bg-black/75 py-1.5 backdrop-blur-sm lg:flex-1 lg:flex-row lg:px-1.5 lg:py-0">
+        <FilmPerforation className="lg:hidden" />
+        <FilmPerforation orientation="vertical" className="hidden lg:block" />
+
+        <ol
+          ref={listRef}
+          onKeyDown={handleKeyDown}
+          className="relative flex min-h-0 flex-1 snap-x gap-2 overflow-x-auto p-2 [scrollbar-width:none] lg:snap-y lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto [&::-webkit-scrollbar]:hidden"
+        >
+          {frames.map((frame, index) => {
+            const isActive = index === activeIndex;
+
+            return (
+              <li key={frame} className="w-36 shrink-0 snap-center sm:w-40 lg:w-full">
+                <Button
+                  variant="frame"
+                  aria-pressed={isActive}
+                  aria-label={t("frameLabel", { index: index + 1 })}
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={() => select(index)}
+                  className="aspect-video"
+                >
+                  <Image
+                    src={frame}
+                    alt={titleToDisplay}
+                    fill
+                    sizes="176px"
+                    className="object-cover"
+                  />
+                </Button>
+              </li>
+            );
+          })}
+        </ol>
+
+        <FilmPerforation className="lg:hidden" />
+        <FilmPerforation orientation="vertical" className="hidden lg:block" />
+      </div>
+    </nav>
   );
 };
