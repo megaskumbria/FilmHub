@@ -34,7 +34,7 @@ export const MovieGrid = () => {
     infiniteMediaQueryOptions({
       category,
       searchQuery,
-      selectedGenre: selectedGenre.id,
+      selectedGenre: String(selectedGenre.id),
       selectedSort,
       selectedYear,
       selectedCountry: searchQuery.length > 0 ? "" : selectedCountry.iso31661,

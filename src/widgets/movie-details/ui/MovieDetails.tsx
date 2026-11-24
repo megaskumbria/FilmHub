@@ -4,25 +4,14 @@ import Image from "next/image";
 import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { IconExternalLink } from "@tabler/icons-react";
 import { Button } from "@/shared/ui";
-import { TmdbMovie } from "@/shared/hooks/useMedia";
-import { capitalize, getMediaTitles } from "@/shared/lib";
+import { MediaDetails } from "@/shared/hooks/useMedia";
+import { getMediaTitles } from "@/shared/lib";
 import { ActorsCarousel } from "@/widgets/actors-carousel";
+import { getMovieFacts } from "../lib/getMovieFacts";
 
 interface Props {
-  movie: TmdbMovie;
+  movie: MediaDetails;
 }
-
-const STATUS_KEYS: Record<string, string> = {
-  Released: "released",
-  Ended: "ended",
-  "Returning Series": "returning",
-  "In Production": "inProduction",
-  "Post Production": "postProduction",
-  Planned: "planned",
-  Canceled: "canceled",
-  Rumored: "rumored",
-  Pilot: "pilot",
-};
 
 const splitParagraphs = (text: string) =>
   text
@@ -35,69 +24,10 @@ export const MovieDetails = ({ movie }: Props) => {
   const format = useFormatter();
   const locale = useLocale();
 
-  const {
-    overview,
-    tagline,
-    posterUrl,
-    backdropUrl,
-    runtime,
-    numberOfSeasons,
-    numberOfEpisodes,
-    status,
-    originalLanguage,
-    budget,
-    revenue,
-    imdbId,
-    homepage,
-    credits,
-    mediaType,
-  } = movie;
+  const { overview, tagline, posterUrl, backdropUrl, imdbId, homepage, credits } = movie;
 
   const { localized } = getMediaTitles(movie);
-  const isMovie = mediaType !== "tv";
-  const releaseDate = movie.releaseDate || movie.firstAirDate;
-
-  const formatMoney = (value: number) =>
-    format.number(value, {
-      style: "currency",
-      currency: "USD",
-      notation: "compact",
-      maximumFractionDigits: 1,
-      minimumFractionDigits: 0,
-      trailingZeroDisplay: "stripIfInteger",
-    });
-
-  const languageName =
-    originalLanguage && new Intl.DisplayNames([locale], { type: "language" }).of(originalLanguage);
-
-  const facts = [
-    releaseDate && {
-      label: isMovie ? t("facts.release") : t("facts.firstAir"),
-      value: format.dateTime(new Date(releaseDate), { dateStyle: "long" }),
-    },
-    isMovie
-      && runtime > 0 && {
-        label: t("facts.runtime"),
-        value: t("minutes", { minutes: runtime }),
-      },
-    !isMovie
-      && numberOfSeasons && {
-        label: t("facts.seasons"),
-        value: t("seasons", { count: numberOfSeasons }),
-      },
-    !isMovie
-      && numberOfEpisodes && {
-        label: t("facts.episodes"),
-        value: format.number(numberOfEpisodes),
-      },
-    STATUS_KEYS[status] && {
-      label: t("facts.status"),
-      value: t(`status.${STATUS_KEYS[status]}`),
-    },
-    languageName && { label: t("facts.language"), value: capitalize(languageName) },
-    budget > 0 && { label: t("facts.budget"), value: formatMoney(budget) },
-    revenue > 0 && { label: t("facts.revenue"), value: formatMoney(revenue) },
-  ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
+  const facts = getMovieFacts(movie, { t, format, locale });
 
   const links = [
     imdbId && { label: t("imdb"), href: `https://www.imdb.com/title/${imdbId}` },
@@ -123,7 +53,7 @@ export const MovieDetails = ({ movie }: Props) => {
 
       <div className="mx-auto grid max-w-350 gap-x-14 gap-y-16 px-6 pt-10 pb-24 md:grid-cols-[12rem_minmax(0,1fr)] lg:px-14 xl:grid-cols-[15rem_minmax(0,1fr)_17rem]">
         <aside className="hidden md:row-span-2 md:block xl:row-span-1">
-          <div className="sticky top-24 flex flex-col gap-4">
+          <div className="sticky top-0 flex flex-col gap-4">
             {posterUrl && (
               <div className="relative aspect-2/3 overflow-hidden rounded-lg shadow-[0_24px_60px_-20px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
                 <Image

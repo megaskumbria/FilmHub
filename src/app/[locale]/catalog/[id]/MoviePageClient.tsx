@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { getMediaTitles } from "@/shared/lib";
-import { TmdbMovie } from "@/shared/hooks/useMedia";
+import { MediaDetails } from "@/shared/hooks/useMedia";
 import { useTranslations } from "next-intl";
 import { cn } from "@/shared/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,29 +11,28 @@ import { MovieInfoPanel, PosterCarousel } from "@/widgets";
 import { Button } from "@/shared/ui";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 
-const HERO_HEIGHT = "h-[100svh] min-h-160";
-
 interface Props {
-  movie: TmdbMovie;
+  movie: MediaDetails;
 }
 
 export const MoviePageClient = ({ movie }: Props) => {
   const t = useTranslations("movie");
 
-  const [frameIndex, setFrameIndex] = useState(0);
-  const [isUiHidden, setIsUiHidden] = useState(false);
+  const [frameIndex, setFrameIndex] = useState<number>(0);
+  const [isUiHidden, setIsUiHidden] = useState<boolean>(false);
 
-  const frames = useMemo(() => {
+  const frames = useMemo<string[]>(() => {
     if (!movie?.backdropUrl) return [];
     return movie.stillsReady ? [movie.backdropUrl, ...movie.stills] : [movie.backdropUrl];
   }, [movie]);
 
   const { localized } = getMediaTitles(movie);
+
   const frame = frames[frameIndex] ?? movie.backdropUrl;
   const hasFilmStrip = frames.length > 1;
 
   return (
-    <section className={cn("relative overflow-hidden", HERO_HEIGHT)}>
+    <section className="relative overflow-hidden h-svh min-h-160">
       <div className="absolute inset-0">
         <AnimatePresence mode="sync">
           <motion.div
@@ -64,8 +63,8 @@ export const MoviePageClient = ({ movie }: Props) => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="pointer-events-none absolute inset-0"
       >
-        <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/30 to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background/70 via-background/40 to-transparent" />
       </motion.div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-background to-transparent" />

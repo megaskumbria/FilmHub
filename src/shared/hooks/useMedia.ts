@@ -1,176 +1,142 @@
 import { queryOptions } from "@tanstack/react-query";
 import { API_URL } from "../api/config";
-import { MediaType } from "../stores/movie-catalog";
+
+export type MediaType = "movie" | "tv" | "all";
 
 export interface Genre {
   id: number;
   name: string;
 }
 
-export interface Collection {
-  id: number;
-  name: string;
-  posterPath: string | null;
-  backdropPath: string | null;
-}
+export type GenreList = Genre[];
 
-export interface ProductionCompany {
-  id: number;
-  logoPath: string | null;
-  name: string;
-  originCountry: string;
-}
-
-export interface ProductionCountry {
+export interface Country {
   iso31661: string;
-  name: string;
+  englishName: string;
+  nativeName: string;
 }
 
-export interface SpokenLanguage {
-  englishName: string;
-  iso6391: string;
+export type CountryList = Country[];
+
+export interface CatalogListItemMovie {
+  id: number;
+  adult: boolean;
+  originalLanguage: string;
+  originalTitle: string;
+  overview: string;
+  popularity: number;
+  releaseDate: string;
+  title: string;
+  video: boolean;
+  voteAverage: number;
+  voteCount: number;
+  mediaType: MediaType;
+  genres: string[];
+  posterUrl: string | null;
+  backdropUrl: string | null;
+  ratingImdb?: number;
+}
+
+export interface CatalogListItemTv {
+  id: number;
   name: string;
+  originalLanguage: string;
+  originalName: string;
+  overview: string;
+  popularity: number;
+  firstAirDate: string;
+  voteAverage: number;
+  voteCount: number;
+  ratingImdb?: number;
+  mediaType: MediaType;
+  genres: string[];
+  posterUrl: string | null;
+  backdropUrl: string | null;
+}
+
+export type CatalogListItem = CatalogListItemMovie | CatalogListItemTv;
+
+export interface MediaPage {
+  media: CatalogListItem[];
+  page: number;
+  totalPages: number;
+  totalResults: number;
 }
 
 export interface CastMember {
+  adult: boolean;
+  gender: number;
   id: number;
+  knownForDepartment: string;
   name: string;
-  character: string;
+  originalName: string;
+  popularity: number;
   profilePath: string | null;
   profileUrl: string | null;
+  castId: number;
+  character: string;
+  creditId: string;
   order: number;
-  knownForDepartment: string;
 }
 
 export interface MovieCredits {
   cast: CastMember[];
 }
 
-export interface VideoResult {
-  id: string;
-  iso6391?: string;
-  iso31661?: string;
-  key: string;
-  name: string;
-  official: boolean;
-  publishedAt: string;
-  site: string;
-  size: number;
-  type: string;
-}
-
-export interface MediaVideos {
-  results: VideoResult[];
-}
-
-export interface TvCreator {
+interface MediaDetailsBase {
   id: number;
-  creditId: string;
-  name: string;
-  gender: number;
-  profilePath: string | null;
-}
-
-export interface TvNetwork {
-  id: number;
-  logoPath: string | null;
-  name: string;
-  originCountry: string;
-}
-
-export interface TvEpisodeAir {
-  id: number;
-  name: string;
-  overview: string;
-  airDate: string | null;
-  episodeNumber: number;
-  runtime: number | null;
-  seasonNumber: number;
-  showId: number;
-  stillPath: string | null;
-  voteAverage: number;
-  voteCount: number;
-}
-
-export interface TvSeason {
-  airDate: string | null;
-  episodeCount: number;
-  id: number;
-  name: string;
-  overview: string;
-  posterPath: string | null;
-  seasonNumber: number;
-  voteAverage: number;
-}
-
-export interface TmdbMovie {
-  // ——— Common ———
   adult: boolean;
-  backdropPath: string | null;
   backdropUrl: string | null;
   genres: Genre[];
   homepage: string;
-  id: number;
+  imdbId: string | null;
   originalLanguage: string;
   overview: string;
   popularity: number;
-  posterPath: string | null;
   posterUrl: string | null;
-  productionCompanies: ProductionCompany[];
-  productionCountries: ProductionCountry[];
-  spokenLanguages: SpokenLanguage[];
   status: string;
   tagline: string;
   voteAverage: number;
   voteCount: number;
-  credits: MovieCredits;
-  languages?: string[];
-
+  mediaType: "movie" | "tv";
   stills: string[];
   stillsReady: boolean;
-
-  name?: string;
-  originCountry?: string[];
-  videos?: MediaVideos;
-
-  // ——— Movie only ———
-  belongsToCollection: Collection | null;
-  budget: number;
-  imdbId: string | null;
-  revenue: number;
-  runtime: number;
-  title: string;
-  video: boolean;
-  originalTitle: string;
-  releaseDate: string;
-
-  // ——— TV only ———
-  createdBy?: TvCreator[];
-  episodeRunTime?: number[];
-  firstAirDate?: string;
-  inProduction?: boolean;
-  lastAirDate: string;
-  lastEpisodeToAir?: TvEpisodeAir | null;
-  networks?: TvNetwork[];
-  nextEpisodeToAir?: TvEpisodeAir | null;
-  numberOfEpisodes?: number;
-  numberOfSeasons?: number;
-  originalName: string;
-  seasons?: TvSeason[];
-
-  mediaType?: MediaType;
+  credits: MovieCredits;
 }
 
-export const movieQueryOptions = (id: number, mediaType: MediaType, locale: string) =>
+export interface MediaDetailsMovie extends MediaDetailsBase {
+  mediaType: "movie";
+  title: string;
+  originalTitle: string;
+  releaseDate: string;
+  video: boolean;
+  budget: number;
+  revenue: number;
+  runtime: number;
+}
+
+export interface MediaDetailsTv extends MediaDetailsBase {
+  mediaType: "tv";
+  name: string;
+  originalName: string;
+  firstAirDate: string;
+  numberOfSeasons: number;
+}
+
+export type MediaDetails = MediaDetailsMovie | MediaDetailsTv;
+
+export const movieQueryOptions = (id: number, mediaType: "movie" | "tv", locale: string) =>
   queryOptions({
     queryKey: ["movie", id, mediaType, locale],
     queryFn: async () => {
+      console.log(`${API_URL}/movies/movie/${id}?media_type=${mediaType}&language=${locale}`);
+
       const response = await fetch(
         `${API_URL}/movies/movie/${id}?media_type=${mediaType}&language=${locale}`,
-        { next: { revalidate: 60 * 60 } },
+        { headers: { "Accept-Language": locale }, next: { revalidate: 60 * 60 } },
       );
       if (!response.ok) throw new Error("Failed to load movie");
-      return response.json() as Promise<TmdbMovie>;
+      return response.json() as Promise<MediaDetails>;
     },
     staleTime: 1000 * 60 * 60,
   });

@@ -1,43 +1,15 @@
 import { create } from "zustand";
 import { type FlagData } from "@/shared/hooks";
+import type { CatalogListItem } from "@/shared/hooks/useMedia";
 
 export type MediaCategory = "all" | "movie" | "tv";
 export type MediaType = "movie" | "tv";
 
-export interface Media {
-  yearOfRelease: number;
-  titleToDisplay: string;
-
-  adult: boolean;
-  backdropUrl: string;
-  genres: string[];
-  id: number;
-  originalLanguage: string;
-  originalTitle: string; // movie title
-  originalName: string; // series title
-  name: string; // movie title
-  overview: string;
-  popularity: number;
-  posterUrl: string;
-  releaseDate: string; // movie release date
-  firstAirDate: string; // series release date
-  title: string;
-  video: boolean;
-  voteAverage: number;
-  voteCount: number;
-
-  ratingImdb: string | null;
-
-  mediaType: MediaType;
-
+export type Media = CatalogListItem & {
   mediaFlags?: FlagData[];
-}
-
-export interface MediaData {
-  page: number;
-  totalPages: number;
-  media: Media[];
-}
+  titleToDisplay?: string;
+  yearOfRelease?: number;
+};
 
 interface MediaCatalogStore {
   category: MediaCategory;

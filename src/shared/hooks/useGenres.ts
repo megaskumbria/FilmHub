@@ -1,11 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/api-client";
 import { API_URL } from "../api/config";
-
-export interface Genre {
-  id: string;
-  name: string;
-}
+import type { Genre } from "./useMedia";
 
 export const useGenres = () => {
   return useQuery({

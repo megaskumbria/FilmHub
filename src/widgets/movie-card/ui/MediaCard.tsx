@@ -18,6 +18,7 @@ import { renderBlocks } from "../lib/render-blocks";
 import { AddMovieCollectionMenu, SetMediaFlags } from "@/features";
 import { cn } from "@/shared/lib/utils";
 import { useRequireAuth } from "@/features/auth";
+import { getMediaTitles, getReleaseYears } from "@/shared/lib";
 
 export const POPOVER_MODE = {
   ADD_FLAG: "add-flag",
@@ -62,25 +63,16 @@ export const MediaCard = ({
   const locale = useLocale();
   const t = useTranslations("movie.card");
 
-  const {
-    posterUrl,
-    name,
-    releaseDate,
-    firstAirDate,
-    id,
-    mediaType,
-    ratingImdb,
-    voteAverage,
-    originalName,
-    title,
-  } = media;
+  const { posterUrl, id, mediaType, ratingImdb, voteAverage } = media;
 
   const { poster, body, hover } = layout;
 
   const isPosterLoaded = loadedPosterUrl === posterUrl;
 
-  const titleToDisplay = name || originalName || title || t("untitled");
-  const yearOfRelease = new Date(releaseDate || firstAirDate).getFullYear();
+  const { localized } = getMediaTitles(media);
+  const titleToDisplay = localized || t("untitled");
+  const releaseYear = getReleaseYears(media);
+  const yearOfRelease = releaseYear ? Number(releaseYear) : Number.NaN;
 
   const mediaForBlocks = {
     ...media,
@@ -226,7 +218,7 @@ export const MediaCard = ({
           open={isAddActionOpen}
           onOpenChange={handleOpenChange}
           mediaId={id}
-          mediaType={mediaType}
+          mediaType={mediaType === "tv" ? "tv" : "movie"}
         >
           <AddBookmarkButton />
         </AddMovieCollectionMenu>

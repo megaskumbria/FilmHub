@@ -1,12 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/api-client";
 import { API_URL } from "../api/config";
-
-export interface Country {
-  iso31661: string;
-  englishName: string;
-  nativeName: string;
-}
+import type { Country } from "./useMedia";
 
 export const useCountries = () => {
   return useQuery({

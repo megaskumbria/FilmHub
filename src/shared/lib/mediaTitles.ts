@@ -1,18 +1,23 @@
-import type { TmdbMovie } from "@/shared/hooks/useMedia";
+import type { CatalogListItem, MediaDetails } from "@/shared/hooks/useMedia";
 
-export const getMediaTitles = (media: TmdbMovie) => {
-  const localized = media.title || media.name || media.originalTitle || media.originalName || "";
-  const original = media.originalTitle || media.originalName || "";
+type TitledMedia = MediaDetails | CatalogListItem;
+
+export const getMediaTitles = (media: TitledMedia) => {
+  const localized = "title" in media ? media.title : media.name;
+  const original = "title" in media ? media.originalTitle : media.originalName;
 
   return { localized, original: original !== localized ? original : null };
 };
 
-const getYear = (date?: string | null) => (date ? new Date(date).getFullYear() : null);
+const getYear = (date?: string | null) => {
+  if (!date) return null;
+  const year = new Date(date).getFullYear();
+  return Number.isNaN(year) ? null : year;
+};
 
-export const getReleaseYears = (media: TmdbMovie) => {
-  const start = getYear(media.releaseDate || media.firstAirDate);
-  const end = media.status === "Ended" ? getYear(media.lastAirDate) : null;
+export const getReleaseYears = (media: TitledMedia) => {
+  const start = getYear("releaseDate" in media ? media.releaseDate : media.firstAirDate);
 
   if (!start) return null;
-  return end && end !== start ? `${start}–${end}` : String(start);
+  return String(start);
 };

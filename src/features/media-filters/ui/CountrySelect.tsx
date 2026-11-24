@@ -18,7 +18,7 @@ import {
 import { motion } from "framer-motion";
 import { useFilterMedia } from "../model/filter-media-store";
 import { useCountries } from "@/shared/hooks";
-import type { Country } from "@/shared/hooks/useCountries";
+import type { Country } from "@/shared/hooks/useMedia";
 import { LockKeyholeIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 

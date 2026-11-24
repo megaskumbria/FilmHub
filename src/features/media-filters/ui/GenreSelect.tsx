@@ -34,8 +34,8 @@ export const GenreSelect = () => {
       </Label>
 
       <Select
-        value={selectedGenre.id}
-        onValueChange={(value) => setSelectedGenre({ id: value, name: "" })}
+        value={String(selectedGenre.id)}
+        onValueChange={(value) => setSelectedGenre({ id: value ? Number(value) : "", name: "" })}
       >
         <SelectTrigger className="cursor-pointer w-full h-10 rounded-lg bg-input/50 border-border hover:border-accent/30 transition-colors">
           <SelectValue placeholder={t("genrePlaceholder")} />
@@ -53,7 +53,7 @@ export const GenreSelect = () => {
               ))}
             </div>
           : dataGenres.map((genre) => (
-              <SelectItem key={genre.id} value={genre.id}>
+              <SelectItem key={genre.id} value={String(genre.id)}>
                 {capitalize(genre.name)}
               </SelectItem>
             ))

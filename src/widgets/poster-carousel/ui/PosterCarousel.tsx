@@ -3,9 +3,9 @@
 import { KeyboardEvent, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useIdle } from "react-use";
-import { useTranslations } from "next-intl";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import { Button, FilmPerforation } from "@/shared/ui";
+import { cn } from "@/shared/lib/utils";
 
 interface Props {
   frames: string[];
@@ -28,9 +28,9 @@ const NAVIGATION_KEYS: Record<string, number> = {
 const pad = (value: number) => String(value).padStart(2, "0");
 
 export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }: Props) => {
-  const t = useTranslations("movie");
   const listRef = useRef<HTMLOListElement>(null);
   const isIdle = useIdle(IDLE_TIMEOUT, false, IDLE_EVENTS);
+
   const total = frames.length;
 
   const wrap = (index: number) => (index + total) % total;
@@ -42,7 +42,6 @@ export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }
     return () => clearTimeout(timer);
   }, [isIdle, activeIndex, total]);
 
-  // Scrolls only the strip itself: scrollIntoView would also drag the page back to the hero.
   useEffect(() => {
     const list = listRef.current;
     const item = list?.children[activeIndex] as HTMLElement | undefined;
@@ -73,9 +72,9 @@ export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }
   };
 
   return (
-    <nav aria-label={t("frames")} className="flex min-h-0 flex-col gap-3 lg:flex-1">
+    <nav className="flex min-h-0 flex-col gap-3 lg:flex-1">
       <div className="flex items-center justify-between gap-3">
-        <p className="font-unbounded text-xs tabular-nums text-shadow-flag">
+        <p className="font-unbounded text-xs tabular-nums text-shadow-flag select-none">
           <span className="text-white">{pad(activeIndex + 1)}</span>
           <span className="text-white/60"> / {pad(total)}</span>
         </p>
@@ -85,7 +84,6 @@ export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }
             variant="glass"
             size="icon-xs"
             className="rounded-full"
-            aria-label={t("prevFrame")}
             onClick={() => select(activeIndex - 1)}
           >
             <IconChevronUp className="-rotate-90 lg:rotate-0" />
@@ -95,7 +93,6 @@ export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }
             variant="glass"
             size="icon-xs"
             className="rounded-full"
-            aria-label={t("nextFrame")}
             onClick={() => select(activeIndex + 1)}
           >
             <IconChevronDown className="-rotate-90 lg:rotate-0" />
@@ -103,7 +100,7 @@ export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-col bg-black/75 py-1.5 backdrop-blur-sm lg:flex-1 lg:flex-row lg:px-1.5 lg:py-0">
+      <div className="flex min-h-0 flex-col bg-black/55 py-1.5 backdrop-blur-sm lg:flex-1 lg:flex-row lg:px-1.5 lg:py-0">
         <FilmPerforation className="lg:hidden" />
         <FilmPerforation orientation="vertical" className="hidden lg:block" />
 
@@ -116,14 +113,12 @@ export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }
             const isActive = index === activeIndex;
 
             return (
-              <li key={frame} className="w-36 shrink-0 snap-center sm:w-40 lg:w-full">
+              <li key={frame} className="w-36 select-none shrink-0 snap-center sm:w-40 lg:w-full">
                 <Button
                   variant="frame"
-                  aria-pressed={isActive}
-                  aria-label={t("frameLabel", { index: index + 1 })}
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => select(index)}
-                  className="aspect-video"
+                  className={cn("aspect-video", isActive && "opacity-100")}
                 >
                   <Image
                     src={frame}

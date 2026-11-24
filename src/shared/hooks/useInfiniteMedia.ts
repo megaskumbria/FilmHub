@@ -1,5 +1,6 @@
 import { infiniteQueryOptions } from "@tanstack/react-query";
-import { type MediaData, type MediaCategory } from "../stores/movie-catalog";
+import { type MediaCategory } from "../stores/movie-catalog";
+import { type MediaPage } from "./useMedia";
 import { API_URL } from "../api/config";
 import { FilterSortType, FilterYearType } from "@/features/media-filters";
 import { apiClient } from "../api/api-client";
@@ -44,7 +45,7 @@ export const infiniteMediaQueryOptions = ({
     ],
 
     queryFn: async ({ pageParam = 1, signal }) => {
-      const { data } = await apiClient.get<MediaData>(
+      const { data } = await apiClient.get<MediaPage>(
         `${API_URL}/movies?media_type=${category}&page=${pageParam}&query=${searchQuery}&with_genres=${selectedGenre}&sort=${selectedSort}&year=${selectedYear}&country=${selectedCountry}`,
         {
           signal,

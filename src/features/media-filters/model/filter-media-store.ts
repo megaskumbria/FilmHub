@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import { Genre } from "@/shared/hooks/useGenres";
-import { Country } from "@/shared/hooks/useCountries";
+import { Country } from "@/shared/hooks/useMedia";
 
 export type FilterSortType = "rating" | "newest" | "oldest" | "az" | "za" | "";
 export type FilterYearType =
@@ -11,9 +10,14 @@ export type FilterYearType =
   | "2020-today"
   | "";
 
+export interface SelectedGenre {
+  id: number | "";
+  name: string;
+}
+
 interface FilterMediaStore {
-  selectedGenre: Genre;
-  setSelectedGenre: ({ id, name }: Genre) => void;
+  selectedGenre: SelectedGenre;
+  setSelectedGenre: ({ id, name }: SelectedGenre) => void;
 
   selectedYear: FilterYearType;
   setSelectedYear: (year: FilterYearType) => void;
@@ -33,7 +37,7 @@ interface FilterMediaStore {
 
 export const useFilterMedia = create<FilterMediaStore>((set) => ({
   selectedGenre: { id: "", name: "" },
-  setSelectedGenre: ({ id, name }: Genre) => set({ selectedGenre: { id, name } }),
+  setSelectedGenre: ({ id, name }: SelectedGenre) => set({ selectedGenre: { id, name } }),
 
   selectedYear: "",
   setSelectedYear: (selectedYear) => set({ selectedYear }),

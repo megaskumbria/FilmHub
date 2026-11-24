@@ -7,7 +7,20 @@ export { infiniteMediaQueryOptions } from "./useInfiniteMedia";
 export { useDebounce } from "./useDebounce";
 export { useGenres } from "./useGenres";
 export { useCountries } from "./useCountries";
-export { useMovie } from "./useMedia";
+export {
+  type MediaType,
+  type MediaDetails,
+  type MediaDetailsMovie,
+  type MediaDetailsTv,
+  type CatalogListItem,
+  type MediaPage,
+  type CastMember,
+  type Genre,
+  type GenreList,
+  type Country,
+  type CountryList,
+  movieQueryOptions,
+} from "./useMedia";
 export {
   type Collection,
   collectionQueryOptions,

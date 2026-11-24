@@ -15,7 +15,7 @@ import { cn } from "@/shared/lib/utils";
 import "swiper/css";
 import "swiper/css/free-mode";
 
-const ALL_GENRES = { id: "", name: "" };
+const ALL_GENRES = { id: "" as const, name: "" };
 
 const FADE_START = "transparent 0, #000 40px";
 const FADE_END = "#000 calc(100% - 64px), transparent 100%";

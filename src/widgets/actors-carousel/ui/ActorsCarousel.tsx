@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import { Button } from "@/shared/ui";
 import { CastMember } from "@/shared/hooks/useMedia";
+import "swiper/css";
 
 interface Props {
   actors: CastMember[];
@@ -20,30 +23,14 @@ const getInitials = (name: string) =>
 
 export const ActorsCarousel = ({ actors }: Props) => {
   const t = useTranslations("movie");
-  const listRef = useRef<HTMLUListElement>(null);
-  const [edges, setEdges] = useState({ start: true, end: true });
+  const swiperRef = useRef<SwiperType | null>(null);
 
-  const updateEdges = () => {
-    const list = listRef.current;
-    if (!list) return;
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(true);
 
-    setEdges({
-      start: list.scrollLeft <= 1,
-      end: list.scrollLeft + list.clientWidth >= list.scrollWidth - 1,
-    });
-  };
-
-  useEffect(() => {
-    updateEdges();
-    window.addEventListener("resize", updateEdges);
-    return () => window.removeEventListener("resize", updateEdges);
-  }, [actors]);
-
-  const scroll = (direction: 1 | -1) => {
-    const list = listRef.current;
-    if (!list) return;
-
-    list.scrollBy({ left: direction * list.clientWidth * 0.8, behavior: "smooth" });
+  const updateEdges = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
   };
 
   if (actors.length === 0) return null;
@@ -60,9 +47,8 @@ export const ActorsCarousel = ({ actors }: Props) => {
             variant="glass"
             size="icon-sm"
             className="rounded-full"
-            aria-label={t("scrollBack")}
-            disabled={edges.start}
-            onClick={() => scroll(-1)}
+            disabled={isBeginning}
+            onClick={() => swiperRef.current?.slidePrev()}
           >
             <IconChevronLeft className="size-4" />
           </Button>
@@ -71,22 +57,30 @@ export const ActorsCarousel = ({ actors }: Props) => {
             variant="glass"
             size="icon-sm"
             className="rounded-full"
-            aria-label={t("scrollForward")}
-            disabled={edges.end}
-            onClick={() => scroll(1)}
+            disabled={isEnd}
+            onClick={() => swiperRef.current?.slideNext()}
           >
             <IconChevronRight className="size-4" />
           </Button>
         </div>
       </div>
 
-      <ul
-        ref={listRef}
-        onScroll={updateEdges}
-        className="flex snap-x gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      <Swiper
+        slidesPerView="auto"
+        slidesPerGroupAuto
+        spaceBetween={16}
+        wrapperTag="ul"
+        watchOverflow
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          updateEdges(swiper);
+        }}
+        onSlideChange={updateEdges}
+        onResize={updateEdges}
+        onUpdate={updateEdges}
       >
         {actors.map((actor) => (
-          <li key={actor.id} className="w-28 shrink-0 snap-start sm:w-32">
+          <SwiperSlide key={actor.id} tag="li" className="w-28! sm:w-32!">
             <figure>
               <div className="relative aspect-3/4 overflow-hidden rounded-md bg-surface-elevated">
                 {actor.profileUrl ?
@@ -95,7 +89,7 @@ export const ActorsCarousel = ({ actors }: Props) => {
                     alt={actor.name}
                     fill
                     sizes="128px"
-                    className="object-cover"
+                    className="object-cover select-none"
                   />
                 : <span
                     aria-hidden
@@ -106,10 +100,11 @@ export const ActorsCarousel = ({ actors }: Props) => {
                 }
               </div>
 
-              <figcaption className="mt-2.5 font-manrope">
+              <figcaption className="mt-2.5 font-manrope select-none">
                 <p className="text-sm font-semibold leading-snug text-white line-clamp-2">
                   {actor.name}
                 </p>
+
                 {actor.character && (
                   <p className="mt-0.5 text-xs leading-snug text-zinc-muted line-clamp-2">
                     {actor.character}
@@ -117,9 +112,9 @@ export const ActorsCarousel = ({ actors }: Props) => {
                 )}
               </figcaption>
             </figure>
-          </li>
+          </SwiperSlide>
         ))}
-      </ul>
+      </Swiper>
     </section>
   );
 };

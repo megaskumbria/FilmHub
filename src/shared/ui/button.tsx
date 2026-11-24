@@ -33,7 +33,7 @@ const buttonVariants = cva(
         swatch:
           "relative rounded-full transition-transform duration-150 hover:scale-110 aria-pressed:scale-110 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/80 motion-reduce:transition-none",
         frame:
-          "relative block w-full overflow-hidden rounded-sm opacity-45 transition-[opacity,box-shadow] duration-300 hover:opacity-90 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent aria-pressed:opacity-100 aria-pressed:ring-2 aria-pressed:ring-white motion-reduce:transition-none",
+          "relative block w-full overflow-hidden rounded-sm opacity-70 transition-[opacity,box-shadow] duration-300 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transition-none",
         tile: "relative w-full justify-start text-left overflow-hidden rounded-xl border border-white/6 bg-white/2 hover:border-white/15 hover:bg-white/4 transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-45",
       },
       size: {

@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { ImdbIcon } from "@/shared/icons";
 
 interface Props {
-  ratingImdb: string | null;
+  ratingImdb?: number | null;
   voteAverage: number;
 }
 
