@@ -26,6 +26,7 @@ const buttonVariants = cva(
           "border border-border bg-background/60 text-zinc-muted hover:border-zinc-muted hover:text-foreground transition-colors",
         glass:
           "border border-white/15 bg-black/45 text-white backdrop-blur-md hover:bg-black/65 transition-colors",
+        soft: "rounded-lg border border-white/10 bg-white/5 text-white/60 outline-none transition-colors hover:border-white/20 hover:bg-white/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
         social:
           "h-10 w-full gap-2.5 rounded-lg border border-border/80 bg-transparent font-medium text-foreground/80 transition-all hover:bg-white/5 hover:border-border hover:text-foreground active:scale-[0.98]",
         picker:

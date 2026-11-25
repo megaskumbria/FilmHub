@@ -30,7 +30,6 @@ export const HeaderMenu = ({ links }: Props) => {
       <PopoverTrigger asChild>
         <button
           type="button"
-          aria-label={t("menu.open")}
           className="flex size-9 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/70 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-foreground"
         >
           <IconMenu2 className="size-4.5" stroke={2} />
