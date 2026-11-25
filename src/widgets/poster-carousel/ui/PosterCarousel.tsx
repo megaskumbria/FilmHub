@@ -100,41 +100,53 @@ export const PosterCarousel = ({ frames, activeIndex, onSelect, titleToDisplay }
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-col bg-black/55 py-1.5 backdrop-blur-sm lg:flex-1 lg:flex-row lg:px-1.5 lg:py-0">
-        <FilmPerforation className="lg:hidden" />
-        <FilmPerforation orientation="vertical" className="hidden lg:block" />
+      <div className="flex min-h-0 flex-col lg:flex-1">
+        <div className="flex min-h-0 flex-col bg-black/55 py-1.5 backdrop-blur-sm max-lg:absolute max-lg:inset-x-0 max-lg:z-10 lg:flex-1 lg:flex-row lg:px-1.5 lg:py-0">
+          <FilmPerforation className="lg:hidden" />
+          <FilmPerforation orientation="vertical" className="hidden lg:block" />
 
-        <ol
-          ref={listRef}
-          onKeyDown={handleKeyDown}
-          className="relative flex min-h-0 flex-1 snap-x gap-2 overflow-x-auto p-2 [scrollbar-width:none] lg:snap-y lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto [&::-webkit-scrollbar]:hidden"
-        >
-          {frames.map((frame, index) => {
-            const isActive = index === activeIndex;
+          <ol
+            ref={listRef}
+            onKeyDown={handleKeyDown}
+            className="relative flex min-h-0 flex-1 snap-x gap-2 overflow-x-auto p-2 [scrollbar-width:none] lg:snap-y lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto [&::-webkit-scrollbar]:hidden"
+          >
+            {frames.map((frame, index) => {
+              const isActive = index === activeIndex;
 
-            return (
-              <li key={frame} className="w-36 select-none shrink-0 snap-center sm:w-40 lg:w-full">
-                <Button
-                  variant="frame"
-                  tabIndex={isActive ? 0 : -1}
-                  onClick={() => select(index)}
-                  className={cn("aspect-video", isActive && "opacity-100")}
-                >
-                  <Image
-                    src={frame}
-                    alt={titleToDisplay}
-                    fill
-                    sizes="176px"
-                    className="object-cover"
-                  />
-                </Button>
-              </li>
-            );
-          })}
-        </ol>
+              return (
+                <li key={frame} className="w-36 shrink-0 snap-center select-none sm:w-40 lg:w-full">
+                  <Button
+                    variant="frame"
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => select(index)}
+                    className={cn("aspect-video", isActive && "opacity-100")}
+                  >
+                    <Image
+                      src={frame}
+                      alt={titleToDisplay}
+                      fill
+                      sizes="176px"
+                      className="object-cover"
+                    />
+                  </Button>
+                </li>
+              );
+            })}
+          </ol>
 
-        <FilmPerforation className="lg:hidden" />
-        <FilmPerforation orientation="vertical" className="hidden lg:block" />
+          <FilmPerforation className="lg:hidden" />
+          <FilmPerforation orientation="vertical" className="hidden lg:block" />
+        </div>
+
+        <div aria-hidden className="invisible hidden max-lg:block">
+          <div className="py-1.5">
+            <div className="h-3" />
+            <div className="p-2">
+              <div className="aspect-video w-36 sm:w-40" />
+            </div>
+            <div className="h-3" />
+          </div>
+        </div>
       </div>
     </nav>
   );

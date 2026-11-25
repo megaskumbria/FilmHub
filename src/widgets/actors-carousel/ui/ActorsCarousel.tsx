@@ -80,7 +80,11 @@ export const ActorsCarousel = ({ actors }: Props) => {
         onUpdate={updateEdges}
       >
         {actors.map((actor) => (
-          <SwiperSlide key={actor.id} tag="li" className="w-28! sm:w-32!">
+          <SwiperSlide
+            key={actor.id}
+            tag="li"
+            className="w-28! sm:w-32! [.swiper:not(.swiper-initialized)_&]:mr-4"
+          >
             <figure>
               <div className="relative aspect-3/4 overflow-hidden rounded-md bg-surface-elevated">
                 {actor.profileUrl ?

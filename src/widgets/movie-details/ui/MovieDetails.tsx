@@ -51,7 +51,7 @@ export const MovieDetails = ({ movie }: Props) => {
         </div>
       )}
 
-      <div className="mx-auto grid max-w-350 gap-x-14 gap-y-16 px-6 pt-10 pb-24 md:grid-cols-[12rem_minmax(0,1fr)] lg:px-14 xl:grid-cols-[15rem_minmax(0,1fr)_17rem]">
+      <div className="mx-auto grid max-w-350 gap-x-14 gap-y-16 px-6 pt-4 sm:pt-10 pb-24 md:grid-cols-[12rem_minmax(0,1fr)] lg:px-14 xl:grid-cols-[15rem_minmax(0,1fr)_17rem]">
         <aside className="hidden md:row-span-2 md:block xl:row-span-1">
           <div className="sticky top-0 flex flex-col gap-4">
             {posterUrl && (
