@@ -63,24 +63,36 @@ export const FollowersSheet = ({ children, userId }: Props) => {
         aria-describedby={undefined}
         side="right"
         showCloseButton={false}
-        className="flex flex-col p-0 gap-0 w-105 sm:max-w-105 bg-surface border-l border-border"
+        className="flex w-full max-w-full flex-col gap-0 border-l border-border bg-surface p-0 sm:w-105 sm:max-w-105"
       >
         <SheetTitle className="sr-only" />
 
-        <header className="flex items-center justify-between gap-2 px-5 py-3.5 border-b border-border shrink-0">
-          <div className="flex items-center gap-2">
-            <Users className="size-4 text-zinc-muted shrink-0" />
-            <span className="font-semibold text-foreground text-sm">{t("people")}</span>
+        <header className="flex shrink-0 flex-col gap-3 border-b border-border px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:px-5 sm:py-3.5">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex min-w-0 items-center gap-2">
+              <Users className="size-4 shrink-0 text-zinc-muted" />
+              <span className="truncate text-sm font-semibold text-foreground">{t("people")}</span>
+            </div>
+
+            <SheetClose asChild>
+              <Button className="flex size-9 items-center justify-center rounded-lg border border-border p-0 text-zinc-muted transition-colors hover:border-zinc-muted hover:text-foreground sm:hidden">
+                <X className="size-4" />
+              </Button>
+            </SheetClose>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as TabValue)}>
-              <TabsList className="rounded-lg border border-border relative items-center justify-center bg-graphite p-0.5 h-9 gap-0.5">
+          <div className="flex min-w-0 items-center gap-2">
+            <Tabs
+              value={activeTab}
+              onValueChange={(v) => setActiveTab(v as TabValue)}
+              className="min-w-0 flex-1 sm:flex-none"
+            >
+              <TabsList className="relative h-9 w-full items-center justify-center gap-0.5 rounded-lg border border-border bg-graphite p-0.5 sm:w-auto">
                 {TABS.map((tab) => (
                   <TabsTrigger
                     key={tab}
                     value={tab}
-                    className="cursor-pointer relative z-10 rounded-md px-4 py-3 text-sm font-medium transition-colors duration-200 data-[state=active]:text-accent-foreground data-[state=inactive]:text-zinc-muted hover:text-foreground"
+                    className="relative z-10 cursor-pointer rounded-md px-3 py-3 text-sm font-medium transition-colors duration-200 hover:text-foreground data-[state=active]:text-accent-foreground data-[state=inactive]:text-zinc-muted sm:flex-none sm:px-4"
                   >
                     {activeTab === tab && (
                       <motion.div
@@ -96,14 +108,14 @@ export const FollowersSheet = ({ children, userId }: Props) => {
             </Tabs>
 
             <SheetClose asChild>
-              <Button className="flex items-center justify-center size-9 p-0 rounded-lg border border-border text-zinc-muted hover:text-foreground hover:border-zinc-muted transition-colors">
+              <Button className="hidden size-9 items-center justify-center rounded-lg border border-border p-0 text-zinc-muted transition-colors hover:border-zinc-muted hover:text-foreground sm:flex">
                 <X className="size-4" />
               </Button>
             </SheetClose>
           </div>
         </header>
 
-        <div className="px-5 py-3 border-b border-border shrink-0">
+        <div className="shrink-0 border-b border-border px-4 py-3 sm:px-5">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
             <Input
@@ -119,11 +131,11 @@ export const FollowersSheet = ({ children, userId }: Props) => {
         <Tabs
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as TabValue)}
-          className="flex-1 overflow-hidden"
+          className="min-h-0 flex-1 overflow-hidden"
         >
           {TABS.map((tab) => (
-            <TabsContent key={tab} value={tab} className="h-full m-0">
-              <div className="drawer-scroll h-full overflow-y-auto px-5 py-2">
+            <TabsContent key={tab} value={tab} className="m-0 h-full">
+              <div className="drawer-scroll h-full overflow-y-auto px-4 py-2 sm:px-5">
                 {follows?.length === 0 ?
                   <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
                     <UserCheck className="size-10 text-zinc-muted opacity-30" />

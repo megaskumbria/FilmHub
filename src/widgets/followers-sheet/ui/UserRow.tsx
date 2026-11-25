@@ -27,8 +27,11 @@ export const UserRow = ({ user }: Props) => {
 
   return (
     <li>
-      <div className="flex items-center justify-between cursor-pointer gap-3 py-2.5 px-1 hover:bg-background/30 rounded-2xl transition-colors">
-        <Link href={`/collections/${userId}`} className="flex items-center gap-3">
+      <div className="flex cursor-pointer items-center justify-between gap-2 rounded-2xl px-1 py-2.5 transition-colors hover:bg-background/30 sm:gap-3">
+        <Link
+          href={`/collections/${userId}`}
+          className="flex min-w-0 flex-1 items-center gap-2.5 sm:gap-3"
+        >
           <Avatar className="size-9 shrink-0">
             <AvatarFallback
               className="text-xs font-semibold text-white"
@@ -51,12 +54,12 @@ export const UserRow = ({ user }: Props) => {
         </Link>
 
         {isMe ?
-          <span className="shrink-0 inline-flex h-8 w-36 items-center justify-center rounded-lg bg-accent/10 text-sm font-medium text-accent">
+          <span className="inline-flex h-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 px-3 text-xs font-medium text-accent sm:w-36 sm:px-2 sm:text-sm">
             {t("you")}
           </span>
         : <Button
             onClick={handleFollowProfile}
-            className="shrink-0 h-8 w-36 justify-center px-2 rounded-lg text-sm border border-border text-primary hover:text-foreground transition-colors"
+            className="h-8 shrink-0 justify-center rounded-lg border border-border px-3 text-xs text-primary transition-colors hover:text-foreground sm:w-36 sm:px-2 sm:text-sm"
             variant={isFollowing ? undefined : "accent"}
           >
             <span>{isFollowing ? t("unfollow") : t("follow")}</span>
