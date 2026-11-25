@@ -8,15 +8,13 @@ import { useMediaCatalog } from "@/shared/stores/movie-catalog";
 import { infiniteMediaQueryOptions, useIntersectionObserver } from "@/shared/hooks";
 import { useFilterMedia } from "@/features";
 import { extractUniqueMedia } from "@/shared/lib";
-import { useTranslations } from "next-intl";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { EmptyStateCatalog } from "@/widgets/empty-state-catalog";
 
 const mediaGridClassName =
   "grid grid-cols-2 gap-3 xs:grid-cols-3 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5";
 
 export const MovieGrid = () => {
-  const t = useTranslations("catalog");
-
   const {
     selectedGenre,
     selectedSort,
@@ -62,31 +60,28 @@ export const MovieGrid = () => {
 
   return (
     <>
-      <ul className={mediaGridClassName}>
-        {allMedia.map((media) => (
-          <li key={media.id}>
-            <MediaCard
-              media={media}
-              layout={layout}
-              blockOptions={{
-                poster: { flags: { showFlags: false } },
-                hover: { flags: { showFlags: false } },
-                body: { flags: { showFlags: false } },
-              }}
-              mode="add-collection"
-            />
-          </li>
-        ))}
+      {allMedia.length === 0 ?
+        <EmptyStateCatalog />
+      : <ul className={mediaGridClassName}>
+          {allMedia.map((media) => (
+            <li key={media.id}>
+              <MediaCard
+                media={media}
+                layout={layout}
+                blockOptions={{
+                  poster: { flags: { showFlags: false } },
+                  hover: { flags: { showFlags: false } },
+                  body: { flags: { showFlags: false } },
+                }}
+                mode="add-collection"
+              />
+            </li>
+          ))}
 
-        {isFetchingNextPage
-          && Array.from({ length: 10 }).map((_, i) => <CardShirt key={`card-shirt-${i}`} />)}
-      </ul>
-
-      {allMedia.length === 0 && (
-        <div className="flex justify-center items-center h-full">
-          <p className="text-center text-sm text-muted">{t("empty")}</p>
-        </div>
-      )}
+          {isFetchingNextPage
+            && Array.from({ length: 10 }).map((_, i) => <CardShirt key={`card-shirt-${i}`} />)}
+        </ul>
+      }
 
       <div ref={ref} style={{ height: 1 }} />
     </>

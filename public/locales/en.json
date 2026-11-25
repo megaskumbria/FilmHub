@@ -672,6 +672,13 @@
     "tv": "Series",
     "search": "Search movies, series...",
     "empty": "No results found",
+    "emptyState": {
+      "title": "Nothing matches",
+      "search": "No titles for “<em>{query}</em>”.",
+      "filters": "No titles match the selected filters.",
+      "both": "No titles for “<em>{query}</em>” with these filters.",
+      "plain": "Nothing to show here."
+    },
     "filters": "Filters",
     "filterTitle": "Search filters",
     "reset": "Reset",
