@@ -33,7 +33,7 @@ export function CreateCollectionModal({ children, isEditing, initialData }: Prop
       <DialogContent
         showCloseButton={false}
         aria-describedby={undefined}
-        className="sm:max-w-120 gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
+        className="w-120 sm:max-w-120 gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 shadow-2xl"
       >
         <DialogHeader className="flex flex-row items-center justify-between px-5 pt-4">
           <DialogTitle className="text-base font-semibold text-foreground">

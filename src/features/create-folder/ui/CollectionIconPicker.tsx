@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { FormControl, FormField, FormItem, FormLabel } from "@/shared/ui";
+import { FormControl, FormField, FormItem } from "@/shared/ui";
 import {
   ICON_CATEGORIES,
   ICONS,
@@ -41,10 +41,6 @@ export const CollectionIconPicker = ({ form, colorHex }: Props) => {
               className="gap-3"
             >
               <header className="flex items-end justify-between gap-4">
-                <FormLabel className="pb-1.5 text-sm leading-none font-medium text-foreground">
-                  {t("icon")}
-                </FormLabel>
-
                 <TabsList className="h-auto gap-3.5 rounded-none bg-transparent p-0">
                   {ICON_CATEGORIES.map((value) => (
                     <TabsTrigger
