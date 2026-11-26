@@ -71,7 +71,7 @@ export const UserRow = ({ user }: Props) => {
             size="sm"
             variant={isFollowing ? "subtle" : "accent"}
             onClick={handleFollowProfile}
-            className="h-8 shrink-0 rounded-full px-3.5 text-xs font-medium whitespace-nowrap shadow-none sm:h-9 sm:px-4 sm:text-sm"
+            className={`h-8 shrink-0 rounded-full px-3.5 text-xs font-medium whitespace-nowrap shadow-none sm:h-9 sm:px-4 sm:text-sm${isFollowing ? "" : " border border-transparent"}`}
           >
             <span>{isFollowing ? t("unfollow") : t("follow")}</span>
           </Button>

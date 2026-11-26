@@ -87,16 +87,19 @@ export const ProfileActions = ({
           : <Button
               type="button"
               variant={isFollowing ? "subtle" : "accent"}
-              className="group gap-2 rounded-full px-4 h-9"
+              className={`group h-9 gap-2 rounded-full px-4${isFollowing ? "" : " border border-transparent"}`}
               onClick={handleFollowProfile}
             >
               {isFollowing ?
                 <>
                   <IconUserCheck className="size-4 group-hover:hidden" />
                   <IconUserMinus className="size-4 hidden group-hover:block" />
-                  <span className="relative min-w-28 text-center">
-                    <span className="text-sm group-hover:invisible">{t("following")}</span>
-                    <span className="absolute inset-0 flex items-center justify-center text-sm opacity-0 group-hover:opacity-100">
+                  <span className="grid min-w-28 text-center text-sm">
+                    <span className="col-start-1 row-start-1 group-hover:invisible">
+                      {t("following")}
+                    </span>
+
+                    <span className="col-start-1 row-start-1 invisible group-hover:visible">
                       {t("unfollow")}
                     </span>
                   </span>

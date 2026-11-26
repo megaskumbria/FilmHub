@@ -19,11 +19,11 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         accent:
-          "bg-linear-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 shadow-lg shadow-accent/20 transition-all",
+          "bg-linear-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 shadow-lg shadow-accent/20 transition-[color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,scale] active:scale-[0.98]",
         rounded:
           "border backdrop-blur-sm flex items-center justify-center border-border/60 rounded-full bg-background/80 hover:bg-accent shadow-md transition-colors",
         subtle:
-          "border border-border bg-background/60 text-zinc-muted hover:border-zinc-muted hover:text-foreground transition-colors",
+          "border border-border bg-background/60 text-zinc-muted hover:border-zinc-muted hover:text-foreground transition-[color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,scale] active:scale-[0.98]",
         glass:
           "border border-white/15 bg-black/45 text-white backdrop-blur-md hover:bg-black/65 transition-colors",
         soft: "rounded-lg border border-white/10 bg-white/5 text-white/60 outline-none transition-colors hover:border-white/20 hover:bg-white/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",

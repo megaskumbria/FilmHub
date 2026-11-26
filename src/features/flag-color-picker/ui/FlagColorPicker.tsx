@@ -150,7 +150,6 @@ export const FlagColorPicker = memo(() => {
               onPointerMove={(event) => setPreviewColor(colorAtPointer(reel, event))}
               onPointerUp={(event) => {
                 updateStateFlag({ selectedColor: colorAtPointer(reel, event) });
-                // A finger leaves the screen, a mouse keeps hovering.
                 if (event.pointerType !== "mouse") setPreviewColor(null);
               }}
               onPointerLeave={() => setPreviewColor(null)}
