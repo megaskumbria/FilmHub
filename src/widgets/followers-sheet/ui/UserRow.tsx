@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { type FollowUser, useFollowProfile } from "@/shared/hooks";
 import { getAvatarColor } from "@/shared/lib";
-import { Avatar, AvatarFallback, Button } from "@/shared/ui";
+import { Avatar, AvatarFallback, AvatarImage, Button } from "@/shared/ui";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { useRequireAuth } from "@/features/auth";
@@ -18,7 +18,7 @@ export const UserRow = ({ user }: Props) => {
   const { mutate: followProfile } = useFollowProfile();
   const ensureAuth = useRequireAuth();
 
-  const { nickname, tag, collectionsCount, userId, isFollowing, isMe } = user;
+  const { nickname, tag, collectionsCount, userId, isFollowing, isMe, avatarUrl } = user;
 
   const handleFollowProfile = (): void => {
     if (!ensureAuth()) return;
@@ -33,6 +33,14 @@ export const UserRow = ({ user }: Props) => {
           className="flex min-w-0 flex-1 items-center gap-2.5 sm:gap-3"
         >
           <Avatar className="size-9 shrink-0">
+            {avatarUrl ?
+              <AvatarImage
+                className="rounded-full"
+                src={avatarUrl}
+                alt="user avatar"
+                referrerPolicy="no-referrer"
+              />
+            : null}
             <AvatarFallback
               className="text-xs font-semibold text-white"
               style={{ backgroundColor: getAvatarColor(userId) }}
