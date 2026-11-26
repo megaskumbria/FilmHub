@@ -1,53 +1,52 @@
 "use client";
 
-import { useState, ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
-import { Users, Search, X, UserCheck } from "lucide-react";
-import { motion } from "framer-motion";
+import { IconSearch, IconUsers } from "@tabler/icons-react";
 import {
   Sheet,
   SheetContent,
   SheetTitle,
-  SheetClose,
-  Button,
   Input,
+  SearchClearButton,
   Tabs,
-  TabsList,
-  TabsTrigger,
   TabsContent,
 } from "@/shared/ui";
 import { UserRow } from "./UserRow";
 import { useInfiniteFollows, useDebounce, useIntersectionObserver } from "@/shared/hooks";
 import { TabValue, TABS } from "../model/followerSheetTabs";
+import { PeopleSkeleton } from "./PeopleSkeleton";
+import { FollowersSheetHeader } from "./FollowersSheetHeader";
 
 const LIMIT = 20;
 
 interface Props {
   children: ReactNode;
-  userId: string;
+  userId: string | null;
+  followersCount: number;
+  followsCount: number;
 }
 
-export const FollowersSheet = ({ children, userId }: Props) => {
+export const FollowersSheet = ({ children, userId, followersCount, followsCount }: Props) => {
   const t = useTranslations("collections.profile");
+
+  const listRef = useRef<HTMLDivElement>(null);
 
   const [activeTab, setActiveTab] = useState<TabValue>(TABS[0]);
   const [search, setSearch] = useState<string>("");
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const {
-    data: follows,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteFollows({
-    userId: userId,
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } = useInfiniteFollows({
+    userId: userId ?? "",
     type: activeTab,
     limit: LIMIT,
     searchQuery: debouncedSearch,
   });
 
-  const ref = useIntersectionObserver(
+  const users = data?.users ?? [];
+
+  const sentinelRef = useIntersectionObserver(
     () => {
       if (hasNextPage && !isFetchingNextPage) void fetchNextPage();
     },
@@ -56,103 +55,82 @@ export const FollowersSheet = ({ children, userId }: Props) => {
 
   return (
     <Sheet>
-      <SheetTitle className="sr-only" />
       {children}
 
       <SheetContent
         aria-describedby={undefined}
         side="right"
         showCloseButton={false}
-        className="flex w-full max-w-full flex-col gap-0 border-l border-border bg-surface p-0 sm:w-105 sm:max-w-105"
+        className="flex h-full w-full max-w-105 flex-col gap-0 overflow-hidden border-l border-border bg-popover p-0 shadow-2xl sm:w-120 sm:max-w-120"
       >
-        <SheetTitle className="sr-only" />
-
-        <header className="flex shrink-0 flex-col gap-3 border-b border-border px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:px-5 sm:py-3.5">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex min-w-0 items-center gap-2">
-              <Users className="size-4 shrink-0 text-zinc-muted" />
-              <span className="truncate text-sm font-semibold text-foreground">{t("people")}</span>
-            </div>
-
-            <SheetClose asChild>
-              <Button className="flex size-9 items-center justify-center rounded-lg border border-border p-0 text-zinc-muted transition-colors hover:border-zinc-muted hover:text-foreground sm:hidden">
-                <X className="size-4" />
-              </Button>
-            </SheetClose>
-          </div>
-
-          <div className="flex min-w-0 items-center gap-2">
-            <Tabs
-              value={activeTab}
-              onValueChange={(v) => setActiveTab(v as TabValue)}
-              className="min-w-0 flex-1 sm:flex-none"
-            >
-              <TabsList className="relative h-9 w-full items-center justify-center gap-0.5 rounded-lg border border-border bg-graphite p-0.5 sm:w-auto">
-                {TABS.map((tab) => (
-                  <TabsTrigger
-                    key={tab}
-                    value={tab}
-                    className="relative z-10 cursor-pointer rounded-md px-3 py-3 text-sm font-medium transition-colors duration-200 hover:text-foreground data-[state=active]:text-accent-foreground data-[state=inactive]:text-zinc-muted sm:flex-none sm:px-4"
-                  >
-                    {activeTab === tab && (
-                      <motion.div
-                        layoutId="followersActiveTab"
-                        className="absolute inset-0 rounded-md bg-linear-to-br from-accent to-accent/80 shadow-md shadow-accent/20"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                    <span className="relative z-10">{t(`tabs.${tab}`)}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-
-            <SheetClose asChild>
-              <Button className="hidden size-9 items-center justify-center rounded-lg border border-border p-0 text-zinc-muted transition-colors hover:border-zinc-muted hover:text-foreground sm:flex">
-                <X className="size-4" />
-              </Button>
-            </SheetClose>
-          </div>
-        </header>
-
-        <div className="shrink-0 border-b border-border px-4 py-3 sm:px-5">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
-            <Input
-              variant="neutral"
-              placeholder={t("searchPeople")}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 h-9 text-sm"
-            />
-          </div>
-        </div>
+        <SheetTitle className="sr-only">{t(`tabs.${activeTab}`)}</SheetTitle>
 
         <Tabs
           value={activeTab}
-          onValueChange={(v) => setActiveTab(v as TabValue)}
-          className="min-h-0 flex-1 overflow-hidden"
+          onValueChange={(value) => setActiveTab(value as TabValue)}
+          className="min-h-0 flex-1 gap-0"
         >
-          {TABS.map((tab) => (
-            <TabsContent key={tab} value={tab} className="m-0 h-full">
-              <div className="drawer-scroll h-full overflow-y-auto px-4 py-2 sm:px-5">
-                {follows?.length === 0 ?
-                  <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
-                    <UserCheck className="size-10 text-zinc-muted opacity-30" />
-                    <p className="text-sm text-zinc-muted">
-                      {t(`empty.${debouncedSearch ? "search" : activeTab}`)}
-                    </p>
+          <FollowersSheetHeader
+            activeTab={activeTab}
+            followersCount={followersCount}
+            followsCount={followsCount}
+          />
+
+          <div className="shrink-0 px-4 py-3 sm:px-5">
+            <div className="relative">
+              <IconSearch
+                className="pointer-events-none absolute top-1/2 left-0 size-4 -translate-y-1/2 text-zinc-muted"
+                stroke={1.75}
+              />
+
+              <Input
+                variant="underline"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={t("searchPeople")}
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck={false}
+                className="h-11 pr-12 pl-7 text-sm"
+              />
+
+              <SearchClearButton show={search.length > 0} onClear={() => setSearch("")} size={6} />
+            </div>
+          </div>
+
+          <TabsContent
+            value={activeTab}
+            className="mt-0 flex min-h-0 flex-col overflow-hidden outline-none"
+          >
+            <div
+              ref={listRef}
+              className="drawer-scroll flex min-h-0 flex-1 flex-col overflow-y-auto px-3 pt-2 pb-8 sm:px-4"
+            >
+              {isPending ?
+                <PeopleSkeleton />
+              : users.length === 0 ?
+                <div className="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
+                  <div className="flex size-14 items-center justify-center rounded-2xl bg-foreground/12 text-zinc-muted">
+                    {debouncedSearch ?
+                      <IconSearch className="size-6" stroke={1.75} />
+                    : <IconUsers className="size-6" stroke={1.75} />}
                   </div>
-                : <ul className="divide-y divide-border/40">
-                    {follows?.map((user) => (
-                      <UserRow key={user.userId} user={user} />
-                    ))}
-                  </ul>
-                }
-                <div ref={ref} style={{ height: 1 }} />
-              </div>
-            </TabsContent>
-          ))}
+
+                  <p className="mt-4 max-w-52 text-sm leading-relaxed text-zinc-muted">
+                    {t(`empty.${debouncedSearch ? "search" : activeTab}`)}
+                  </p>
+                </div>
+              : <ul>
+                  {users.map((user) => (
+                    <UserRow key={user.userId} user={user} />
+                  ))}
+
+                  {isFetchingNextPage && <PeopleSkeleton />}
+                </ul>
+              }
+              <div ref={sentinelRef} className="h-px" />
+            </div>
+          </TabsContent>
         </Tabs>
       </SheetContent>
     </Sheet>

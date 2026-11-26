@@ -22,6 +22,7 @@ export interface UserProfile {
   collectionsCount: number;
   filmsCount: number;
   followersCount: number;
+  followsCount: number;
   isFollowing: boolean;
   updatedAt: Date;
 }
@@ -178,7 +179,10 @@ export const useInfiniteFollows = ({ userId, type, limit, searchQuery }: GetFoll
       return data;
     },
 
-    select: (data) => data.pages.flatMap((page) => page.follows),
+    select: (data) => ({
+      users: data.pages.flatMap((page) => page.follows),
+      total: data.pages[0]?.totalResults ?? 0,
+    }),
 
     getNextPageParam: (lastPage) => {
       const { page, totalPages } = lastPage;

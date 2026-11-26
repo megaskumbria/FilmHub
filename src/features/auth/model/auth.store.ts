@@ -21,6 +21,8 @@ export interface User {
   nickname: string | null;
   avatarUrl: string | null;
   language: Language;
+  followersCount: number;
+  followsCount: number;
 }
 
 export interface AuthResponse {
@@ -29,7 +31,15 @@ export interface AuthResponse {
   refreshToken: string;
 }
 
-const EMPTY_USER: User = { id: null, email: null, nickname: null, avatarUrl: null, language: "en" };
+const EMPTY_USER: User = {
+  id: null,
+  email: null,
+  nickname: null,
+  avatarUrl: null,
+  language: "en",
+  followersCount: 0,
+  followsCount: 0,
+};
 
 interface Store {
   user: User;
@@ -50,8 +60,8 @@ export const useAuthStore = create<Store>((set) => ({
 
   isLoading: false,
 
-  setUser: ({ nickname, email, id, avatarUrl, language }: User) =>
-    set({ user: { nickname, email, id, avatarUrl, language } }),
+  setUser: ({ nickname, email, id, avatarUrl, language, followersCount, followsCount }: User) =>
+    set({ user: { nickname, email, id, avatarUrl, language, followersCount, followsCount } }),
   setHasHydrated: (value) => set({ hasHydrated: value }),
 
   signUp: async (data: SignUpData) => {
@@ -59,8 +69,9 @@ export const useAuthStore = create<Store>((set) => ({
       set({ isLoading: true });
       const response = await apiClient.post<AuthResponse>(`${API_URL}/auth/register`, data);
 
-      const { id, email, nickname, avatarUrl, language } = response.data.user;
-      const user: User = { id, email, nickname, avatarUrl, language };
+      const { id, email, nickname, avatarUrl, language, followersCount, followsCount } =
+        response.data.user;
+      const user: User = { id, email, nickname, avatarUrl, language, followersCount, followsCount };
 
       set({ user, isLoading: false, hasHydrated: true });
       return user;
@@ -74,8 +85,9 @@ export const useAuthStore = create<Store>((set) => ({
       set({ isLoading: true });
       const response = await apiClient.post<AuthResponse>(`${API_URL}/auth/login`, data);
 
-      const { id, email, nickname, avatarUrl, language } = response.data.user;
-      const user: User = { id, email, nickname, avatarUrl, language };
+      const { id, email, nickname, avatarUrl, language, followersCount, followsCount } =
+        response.data.user;
+      const user: User = { id, email, nickname, avatarUrl, language, followersCount, followsCount };
 
       set({ user, isLoading: false, hasHydrated: true });
       return user;

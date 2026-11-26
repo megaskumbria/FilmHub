@@ -7,7 +7,7 @@ export const UserActions = () => {
   const t = useTranslations("header.menu");
 
   const { user } = useAuthStore();
-  const { id: userId } = user;
+  const { id: userId, followersCount, followsCount } = user;
 
   return (
     <div className="flex flex-col gap-3">
@@ -23,7 +23,9 @@ export const UserActions = () => {
 
           <ul className="flex flex-col gap-0.5">
             {group.items.map((item, index) => (
-              <li key={index}>{item.render(t(item.labelKey), userId ?? "")}</li>
+              <li key={index}>
+                {item.render(t(item.labelKey), userId, { followersCount, followsCount })}
+              </li>
             ))}
           </ul>
         </div>

@@ -10,7 +10,7 @@ interface Props {
 
 export const ProfileStats = ({ profile }: Props) => {
   const t = useTranslations("collections.profile");
-  const { filmsCount, collectionsCount, followersCount, userId } = profile;
+  const { filmsCount, collectionsCount, followersCount, followsCount, userId } = profile;
 
   return (
     <ul className="mt-6 flex flex-nowrap items-start justify-between gap-x-2 border-t border-border/60 pt-4 w450:flex-wrap w450:items-center w450:justify-start w450:gap-x-5 w450:gap-y-2 sm:mt-7 sm:gap-x-8 sm:gap-y-3 sm:pt-5">
@@ -33,7 +33,11 @@ export const ProfileStats = ({ profile }: Props) => {
       </li>
 
       <li className="min-w-0">
-        <FollowersSheet userId={userId}>
+        <FollowersSheet
+          userId={userId}
+          followersCount={followersCount}
+          followsCount={followsCount}
+        >
           <SheetTrigger asChild>
             <Button
               type="button"

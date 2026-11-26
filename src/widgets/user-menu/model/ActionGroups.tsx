@@ -13,7 +13,11 @@ interface UserActionsButton {
   icon: LucideIcon;
   labelKey: string;
   soon?: boolean;
-  render: (label: string, userId?: string) => ReactNode;
+  render: (
+    label: string,
+    userId: string | null,
+    counts: { followersCount: number; followsCount: number },
+  ) => ReactNode;
 }
 
 export const ACTION_GROUPS: UserActionsGroup[] = [
@@ -23,8 +27,12 @@ export const ACTION_GROUPS: UserActionsGroup[] = [
       {
         icon: Users,
         labelKey: "subscriptions",
-        render: (label, userId) => (
-          <FollowersSheet userId={userId ?? ""}>
+        render: (label, userId, counts) => (
+          <FollowersSheet
+            userId={userId}
+            followersCount={counts.followersCount}
+            followsCount={counts.followsCount}
+          >
             <SheetTrigger asChild>
               <ActionButton icon={Users}>{label}</ActionButton>
             </SheetTrigger>

@@ -170,6 +170,7 @@
       "cropAvatar": "Crop avatar",
       "people": "People",
       "searchPeople": "Search by name or @tag...",
+      "clearSearch": "Clear search",
       "tabs": {
         "followers": "Followers",
         "following": "Following"

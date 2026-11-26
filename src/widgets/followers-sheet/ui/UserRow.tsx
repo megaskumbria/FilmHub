@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { type FollowUser, useFollowProfile } from "@/shared/hooks";
 import { getAvatarColor } from "@/shared/lib";
 import { Avatar, AvatarFallback, AvatarImage, Button } from "@/shared/ui";
-import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { useRequireAuth } from "@/features/auth";
 
@@ -27,48 +26,52 @@ export const UserRow = ({ user }: Props) => {
 
   return (
     <li>
-      <div className="flex cursor-pointer items-center justify-between gap-2 rounded-2xl px-1 py-2.5 transition-colors hover:bg-background/30 sm:gap-3">
+      <div className="flex items-center gap-3 rounded-2xl px-2 py-2.5 transition-colors hover:bg-surface-elevated">
         <Link
           href={`/collections/${userId}`}
-          className="flex min-w-0 flex-1 items-center gap-2.5 sm:gap-3"
+          className="flex min-w-0 flex-1 items-center gap-3 rounded-xl outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
-          <Avatar className="size-9 shrink-0">
-            {avatarUrl ?
+          <Avatar className="size-12 overflow-hidden rounded-2xl">
+            {avatarUrl && (
               <AvatarImage
-                className="rounded-full"
+                className="object-cover"
                 src={avatarUrl}
-                alt="user avatar"
+                alt=""
                 referrerPolicy="no-referrer"
               />
-            : null}
+            )}
             <AvatarFallback
-              className="text-xs font-semibold text-white"
+              className="rounded-2xl font-unbounded text-base font-semibold text-white"
               style={{ backgroundColor: getAvatarColor(userId) }}
             >
-              {nickname.charAt(0)}
+              {nickname.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-foreground truncate">{nickname}</p>
+          <div className="min-w-0">
+            <p className="truncate text-[15px] leading-tight font-semibold text-foreground">
+              {nickname}
+            </p>
 
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-sm text-zinc-muted truncate">{tag}</span>
-              <span className="text-zinc-muted/40">·</span>
-              <BookOpen className="size-3 text-zinc-muted shrink-0" />
-              <span className="text-sm text-zinc-muted tabular-nums">{collectionsCount}</span>
-            </div>
+            <p className="mt-0.5 truncate text-sm text-zinc-muted">@{tag}</p>
+
+            <p className="mt-1 text-xs text-zinc-muted/80">
+              <span className="tabular-nums">{collectionsCount}</span>{" "}
+              <span className="lowercase">{t("collections", { count: collectionsCount })}</span>
+            </p>
           </div>
         </Link>
 
         {isMe ?
-          <span className="inline-flex h-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 px-3 text-xs font-medium text-accent sm:w-36 sm:px-2 sm:text-sm">
+          <span className="inline-flex h-8 shrink-0 items-center px-1 text-xs font-medium text-zinc-muted sm:h-9 sm:text-sm">
             {t("you")}
           </span>
         : <Button
+            type="button"
+            size="sm"
+            variant={isFollowing ? "subtle" : "accent"}
             onClick={handleFollowProfile}
-            className="h-8 shrink-0 justify-center rounded-lg border border-border px-3 text-xs text-primary transition-colors hover:text-foreground sm:w-36 sm:px-2 sm:text-sm"
-            variant={isFollowing ? undefined : "accent"}
+            className="h-8 shrink-0 rounded-full px-3.5 text-xs font-medium whitespace-nowrap shadow-none sm:h-9 sm:px-4 sm:text-sm"
           >
             <span>{isFollowing ? t("unfollow") : t("follow")}</span>
           </Button>
