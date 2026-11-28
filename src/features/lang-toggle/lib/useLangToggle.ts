@@ -1,9 +1,10 @@
 import { apiClient } from "@/shared/api/api-client";
 import { useMutation } from "@tanstack/react-query";
 import { API_URL } from "@/shared/api/config";
+import type { Locale } from "@/shared/config/i18n/locales-config";
 
 interface UseLangToggleArgs {
-  language: "en" | "ru";
+  language: Locale;
 }
 
 export const useLangToggle = () => {

@@ -4,7 +4,7 @@ import { IconHeart } from "@tabler/icons-react";
 import { Button, FilmPerforation } from "@/shared/ui";
 import { TelegramIcon } from "@/shared/icons";
 import { cn } from "@/shared/lib/utils";
-import { APP_VERSION, SUPPORT_ANCHOR, TELEGRAM_URL } from "../model/about-config";
+import { SUPPORT_ANCHOR, TELEGRAM_URL } from "../model/about-config";
 
 const VIEWFINDER_CORNERS = [
   "left-0 top-0 border-l-2 border-t-2 rounded-tl-2xl",
@@ -48,8 +48,6 @@ export const AboutHero = async () => {
           ))}
 
           <div className="flex flex-col items-start gap-7">
-            <p className="text-sm text-zinc-muted">{t("version", { version: APP_VERSION })}</p>
-
             <h1 className="font-unbounded text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
               {t("title")}
             </h1>
