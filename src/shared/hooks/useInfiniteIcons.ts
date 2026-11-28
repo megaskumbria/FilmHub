@@ -37,5 +37,6 @@ export const useInfiniteIcons = (limit: number, searchQuery?: string) => {
       return page + 1;
     },
     initialPageParam: 1,
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
 };
