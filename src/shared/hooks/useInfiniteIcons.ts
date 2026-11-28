@@ -19,7 +19,7 @@ interface DataIcons {
   totalPages: number;
 }
 
-export const useInfiniteIcons = (limit: number, searchQuery?: string) => {
+export const useInfiniteIcons = (limit: number, searchQuery?: string, enabled = true) => {
   return useInfiniteQuery({
     queryKey: ["icons", limit, searchQuery],
 
@@ -38,5 +38,6 @@ export const useInfiniteIcons = (limit: number, searchQuery?: string) => {
     },
     initialPageParam: 1,
     staleTime: 1000 * 60 * 60, // 1 hour
+    enabled,
   });
 };

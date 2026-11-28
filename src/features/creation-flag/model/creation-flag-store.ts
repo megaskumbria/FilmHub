@@ -6,7 +6,7 @@ interface Scale {
   id: string;
 }
 
-interface SelectedIcon {
+export interface SelectedIcon {
   iconName: string | null;
   svgContent: string | null;
   iconId: string;

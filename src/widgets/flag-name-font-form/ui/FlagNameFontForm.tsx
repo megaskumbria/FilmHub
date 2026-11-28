@@ -1,23 +1,10 @@
 "use client";
 
-import {
-  Label,
-  Input,
-  FontPicker,
-  Button,
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  InlineSvg,
-  SheetClose,
-} from "@/shared/ui";
+import { Label, Input, FontPicker } from "@/shared/ui";
 import { useCreationFlagStore } from "@/features/creation-flag";
 import { useShallow } from "zustand/shallow";
 import { memo } from "react";
 import { FlagIconPicker } from "@/features";
-import { IconPhoto, IconChevronsLeft } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 
 export const FlagNameFontForm = memo(() => {
@@ -31,8 +18,6 @@ export const FlagNameFontForm = memo(() => {
   );
 
   const { flagName, selectedFont, selectedIcon } = flag;
-
-  const { iconName, svgContent } = selectedIcon ?? {};
 
   return (
     <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4 flex-1">
@@ -82,54 +67,7 @@ export const FlagNameFontForm = memo(() => {
         </p>
       </div>
 
-      <div className="flex flex-col gap-1.5 w-full">
-        <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
-          {t("icon")}
-        </Label>
-
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-full h-12 justify-between px-2 border-border/60 bg-surface text-zinc-muted hover:bg-white/5 hover:text-foreground transition-colors"
-            >
-              <div className="flex items-center gap-3">
-                <div className="size-8 rounded-lg bg-surface-subtle border border-border/60 flex items-center justify-center shrink-0">
-                  {svgContent ?
-                    <InlineSvg svg={svgContent} className="size-5 shrink-0 text-zinc-muted" />
-                  : <IconPhoto className="size-5 shrink-0 text-zinc-muted" />}
-                </div>
-
-                <span className="text-sm truncate">{iconName ?? t("chooseIcon")}</span>
-              </div>
-            </Button>
-          </SheetTrigger>
-
-          <SheetContent
-            showCloseButton={false}
-            isHideOverlay={true}
-            side="left"
-            className="w-full p-0 border-border/60 bg-surface-subtle flex flex-col gap-0 z-1000 h-screen overflow-hidden"
-          >
-            <SheetHeader className="px-4 pt-4 pb-3 border-b border-border/60 flex items-center justify-between flex-row">
-              <SheetTitle className="text-sm font-semibold text-foreground">
-                {t("chooseIconTitle")}
-              </SheetTitle>
-
-              <SheetClose asChild>
-                <Button
-                  type="button"
-                  className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border/60 p-0 text-zinc-muted transition-colors hover:border-zinc-muted hover:bg-white/6 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                >
-                  <IconChevronsLeft className="size-5" />
-                </Button>
-              </SheetClose>
-            </SheetHeader>
-
-            <FlagIconPicker />
-          </SheetContent>
-        </Sheet>
-      </div>
+      <FlagIconPicker selectedIcon={selectedIcon} />
     </section>
   );
 });
