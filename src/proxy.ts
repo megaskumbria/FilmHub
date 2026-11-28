@@ -52,5 +52,5 @@ export default async function proxy(request: NextRequest): Promise<Response> {
 }
 
 export const config = {
-  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
+  matcher: "/((?!api|backend|trpc|_next|_vercel|.*\\..*).*)",
 };

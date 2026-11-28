@@ -34,7 +34,7 @@ export const FlagScalesSidebar = memo(() => {
 
   return (
     <>
-      <Drawer direction="bottom">
+      <Drawer direction="bottom" handleOnly>
         <DrawerTrigger asChild>
           <Button
             variant="transparent"

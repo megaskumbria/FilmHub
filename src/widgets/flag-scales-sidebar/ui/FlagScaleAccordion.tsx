@@ -5,6 +5,7 @@ import { useGetFlags, useUpdateFlagPosition } from "@/shared/hooks";
 import { ScaleItem, FlagScalesSkeleton, SortBy } from "@/widgets/flag-scales-sidebar";
 import { isSortable } from "@dnd-kit/react/sortable";
 import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react";
+import { Feedback } from "@dnd-kit/dom";
 import { move } from "@dnd-kit/helpers";
 import { useTranslations } from "next-intl";
 
@@ -32,11 +33,20 @@ export const FlagScaleAccordion = ({ searchQuery, sortBy }: Props) => {
     const newFlags = move(scale.flags, event);
     if (newFlags === scale.flags) return;
 
+    const suspended = event.suspend();
     updateFlagPosition({ scaleId, flagIds: newFlags.map((f) => f.id) });
+    requestAnimationFrame(() => suspended.resume());
   };
 
   return (
-    <DragDropProvider onDragEnd={handleDragEnd}>
+    <DragDropProvider
+      onDragEnd={handleDragEnd}
+      plugins={(defaults) =>
+        defaults.map((plugin) =>
+          plugin === Feedback ? Feedback.configure({ dropAnimation: null }) : plugin,
+        )
+      }
+    >
       {isLoading ?
         Array.from({ length: 5 }).map((_, index) => <FlagScalesSkeleton key={index} />)
       : flagsData.length === 0 ?
