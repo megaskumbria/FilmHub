@@ -2,7 +2,7 @@ import { Skeleton } from "@/shared/ui";
 
 export const PresetCardPackSkeleton = () => {
   return (
-    <div className="flex flex-col justify-between gap-3 w-56 h-full p-4 rounded-2xl border border-border/40 bg-surface-subtle">
+    <div className="flex flex-col justify-between gap-3 w-full h-58 p-4 rounded-2xl border border-border/40 bg-surface-subtle">
       <header className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
           <Skeleton className="h-4.5 w-3/4 rounded" />

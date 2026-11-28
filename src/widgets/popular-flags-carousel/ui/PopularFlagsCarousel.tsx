@@ -14,7 +14,14 @@ import type { Swiper as SwiperType } from "swiper";
 import { Navigation, Pagination } from "swiper/modules";
 import { useTranslations } from "next-intl";
 
-const SKELETON_ITEMS = Array.from({ length: 7 }, (_, index) => index);
+const SKELETON_ITEMS = [
+  "block",
+  "hidden min-[590px]:block",
+  "hidden min-[850px]:block",
+  "hidden min-[1200px]:block",
+  "hidden min-[1500px]:block",
+  "hidden min-[1500px]:block",
+];
 
 const SWIPER_BREAKPOINTS = {
   0: {
@@ -80,52 +87,54 @@ export const PopularFlagsCarousel = () => {
         onMouseEnter={() => setIsNavigationVisible(true)}
         onMouseLeave={() => setIsNavigationVisible(false)}
       >
-        <Swiper
-          modules={[Navigation, Pagination]}
-          pagination={{ clickable: true }}
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper;
-            updateEdges(swiper);
-          }}
-          onSlideChange={updateEdges}
-          spaceBetween={12}
-          breakpoints={SWIPER_BREAKPOINTS}
-          className="relative pt-5! pb-9! [--swiper-pagination-bottom:0px] [--swiper-pagination-color:#9b56f0] [--swiper-pagination-bullet-inactive-color:#8a8a94] [--swiper-pagination-bullet-inactive-opacity:1]"
-        >
-          {isHideButtons && !isBeginning && (
-            <Button
-              onClick={handlePrev}
-              disabled={isBeginning}
-              size="icon"
-              className={`${sliderNavigationButton(isNavigationVisible, "left")} hidden lg:flex`}
-            >
-              <ChevronLeft className="size-5" />
-            </Button>
-          )}
+        {isLoading ?
+          <div className="grid grid-cols-1 gap-3 pt-5 pb-9 min-[590px]:grid-cols-2 min-[850px]:grid-cols-3 min-[1200px]:grid-cols-4 min-[1500px]:grid-cols-6">
+            {SKELETON_ITEMS.map((visibility, index) => (
+              <div key={index} className={visibility}>
+                <PresetCardPackSkeleton />
+              </div>
+            ))}
+          </div>
+        : <Swiper
+            modules={[Navigation, Pagination]}
+            pagination={{ clickable: true }}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+              updateEdges(swiper);
+            }}
+            onSlideChange={updateEdges}
+            spaceBetween={12}
+            breakpoints={SWIPER_BREAKPOINTS}
+            className="relative pt-5! pb-9! [--swiper-pagination-bottom:0px] [--swiper-pagination-color:#9b56f0] [--swiper-pagination-bullet-inactive-color:#8a8a94] [--swiper-pagination-bullet-inactive-opacity:1]"
+          >
+            {isHideButtons && !isBeginning && (
+              <Button
+                onClick={handlePrev}
+                disabled={isBeginning}
+                size="icon"
+                className={`${sliderNavigationButton(isNavigationVisible, "left")} hidden lg:flex`}
+              >
+                <ChevronLeft className="size-5" />
+              </Button>
+            )}
 
-          {isLoading ?
-            <SwiperSlide className="h-auto! flex! gap-x-3">
-              {SKELETON_ITEMS.map((index) => (
-                <PresetCardPackSkeleton key={index} />
-              ))}
-            </SwiperSlide>
-          : presetPacks?.map((presetPack) => (
+            {presetPacks?.map((presetPack) => (
               <SwiperSlide key={presetPack.id}>
                 <PresetCardPack presetPack={presetPack} />
               </SwiperSlide>
-            ))
-          }
+            ))}
 
-          {isHideButtons && !isEnd && (
-            <Button
-              onClick={handleNext}
-              size="icon"
-              className={`${sliderNavigationButton(isNavigationVisible, "right")} hidden lg:flex`}
-            >
-              <ChevronRight className="size-5" />
-            </Button>
-          )}
-        </Swiper>
+            {isHideButtons && !isEnd && (
+              <Button
+                onClick={handleNext}
+                size="icon"
+                className={`${sliderNavigationButton(isNavigationVisible, "right")} hidden lg:flex`}
+              >
+                <ChevronRight className="size-5" />
+              </Button>
+            )}
+          </Swiper>
+        }
       </div>
     </section>
   );
