@@ -467,6 +467,16 @@
       "chooseIconTitle": "Выберите иконку",
       "searchIcons": "Поиск иконок…"
     },
+    "iconPicker": {
+      "stageHint": "Наведите на иконку, чтобы примерить её на флаг",
+      "tryingOn": "Примерка",
+      "onFlag": "На флаге",
+      "remove": "Убрать",
+      "found": "{count, plural, one {# иконка} few {# иконки} many {# иконок} other {# иконки}}",
+      "noResults": "По запросу «{query}» ничего нет",
+      "noResultsHint": "Названия иконок на английском — попробуйте, например, star или heart",
+      "clearSearch": "Сбросить поиск"
+    },
     "color": {
       "background": "Цвет фона",
       "pick": "Выберите цвет",

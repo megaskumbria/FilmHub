@@ -467,6 +467,16 @@
       "chooseIconTitle": "Choose an icon",
       "searchIcons": "Search icons…"
     },
+    "iconPicker": {
+      "stageHint": "Hover an icon to try it on your flag",
+      "tryingOn": "Trying on",
+      "onFlag": "On your flag",
+      "remove": "Remove",
+      "found": "{count, plural, one {# icon} other {# icons}}",
+      "noResults": "No icons match “{query}”",
+      "noResultsHint": "Try a simpler word, like star or heart",
+      "clearSearch": "Clear search"
+    },
     "color": {
       "background": "Background color",
       "pick": "Pick a color",

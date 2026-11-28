@@ -22,6 +22,7 @@ import { useTranslations } from "next-intl";
 
 export const FlagNameFontForm = memo(() => {
   const t = useTranslations("flags.form");
+
   const { flag, updateStateFlag } = useCreationFlagStore(
     useShallow((state) => ({
       flag: state.flag,
@@ -115,8 +116,13 @@ export const FlagNameFontForm = memo(() => {
                 {t("chooseIconTitle")}
               </SheetTitle>
 
-              <SheetClose className="cursor-pointer">
-                <IconChevronsLeft className="size-5 shrink-0" />
+              <SheetClose asChild>
+                <Button
+                  type="button"
+                  className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border/60 p-0 text-zinc-muted transition-colors hover:border-zinc-muted hover:bg-white/6 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  <IconChevronsLeft className="size-5" />
+                </Button>
               </SheetClose>
             </SheetHeader>
 

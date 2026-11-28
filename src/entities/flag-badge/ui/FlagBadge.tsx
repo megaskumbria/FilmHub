@@ -54,7 +54,7 @@ export const FlagBadge = ({ flagItem, level, total, showLevelDots }: Props) => {
 
         <span
           className={cn(
-            "flex min-w-0 flex-col gap-1",
+            "flex min-w-0 flex-col gap-1 h-5  justify-center",
             shouldShowLevel && "min-h-7.5 justify-center",
           )}
         >

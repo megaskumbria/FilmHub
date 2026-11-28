@@ -1,41 +1,54 @@
 "use client";
 
-import { Button, InlineSvg, Input, Separator } from "@/shared/ui";
-import { cn } from "@/shared/lib/utils";
+import { Button, Input, SearchClearButton, InlineSvg } from "@/shared/ui";
 import { IconSearch } from "@tabler/icons-react";
 import { useCreationFlagStore } from "@/features/creation-flag/model/creation-flag-store";
-import { memo, useRef, useState } from "react";
-import { useShallow } from "zustand/shallow";
+import {
+  memo,
+  useCallback,
+  useRef,
+  useState,
+  type CSSProperties,
+  type FocusEvent,
+  type KeyboardEvent,
+} from "react";
 import { useInfiniteIcons, useIntersectionObserver, useDebounce } from "@/shared/hooks";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useTranslations } from "next-intl";
+import type { PickerIcon } from "../model/types";
+import { IconTryOnStage } from "./IconTryOnStage";
+import { useShallow } from "zustand/react/shallow";
+import { SkeletonRows } from "./SkeletonRows";
 
 const COLS = 8;
-const ROW_HEIGHT = 42;
+const ROW_HEIGHT = 44;
 const LIMIT = 120;
 
 export const FlagIconPicker = memo(() => {
-  const t = useTranslations("flags.form");
+  const t = useTranslations("flags");
+
   const [searchQuery, setSearchQuery] = useState("");
+  const [previewIcon, setPreviewIcon] = useState<PickerIcon | null>(null);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { flag, updateStateFlag } = useCreationFlagStore(
+  const { selectedColor, selectedId } = useCreationFlagStore(
     useShallow((state) => ({
-      flag: state.flag,
-      updateStateFlag: state.updateStateFlag,
+      selectedColor: state.flag.selectedColor,
+      selectedId: state.flag.selectedIcon?.iconId,
     })),
   );
 
-  const { selectedIcon } = flag;
-
   const debouncedSearch = useDebounce(searchQuery, 300);
 
-  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteIcons(
+  const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteIcons(
     LIMIT,
     debouncedSearch,
   );
 
   const dataIcons = data?.pages.flatMap((page) => page.data) ?? [];
+  const total = data?.pages[0]?.total;
+  const isEmpty = !isPending && dataIcons.length === 0;
 
   const sentinelRef = useIntersectionObserver(
     () => {
@@ -44,55 +57,86 @@ export const FlagIconPicker = memo(() => {
     { root: scrollRef.current, rootMargin: "120px" },
   );
 
-  const rowCount = Math.ceil(dataIcons.length / COLS);
-
   const virtualizer = useVirtualizer({
-    count: rowCount,
+    count: Math.ceil(dataIcons.length / COLS),
     getScrollElement: () => scrollRef.current,
     estimateSize: () => ROW_HEIGHT,
     overscan: 3,
   });
 
-  const virtualRows = virtualizer.getVirtualItems();
+  const handleSelect = useCallback((icon: PickerIcon) => {
+    const { flag, updateStateFlag } = useCreationFlagStore.getState();
+    const isSame = flag.selectedIcon?.iconId === icon.id;
 
-  const { iconName, svgContent } = selectedIcon ?? {};
-
-  const handleSelectIcon = (name: string, svgContent: string, id: string) => {
     updateStateFlag({
-      selectedIcon: iconName === name ? null : { iconName: name, svgContent, iconId: id },
+      selectedIcon:
+        isSame ? null : { iconName: icon.iconName, svgContent: icon.svgContent, iconId: icon.id },
     });
+  }, []);
+
+  const clearSearch = () => setSearchQuery("");
+
+  const handleGridBlur = (e: FocusEvent<HTMLDivElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) setPreviewIcon(null);
+  };
+
+  const handleClearSearch = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape" && searchQuery) {
+      e.stopPropagation();
+      clearSearch();
+    }
   };
 
   return (
-    <section className="flex flex-1 flex-col min-h-0 p-4">
-      <header className="flex gap-3 mb-4 flex-col">
+    <section
+      className="flex flex-1 flex-col min-h-0"
+      style={{ "--flag-color": selectedColor } as CSSProperties}
+    >
+      <IconTryOnStage previewIcon={previewIcon} />
+
+      <search className="flex shrink-0 flex-col gap-2 px-4 pt-4 pb-3">
         <div className="relative">
-          <IconSearch className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-zinc-muted pointer-events-none" />
+          <IconSearch className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-zinc-muted" />
 
           <Input
-            variant="neutral"
-            placeholder={t("searchIcons")}
-            className="pl-8"
+            type="search"
+            variant="search"
+            value={searchQuery}
+            placeholder={t("form.searchIcons")}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => handleClearSearch(e)}
           />
+
+          <SearchClearButton show={!!searchQuery} onClear={clearSearch} size={6} />
         </div>
 
-        <Separator />
+        <p className="h-4 px-4 text-xs text-zinc-muted tabular-nums">
+          {total && t("iconPicker.found", { count: total })}
+        </p>
+      </search>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-sm text-foreground">{t("selected")}</span>
+      <div
+        ref={scrollRef}
+        className="scrollbar-minimal min-h-0 flex-1 overflow-y-auto px-4 pb-4"
+        onPointerLeave={() => setPreviewIcon(null)}
+        onBlur={handleGridBlur}
+      >
+        {isPending && <SkeletonRows rows={8} />}
 
-          <div className="flex items-center justify-center size-7 rounded-md bg-accent/10 border border-accent/30">
-            {svgContent && <InlineSvg svg={svgContent} className="size-5 text-accent" />}
+        {isEmpty && (
+          <div className="flex flex-col items-center gap-3 px-6 pt-10 text-center">
+            <p className="text-sm text-foreground">
+              {t("iconPicker.noResults", { query: debouncedSearch })}
+            </p>
+
+            <p className="max-w-64 text-xs leading-relaxed text-zinc-muted">
+              {t("iconPicker.noResultsHint")}
+            </p>
           </div>
+        )}
 
-          <span className="text-sm text-foreground">{iconName}</span>
-        </div>
-      </header>
-
-      <div ref={scrollRef} className="overflow-y-auto flex-1 min-h-0 scrollbar-minimal">
-        <div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
-          {virtualRows.map((virtualRow) => {
+        <div className="relative" style={{ height: virtualizer.getTotalSize() }}>
+          {virtualizer.getVirtualItems().map((virtualRow) => {
             const rowIcons = dataIcons.slice(
               virtualRow.index * COLS,
               (virtualRow.index + 1) * COLS,
@@ -101,27 +145,20 @@ export const FlagIconPicker = memo(() => {
             return (
               <div
                 key={virtualRow.key}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  transform: `translateY(${virtualRow.start}px)`,
-                  width: "100%",
-                }}
-                className="grid grid-cols-8 gap-1.5"
+                className="absolute top-0 left-0 grid w-full grid-cols-8 gap-1"
+                style={{ transform: `translateY(${virtualRow.start}px)` }}
               >
-                {rowIcons.map(({ id, iconName: name, svgContent }) => (
+                {rowIcons.map((icon) => (
                   <Button
-                    key={id}
-                    onClick={() => handleSelectIcon(name, svgContent, id)}
-                    className={cn(
-                      "flex items-center justify-center w-9 h-9 rounded-lg border transition-all cursor-pointer hover:bg-white/6",
-                      iconName === name ?
-                        "border-accent bg-accent/10 text-accent "
-                      : "border-border/40 text-zinc-muted hover:text-foreground",
-                    )}
-                    title={name}
+                    key={icon.id}
+                    variant="glyph"
+                    className="h-10 w-full"
+                    aria-pressed={icon.id === selectedId}
+                    onClick={() => handleSelect(icon)}
+                    onPointerEnter={() => setPreviewIcon(icon)}
+                    onFocus={() => setPreviewIcon(icon)}
                   >
-                    <InlineSvg svg={svgContent} className="size-6" />
+                    <InlineSvg svg={icon.svgContent} className="size-6" />
                   </Button>
                 ))}
               </div>
@@ -129,7 +166,9 @@ export const FlagIconPicker = memo(() => {
           })}
         </div>
 
-        <div ref={sentinelRef} style={{ height: 1 }} />
+        {isFetchingNextPage && <SkeletonRows rows={1} />}
+
+        <div ref={sentinelRef} className="h-px" />
       </div>
     </section>
   );
