@@ -13,7 +13,8 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/shared/ui";
-import { IconSearch, IconPhoto, IconChevronsLeft } from "@tabler/icons-react";
+import { IconSearch, IconPhoto, IconChevronsLeft, IconChevronRight } from "@tabler/icons-react";
+import { cn } from "@/shared/lib/utils";
 import {
   useCreationFlagStore,
   type SelectedIcon,
@@ -109,8 +110,8 @@ export const FlagIconPicker = memo(({ selectedIcon }: Props) => {
   const { iconName, svgContent } = selectedIcon ?? {};
 
   return (
-    <div className="flex flex-col gap-1.5 w-full">
-      <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
+    <div className="flex w-full flex-col gap-1.5">
+      <Label className="text-[11px] font-medium tracking-[0.14em] text-zinc-muted">
         {t("form.icon")}
       </Label>
 
@@ -118,17 +119,29 @@ export const FlagIconPicker = memo(({ selectedIcon }: Props) => {
         <SheetTrigger asChild>
           <Button
             variant="outline"
-            className="w-full h-12 justify-between px-2 border-border/60 bg-surface text-zinc-muted hover:bg-white/5 hover:text-foreground transition-colors"
+            className="group h-auto w-full items-stretch justify-between gap-2.5 rounded-xl border-border/40 bg-obsidian/40 px-2 py-1.5 text-left hover:border-border/70 hover:bg-obsidian/55 hover:text-foreground transition-colors duration-150"
           >
-            <div className="flex items-center gap-3">
-              <div className="size-8 rounded-lg bg-surface-subtle border border-border/60 flex items-center justify-center shrink-0">
-                {svgContent ?
-                  <InlineSvg svg={svgContent} className="size-5 shrink-0 text-zinc-muted" />
-                : <IconPhoto className="size-5 shrink-0 text-zinc-muted" />}
-              </div>
-
-              <span className="text-sm truncate">{iconName ?? t("form.chooseIcon")}</span>
+            <div
+              className={cn(
+                "flex size-8 shrink-0 items-center justify-center rounded-md border border-dashed border-border/55 bg-surface-subtle transition-colors group-hover:border-border",
+                svgContent ? "text-foreground" : "text-zinc-muted group-hover:text-foreground",
+              )}
+            >
+              {svgContent ?
+                <InlineSvg svg={svgContent} className="size-4.5 shrink-0" />
+              : <IconPhoto className="size-4 shrink-0" />}
             </div>
+
+            <span
+              className={cn(
+                "min-w-0 flex-1 self-center truncate text-sm font-medium",
+                iconName ? "text-foreground" : "text-zinc-muted/70",
+              )}
+            >
+              {iconName ?? t("form.chooseIcon")}
+            </span>
+
+            <IconChevronRight className="size-3.5 shrink-0 self-center text-zinc-muted/45 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Button>
         </SheetTrigger>
 

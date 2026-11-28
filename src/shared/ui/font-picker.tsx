@@ -23,6 +23,7 @@ import { Label } from "@/shared/ui/label";
 import { Switch } from "@/shared/ui/switch";
 import { cn } from "@/shared/lib/utils";
 import { Check, ChevronsUpDown, Filter } from "lucide-react";
+import { IconChevronDown } from "@tabler/icons-react";
 import * as React from "react";
 import { List, type RowComponentProps } from "react-window";
 
@@ -50,26 +51,43 @@ function FontListItem({
       value={font.family}
       onSelect={onSelect}
       className={cn(
-        "flex cursor-pointer items-center gap-2.5 rounded-none px-3 py-2 transition-colors outline-hidden",
+        "flex cursor-pointer items-center gap-3 rounded-none px-3 py-2.5 transition-colors outline-hidden",
         "data-[selected=true]:bg-white/8 data-[selected=true]:text-foreground",
         isSelected && "bg-accent/10",
         isSelected && "data-[selected=true]:bg-accent/20",
       )}
       data-selected={isSelected}
     >
-      <Check
+      <span
         className={cn(
-          "h-3.5 w-3.5 shrink-0 text-accent transition-opacity duration-150",
-          isSelected ? "opacity-100" : "opacity-0",
+          "flex size-9 shrink-0 items-center justify-center rounded-lg border border-border/50 bg-obsidian/40 text-lg leading-none transition-colors",
+          isSelected && "border-accent/40 text-accent",
+          !isFontLoaded && "opacity-40",
         )}
-      />
-      <div className="flex min-w-0 flex-col gap-0.5">
-        <span className={cn("text-sm font-medium", isSelected && "text-accent")}>
-          {font.family}
-        </span>
+        style={{
+          fontFamily: isFontLoaded ? font.family : "system-ui",
+          fontOpticalSizing: "none",
+          fontFeatureSettings: '"liga" 0, "clig" 0, "calt" 0, "dlig" 0',
+        }}
+      >
+        Aa
+      </span>
+
+      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+        <div className="flex items-center gap-2">
+          <span className={cn("truncate text-sm font-medium", isSelected && "text-accent")}>
+            {font.family}
+          </span>
+          <Check
+            className={cn(
+              "h-3.5 w-3.5 shrink-0 text-accent transition-opacity duration-150",
+              isSelected ? "opacity-100" : "opacity-0",
+            )}
+          />
+        </div>
         <span
           className={cn(
-            "text-zinc-muted block truncate text-xs leading-none transition-opacity duration-300",
+            "block truncate text-xs leading-none text-zinc-muted transition-opacity duration-300",
             isFontLoaded ? "opacity-100" : "opacity-0",
           )}
           style={{
@@ -121,15 +139,16 @@ interface FontPickerProps {
   height?: number;
   className?: string;
   showFilters?: boolean;
+  accentColor?: string;
 }
 
 export function FontPicker({
   onChange,
   value,
-
   height = 300,
   className,
   showFilters = true,
+  accentColor,
 }: FontPickerProps) {
   const t = useTranslations("flags.fontPicker");
   const [selectedFont, setSelectedFont] = React.useState<GoogleFont | null>(null);
@@ -140,6 +159,7 @@ export function FontPicker({
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<Error | null>(null);
   const [cyrillicOnly, setCyrillicOnly] = React.useState(true);
+  const [triggerFontReady, setTriggerFontReady] = React.useState(false);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
@@ -166,9 +186,13 @@ export function FontPicker({
 
   React.useEffect(() => {
     if (!value) {
+      setTriggerFontReady(false);
       return;
     }
-    void loadFont(value).catch((error) => console.error("Failed to load font:", error));
+    setTriggerFontReady(false);
+    void loadFont(value)
+      .then(() => setTriggerFontReady(true))
+      .catch((error) => console.error("Failed to load font:", error));
   }, [value]);
 
   const categories = React.useMemo(() => {
@@ -209,6 +233,12 @@ export function FontPicker({
     [filteredFonts, selectedFont?.family, handleSelectFont],
   );
 
+  const displayFamily = selectedFont?.family ?? value;
+  const categoryLabel =
+    selectedFont?.category && t.has(`categories.${selectedFont.category}`) ?
+      t(`categories.${selectedFont.category}`)
+    : selectedFont?.category;
+
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
@@ -220,19 +250,51 @@ export function FontPicker({
           aria-haspopup="listbox"
           aria-label={t("selectAria")}
           className={cn(
-            "group w-full relative h-9 justify-between px-2 border-border/40 bg-input/60 text-foreground font-normal",
-            "hover:border-border hover:bg-input/80",
-            "data-[state=open]:border-border data-[state=open]:bg-input/80",
+            "group h-auto w-full items-stretch justify-between gap-2.5 rounded-xl border-border/40 bg-obsidian/40 px-2 py-1.5 text-left font-normal",
+            "hover:border-border/70 hover:bg-obsidian/55",
+            "data-[state=open]:border-accent/40 data-[state=open]:bg-obsidian/60",
             "transition-colors duration-150",
             className,
           )}
         >
-          <span className="truncate text-sm">
-            {selectedFont ?
-              <span>{selectedFont.family}</span>
-            : <span className="text-zinc-muted/70">{t("choose")}</span>}
+          <span
+            className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border/50 bg-surface-subtle text-base leading-none text-foreground transition-colors group-hover:border-border"
+            style={{
+              fontFamily: triggerFontReady && displayFamily ? displayFamily : "system-ui",
+              color: accentColor,
+              fontOpticalSizing: "none",
+              fontFeatureSettings: '"liga" 0, "clig" 0, "calt" 0, "dlig" 0',
+            }}
+          >
+            Aa
           </span>
-          <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-zinc-muted/50" />
+
+          <span className="flex min-w-0 flex-1 flex-col justify-center">
+            {displayFamily ?
+              <>
+                <span className="truncate text-sm font-medium leading-tight text-foreground">
+                  {displayFamily}
+                </span>
+                <span
+                  className="truncate text-[11px] leading-tight text-zinc-muted/70"
+                  style={{
+                    fontFamily: triggerFontReady ? displayFamily : undefined,
+                    fontOpticalSizing: "none",
+                    fontFeatureSettings: '"liga" 0, "clig" 0, "calt" 0, "dlig" 0',
+                  }}
+                >
+                  {categoryLabel ?? t("choose")}
+                </span>
+              </>
+            : <span className="text-sm text-zinc-muted/70">{t("choose")}</span>}
+          </span>
+
+          <IconChevronDown
+            className={cn(
+              "size-3.5 shrink-0 self-center text-zinc-muted/45 transition-transform duration-200",
+              isOpen && "rotate-180",
+            )}
+          />
         </Button>
       </PopoverTrigger>
 
@@ -248,9 +310,9 @@ export function FontPicker({
             placeholder={t("search")}
             value={search}
             onValueChange={setSearch}
-            className="text-sm placeholder:text-zinc-muted/60 w-full"
+            className="w-full text-sm placeholder:text-zinc-muted/60"
           />
-          <div className="border-border/60 flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 border-b px-3 py-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 border-b border-border/60 px-3 py-1.5">
             <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
               {showFilters && (
                 <DropdownMenu>
@@ -269,7 +331,7 @@ export function FontPicker({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="start"
-                    className="border-border/60 bg-surface-subtle w-50"
+                    className="w-50 border-border/60 bg-surface-subtle"
                   >
                     <DropdownMenuRadioGroup
                       value={selectedCategory}
@@ -301,27 +363,27 @@ export function FontPicker({
                 />
                 <Label
                   htmlFor="font-picker-cyrillic"
-                  className="text-zinc-muted cursor-pointer gap-1.5 font-normal"
+                  className="cursor-pointer gap-1.5 font-normal text-zinc-muted"
                 >
                   <span className="text-xs">{t("cyrillic")}</span>
                 </Label>
               </div>
             </div>
-            <span className="text-zinc-muted/60 shrink-0 text-xs">
+            <span className="shrink-0 text-xs text-zinc-muted/60">
               {t("count", { count: filteredFonts.length })}
             </span>
           </div>
           {isLoading ?
             <div className="flex items-center justify-center p-6">
-              <div className="border-accent h-5 w-5 animate-spin rounded-full border-2 border-t-transparent" />
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-accent border-t-transparent" />
             </div>
           : error ?
-            <div className="text-destructive flex items-center justify-center p-4 text-sm">
+            <div className="flex items-center justify-center p-4 text-sm text-destructive">
               {t("loadFailed")}
             </div>
           : <>
-              <CommandEmpty className="text-zinc-muted py-6 text-sm text-center">
-                No fonts found.
+              <CommandEmpty className="py-6 text-center text-sm text-zinc-muted">
+                {t("empty")}
               </CommandEmpty>
 
               <CommandGroup className="p-0">
@@ -330,7 +392,7 @@ export function FontPicker({
                     defaultHeight={height}
                     rowComponent={FontListRow}
                     rowCount={filteredFonts.length}
-                    rowHeight={55}
+                    rowHeight={58}
                     rowProps={rowProps}
                     style={{ height, width: "100%" }}
                   />

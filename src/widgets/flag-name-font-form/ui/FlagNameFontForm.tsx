@@ -17,21 +17,25 @@ export const FlagNameFontForm = memo(() => {
     })),
   );
 
-  const { flagName, selectedFont, selectedIcon } = flag;
+  const { flagName, selectedFont, selectedIcon, selectedColor } = flag;
 
   return (
-    <section className="rounded-xl border border-border/60 bg-surface-subtle p-4 flex flex-col gap-4 flex-1">
+    <section className="flex min-w-0 w-full flex-1 flex-col gap-4 rounded-xl border border-border/60 bg-surface-subtle p-4">
       <div className="flex items-center gap-2">
-        <span className="w-0.5 h-4 rounded-full bg-accent shrink-0 shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
-        <span className="text-sm font-semibold text-foreground tracking-wide">{t("title")}</span>
+        <span className="h-4 w-0.5 shrink-0 rounded-full bg-accent shadow-[0_0_6px_rgba(155,86,240,0.8)]" />
+        <span className="text-sm font-semibold tracking-wide text-foreground">{t("title")}</span>
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
+        <Label
+          htmlFor="flag-name"
+          className="text-[11px] font-medium tracking-[0.14em] text-zinc-muted"
+        >
           {t("flagName")}
         </Label>
 
         <Input
+          id="flag-name"
           variant="neutral"
           placeholder={t("namePlaceholder")}
           className="h-9 text-sm"
@@ -45,29 +49,28 @@ export const FlagNameFontForm = memo(() => {
 
           <span
             data-max-length={flagName.length >= 30}
-            className="data-[max-length=true]:text-red-500 text-xs text-zinc-muted/50"
+            className="text-xs text-zinc-muted/50 data-[max-length=true]:text-red-500"
           >
             {flagName.length}/30
           </span>
         </div>
       </div>
 
-      <div className="flex flex-col gap-1.5 w-full">
-        <Label className="text-xs font-semibold text-zinc-muted uppercase tracking-wider">
-          {t("font")}
-        </Label>
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1.5">
+          <Label className="text-[11px] font-medium tracking-[0.14em] text-zinc-muted">
+            {t("font")}
+          </Label>
 
-        <FontPicker
-          value={selectedFont}
-          onChange={(family) => updateStateFlag({ selectedFont: family })}
-        />
+          <FontPicker
+            value={selectedFont}
+            onChange={(family) => updateStateFlag({ selectedFont: family })}
+            accentColor={selectedColor}
+          />
+        </div>
 
-        <p className="text-xs text-zinc-muted/50">
-          {t("selected")} {selectedFont}
-        </p>
+        <FlagIconPicker selectedIcon={selectedIcon} />
       </div>
-
-      <FlagIconPicker selectedIcon={selectedIcon} />
     </section>
   );
 });
